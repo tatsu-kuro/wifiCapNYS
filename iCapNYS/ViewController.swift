@@ -102,6 +102,13 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate{
         // Do any additional setup after loading the view.
         timer = Timer.scheduledTimer(timeInterval: 1/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
 
+//        self.view.backgroundColor = .black
+        initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも
+        
+        startButton.isHidden=true
+        stopButton.isHidden=true
+//        currentTime.isHidden=true
+        
     }
     @objc func update(tm: Timer) {
         //        print(nq0,nq1,nq2,nq3 as Any)
@@ -230,9 +237,11 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate{
 
         let drawPath = UIBezierPath(arcCenter: CGPoint(x: 40, y:40), radius: 39, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
         // 内側の色
-//        UIColor(red: 0, green: 0, blue: 1, alpha: 0.3).setFill()
+//        UIColor(red: 1, green: 1, blue:1, alpha: 0.8).setFill()
+        UIColor.white.setFill()// (red: 1, green: 1, blue:1, alpha: 0.8).setFill()
+
 //        // 内側を塗りつぶす
-//        circle.fill()
+        drawPath.fill()
 
         let uraPoint=faceR/40.0
 
@@ -384,6 +393,78 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate{
             }
         }
     }
+    override func viewDidAppear(_ animated: Bool) {
+        setButtons(type: true)
+    }
+    @IBOutlet weak var dammyBottom: UILabel!
+    func setButtons(type:Bool){
+        // recording button
+        
+        let ww=view.bounds.width
+        let wh=dammyBottom.frame.maxY// view.bounds.height
+        let bw=Int(ww/4)-8
+        //        let bd=Int(ww/5/4)
+        let bh:Int=60
+        let bpos=Int(wh)-bh/2-10
+
+        currentTime.frame   = CGRect(x:0,   y: 0 ,width: Int(Double(bw)*1.5), height: bh/2)
+        currentTime.layer.position=CGPoint(x:Int(ww)/2,y:Int(wh)-Int(Double(bh)*2.5))
+//        currentTime.isHidden=true
+        currentTime.layer.masksToBounds = true
+        currentTime.layer.cornerRadius = 5
+
+        //startButton
+        startButton.frame=CGRect(x:0,y:0,width:bh*2,height:bh*2)
+        startButton.layer.position = CGPoint(x:Int(ww)/2,y:bpos-bh/3)
+        stopButton.frame=CGRect(x:0,y:0,width:bh*2,height:bh*2)
+        stopButton.layer.position = CGPoint(x:Int(ww)/2,y:bpos-bh/3)
+        startButton.isHidden=false
+        stopButton.isHidden=true
+        stopButton.tintColor=UIColor.orange
+//        setButtonProperty(button: exitBut, bw: CGFloat(bw), bh: CGFloat(bh), cx: CGFloat(Int(Int(ww)-10-bw/2)), cy:CGFloat(bpos))
+    }
+    func setButtonProperty(button:UIButton,bw:CGFloat,bh:CGFloat,cx:CGFloat,cy:CGFloat){
+        button.frame   = CGRect(x:0,   y: 0 ,width: bw, height: bh)
+        button.layer.borderColor = UIColor.green.cgColor
+        button.layer.borderWidth = 1.0
+        button.layer.position=CGPoint(x:cx,y:cy)
+        button.layer.cornerRadius = 5
+    }
+    func initSession(fps:Int) {
+        // セッション生成
+        session = AVCaptureSession()
+        // 入力 : 背面カメラ
+        videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+        let videoInput = try! AVCaptureDeviceInput.init(device: videoDevice!)
+        session.addInput(videoInput)
+ 
+        if switchFormat(desiredFps: 60)==false{
+            print("error******")
+        }
+        // ファイル出力設定
+        fileOutput = AVCaptureMovieFileOutput()
+        fileOutput.maxRecordedDuration = CMTimeMake(value:5*60, timescale: 1)//最長録画時間
+        session.addOutput(fileOutput)
+        
+        let videoLayer : AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: session)
+        videoLayer.frame = self.view.bounds
+        videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill//無くても同じ
+        //self.view.layer.addSublayer(videoLayer)
+        cameraView.layer.addSublayer(videoLayer)
+        // zooming slider
+        // セッションを開始する (録画開始とは別)
+        session.startRunning()
+    }
+//
+//    @objc func update(tm: Timer) {
+//        counter += 1
+//        currentTime.text=String(format:"%02d",counter/60) + ":" + String(format: "%02d",counter%60)
+//        if counter%2==0{
+//            stopButton.tintColor=UIColor.orange
+//        }else{
+//            stopButton.tintColor=UIColor.red
+//        }
+//    }
 }
 /*
  //
