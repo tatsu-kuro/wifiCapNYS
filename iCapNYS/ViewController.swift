@@ -69,6 +69,9 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate,AVC
         22,-26,0, 23,-25,0, 24,-24,1,//eye dots 3
         -22,-26,0, -23,-25,0, -24,-24,1,//eye dots 3
         -19,32,0, -14,31,0, -9,31,0, -4,31,0, 0,30,0, 4,31,0, 9,31,0, 14,31,0, 19,32,1]//mouse 9
+    @IBAction func unwind(_ segue: UIStoryboardSegue) {
+            print("\(segue.identifier!)")
+        }
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
             AudioServicesCreateSystemSoundID(soundUrl, &soundIdstop)
@@ -255,6 +258,12 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate,AVC
             ppk[i*3+2] = x0 * (2 * (q1 * q3 - q0 * q2)) + y0 * (2 * (q2 * q3 + q0 * q1)) + z0 * (q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3)
         }
 
+//        @IBAction func SNSButtonAction(_ sender: Any) {
+////        @IBAction func unwind(_ segue: UIStoryboardSegue) {
+//            //     if tempCalcflag == false{
+//        }
+        
+    
 //        for i in 0..<13{
 //            print(i,":",pk_ken2[i*3+2],":",String(format:"%.1f %.1f %.1f",ppk[i*3],ppk[i*3+1],ppk[i*3+2]))
 //        }
