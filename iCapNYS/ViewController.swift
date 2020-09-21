@@ -38,7 +38,15 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate{
     var quater2:Double=0
     var quater3:Double=0
     var readingF=false
+    @IBOutlet weak var cameraView: UIImageView!
     @IBOutlet weak var quaternionView: UIImageView!
+    @IBOutlet weak var currentTime: UILabel!
+    @IBOutlet weak var playButton: UIButton!
+    
+    @IBOutlet weak var stopButton: UIButton!
+  
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var startButton: UIButton!
     var rpk1 = Array(repeating: CGFloat(0), count:500)
     var ppk1 = Array(repeating: CGFloat(0), count:500)//144*3
     var facePoints:[Int] = [//x1,y1,0, x2,y2,0, x3,y3,1, x4,y4,0  の並びは   MoveTo(x1,y1)  LineTo(x2,y2)  LineTo(x3,y3)  MoveTo(x4,y4) と描画される
@@ -260,6 +268,121 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate{
         // イメージ処理の終了
         UIGraphicsEndImageContext()
         return image!
+    }
+    func switchFormat(desiredFps: Double)->Bool {
+        // セッションが始動しているかどうか
+        var retF:Bool=false
+        let isRunning = session.isRunning
+        
+        // セッションが始動中なら止める
+        if isRunning {
+            print("isrunning")
+            session.stopRunning()
+        }
+        
+        // 取得したフォーマットを格納する変数
+        var selectedFormat: AVCaptureDevice.Format! = nil
+        // そのフレームレートの中で一番大きい解像度を取得する
+        var maxWidth: Int32 = 0
+        
+        // フォーマットを探る
+        for format in videoDevice!.formats {
+            // フォーマット内の情報を抜き出す (for in と書いているが1つの format につき1つの range しかない)
+            for range: AVFrameRateRange in format.videoSupportedFrameRateRanges {
+                let description = format.formatDescription as CMFormatDescription    // フォーマットの説明
+                let dimensions = CMVideoFormatDescriptionGetDimensions(description)  // 幅・高さ情報を抜き出す
+                let width = dimensions.width
+                 if desiredFps == range.maxFrameRate && width >= maxWidth {
+                      selectedFormat = format
+                    maxWidth = width
+                }
+            }
+        }
+        
+        // フォーマットが取得できていれば設定する
+        if selectedFormat != nil {
+            do {
+                try videoDevice!.lockForConfiguration()
+                videoDevice!.activeFormat = selectedFormat
+                videoDevice!.activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(desiredFps))
+                videoDevice!.activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(desiredFps))
+                videoDevice!.unlockForConfiguration()
+                print("フォーマット・フレームレートを設定 : \(desiredFps) fps・\(maxWidth) px")
+                retF=true
+            }
+            catch {
+                print("フォーマット・フレームレートが指定できなかった")
+                retF=false
+            }
+        }
+        else {
+            print("指定のフォーマットが取得できなかった")
+            retF=false
+        }
+        
+        // セッションが始動中だったら再開する
+        if isRunning {
+            session.startRunning()
+        }
+        return retF
+    }
+    func drawSquare(x:CGFloat,y:CGFloat){
+        /* --- 正方形を描画 --- */
+        let dia:CGFloat = view.bounds.width/5
+        let squareLayer = CAShapeLayer.init()
+        let squareFrame = CGRect.init(x:x-dia/2,y:y-dia/2,width:dia,height:dia)
+        squareLayer.frame = squareFrame
+        // 輪郭の色
+        squareLayer.strokeColor = UIColor.red.cgColor
+        // 中の色
+        squareLayer.fillColor = UIColor.clear.cgColor//UIColor.red.cgColor
+        // 輪郭の太さ
+        squareLayer.lineWidth = 1.0
+        // 正方形を描画
+        squareLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: squareFrame.size.width, height: squareFrame.size.height)).cgPath
+        self.view.layer.addSublayer(squareLayer)
+    }
+
+    var tapF:Bool=false
+    @IBAction func tapGes(_ sender: UITapGestureRecognizer) {
+        let screenSize=cameraView.bounds.size
+        let x0 = sender.location(in: self.view).x
+        let y0 = sender.location(in: self.view).y
+        print("tap:",x0,y0,screenSize.height)
+        
+        if y0>screenSize.height*5/6{
+            return
+        }
+        let x = y0/screenSize.height
+        let y = 1.0 - x0/screenSize.width
+        let focusPoint = CGPoint(x:x,y:y)
+        
+        if let device = videoDevice{
+            do {
+                try device.lockForConfiguration()
+                
+                device.focusPointOfInterest = focusPoint
+                //                device.focusMode = .continuousAutoFocus
+                device.focusMode = .autoFocus
+                //                device.focusMode = .locked
+                // 露出の設定
+                if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
+                    device.exposurePointOfInterest = focusPoint
+                    device.exposureMode = .continuousAutoExposure
+                }
+                device.unlockForConfiguration()
+                
+                if tapF {
+                    view.layer.sublayers?.removeLast()
+                }
+                drawSquare(x: x0, y: y0)
+                tapF=true;
+                //                }
+            }
+            catch {
+                // just ignore
+            }
+        }
     }
 }
 /*
