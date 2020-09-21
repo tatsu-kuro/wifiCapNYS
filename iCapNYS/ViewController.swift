@@ -362,6 +362,7 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate{
         if y0>screenSize.height*5/6{
             return
         }
+        motionManager.stopDeviceMotionUpdates()//ここで止めたが良さそう。
         let x = y0/screenSize.height
         let y = 1.0 - x0/screenSize.width
         let focusPoint = CGPoint(x:x,y:y)
@@ -392,6 +393,7 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate{
                 // just ignore
             }
         }
+        setMotion()
     }
     override func viewDidAppear(_ animated: Bool) {
         setButtons(type: true)
