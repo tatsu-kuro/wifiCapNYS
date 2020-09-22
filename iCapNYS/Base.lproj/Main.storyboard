@@ -128,7 +128,6 @@
                                 <state key="normal" image="largecircle.fill.circle" catalog="system"/>
                                 <connections>
                                     <action selector="onClickStartButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vKK-gt-WHh"/>
-                                    <segue destination="Hp4-gK-9UW" kind="show" id="XPb-3H-T3z"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TK7-xO-XBh">
@@ -228,9 +227,6 @@
             <point key="canvasLocation" x="-36.231884057971016" y="87.723214285714278"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="XPb-3H-T3z"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="largecircle.fill.circle" catalog="system" width="128" height="121"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>

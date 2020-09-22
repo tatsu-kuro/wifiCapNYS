@@ -6,6 +6,8 @@
 	<string>This app uses camera to take movies.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app save the movies there</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app save the movies there</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app uses micriophone to take movies.</string>
 	<key>CFBundleDevelopmentRegion</key>

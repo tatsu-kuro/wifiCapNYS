@@ -72,6 +72,56 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate,AVC
     @IBAction func unwind(_ segue: UIStoryboardSegue) {
             print("\(segue.identifier!)")
         }
+    func savePhoto() {
+        let albumTitle = "iCapNYS" // アルバム名
+        let savingImage = UIImage(named: "a.png")! // 保存するイメージ
+        var theAlbum: PHAssetCollection? // アルバムをオブジェクト化
+        // フォトライブラリからMyAlbumを検索
+        let result = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
+        result.enumerateObjects({(object, index, stop) in
+            if let theCollection = object as? PHAssetCollection,
+            theCollection.localizedTitle == albumTitle
+            {
+                theAlbum = theCollection // 見つかったら、theAlbumに代入
+            }
+        })
+        // アルバムにイメージを保存する
+        if let anAlbum = theAlbum {
+            PHPhotoLibrary.shared().performChanges({
+                let createAssetRequest = PHAssetChangeRequest.creationRequestForAsset(from: savingImage)
+                let assetPlaceholder = createAssetRequest.placeholderForCreatedAsset!
+                let albumChangeRequest = PHAssetCollectionChangeRequest(for: anAlbum)
+                albumChangeRequest!.addAssets([assetPlaceholder] as NSFastEnumeration)
+            }, completionHandler: nil)
+        } else {
+            print("MyAlbum was not found.")
+        }
+    }
+    func createNewAlbum(albumTitle: String, callback: @escaping (Bool) -> Void) {
+        if self.albumExists(albumTitle: albumTitle) {
+            callback(true)
+        } else {
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
+            }) { (isSuccess, error) in
+                callback(isSuccess)
+            }
+        }
+    }
+    // アルバムが既にあるか確認
+    func albumExists(albumTitle: String) -> Bool {
+        let albums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype:
+            PHAssetCollectionSubtype.albumRegular, options: nil)
+        for i in 0 ..< albums.count {
+            let album = albums.object(at: i)
+            if album.localizedTitle != nil && album.localizedTitle == albumTitle {
+                return true
+            }
+        }
+        return false
+    }
+    
+    
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
             AudioServicesCreateSystemSoundID(soundUrl, &soundIdstop)
@@ -79,13 +129,39 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate,AVC
         }
         print("終了ボタン、最大を超えた時もここを通る")
 //        motionManager.stopDeviceMotionUpdates()//ここで止めたが良さそう。
-        // ライブラリへ保存
-        PHPhotoLibrary.shared().performChanges({
-            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputFileURL)
-        }) { completed, error in
-            if completed {
-                print("Video is saved!")
+//        // ライブラリへ保存
+//        PHPhotoLibrary.shared().performChanges({
+//            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputFileURL)
+//        }) { completed, error in
+//            if completed {
+//                print("Video is saved!")
+//            }
+//        }
+//        
+        
+       let albumTitle = "iCapNYS" // アルバム名
+//        let savingImage = UIImage(named: "a.png")! // 保存するイメージ
+        var theAlbum: PHAssetCollection? // アルバムをオブジェクト化
+        // フォトライブラリからMyAlbumを検索
+        let result = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
+        result.enumerateObjects({(object, index, stop) in
+            if let theCollection = object as? PHAssetCollection,
+            theCollection.localizedTitle == albumTitle
+            {
+                theAlbum = theCollection // 見つかったら、theAlbumに代入
             }
+        })
+        // アルバムにイメージを保存する
+        if let anAlbum = theAlbum {
+            PHPhotoLibrary.shared().performChanges({
+                let createAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputFileURL)
+//                let createAssetRequest = PHAssetChangeRequest.creationRequestForAsset(from: savingImage)
+                let assetPlaceholder = createAssetRequest?.placeholderForCreatedAsset!
+                let albumChangeRequest = PHAssetCollectionChangeRequest(for: anAlbum)
+                albumChangeRequest!.addAssets([assetPlaceholder] as NSFastEnumeration)
+            }, completionHandler: nil)
+        } else {
+            print("MyAlbum was not found.")
         }
         recordedFlag=true
         recordingFlag=false
@@ -100,9 +176,32 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate,AVC
 //        //fileOutput.stopRecording()
 //     }
 
-    
+    func camera_alert(){
+        if PHPhotoLibrary.authorizationStatus() != .authorized {
+            PHPhotoLibrary.requestAuthorization { status in
+                if status == .authorized {
+                    // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+                } else if status == .denied {
+                }
+            }
+        } else {
+            // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+//        if albumExists(albumTitle: "iCapNYS")==false{
+//            createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
+//                if isSuccess{
+//                    print("iCapNYS_album can be made,")
+//                } else{
+//                    print("iCapNYS_album can't be made.")
+//                }
+//            }
+//        }else{
+//            print("iCapNYS_album exist already.")
+//        }
+        camera_alert()
         set_rpk_ppk()
         setMotion()
         // Do any additional setup after loading the view.
@@ -562,6 +661,19 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate,AVC
     @IBAction func onClickStartButton(_ sender: Any) {
 //    }
 //    func onClickRecordButton() {
+        if albumExists(albumTitle: "iCapNYS")==false{
+            createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
+                if isSuccess{
+                    print("iCapNYS_album can be made,")
+                } else{
+                    print("iCapNYS_album can't be made.")
+                }
+            }
+        }else{
+            print("iCapNYS_album exist already.")
+        }
+        
+        
         if self.fileOutput.isRecording {
             // stop recording
             
@@ -591,10 +703,10 @@ class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate,AVC
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let documentsDirectory = paths[0] as String
             // 現在時刻をファイル名に付与することでファイル重複を防ぐ : "myvideo-20190101125900.mp4" な形式になる
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
-            filePath = "iCapNYS\(formatter.string(from: Date())).MOV"
-//            filePath = "iCapNYS.MOV"
+//            let formatter = DateFormatter()
+//            formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
+//            filePath = "iCapNYS\(formatter.string(from: Date())).MOV"
+            filePath = "iCapNYS.MOV"
             let filefullPath="\(documentsDirectory)/" + filePath!
             let fileURL = NSURL(fileURLWithPath: filefullPath)
             setMotion()//作動中ならそのまま戻る
