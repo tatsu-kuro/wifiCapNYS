@@ -7,7 +7,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app save the movies there</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app save the movies there</string>
+	<string>This app make &quot;iCapNYS album&quot; and save the movies there.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app uses micriophone to take movies.</string>
 	<key>CFBundleDevelopmentRegion</key>

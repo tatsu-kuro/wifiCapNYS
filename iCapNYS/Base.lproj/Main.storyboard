@@ -17,14 +17,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XCS-VA-sqk">
-                                <rect key="frame" x="184" y="68" width="46" height="34"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S8b-8S-IuX">
+                                <rect key="frame" x="45" y="313" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <segue destination="YnX-Vo-NH4" kind="unwind" identifier="fromPlay" unwindAction="unwind:" id="qHw-yd-Wsg"/>
-                                </connections>
-                            </button>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XCS-VA-sqk">
+                                        <rect key="frame" x="97" y="47" width="46" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <segue destination="YnX-Vo-NH4" kind="unwind" identifier="fromPlay" unwindAction="unwind:" id="qHw-yd-Wsg"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="I0l-kG-AVa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -47,6 +54,10 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZdO-VK-uDo" userLabel="Camera View">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="nXD-wa-KDs" appends="YES" id="Qu9-m0-1Md"/>
+                                </connections>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E7F-hC-6hQ" userLabel="Quaternion View">
                                 <rect key="frame" x="87" y="255" width="240" height="128"/>
@@ -57,6 +68,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemOrangeColor"/>
                                 <state key="normal" image="largecircle.fill.circle" catalog="system"/>
+                                <connections>
+                                    <action selector="onClickStopButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="Yva-hP-8Do"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GaH-k7-GlQ">
                                 <rect key="frame" x="184" y="391" width="34" height="42"/>
@@ -70,11 +84,12 @@
                                     <segue destination="jGz-hQ-j5Z" kind="unwind" identifier="fromRecord" unwindAction="unwind:" id="LOa-gE-rqI"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJp-tL-Pfc">
-                                <rect key="frame" x="184" y="670" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJp-tL-Pfc">
+                                <rect key="frame" x="171" y="670" width="71" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bD-tH-WDM">
@@ -82,6 +97,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemRedColor"/>
                                 <state key="normal" image="stop.circle" catalog="system"/>
+                                <connections>
+                                    <action selector="onClickStartButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="zgY-w5-GBI"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rQ7-Kf-AuZ"/>
@@ -99,8 +117,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7qf-8F-FDG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="jGz-hQ-j5Z" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="nXD-wa-KDs">
+                    <connections>
+                        <action selector="tapGes:" destination="Hp4-gK-9UW" id="ba5-Yf-5vX"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-636.23188405797111" y="87.723214285714278"/>
+            <point key="canvasLocation" x="-733" y="388"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -127,7 +150,7 @@
                                 <color key="tintColor" systemColor="systemRedColor"/>
                                 <state key="normal" image="largecircle.fill.circle" catalog="system"/>
                                 <connections>
-                                    <action selector="onClickStartButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vKK-gt-WHh"/>
+                                    <segue destination="Hp4-gK-9UW" kind="show" id="AQg-Mf-Oqf"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TK7-xO-XBh">
@@ -140,21 +163,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fwl-mz-o9R">
-                                <rect key="frame" x="20" y="730" width="47" height="63"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="square.and.arrow.up" catalog="system"/>
-                                <connections>
-                                    <segue destination="Hp4-gK-9UW" kind="show" id="H7i-BZ-cLU"/>
-                                </connections>
-                            </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7tj-ug-Oca">
-                                <rect key="frame" x="167" y="453" width="80" height="80"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="O1d-0I-8zV"/>
-                                    <constraint firstAttribute="width" constant="80" id="asW-FD-cIG"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qOy-rK-VYa">
                                 <rect key="frame" x="0.0" y="852" width="414" height="10"/>
                                 <constraints>
@@ -176,15 +184,6 @@
                                     <segue destination="x93-Is-wG7" kind="show" id="ncF-vM-wSI"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yy6-ji-h1j">
-                                <rect key="frame" x="73" y="722" width="88" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" systemColor="systemOrangeColor"/>
-                                <state key="normal" image="stop.circle" catalog="system"/>
-                                <connections>
-                                    <action selector="onClickStopButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jEB-ZI-p7k"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -196,40 +195,26 @@
                             <constraint firstItem="qOy-rK-VYa" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="5Pk-un-BGc"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="VBq-vV-sIF" secondAttribute="bottom" id="7DC-E5-Es4"/>
                             <constraint firstItem="qOy-rK-VYa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="BGM-BZ-kJt"/>
-                            <constraint firstItem="7tj-ug-Oca" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YXv-JY-VZc"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qOy-rK-VYa" secondAttribute="trailing" id="ij8-vz-eUX"/>
-                            <constraint firstItem="7tj-ug-Oca" firstAttribute="top" secondItem="TK7-xO-XBh" secondAttribute="bottom" id="jOm-dT-5KS"/>
                             <constraint firstItem="VBq-vV-sIF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="rWI-hR-knw"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="VBq-vV-sIF" secondAttribute="trailing" id="wXh-cO-fma"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="hFO-xi-0q2" appends="YES" id="Di4-bh-pSK"/>
-                        </connections>
                     </view>
                     <connections>
                         <outlet property="cameraView" destination="VBq-vV-sIF" id="CmL-vj-MlD"/>
                         <outlet property="currentTime" destination="6WT-lv-Jwz" id="CgQ-jd-NC2"/>
                         <outlet property="dammyBottom" destination="qOy-rK-VYa" id="de6-eB-zJt"/>
-                        <outlet property="exitButton" destination="Ld4-JY-Z2F" id="u7H-K4-qGV"/>
-                        <outlet property="quaternionView" destination="7tj-ug-Oca" id="fD4-lZ-Ey2"/>
-                        <outlet property="sendButton" destination="fwl-mz-o9R" id="25d-TK-g9p"/>
+                        <outlet property="playButton" destination="Ld4-JY-Z2F" id="u7H-K4-qGV"/>
                         <outlet property="startButton" destination="1km-Jh-hmY" id="uJO-XE-73f"/>
-                        <outlet property="stopButton" destination="yy6-ji-h1j" id="xRB-rJ-Z4N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="hFO-xi-0q2">
-                    <connections>
-                        <action selector="tapGes:" destination="BYZ-38-t0r" id="sH2-JK-uHJ"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-36.231884057971016" y="87.723214285714278"/>
+            <point key="canvasLocation" x="20" y="449"/>
         </scene>
     </scenes>
     <resources>
         <image name="largecircle.fill.circle" catalog="system" width="128" height="121"/>
-        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <image name="stop.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
