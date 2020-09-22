@@ -55,6 +55,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="M2g-Nf-4et" appends="YES" id="EWP-zY-w0r"/>
+                                </connections>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E7F-hC-6hQ" userLabel="Quaternion View">
                                 <rect key="frame" x="87" y="255" width="240" height="128"/>
@@ -114,9 +117,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7qf-8F-FDG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="jGz-hQ-j5Z" userLabel="Exit" sceneMemberID="exit"/>
-                <tapGestureRecognizer id="630-NN-5ji">
+                <tapGestureRecognizer id="M2g-Nf-4et">
                     <connections>
-                        <action selector="tapGes:" destination="Hp4-gK-9UW" id="tx2-kt-utM"/>
+                        <action selector="tapGes:" destination="Hp4-gK-9UW" id="ewv-NS-bPi"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
