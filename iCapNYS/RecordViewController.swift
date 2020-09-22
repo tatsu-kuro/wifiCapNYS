@@ -502,6 +502,8 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.tintColor=UIColor.orange
+        quaternionView.frame=CGRect(x:0,y:0,width:ww/6,height:ww/6)
+        quaternionView.layer.position=CGPoint(x:ww/12+10,y:ww/12+10)
 
     }
     @IBAction func onClickStopButton(_ sender: Any) {
@@ -566,7 +568,11 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
     }
     var tapF:Bool=false
-    @IBAction func tapGes(_ sender: UITapGestureRecognizer) {
+    
+    
+    @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
+    
+  
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
