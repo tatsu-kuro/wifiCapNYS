@@ -52,22 +52,27 @@ class ViewController: UIViewController{
     @IBOutlet weak var dammyBottom: UILabel!
     func setButtons(type:Bool){
         let ww:CGFloat=view.bounds.width
-        let wh:CGFloat=dammyBottom.frame.maxY// view.bounds.height
-        let bw=(ww-20)/4
-        let bh=bw//:Int=60
-        currentTime.frame = CGRect(x:0,y: 0 ,width:ww/3, height: bh/2)
-        currentTime.layer.position=CGPoint(x:ww/2,y:wh-bh*2-bh/4)
-        currentTime.layer.masksToBounds = true
-        currentTime.layer.cornerRadius = 5
+        let wh:CGFloat=view.bounds.height//dammyBottom.frame.maxY// view.bounds.height
+        let startButWidth=ww*9/10
+        let startButHeight=ww*4/10
+        let playButWidth=ww*3/10//bw//:Int=60
+        let playButHeight=ww*2/10
+//        currentTime.frame = CGRect(x:0,y: 0 ,width:ww/3, height: bh/2)
+//        currentTime.layer.position=CGPoint(x:ww/2,y:wh-bh*2-bh/4)
+//        currentTime.layer.masksToBounds = true
+//        currentTime.layer.cornerRadius = 5
 
         //startButton
-        startButton.frame=CGRect(x:0,y:0,width:bw*2,height:bw*2)
-        startButton.layer.position = CGPoint(x:ww/2,y:wh-bh)
-        playButton.frame=CGRect(x:0,y:0,width:bw,height:bh*2/3)
-        playButton.layer.position = CGPoint(x:ww-bw/2-10,y:wh-bh/2)
+        startButton.frame=CGRect(x:0,y:0,width:startButWidth,height:startButHeight)
+        startButton.layer.position = CGPoint(x:ww/2,y:wh-startButHeight)
+        playButton.frame=CGRect(x:0,y:0,width:playButWidth,height:playButHeight)
+        playButton.layer.position = CGPoint(x:ww/2,y:wh-startButHeight*3/2-playButHeight)
         playButton.layer.borderColor = UIColor.green.cgColor
-        playButton.layer.borderWidth = 1.0
-        playButton.layer.cornerRadius = 5
+        playButton.layer.borderWidth = 2.0
+        playButton.layer.cornerRadius = 10
+        startButton.layer.borderColor = UIColor.green.cgColor
+        startButton.layer.borderWidth = 2.0
+        startButton.layer.cornerRadius = 10
         startButton.isHidden=false
     }
 

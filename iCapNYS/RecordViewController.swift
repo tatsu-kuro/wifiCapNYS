@@ -469,41 +469,39 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         setButtons(type: true)
     }
 //      @IBOutlet weak var dammyBottom: UILabel!
+    @IBOutlet weak var topLabel: UILabel!
     func setButtons(type:Bool){
         // recording button
-        
+        let topX=topLabel.frame.maxY
         let ww:CGFloat=view.bounds.width
         let wh:CGFloat=view.bounds.height//dammyBottom.frame.maxY// view.bounds.height
-        let bw=(ww-20)/4
-//        let bw=Int(ww/4)-8
-        //        let bd=Int(ww/5/4)
-        let bh=bw//:Int=60
-//        let bpos=Int(wh)-bh/2-10
+        let bw=ww*3/5
 
-        currentTime.frame = CGRect(x:0,y: 0 ,width:ww/3, height: bh/2)
-        currentTime.layer.position=CGPoint(x:ww/2,y:wh-bh*2-bh/4)
-//        currentTime.isHidden=true
+        let bh=bw//:Int=60
+        currentTime.frame = CGRect(x:0,y: 0 ,width:ww/5, height: ww/10)
+        currentTime.layer.position=CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
         currentTime.layer.masksToBounds = true
-        currentTime.layer.cornerRadius = 5
+        currentTime.layer.cornerRadius = 10
 
         //startButton
-        startButton.frame=CGRect(x:0,y:0,width:bw*2,height:bw*2)
-        startButton.layer.position = CGPoint(x:ww/2,y:wh-bh)
-        stopButton.frame=CGRect(x:0,y:0,width:bw*2,height:bw*2)
-        stopButton.layer.position = CGPoint(x:ww/2,y:wh-bh)
-        exitButton.frame=CGRect(x:0,y:0,width:bw,height:bh*2/3)
-        exitButton.layer.position = CGPoint(x:ww-bw/2-10,y:wh-bh/2)
+        startButton.frame=CGRect(x:0,y:0,width:bw,height:bw)
+        startButton.layer.position = CGPoint(x:ww/2,y:wh-bh*4/5)
+        stopButton.frame=CGRect(x:0,y:0,width:bw,height:bw)
+        stopButton.layer.position = CGPoint(x:ww/2,y:wh-bh*4/5)
+        exitButton.frame=CGRect(x:0,y:0,width:bw/3,height:bh/5)
+        exitButton.layer.position = CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
         exitButton.layer.borderColor = UIColor.green.cgColor
         exitButton.layer.borderWidth = 1.0
 
-        exitButton.layer.cornerRadius = 5
+        exitButton.layer.cornerRadius = 10
         
 
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.tintColor=UIColor.orange
+        
         quaternionView.frame=CGRect(x:0,y:0,width:ww/6,height:ww/6)
-        quaternionView.layer.position=CGPoint(x:ww/12+10,y:ww/12+10)
+        quaternionView.layer.position=CGPoint(x:ww/12+10,y:topX + ww/12+10)
 
     }
     @IBAction func onClickStopButton(_ sender: Any) {
