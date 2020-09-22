@@ -89,10 +89,10 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
         recordedFlag=true
         recordingFlag=false
-//        if timer?.isValid == true {
-//            timer!.invalidate()
-//        }
-//        performSegue(withIdentifier: "fromRecordToMain", sender: self)
+        if timer?.isValid == true {
+            timer!.invalidate()
+        }
+        performSegue(withIdentifier: "fromRecord", sender: self)
     }
 //    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection]) {
 //        recStart=CFAbsoluteTimeGetCurrent()
@@ -504,6 +504,126 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         stopButton.tintColor=UIColor.orange
 
     }
+    @IBAction func onClickStopButton(_ sender: Any) {
+        onClickStartButton(0)
+        recordingFlag=false
+    }
+    
+    @IBAction func onClickStartButton(_ sender: Any) {
+//    }
+//    func onClickRecordButton() {
+        if albumExists(albumTitle: "iCapNYS")==false{
+            createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
+                if isSuccess{
+                    print("iCapNYS_album can be made,")
+                } else{
+                    print("iCapNYS_album can't be made.")
+                }
+            }
+        }else{
+            print("iCapNYS_album exist already.")
+        }
+        
+        
+        if self.fileOutput.isRecording {
+            // stop recording
+            
+            print("ストップボタンを押した。")
+            fileOutput.stopRecording()
+            startButton.isHidden=false
+            stopButton.isHidden=true
+            currentTime.isHidden=true
+            
+        } else {
+            recordedFlag=false
+            recordingFlag=true
+            //start recording
+            startButton.isHidden=true
+            stopButton.isHidden=false
+            currentTime.isHidden=false
+            counter=0
+            
+            exitButton.isHidden=true
+//            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
+            if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
+                AudioServicesCreateSystemSoundID(soundUrl, &soundIdstart)
+                AudioServicesPlaySystemSound(soundIdstart)
+            }
+            
+            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let documentsDirectory = paths[0] as String
+            // 現在時刻をファイル名に付与することでファイル重複を防ぐ : "myvideo-20190101125900.mp4" な形式になる
+//            let formatter = DateFormatter()
+//            formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
+//            filePath = "iCapNYS\(formatter.string(from: Date())).MOV"
+            filePath = "iCapNYS.MOV"
+            let filefullPath="\(documentsDirectory)/" + filePath!
+            let fileURL = NSURL(fileURLWithPath: filefullPath)
+            setMotion()//作動中ならそのまま戻る
+            print("録画開始 : \(filePath!)")
+            fileOutput.startRecording(to: fileURL as URL, recordingDelegate: self)
+        }
+    }
+    var tapF:Bool=false
+    @IBAction func tapGes(_ sender: UITapGestureRecognizer) {
+        let screenSize=cameraView.bounds.size
+        let x0 = sender.location(in: self.view).x
+        let y0 = sender.location(in: self.view).y
+        print("tap:",x0,y0,screenSize.height)
+        
+        if y0>screenSize.height*5/6{
+            return
+        }
+        //ここでリセットしてz軸を正面とする。
+        motionManager.stopDeviceMotionUpdates()
+        let x = y0/screenSize.height
+        let y = 1.0 - x0/screenSize.width
+        let focusPoint = CGPoint(x:x,y:y)
+        
+        if let device = videoDevice{
+            do {
+                try device.lockForConfiguration()
+                
+                device.focusPointOfInterest = focusPoint
+                //                device.focusMode = .continuousAutoFocus
+                device.focusMode = .autoFocus
+                //                device.focusMode = .locked
+                // 露出の設定
+                if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
+                    device.exposurePointOfInterest = focusPoint
+                    device.exposureMode = .continuousAutoExposure
+                }
+                device.unlockForConfiguration()
+                
+                if tapF {
+                    view.layer.sublayers?.removeLast()
+                }
+                drawSquare(x: x0, y: y0)
+                tapF=true;
+                //                }
+            }
+            catch {
+                // just ignore
+            }
+        }
+        setMotion()
+    }
+    //ここを通らない。
+    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+        print("ww")//見えない？
+        readingF=true
+        let qCG0=CGFloat(quater0)
+        let qCG1=CGFloat(quater1)
+        let qCG2=CGFloat(quater2)
+        let qCG3=CGFloat(quater3)
+        readingF=false
+        let quaterImage = drawHead(width: 80, height: 80, qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+        setImage(newImage: quaterImage)
+        // ここに処理を書く
+        
+    }
+
 
     /*
     
@@ -594,128 +714,9 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
           }
           */
   
-         var tapF:Bool=false
-         @IBAction func tapGes(_ sender: UITapGestureRecognizer) {
-             let screenSize=cameraView.bounds.size
-             let x0 = sender.location(in: self.view).x
-             let y0 = sender.location(in: self.view).y
-             print("tap:",x0,y0,screenSize.height)
-             
-             if y0>screenSize.height*5/6{
-                 return
-             }
-             //ここでリセットしてz軸を正面とする。
-             motionManager.stopDeviceMotionUpdates()
-             let x = y0/screenSize.height
-             let y = 1.0 - x0/screenSize.width
-             let focusPoint = CGPoint(x:x,y:y)
-             
-             if let device = videoDevice{
-                 do {
-                     try device.lockForConfiguration()
-                     
-                     device.focusPointOfInterest = focusPoint
-                     //                device.focusMode = .continuousAutoFocus
-                     device.focusMode = .autoFocus
-                     //                device.focusMode = .locked
-                     // 露出の設定
-                     if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
-                         device.exposurePointOfInterest = focusPoint
-                         device.exposureMode = .continuousAutoExposure
-                     }
-                     device.unlockForConfiguration()
-                     
-                     if tapF {
-                         view.layer.sublayers?.removeLast()
-                     }
-                     drawSquare(x: x0, y: y0)
-                     tapF=true;
-                     //                }
-                 }
-                 catch {
-                     // just ignore
-                 }
-             }
-             setMotion()
-         }
-         //ここを通らない。
-         func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-             print("ww")//見えない？
-             readingF=true
-             let qCG0=CGFloat(quater0)
-             let qCG1=CGFloat(quater1)
-             let qCG2=CGFloat(quater2)
-             let qCG3=CGFloat(quater3)
-             readingF=false
-             let quaterImage = drawHead(width: 80, height: 80, qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
-             setImage(newImage: quaterImage)
-             // ここに処理を書く
-             
-         }
-
  
    
-         @IBAction func onClickStopButton(_ sender: Any) {
-             onClickStartButton(0)
-             recordingFlag=false
-         }
-         
-         @IBAction func onClickStartButton(_ sender: Any) {
-     //    }
-     //    func onClickRecordButton() {
-             if albumExists(albumTitle: "iCapNYS")==false{
-                 createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
-                     if isSuccess{
-                         print("iCapNYS_album can be made,")
-                     } else{
-                         print("iCapNYS_album can't be made.")
-                     }
-                 }
-             }else{
-                 print("iCapNYS_album exist already.")
-             }
-             
-             
-             if self.fileOutput.isRecording {
-                 // stop recording
-                 
-                 print("ストップボタンを押した。")
-                 fileOutput.stopRecording()
-                 startButton.isHidden=false
-                 stopButton.isHidden=true
-                 currentTime.isHidden=true
-                 
-             } else {
-                 recordedFlag=false
-                 recordingFlag=true
-                 //start recording
-                 startButton.isHidden=true
-                 stopButton.isHidden=false
-                 currentTime.isHidden=false
-                 counter=0
-                 
-                 exitButton.isHidden=true
-     //            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-                 UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-                 if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
-                     AudioServicesCreateSystemSoundID(soundUrl, &soundIdstart)
-                     AudioServicesPlaySystemSound(soundIdstart)
-                 }
-                 
-                 let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-                 let documentsDirectory = paths[0] as String
-                 // 現在時刻をファイル名に付与することでファイル重複を防ぐ : "myvideo-20190101125900.mp4" な形式になる
-     //            let formatter = DateFormatter()
-     //            formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
-     //            filePath = "iCapNYS\(formatter.string(from: Date())).MOV"
-                 filePath = "iCapNYS.MOV"
-                 let filefullPath="\(documentsDirectory)/" + filePath!
-                 let fileURL = NSURL(fileURLWithPath: filefullPath)
-                 setMotion()//作動中ならそのまま戻る
-                 print("録画開始 : \(filePath!)")
-                 fileOutput.startRecording(to: fileURL as URL, recordingDelegate: self)
-             }
-         }
+
 
      //
      //    @objc func update(tm: Timer) {
