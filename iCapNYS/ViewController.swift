@@ -12,79 +12,18 @@
 //  Created by 黒田建彰 on 2020/09/20.
 //
 import UIKit
-import AVFoundation
-import GLKit
 import Photos
-import CoreMotion
 import AssetsLibrary
-//import MessageUI
-
-
 
 class ViewController: UIViewController{
-//import UIKit
-//import CoreMotion
-//class ViewController: UIViewController {
-    var soundIdstart:SystemSoundID = 1117
-    var soundIdstop:SystemSoundID = 1118
-    var soundIdpint:SystemSoundID = 1109//1009//7
-    var recordedFlag:Bool = false
-    var recordingFlag:Bool = false
-    let motionManager = CMMotionManager()
-    var session: AVCaptureSession!
-    var videoDevice: AVCaptureDevice?
-    var filePath:String?
-    var fileOutput = AVCaptureMovieFileOutput()
-    var gyro = Array<Double>()
-    var recStart = CFAbsoluteTimeGetCurrent()
-    var counter:Int=0
-    var timer:Timer?
-    var quater0:Double=0
-    var quater1:Double=0
-    var quater2:Double=0
-    var quater3:Double=0
-    var readingF=false
-    @IBOutlet weak var cameraView: UIImageView!
-    
-    @IBOutlet weak var currentTime: UILabel!
-    
-    @IBOutlet weak var playButton: UIButton!
-    
-    @IBOutlet weak var stopButton: UIButton!
-  
-    
-    @IBOutlet weak var startButton: UIButton!
-   
-    @IBAction func unwind(_ segue: UIStoryboardSegue) {
-            print("\(segue.identifier!)")
-        }
-/*    func savePhoto() {
-        let albumTitle = "iCapNYS" // アルバム名
-        let savingImage = UIImage(named: "a.png")! // 保存するイメージ
-        var theAlbum: PHAssetCollection? // アルバムをオブジェクト化
-        // フォトライブラリからMyAlbumを検索
-        let result = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
-        result.enumerateObjects({(object, index, stop) in
-            if let theCollection = object as? PHAssetCollection,
-            theCollection.localizedTitle == albumTitle
-            {
-                theAlbum = theCollection // 見つかったら、theAlbumに代入
-            }
-        })
-        // アルバムにイメージを保存する
-        if let anAlbum = theAlbum {
-            PHPhotoLibrary.shared().performChanges({
-                let createAssetRequest = PHAssetChangeRequest.creationRequestForAsset(from: savingImage)
-                let assetPlaceholder = createAssetRequest.placeholderForCreatedAsset!
-                let albumChangeRequest = PHAssetCollectionChangeRequest(for: anAlbum)
-                albumChangeRequest!.addAssets([assetPlaceholder] as NSFastEnumeration)
-            }, completionHandler: nil)
-        } else {
-            print("MyAlbum was not found.")
-        }
-    }*/
-   
 
+    @IBOutlet weak var cameraView: UIImageView!
+    @IBOutlet weak var currentTime: UILabel!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var startButton: UIButton!
+    @IBAction func unwindAction(segue: UIStoryboardSegue) {
+        print("\(segue.identifier!)")//通らないが帰ってくる。
+    }
     func camera_alert(){
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization { status in
