@@ -15,8 +15,23 @@ import UIKit
 import Photos
 import AssetsLibrary
 
-class ViewController: UIViewController{
-
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fruits.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // セルを取得する
+                let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "videoFileCell", for: indexPath)
+                
+                // セルに表示する値を設定する
+                cell.textLabel!.text = fruits[indexPath.row]
+                
+                return cell
+    }
+    
+    let fruits = ["apple", "orange", "melon", "banana", "pineapple", "orange", "melon", "banana", "pineapple", "orange", "melon", "banana", "pineapple", "orange", "melon", "banana", "pineapple"]
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var cameraView: UIImageView!
     @IBOutlet weak var currentTime: UILabel!
     @IBOutlet weak var playButton: UIButton!
