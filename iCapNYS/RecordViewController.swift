@@ -428,13 +428,12 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill//無くても同じ
         //self.view.layer.addSublayer(videoLayer)
         cameraView.layer.addSublayer(videoLayer)
-        // zooming slider
-        // セッションを開始する (録画開始とは別)
-  
+        
+        /*
+        // VideoDataOutputにする＊＊＊ここからが合成のところのつもり------------
         let imageOutput: AVCapturePhotoOutput = AVCapturePhotoOutput()
          session.addOutput(imageOutput)
 
-         // VideoDataOutputにする
          let videoDataOutput: AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
             videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey : kCVPixelFormatType_32BGRA] as [String : Any]
 //         videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable: kCVPixelFormatType_32BGRA]
@@ -442,7 +441,9 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //         videoDataOutput.setSampleBufferDelegate(self, queue: videoQueue)
          videoDataOutput.alwaysDiscardsLateVideoFrames = true
          session.addOutput(videoDataOutput)
-         
+         //合成はここまで？以上を設定してもcaptureOutputが呼ばれない-------------
+        */
+        // セッションを開始する (録画開始とは別)
         session.startRunning()
     }
     func getFilesindoc()->String{
