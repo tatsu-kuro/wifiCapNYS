@@ -78,17 +78,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        currentTime.layer.cornerRadius = 5
 
         //startButton
-        startButton.frame=CGRect(x:0,y:0,width:startButWidth,height:startButHeight)
-        startButton.layer.position = CGPoint(x:ww/2,y:wh-startButHeight)
-        playButton.frame=CGRect(x:0,y:0,width:playButWidth,height:playButHeight)
-        playButton.layer.position = CGPoint(x:ww/2,y:wh-startButHeight*3/2-playButHeight)
-        playButton.layer.borderColor = UIColor.green.cgColor
-        playButton.layer.borderWidth = 2.0
-        playButton.layer.cornerRadius = 10
+//        startButton.frame=CGRect(x:0,y:0,width:startButWidth,height:startButHeight)
+//        startButton.layer.position = CGPoint(x:ww/2,y:wh-startButHeight)
+//        playButton.frame=CGRect(x:0,y:0,width:playButWidth,height:playButHeight)
+//        playButton.layer.position = CGPoint(x:ww/2,y:wh-startButHeight*3/2-playButHeight)
+//        playButton.layer.borderColor = UIColor.green.cgColor
+//        playButton.layer.borderWidth = 2.0
+//        playButton.layer.cornerRadius = 10
         startButton.layer.borderColor = UIColor.green.cgColor
         startButton.layer.borderWidth = 2.0
         startButton.layer.cornerRadius = 10
         startButton.isHidden=false
+        playButton.isHidden=true
     }
 
  
