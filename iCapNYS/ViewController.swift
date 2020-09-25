@@ -16,28 +16,32 @@ import Photos
 import AssetsLibrary
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+    var videoTitle = Array<String>()
+    var videoPath = Array<String>()
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fruits.count
+        return videoTitle.count//fruits.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを取得する
+        let videoCount=videoTitle.count
                 let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "videoFileCell", for: indexPath)
                 
                 // セルに表示する値を設定する
-                cell.textLabel!.text = fruits[indexPath.row]
+//        print("videoTitle:",videoCount,indexPath.row)
+        cell.textLabel!.text = videoTitle[videoCount - 1 - indexPath.row]
                 
                 return cell
     }
-    
-    let fruits = ["apple", "orange", "melon", "banana", "pineapple", "orange", "melon", "banana", "pineapple", "orange", "melon", "banana", "pineapple", "orange", "melon", "banana", "pineapple"]
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var cameraView: UIImageView!
-    @IBOutlet weak var currentTime: UILabel!
-    @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var startButton: UIButton!
+//    @IBOutlet weak var cameraView: UIImageView!
+//    @IBOutlet weak var currentTime: UILabel!
+
+    @IBOutlet weak var cameraButton: UIButton!
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
-        print("\(segue.identifier!)")//通らないが帰ってくる。
+        print("segue:","\(segue.identifier!)")//通らないが帰ってくる。
+        searchAlbum()
+        tableView?.reloadData()
     }
     func camera_alert(){
         if PHPhotoLibrary.authorizationStatus() != .authorized {
@@ -53,45 +57,48 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
         camera_alert()
-
+        cameraButton.layer.borderColor = UIColor.green.cgColor
+        cameraButton.layer.borderWidth = 2.0
+        cameraButton.layer.cornerRadius = 10
         let str=getFilesindoc()
         print(str)
+        searchAlbum()
+        tableView.reloadData()
     }
  
-
-    override func viewDidAppear(_ animated: Bool) {
-        setButtons(type: true)
+    func searchAlbum(){
+        videoPath.removeAll()
+        videoTitle.removeAll()
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        formatter.locale = Locale.current
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
+        collections.enumerateObjects { (collection: PHAssetCollection, index: Int, stop) in
+//            print("index,collection::::",index, collection)
+            if collection.localizedTitle == "iCapNYS" { //アルバム名
+                let assets = PHAsset.fetchAssets(in: collection, options: nil)
+                assets.enumerateObjects({ [self] (asset, index, stop) in
+                    let date=formatter.string(from: asset.creationDate!)
+                    let duration=generateDuration(timeInterval: asset.duration)
+                    videoTitle.append(date + "(" + duration + ")")
+                })
+                //stop.pointee = true //同じ名前のアルバムが複数存在出来るようなのでstopしない
+            } else {
+//                print(index, "skip")
+            }
+        }
     }
-    @IBOutlet weak var dammyBottom: UILabel!
-    func setButtons(type:Bool){
-        let ww:CGFloat=view.bounds.width
-        let wh:CGFloat=view.bounds.height//dammyBottom.frame.maxY// view.bounds.height
-        let startButWidth=ww*9/10
-        let startButHeight=ww*4/10
-        let playButWidth=ww*3/10//bw//:Int=60
-        let playButHeight=ww*2/10
-//        currentTime.frame = CGRect(x:0,y: 0 ,width:ww/3, height: bh/2)
-//        currentTime.layer.position=CGPoint(x:ww/2,y:wh-bh*2-bh/4)
-//        currentTime.layer.masksToBounds = true
-//        currentTime.layer.cornerRadius = 5
+   
+    func generateDuration(timeInterval: TimeInterval) -> String {
 
-        //startButton
-//        startButton.frame=CGRect(x:0,y:0,width:startButWidth,height:startButHeight)
-//        startButton.layer.position = CGPoint(x:ww/2,y:wh-startButHeight)
-//        playButton.frame=CGRect(x:0,y:0,width:playButWidth,height:playButHeight)
-//        playButton.layer.position = CGPoint(x:ww/2,y:wh-startButHeight*3/2-playButHeight)
-//        playButton.layer.borderColor = UIColor.green.cgColor
-//        playButton.layer.borderWidth = 2.0
-//        playButton.layer.cornerRadius = 10
-        startButton.layer.borderColor = UIColor.green.cgColor
-        startButton.layer.borderWidth = 2.0
-        startButton.layer.cornerRadius = 10
-        startButton.isHidden=false
-        playButton.isHidden=true
-    }
-
+           let min = Int(timeInterval / 60)
+           let sec = Int(round(timeInterval.truncatingRemainder(dividingBy: 60)))
+           let duration = String(format: "%02d:%02d", min, sec)
+           return duration
+       }
+    
  
     func getFilesindoc()->String{
         let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]

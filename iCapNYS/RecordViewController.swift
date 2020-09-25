@@ -64,6 +64,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             AudioServicesCreateSystemSoundID(soundUrl, &soundIdstop)
             AudioServicesPlaySystemSound(soundIdstop)
         }
+        print(outputFileURL)
         print("終了ボタン、最大を超えた時もここを通る")
        let albumTitle = "iCapNYS" // アルバム名
         var theAlbum: PHAssetCollection? // アルバムをオブジェクト化
@@ -77,12 +78,14 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
         })
         // アルバムにイメージを保存する
+        print(theAlbum)
         if let anAlbum = theAlbum {
             PHPhotoLibrary.shared().performChanges({
                 let createAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputFileURL)
                 let assetPlaceholder = createAssetRequest?.placeholderForCreatedAsset!
                 let albumChangeRequest = PHAssetCollectionChangeRequest(for: anAlbum)
                 albumChangeRequest!.addAssets([assetPlaceholder] as NSFastEnumeration)
+//                print(albumChangeRequest,albumChangeRequest!.addAssets([assetPlaceholder] as NSFastEnumeration))
             }, completionHandler: nil)
         } else {
             print("MyAlbum was not found.")
@@ -99,7 +102,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //        print("録画開始")
 //        //fileOutput.stopRecording()
 //     }
-
+    @IBOutlet weak var topLabel: UILabel!//storyboardで使っている！大事
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -108,20 +111,20 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         setMotion()
         // Do any additional setup after loading the view.
         timer = Timer.scheduledTimer(timeInterval: 1/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-
-//        self.view.backgroundColor = .black
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも
-        setButtons(type: true)
-        startButton.isHidden=true
+        currentTime.layer.masksToBounds = true
+        currentTime.layer.cornerRadius = 5
+        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 30, weight: .medium)
+        exitButton.layer.borderColor = UIColor.green.cgColor
+        exitButton.layer.borderWidth = 1.0
+        exitButton.layer.cornerRadius = 5
+        startButton.isHidden=false
         stopButton.isHidden=true
+
         currentTime.isHidden=true
         let str=getFilesindoc()
         print(str)
-        
-        
-        
-        // Do any additional setup after loading the view.
-    }
+     }
     @objc func update(tm: Timer) {
         //        print(nq0,nq1,nq2,nq3 as Any)
 //        print("update**")
@@ -137,7 +140,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //            var cnt60:Int?
             counter += 1
             let cnt60=counter/60
-            currentTime.text=String(format:"%02d",cnt60/60) + ":" + String(format: "%02d",cnt60%60)
+            currentTime.text=String(format:"%01d",cnt60/60) + ":" + String(format: "%02d",cnt60%60)
             if cnt60%2==0{
                 stopButton.tintColor=UIColor.orange
             }else{
@@ -466,45 +469,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             return ""
         }
     }
-    override func viewDidAppear(_ animated: Bool) {
-        setButtons(type: true)
-    }
-//      @IBOutlet weak var dammyBottom: UILabel!
-    @IBOutlet weak var topLabel: UILabel!
-    func setButtons(type:Bool){
-        // recording button
-        let topX=topLabel.frame.maxY
-        let ww:CGFloat=view.bounds.width
-        let wh:CGFloat=view.bounds.height//dammyBottom.frame.maxY// view.bounds.height
-        let bw=ww*3/5
 
-        let bh=bw//:Int=60
-        currentTime.frame = CGRect(x:0,y: 0 ,width:ww/5, height: ww/10)
-        currentTime.layer.position=CGPoint(x:ww-bw*12/60,y:wh-bh*4/5)
-        currentTime.layer.masksToBounds = true
-        currentTime.layer.cornerRadius = 5
-
-        //startButton
-        startButton.frame=CGRect(x:0,y:0,width:bw,height:bw)
-        startButton.layer.position = CGPoint(x:ww/2,y:wh-bh*4/5)
-        stopButton.frame=CGRect(x:0,y:0,width:bw,height:bw)
-        stopButton.layer.position = CGPoint(x:ww/2,y:wh-bh*4/5)
-        exitButton.frame=CGRect(x:0,y:0,width:bw/3,height:bh/5)
-        exitButton.layer.position = CGPoint(x:ww-bw*12/60,y:wh-bh*4/5)
-        exitButton.layer.borderColor = UIColor.green.cgColor
-        exitButton.layer.borderWidth = 1.0
-
-        exitButton.layer.cornerRadius = 5
-        
-
-        startButton.isHidden=false
-        stopButton.isHidden=true
-        stopButton.tintColor=UIColor.orange
-        
-//        quaternionView.frame=CGRect(x:0,y:0,width:ww/3,height:ww/3)
-//        quaternionView.layer.position=CGPoint(x:ww/12+10,y:topX + ww/12+10)
-
-    }
     @IBAction func onClickStopButton(_ sender: Any) {
         onClickStartButton(0)
         recordingFlag=false
@@ -614,8 +579,8 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
         setMotion()
     }
-    //ここを通らない。
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+    //ここを通らない。//fileoutputがあると通らない
+    func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         print("ww")//見えない？
         readingF=true
         let qCG0=CGFloat(quater0)
@@ -625,6 +590,5 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         readingF=false
         let quaterImage = drawHead(width: 80, height: 80, qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
         setImage(newImage: quaterImage)
-        // ここに処理を書くと良いと書いてあるが、まだここに飛んでこない
     }
 }
