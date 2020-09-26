@@ -36,12 +36,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
 //    @IBOutlet weak var cameraView: UIImageView!
 //    @IBOutlet weak var currentTime: UILabel!
-
+//    private var users: [tableView] = [] {
+//        didSet {
+//            tableView?.reloadData()
+//        }
+//    }
     @IBOutlet weak var cameraButton: UIButton!
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
-        print("segue:","\(segue.identifier!)")//通らないが帰ってくる。
-        searchAlbum()
-        tableView?.reloadData()
+        let lastCnt=videoTitle.count
+        if segue.identifier=="fromRecord"{
+            print("同じ")
+        }
+        if let vc = segue.source as? RecordViewController{
+            let Controller:RecordViewController = vc
+            print("segue:","\(segue.identifier!)")
+            if Controller.recordedFlag==true{//Exitの時はsearchAlbumしない
+                searchAlbum()
+                while lastCnt == videoTitle.count{
+                    sleep(UInt32(0.5))
+                    searchAlbum()
+                    print("videoCnt:",lastCnt,videoTitle.count)
+                }
+            }
+        }
     }
     func camera_alert(){
         if PHPhotoLibrary.authorizationStatus() != .authorized {
@@ -61,12 +78,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cameraButton.layer.borderColor = UIColor.green.cgColor
         cameraButton.layer.borderWidth = 2.0
         cameraButton.layer.cornerRadius = 10
+        tableView.dataSource = self
+        tableView.delegate = self
         let str=getFilesindoc()
         print(str)
+//        searchAlbum()
+//        tableView.reloadData()
+    }
+    override func viewWillAppear(_ animated: Bool) {
         searchAlbum()
         tableView.reloadData()
+        super.viewWillAppear(animated)
+        print("viewwillappear")
     }
- 
+//    override func viewDidAppear(_ animated: Bool) {
+//        tableView.reloadData()
+//    }
     func searchAlbum(){
         videoPath.removeAll()
         videoTitle.removeAll()
@@ -82,7 +109,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 assets.enumerateObjects({ [self] (asset, index, stop) in
                     let date=formatter.string(from: asset.creationDate!)
                     let duration=generateDuration(timeInterval: asset.duration)
-                    videoTitle.append(date + "(" + duration + ")")
+                    videoTitle.append(date + " (" + duration + ")")
                 })
                 //stop.pointee = true //同じ名前のアルバムが複数存在出来るようなのでstopしない
             } else {
@@ -95,7 +122,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
            let min = Int(timeInterval / 60)
            let sec = Int(round(timeInterval.truncatingRemainder(dividingBy: 60)))
-           let duration = String(format: "%02d:%02d", min, sec)
+           let duration = String(format: "%01d:%02d", min, sec)
            return duration
        }
     
