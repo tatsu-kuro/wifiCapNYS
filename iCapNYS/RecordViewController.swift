@@ -64,7 +64,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             AudioServicesCreateSystemSoundID(soundUrl, &soundIdstop)
             AudioServicesPlaySystemSound(soundIdstop)
         }
-        print(outputFileURL)
+        print("outputfileURL:",outputFileURL)
         print("終了ボタン、最大を超えた時もここを通る")
        let albumTitle = "iCapNYS" // アルバム名
         var theAlbum: PHAssetCollection? // アルバムをオブジェクト化
@@ -78,13 +78,17 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
         })
         // アルバムにイメージを保存する
-        print(theAlbum)
+//        print(theAlbum as Any)
         if let anAlbum = theAlbum {
             PHPhotoLibrary.shared().performChanges({
                 let createAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputFileURL)
+                //24D817D8-5D08-46DD-8207-0A813EA4588B/L0/001)
+                //32EF490D-0D4A-42BF-B13A-4E1F529AECE3/L0/040
                 let assetPlaceholder = createAssetRequest?.placeholderForCreatedAsset!
                 let albumChangeRequest = PHAssetCollectionChangeRequest(for: anAlbum)
                 albumChangeRequest!.addAssets([assetPlaceholder] as NSFastEnumeration)
+//                print("outputFileURL:",outputFileURL)
+//       print("createAssetRequest:",assetPlaceholder)
 //                print(albumChangeRequest,albumChangeRequest!.addAssets([assetPlaceholder] as NSFastEnumeration))
             }, completionHandler: nil)
         } else {
@@ -114,7 +118,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも
         currentTime.layer.masksToBounds = true
         currentTime.layer.cornerRadius = 5
-        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 30, weight: .medium)
+        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 25*view.bounds.width/320, weight: .medium)
         exitButton.layer.borderColor = UIColor.green.cgColor
         exitButton.layer.borderWidth = 1.0
         exitButton.layer.cornerRadius = 5
@@ -459,7 +463,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 return("")
             }
             for i in 0..<files.count{
-                str += files[i] + ","
+                str += files[i] + "\n"
             }
             let str2=str.dropLast()
 //            print("before",str)
@@ -520,10 +524,11 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let documentsDirectory = paths[0] as String
             // 現在時刻をファイル名に付与することでファイル重複を防ぐ : "myvideo-20190101125900.mp4" な形式になる
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
-//            filePath = "iCapNYS\(formatter.string(from: Date())).MOV"
-            filePath = "iCapNYS.MOV"
+   
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
+            filePath = "iCapNYS\(formatter.string(from: Date())).MOV"
+//            filePath = "iCapNYS.MOV"
             let filefullPath="\(documentsDirectory)/" + filePath!
             let fileURL = NSURL(fileURLWithPath: filefullPath)
             setMotion()//作動中ならそのまま戻る
@@ -540,7 +545,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
-        print("tap:",x0,y0,screenSize.height)
+//        print("tap:",x0,y0,screenSize.height)
         
         if y0>screenSize.height*5/6{
             return
