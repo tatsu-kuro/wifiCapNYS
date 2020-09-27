@@ -52,9 +52,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if segue.identifier=="fromRecord"{
 //            print("同じ")
         }
-//        if let vc = segue.source as? RecordViewController{
-//            let Controller:RecordViewController = vc
+        if let vc = segue.source as? RecordViewController{
+            let Controller:RecordViewController = vc
             print("segue:","\(segue.identifier!)")
+            Controller.motionManager.stopDeviceMotionUpdates()
 //            if Controller.recordedFlag==true{//Exitの時はsearchAlbumしない
 //                setTitleofAlbum()
 //                while lastCnt == videoTitle.count{
@@ -62,7 +63,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                    setTitleofAlbum()
 ////                    print("videoCnt:",lastCnt,videoTitle.count)
 //                }
-//            }
+            }
 //        }
     }
     func camera_alert(){

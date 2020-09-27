@@ -99,6 +99,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         if timer?.isValid == true {
             timer!.invalidate()
         }
+        motionManager.stopDeviceMotionUpdates()
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
 //    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection]) {
