@@ -64,6 +64,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             AudioServicesCreateSystemSoundID(soundUrl, &soundIdstop)
             AudioServicesPlaySystemSound(soundIdstop)
         }
+        print("outputfileURL:",outputFileURL)
         print("終了ボタン、最大を超えた時もここを通る")
        let albumTitle = "iCapNYS" // アルバム名
         var theAlbum: PHAssetCollection? // アルバムをオブジェクト化
@@ -77,12 +78,18 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
         })
         // アルバムにイメージを保存する
+//        print(theAlbum as Any)
         if let anAlbum = theAlbum {
             PHPhotoLibrary.shared().performChanges({
                 let createAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputFileURL)
+                //24D817D8-5D08-46DD-8207-0A813EA4588B/L0/001)
+                //32EF490D-0D4A-42BF-B13A-4E1F529AECE3/L0/040
                 let assetPlaceholder = createAssetRequest?.placeholderForCreatedAsset!
                 let albumChangeRequest = PHAssetCollectionChangeRequest(for: anAlbum)
                 albumChangeRequest!.addAssets([assetPlaceholder] as NSFastEnumeration)
+//                print("outputFileURL:",outputFileURL)
+//       print("createAssetRequest:",assetPlaceholder)
+//                print(albumChangeRequest,albumChangeRequest!.addAssets([assetPlaceholder] as NSFastEnumeration))
             }, completionHandler: nil)
         } else {
             print("MyAlbum was not found.")
@@ -92,6 +99,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         if timer?.isValid == true {
             timer!.invalidate()
         }
+        motionManager.stopDeviceMotionUpdates()
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
 //    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection]) {
@@ -99,7 +107,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //        print("録画開始")
 //        //fileOutput.stopRecording()
 //     }
-
+    @IBOutlet weak var topLabel: UILabel!//storyboardで使っている！大事
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -108,20 +116,20 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         setMotion()
         // Do any additional setup after loading the view.
         timer = Timer.scheduledTimer(timeInterval: 1/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-
-//        self.view.backgroundColor = .black
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも
-        setButtons(type: true)
-        startButton.isHidden=true
+        currentTime.layer.masksToBounds = true
+        currentTime.layer.cornerRadius = 5
+        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 25*view.bounds.width/320, weight: .medium)
+        exitButton.layer.borderColor = UIColor.green.cgColor
+        exitButton.layer.borderWidth = 1.0
+        exitButton.layer.cornerRadius = 5
+        startButton.isHidden=false
         stopButton.isHidden=true
+
         currentTime.isHidden=true
         let str=getFilesindoc()
         print(str)
-        
-        
-        
-        // Do any additional setup after loading the view.
-    }
+     }
     @objc func update(tm: Timer) {
         //        print(nq0,nq1,nq2,nq3 as Any)
 //        print("update**")
@@ -137,7 +145,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //            var cnt60:Int?
             counter += 1
             let cnt60=counter/60
-            currentTime.text=String(format:"%02d",cnt60/60) + ":" + String(format: "%02d",cnt60%60)
+            currentTime.text=String(format:"%01d",cnt60/60) + ":" + String(format: "%02d",cnt60%60)
             if cnt60%2==0{
                 stopButton.tintColor=UIColor.orange
             }else{
@@ -428,13 +436,12 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill//無くても同じ
         //self.view.layer.addSublayer(videoLayer)
         cameraView.layer.addSublayer(videoLayer)
-        // zooming slider
-        // セッションを開始する (録画開始とは別)
-  
+        
+        /*
+        // VideoDataOutputにする＊＊＊ここからが合成のところのつもり------------
         let imageOutput: AVCapturePhotoOutput = AVCapturePhotoOutput()
          session.addOutput(imageOutput)
 
-         // VideoDataOutputにする
          let videoDataOutput: AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
             videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey : kCVPixelFormatType_32BGRA] as [String : Any]
 //         videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable: kCVPixelFormatType_32BGRA]
@@ -442,7 +449,9 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //         videoDataOutput.setSampleBufferDelegate(self, queue: videoQueue)
          videoDataOutput.alwaysDiscardsLateVideoFrames = true
          session.addOutput(videoDataOutput)
-         
+         //合成はここまで？以上を設定してもcaptureOutputが呼ばれない-------------
+        */
+        // セッションを開始する (録画開始とは別)
         session.startRunning()
     }
     func getFilesindoc()->String{
@@ -455,7 +464,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 return("")
             }
             for i in 0..<files.count{
-                str += files[i] + ","
+                str += files[i] + "\n"
             }
             let str2=str.dropLast()
 //            print("before",str)
@@ -465,45 +474,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             return ""
         }
     }
-    override func viewDidAppear(_ animated: Bool) {
-        setButtons(type: true)
-    }
-//      @IBOutlet weak var dammyBottom: UILabel!
-    @IBOutlet weak var topLabel: UILabel!
-    func setButtons(type:Bool){
-        // recording button
-        let topX=topLabel.frame.maxY
-        let ww:CGFloat=view.bounds.width
-        let wh:CGFloat=view.bounds.height//dammyBottom.frame.maxY// view.bounds.height
-        let bw=ww*3/5
 
-        let bh=bw//:Int=60
-        currentTime.frame = CGRect(x:0,y: 0 ,width:ww/5, height: ww/10)
-        currentTime.layer.position=CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
-        currentTime.layer.masksToBounds = true
-        currentTime.layer.cornerRadius = 10
-
-        //startButton
-        startButton.frame=CGRect(x:0,y:0,width:bw,height:bw)
-        startButton.layer.position = CGPoint(x:ww/2,y:wh-bh*4/5)
-        stopButton.frame=CGRect(x:0,y:0,width:bw,height:bw)
-        stopButton.layer.position = CGPoint(x:ww/2,y:wh-bh*4/5)
-        exitButton.frame=CGRect(x:0,y:0,width:bw/3,height:bh/5)
-        exitButton.layer.position = CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
-        exitButton.layer.borderColor = UIColor.green.cgColor
-        exitButton.layer.borderWidth = 1.0
-
-        exitButton.layer.cornerRadius = 10
-        
-
-        startButton.isHidden=false
-        stopButton.isHidden=true
-        stopButton.tintColor=UIColor.orange
-        
-        quaternionView.frame=CGRect(x:0,y:0,width:ww/6,height:ww/6)
-        quaternionView.layer.position=CGPoint(x:ww/12+10,y:topX + ww/12+10)
-
-    }
     @IBAction func onClickStopButton(_ sender: Any) {
         onClickStartButton(0)
         recordingFlag=false
@@ -554,10 +525,11 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let documentsDirectory = paths[0] as String
             // 現在時刻をファイル名に付与することでファイル重複を防ぐ : "myvideo-20190101125900.mp4" な形式になる
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
-//            filePath = "iCapNYS\(formatter.string(from: Date())).MOV"
-            filePath = "iCapNYS.MOV"
+   
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
+            filePath = "iCapNYS\(formatter.string(from: Date())).MOV"
+//            filePath = "iCapNYS.MOV"
             let filefullPath="\(documentsDirectory)/" + filePath!
             let fileURL = NSURL(fileURLWithPath: filefullPath)
             setMotion()//作動中ならそのまま戻る
@@ -574,7 +546,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
-        print("tap:",x0,y0,screenSize.height)
+//        print("tap:",x0,y0,screenSize.height)
         
         if y0>screenSize.height*5/6{
             return
@@ -613,8 +585,8 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
         setMotion()
     }
-    //ここを通らない。
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+    //ここを通らない。//fileoutputがあると通らない
+    func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         print("ww")//見えない？
         readingF=true
         let qCG0=CGFloat(quater0)
@@ -624,6 +596,5 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         readingF=false
         let quaterImage = drawHead(width: 80, height: 80, qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
         setImage(newImage: quaterImage)
-        // ここに処理を書くと良いと書いてあるが、まだここに飛んでこない
     }
 }
