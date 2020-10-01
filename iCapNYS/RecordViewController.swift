@@ -31,6 +31,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let ALBUMTITLE = "iCapNYS" // アルバム名
     var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
+    var newFilePath: String = ""
     
     var Width: Int32 = 0
     var Height: Int32 = 0
@@ -443,10 +444,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         //ファイル出力設定　writer使用
         //一時ファイルに記録し、書き込み終了後にアルバムに追加する。
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
+        newFilePath = "iCapNYS\(formatter.string(from: Date())).MOV"
+//            filePath = "iCapNYS.MOV"
+        newFilePath="\(.documentsDirectory)/" + newFilePath
+        let fileURL = NSURL(fileURLWithPath: filefullPath)
+        
+        
+        
         let TempFilePath = "\(NSTemporaryDirectory())temp.mp4"
         print ("TempFilePATH",TempFilePath)
 
         //一時ファイルはこの時点で必ず消去
+        //let TempFilePath = "\(NSTemporaryDirectory())temp.mp4"
         try? FileManager.default.removeItem(atPath: TempFilePath)
         let fileURL = NSURL(fileURLWithPath: TempFilePath)
         setMotion()//作動中ならそのまま戻る
@@ -556,6 +567,22 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             startButton.isHidden=false
             stopButton.isHidden=true
             currentTime.isHidden=true
+            /*
+             //let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
+
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
+            filePath = "iCapNYS\(formatter.string(from: Date())).MOV"
+//            filePath = "iCapNYS.MOV"
+            let filefullPath="\(documentsDirectory)/" + filePath!
+            let fileURL = NSURL(fileURLWithPath: filefullPath)
+            setMotion()//作動中ならそのまま戻る
+            print("録画開始 : \(filePath!)")
+            fileOutput.startRecording(to: fileURL as URL, recordingDelegate: self)
+            */
+            
+            
+            
             
             if FileManager.default.fileExists(atPath: TempFilePath){
                 print("tempFileExists")
