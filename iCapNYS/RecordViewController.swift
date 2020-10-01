@@ -648,10 +648,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     
-
+    var lastTimestamp:Int64 = 0
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        //全部UIImageで処理してるが、これでは遅いので全てCIImageで処理するように書き換える必要がある。
+        //print(sampleBuffer)
+        
+        if lastTimestamp == 0 {
+            lastTimestamp = sampleBuffer.outputPresentationTimeStamp.value
+        }
+        
+        //全部UIImageで処理してるが、これでは遅いので全てCIImageで処理するように書き換えたほうがよさそう
         guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             //フレームが取得できなかった場合にすぐ返る
             print("unable to get image from sample buffer")
@@ -673,9 +679,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
           self.quaternionView.image = quaterImage
           self.quaternionView.setNeedsLayout()
         }
-        //frameの時間計算、フレーム番号とFPSが必要、フレーム番号*1sec/FPSしてくれる。
-        let frameTime:CMTime = CMTimeMake(value: frameCount, timescale: Int32(FPS))
-
+        //frameの時間計算, sampleBufferの時刻から算出
+        let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - lastTimestamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
+        
+        print(frameTime)
         //var frameCGImage: CGImage?
         //VTCreateCGImageFromCVPixelBuffer(frame, options: nil, imageOut: &frameCGImage)
         //let frameUIImage = UIImage(cgImage: frameCGImage!)
@@ -700,8 +707,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             //print("not writing")
         }
         frameCount = frameCount + 1
-
-        // ここに処理を書くと良いと書いてあるが、まだここに飛んでこない
     }
 
 }
