@@ -444,12 +444,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         //ファイル出力設定　writer使用
         //一時ファイルに記録し、書き込み終了後にアルバムに追加する。
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
-        newFilePath = "iCapNYS\(formatter.string(from: Date())).MOV"
-//            filePath = "iCapNYS.MOV"
-        newFilePath="\(.documentsDirectory)/" + newFilePath
-        let fileURL = NSURL(fileURLWithPath: filefullPath)
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
+//        newFilePath = "iCapNYS\(formatter.string(from: Date())).MOV"
+//        newFilePath = "\(documentsDirectory)/" + newFilePath
+//        let fileURL = NSURL(fileURLWithPath: newFilePath)
         
         
         
@@ -480,7 +479,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 kCVPixelBufferWidthKey as String: Width
             ]
         )
-
     }
 
     func getFilesindoc()->String{
@@ -567,6 +565,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             startButton.isHidden=false
             stopButton.isHidden=true
             currentTime.isHidden=true
+            //        let formatter = DateFormatter()
+            //        formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
+            //        newFilePath = "iCapNYS\(formatter.string(from: Date())).MOV"
+            //        newFilePath = "\(documentsDirectory)/" + newFilePath
+            //        let fileURL = NSURL(fileURLWithPath: newFilePath)
+
             /*
              //let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
 
@@ -581,7 +585,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             fileOutput.startRecording(to: fileURL as URL, recordingDelegate: self)
             */
             
-            
+            if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
+                AudioServicesCreateSystemSoundID(soundUrl, &soundIdstart)
+                AudioServicesPlaySystemSound(soundIdstart)
+            }
             
             
             if FileManager.default.fileExists(atPath: TempFilePath){
