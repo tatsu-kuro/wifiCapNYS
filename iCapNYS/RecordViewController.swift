@@ -21,23 +21,27 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var recordingFlag:Bool = false
     let motionManager = CMMotionManager()
     
+    //for video input
     var captureSession: AVCaptureSession!
     var videoDevice: AVCaptureDevice?
 
+    //for video output
     var fileWriter: AVAssetWriter!
     var fileWriterInput: AVAssetWriterInput!
     var fileWriterAdapter: AVAssetWriterInputPixelBufferAdaptor!
+    var startTimeStamp:Int64 = 0
     
     let ALBUMTITLE = "iCapNYS" // アルバム名
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
-
     var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
     
+    // for video resolution/fps (constants)
     var Width: Int32 = 0
     var Height: Int32 = 0
     var FPS: Float64 = 0
-    var frameCount: Int64 = 0
     
+    
+    //for gyro and face drawing
     var gyro = Array<Double>()
 
     var quater0:Double=0
@@ -422,6 +426,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //ファイル出力設定　writer使用
         //一時ファイルに記録し、書き込み終了後にアルバムに追加する方法を取る。
         print ("TempFilePATH",TempFilePath)
+        startTimeStamp = 0
         //一時ファイルはこの時点で必ず消去
         try? FileManager.default.removeItem(atPath: TempFilePath)
         let fileURL = NSURL(fileURLWithPath: TempFilePath)
@@ -532,8 +537,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print("tempFileExists")
         }
         let fileURL = URL(fileURLWithPath: TempFilePath)
-        
+        //let avAsset = AVAsset(url: fileURL)
         PHPhotoLibrary.shared().performChanges({
+            //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
             let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
             let albumChangeRequest = PHAssetCollectionChangeRequest(for: (self.iCapNYSAlbum)!)
             let placeHolder = assetRequest.placeholderForCreatedAsset
@@ -576,7 +582,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 AudioServicesCreateSystemSoundID(soundUrl, &soundIdstart)
                 AudioServicesPlaySystemSound(soundIdstart)
             }
-            frameCount = 0
             fileWriter!.startWriting()
             fileWriter!.startSession(atSourceTime: CMTime.zero)
             print(fileWriter?.error)
@@ -648,15 +653,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     
-    var lastTimestamp:Int64 = 0
+    var lastFrameTime: Int64 = 0
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         //print(sampleBuffer)
         
-        if lastTimestamp == 0 {
-            lastTimestamp = sampleBuffer.outputPresentationTimeStamp.value
+        if fileWriter.status == .writing && startTimeStamp == 0 {
+            startTimeStamp = sampleBuffer.outputPresentationTimeStamp.value
         }
-        
+
         //全部UIImageで処理してるが、これでは遅いので全てCIImageで処理するように書き換えたほうがよさそう
         guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             //フレームが取得できなかった場合にすぐ返る
@@ -680,9 +685,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
           self.quaternionView.setNeedsLayout()
         }
         //frameの時間計算, sampleBufferの時刻から算出
-        let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - lastTimestamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
-        
-        print(frameTime)
+        let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - startTimeStamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
+
+
         //var frameCGImage: CGImage?
         //VTCreateCGImageFromCVPixelBuffer(frame, options: nil, imageOut: &frameCGImage)
         //let frameUIImage = UIImage(cgImage: frameCGImage!)
@@ -698,15 +703,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         let renderedBuffer = (renderedImage?.toCVPixelBuffer())!
         
-
-        if (recordingFlag == true && fileWriter!.status == .writing) {
+        printWriterStatus(writer: fileWriter)
+        if (recordingFlag == true && startTimeStamp != 0 && fileWriter!.status == .writing) {
             if fileWriterInput?.isReadyForMoreMediaData != nil{
+                //for speed check
+                print(frameTime.value - lastFrameTime)
+                lastFrameTime = frameTime.value
+                //
                 fileWriterAdapter.append(renderedBuffer, withPresentationTime: frameTime)
             }
         } else {
             //print("not writing")
         }
-        frameCount = frameCount + 1
     }
 
 }
