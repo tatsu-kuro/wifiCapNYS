@@ -299,13 +299,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 let description = format.formatDescription as CMFormatDescription    // フォーマットの説明
                 let dimensions = CMVideoFormatDescriptionGetDimensions(description)  // 幅・高さ情報を抜き出す
                 let width = dimensions.width
-                if desiredFps == range.maxFrameRate && width >= maxWidth {
+                if desiredFps == range.maxFrameRate && width == 1280{//}>= maxWidth {
                     selectedFormat = format
                     maxWidth = width
                 }
             }
         }
-        
+//ipod touch 1280x720 1440*1080
+//SE 960x540 1280x720 1920x1080
+//11 192x144 352x288 480x360 640x480 1024x768 1280x720 1440x1080 1920x1080 3840x2160
+
         // フォーマットが取得できていれば設定する
         if selectedFormat != nil {
             do {
