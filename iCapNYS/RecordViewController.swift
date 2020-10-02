@@ -10,44 +10,47 @@ import AVFoundation
 import GLKit
 import Photos
 import CoreMotion
+import VideoToolbox
 
 class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
-    var recordedFlag:Bool = false
+
     var recordingFlag:Bool = false
     let motionManager = CMMotionManager()
     
-    var session: AVCaptureSession!
+    //for video input
+    var captureSession: AVCaptureSession!
     var videoDevice: AVCaptureDevice?
 
-
+    //for video output
     var fileWriter: AVAssetWriter!
     var fileWriterInput: AVAssetWriterInput!
     var fileWriterAdapter: AVAssetWriterInputPixelBufferAdaptor!
+    var startTimeStamp:Int64 = 0
     
     let ALBUMTITLE = "iCapNYS" // アルバム名
-    var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
+    var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
     
+    // for video resolution/fps (constants)
     var Width: Int32 = 0
     var Height: Int32 = 0
-    var Fps: Float64 = 0
-    var frameCount: Int64 = 0
+    var FPS: Float64 = 0
     
+    
+    //for gyro and face drawing
     var gyro = Array<Double>()
-    var recStart = CFAbsoluteTimeGetCurrent()
-    var counter:Int=0
-    var timer:Timer?
+
     var quater0:Double=0
     var quater1:Double=0
     var quater2:Double=0
     var quater3:Double=0
     var readingF = false
     
-    var tapF:Bool=false
+    var tapF:Bool=false//??
     
     var rpk1 = Array(repeating: CGFloat(0), count:500)
     var ppk1 = Array(repeating: CGFloat(0), count:500)//144*3
@@ -78,67 +81,66 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView: UIImageView!
     @IBOutlet weak var topLabel: UILabel!//storyboardで使っている！大事
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //iCapNYSアルバムがなければ作成し、iCapNYSAlbumにアルバムを代入
         createNewAlbum(albumTitle: ALBUMTITLE) { (isSuccess) in
             if isSuccess{
-                print("iCapNYS_album can be made,")
+                debugPrint("iCapNYS_album can be made,")
             } else{
-                print("iCapNYS_album can't be made.")
+                debugPrint("iCapNYS_album can't be made.")
             }
         }
         
         camera_alert()
         set_rpk_ppk()
         setMotion()
+        
         // Do any additional setup after loading the view.
-        timer = Timer.scheduledTimer(timeInterval: 1/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+//        timer = Timer.scheduledTimer(timeInterval: 1/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも
+        //30だと最高解像度が上がるため画像処理にかかる時間が結果的に増えてしまうので一旦加速度データを別で保存し、動画保存後に再処理する必要があるかも
+        //おそらくUIImageで処理しているせいで遅い。
         currentTime.layer.masksToBounds = true
         currentTime.layer.cornerRadius = 5
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 25*view.bounds.width/320, weight: .medium)
         exitButton.layer.borderColor = UIColor.green.cgColor
         exitButton.layer.borderWidth = 1.0
         exitButton.layer.cornerRadius = 5
+        
         startButton.isHidden=false
         stopButton.isHidden=true
 
         currentTime.isHidden=true
-        let str=getFilesindoc()
-        print(str)
+//        let str=getFilesindoc()
+//        print(str)
     }
     
-    @objc func update(tm: Timer) {
-        //        print(nq0,nq1,nq2,nq3 as Any)
-//        print("update**")
-        readingF=true
-        let qCG0=CGFloat(quater0)
-        let qCG1=CGFloat(quater1)
-        let qCG2=CGFloat(quater2)
-        let qCG3=CGFloat(quater3)
-        readingF=false
-        let quaterImage = drawHead(width: 80, height: 80, qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
-        setImage(newImage: quaterImage)
-        if recordingFlag==true{
-//            var cnt60:Int?
-            counter += 1
-            let cnt60=counter/60
-            currentTime.text=String(format:"%01d",cnt60/60) + ":" + String(format: "%02d",cnt60%60)
-            if cnt60%2==0{
-                stopButton.tintColor=UIColor.orange
-            }else{
-                stopButton.tintColor=UIColor.red
-            }
-        }
-    }
+//    @objc func update(tm: Timer) {
+//        //        print(nq0,nq1,nq2,nq3 as Any)
+////        print("update**")
+//        readingF=true
+//        let qCG0=CGFloat(quater0)
+//        let qCG1=CGFloat(quater1)
+//        let qCG2=CGFloat(quater2)
+//        let qCG3=CGFloat(quater3)
+//        readingF=false
+//        let quaterImage = drawHead(width: 80, height: 80, qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+//        setImage(newImage: quaterImage)
+//        if recordingFlag==true{
+////            var cnt60:Int?
+//            counter += 1
+//            let cnt60=counter/60
+//            currentTime.text=String(format:"%01d",cnt60/60) + ":" + String(format: "%02d",cnt60%60)
+//            if cnt60%2==0{
+//                stopButton.tintColor=UIColor.orange
+//            }else{
+//                stopButton.tintColor=UIColor.red
+//            }
+//        }
+//    }
     
-    public func setImage(newImage: UIImage) {
-      DispatchQueue.main.async {
-        self.quaternionView.image = newImage
-        self.quaternionView.setNeedsLayout()
-      }
-    }
    
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
@@ -147,8 +149,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //        var initf:Bool=false
         motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { (motion, error) in
             guard let motion = motion, error == nil else { return }
-//            self.gyro.append(CFAbsoluteTimeGetCurrent())
-//            self.gyro.append(motion.rotationRate.y)//
+            //            self.gyro.append(CFAbsoluteTimeGetCurrent())
+            //            self.gyro.append(motion.rotationRate.y)//
             let quat = motion.attitude.quaternion
             while self.readingF==true{
                 usleep(1)
@@ -157,7 +159,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             self.quater1 = quat.x
             self.quater2 = -quat.z
             self.quater3 =  quat.y
-           })
+        })
     }
     
     func set_rpk_ppk() {
@@ -195,24 +197,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     
-    func isBigger(len:CGFloat,than:CGFloat)->Bool{
-        if len > than{
-            return true
-        }else{
-            return false
-        }
-    }
-    
-    var headCnt:Int=0
-    func drawHead(width w:CGFloat,height h:CGFloat,qOld0:CGFloat, qOld1:CGFloat, qOld2:CGFloat, qOld3:CGFloat)->UIImage{
+
+    func drawHead(width w:CGFloat, height h:CGFloat, radius r:CGFloat, qOld0:CGFloat, qOld1:CGFloat, qOld2:CGFloat, qOld3:CGFloat)->UIImage{
         //        var ppk:[CGFloat]=[]
         var ppk = Array(repeating: CGFloat(0), count:500)
         //  pk_ken = &pk_ken2[0][0];//no smile
-        let faceX0:CGFloat = 40;
-        let faceY0:CGFloat = 40;//center
-        let faceR:CGFloat = 40;//hankei
+        let faceX0:CGFloat = w/2;
+        let faceY0:CGFloat = h/2;//center
+        let faceR:CGFloat = r;//hankei
+        let defaultRadius:CGFloat = 40.0
         let size = CGSize(width:w, height:h)
-        headCnt += 1
 //        // イメージ処理の開始
 //        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
 
@@ -243,7 +237,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         // イメージ処理の開始
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
 
-        let drawPath = UIBezierPath(arcCenter: CGPoint(x: 40, y:40), radius: 39, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
+        let drawPath = UIBezierPath(arcCenter: CGPoint(x: faceX0, y:faceY0), radius: faceR, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
         // 内側の色
 //        UIColor(red: 1, green: 1, blue:1, alpha: 0.8).setFill()
         UIColor.white.setFill()// (red: 1, green: 1, blue:1, alpha: 0.8).setFill()
@@ -251,7 +245,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        // 内側を塗りつぶす
         drawPath.fill()
 
-        let uraPoint=faceR/40.0
+        let uraPoint=faceR/40.0//この値の意味がよくわからなかった
 
         var endpointF=true//終点でtrueとする
 
@@ -263,12 +257,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }else{
                     endpointF=false
                 }
-                drawPath.move(to: CGPoint(x:faceX0-ppk[i*3],y:faceY0+ppk[i*3+2]))
+                drawPath.move(to: CGPoint(x:faceX0-ppk[i*3]*faceR/defaultRadius,y:faceY0+ppk[i*3+2]*faceR/defaultRadius))
             }else{
                 if ppk[i*3+1] > uraPoint{
-                    drawPath.addLine(to: CGPoint(x:faceX0-ppk[i*3],y:faceY0+ppk[i*3+2]))
+                    drawPath.addLine(to: CGPoint(x:faceX0-ppk[i*3]*faceR/defaultRadius,y:faceY0+ppk[i*3+2]*faceR/defaultRadius))
                 }else{
-                    drawPath.move(to: CGPoint(x:faceX0-ppk[i*3],y:faceY0+ppk[i*3+2]))
+                    drawPath.move(to: CGPoint(x:faceX0-ppk[i*3]*faceR/defaultRadius,y:faceY0+ppk[i*3+2]*faceR/defaultRadius))
                 }
                 if facePoints[3*i+2] == 1{
                     endpointF=true
@@ -287,17 +281,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         return image!
     }
     
-    func switchFormat(desiredFps: Double)->Bool {
-        // セッションが始動しているかどうか
+    func setVideoFormat(desiredFps: Double)->Bool {
+
         var retF:Bool=false
-        let isRunning = session.isRunning
-        
-        // セッションが始動中なら止める
-        if isRunning {
-            print("isrunning")
-            session.stopRunning()
-        }
-        
+
         // 取得したフォーマットを格納する変数
         var selectedFormat: AVCaptureDevice.Format! = nil
         // そのフレームレートの中で一番大きい解像度を取得する
@@ -313,9 +300,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 if desiredFps == range.maxFrameRate && width >= maxWidth {
                     selectedFormat = format
                     maxWidth = width
-                    Width = dimensions.width
-                    Height = dimensions.height
-                    Fps = range.maxFrameRate
                 }
             }
         }
@@ -328,7 +312,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 videoDevice!.activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(desiredFps))
                 videoDevice!.activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(desiredFps))
                 videoDevice!.unlockForConfiguration()
-                print("フォーマット・フレームレートを設定 : \(desiredFps) fps・\(maxWidth) px")
+                
+                let description = selectedFormat.formatDescription as CMFormatDescription    // フォーマットの説明
+                let dimensions = CMVideoFormatDescriptionGetDimensions(description)  // 幅・高さ情報を抜き出す
+                Width = dimensions.width
+                Height = dimensions.height
+                FPS = desiredFps
+                print("フォーマット・フレームレートを設定 : \(desiredFps) fps・\(Width) px x \(Height) px")
+                
                 retF=true
             }
             catch {
@@ -339,11 +330,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         else {
             print("指定のフォーマットが取得できなかった")
             retF=false
-        }
-        
-        // セッションが始動中だったら再開する
-        if isRunning {
-            session.startRunning()
         }
         return retF
     }
@@ -365,17 +351,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         self.view.layer.addSublayer(squareLayer)
     }
 
-    func createNewAlbum(albumTitle: String, callback: @escaping (Bool) -> Void) {
-        if self.albumExists(albumTitle: albumTitle) {
-            callback(true)
-        } else {
-            PHPhotoLibrary.shared().performChanges({
-                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
-            }) { (isSuccess, error) in
-                callback(isSuccess)
-            }
-        }
-    }
     
     // アルバムが既にあるか確認し、iCapNYSAlbumに代入
     func albumExists(albumTitle: String) -> Bool {
@@ -393,8 +368,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         return false
     }
     
+    //何も返していないが、ここで見つけたor作成したalbumを返したい。そうすればグローバル変数にアクセスせずに済む
+    func createNewAlbum(albumTitle: String, callback: @escaping (Bool) -> Void) {
+        if self.albumExists(albumTitle: albumTitle) {
+            callback(true)
+        } else {
+            PHPhotoLibrary.shared().performChanges({
+                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
+            }) { (isSuccess, error) in
+                callback(isSuccess)
+            }
+        }
+    }
     
-
     func camera_alert(){
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization { status in
@@ -408,44 +394,39 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     
-    func initSession(fps:Int) {
-        // セッション生成
-        session = AVCaptureSession()
+    func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ
         videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
         let videoInput = try! AVCaptureDeviceInput.init(device: videoDevice!)
-        session.addInput(videoInput)
- 
-        if switchFormat(desiredFps: 60)==false{
+
+        if setVideoFormat(desiredFps: fps)==false{
             print("error******")
         }
-
+        // AVCaptureSession生成
+        captureSession = AVCaptureSession()
+        captureSession.addInput(videoInput)
+ 
         // プレビュー出力設定
-        let videoLayer : AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: session)
+        let videoLayer : AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         videoLayer.frame = self.view.bounds
         videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill//無くても同じ
         //self.view.layer.addSublayer(videoLayer)
         cameraView.layer.addSublayer(videoLayer)
-        // セッションを開始する (録画開始とは別)
-        
-        //        let imageOutput: AVCapturePhotoOutput = AVCapturePhotoOutput()
-        //         session.addOutput(imageOutput)
-        
-        // VideoDataOutputにする
+
+        // VideoDataOutputを作成、startRunningするとそれ以降delegateが呼ばれるようになる。
         let videoDataOutput: AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
         videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey : kCVPixelFormatType_32BGRA] as [String : Any]
         //         videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable: kCVPixelFormatType_32BGRA]
         videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
         //         videoDataOutput.setSampleBufferDelegate(self, queue: videoQueue)
         videoDataOutput.alwaysDiscardsLateVideoFrames = true
-        session.addOutput(videoDataOutput)
-        session.startRunning()
+        captureSession.addOutput(videoDataOutput)
+        captureSession.startRunning()
         
         //ファイル出力設定　writer使用
-        //一時ファイルに記録し、書き込み終了後にアルバムに追加する。
-        let TempFilePath = "\(NSTemporaryDirectory())temp.mp4"
+        //一時ファイルに記録し、書き込み終了後にアルバムに追加する方法を取る。
         print ("TempFilePATH",TempFilePath)
-
+        startTimeStamp = 0
         //一時ファイルはこの時点で必ず消去
         try? FileManager.default.removeItem(atPath: TempFilePath)
         let fileURL = NSURL(fileURLWithPath: TempFilePath)
@@ -454,8 +435,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         let videoOutputSettings: Dictionary<String, AnyObject> = [
             AVVideoCodecKey: AVVideoCodecType.h264 as AnyObject,
-            AVVideoHeightKey: Height as AnyObject,
-            AVVideoWidthKey: Width as AnyObject
+            AVVideoHeightKey: Width as AnyObject,
+            AVVideoWidthKey: Height as AnyObject
         ]
         fileWriterInput = AVAssetWriterInput(mediaType:AVMediaType.video, outputSettings: videoOutputSettings)
         fileWriterInput.expectsMediaDataInRealTime = true
@@ -465,33 +446,33 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             assetWriterInput: fileWriterInput,
             sourcePixelBufferAttributes: [
                 kCVPixelBufferPixelFormatTypeKey as String:Int(kCVPixelFormatType_32BGRA),
-                kCVPixelBufferHeightKey as String: Height,
-                kCVPixelBufferWidthKey as String: Width
+                kCVPixelBufferHeightKey as String: Width,
+                kCVPixelBufferWidthKey as String: Height,
             ]
         )
 
     }
 
-    func getFilesindoc()->String{
-        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        do {
-            let contentUrls = try FileManager.default.contentsOfDirectory(at: documentDirectoryURL, includingPropertiesForKeys: nil)
-            let files = contentUrls.map{$0.lastPathComponent}
-            var str:String=""
-            if files.count==0{
-                return("")
-            }
-            for i in 0..<files.count{
-                str += files[i] + "\n"
-            }
-            let str2=str.dropLast()
-//            print("before",str)
-//            print("after",str2)
-            return String(str2)
-        } catch {
-            return ""
-        }
-    }
+//    func getFilesindoc()->String{
+//        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//        do {
+//            let contentUrls = try FileManager.default.contentsOfDirectory(at: documentDirectoryURL, includingPropertiesForKeys: nil)
+//            let files = contentUrls.map{$0.lastPathComponent}
+//            var str:String=""
+//            if files.count==0{
+//                return("")
+//            }
+//            for i in 0..<files.count{
+//                str += files[i] + "\n"
+//            }
+//            let str2=str.dropLast()
+////            print("before",str)
+////            print("after",str2)
+//            return String(str2)
+//        } catch {
+//            return ""
+//        }
+//    }
 
     override func viewDidAppear(_ animated: Bool) {
         setButtons(type: true)
@@ -533,65 +514,66 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func onClickStopButton(_ sender: Any) {
-        onClickStartButton(0)
+        // stop recording
+        debugPrint("onClickStopButton")
         recordingFlag=false
-    }
-    
-    
-    @IBAction func onClickStartButton(_ sender: Any) {
         if fileWriter!.status == .writing {
-            // stop recording
-            recordingFlag=false
-            print("ストップボタンを押した。")
+
             fileWriter!.finishWriting {
-                print("trying to finish")
+                debugPrint("trying to finish")
                 return
             }
             while fileWriter!.status == .writing {
                 usleep(1)
             }
-            print("done!!")
-            
-            
-            startButton.isHidden=false
-            stopButton.isHidden=true
-            currentTime.isHidden=true
-            
-            if FileManager.default.fileExists(atPath: TempFilePath){
-                print("tempFileExists")
+            debugPrint("done!!")
+        }
+        
+        startButton.isHidden=false
+        stopButton.isHidden=true
+        currentTime.isHidden=true
+        
+        if FileManager.default.fileExists(atPath: TempFilePath){
+            print("tempFileExists")
+        }
+        let fileURL = URL(fileURLWithPath: TempFilePath)
+        //let avAsset = AVAsset(url: fileURL)
+        PHPhotoLibrary.shared().performChanges({
+            //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
+            let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
+            let albumChangeRequest = PHAssetCollectionChangeRequest(for: (self.iCapNYSAlbum)!)
+            let placeHolder = assetRequest.placeholderForCreatedAsset
+            albumChangeRequest?.addAssets([placeHolder!] as NSArray)
+            //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
+            print("file add to album")
+        }) { (isSuccess, error) in
+            if isSuccess {
+                // 保存した画像にアクセスする為のimageIDを返却
+                //completionBlock(imageID)
+                print("success")
+            } else {
+                //failureBlock(error)
+                print("fail")
+                print(error)
             }
-            let fileURL = URL(fileURLWithPath: TempFilePath)
-            
-            PHPhotoLibrary.shared().performChanges({
-                let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
-                let albumChangeRequest = PHAssetCollectionChangeRequest(for: (self.iCapNYSAlbum)!)
-                let placeHolder = assetRequest.placeholderForCreatedAsset
-                albumChangeRequest?.addAssets([placeHolder!] as NSArray)
-                //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
-                print("file add to album")
-            }) { (isSuccess, error) in
-                if isSuccess {
-                    // 保存した画像にアクセスする為のimageIDを返却
-                    //completionBlock(imageID)
-                    print("success")
-                } else {
-                    //failureBlock(error)
-                    print("fail")
-                    print(error)
-                }
-                _ = try? FileManager.default.removeItem(atPath: self.TempFilePath)
-            }
-            motionManager.stopDeviceMotionUpdates()
-            performSegue(withIdentifier: "fromRecord", sender: self)
-            
-        } else {
-            recordedFlag=false
+            _ = try? FileManager.default.removeItem(atPath: self.TempFilePath)
+        }
+        motionManager.stopDeviceMotionUpdates()
+        captureSession.stopRunning()
+        performSegue(withIdentifier: "fromRecord", sender: self)
+        
+        recordingFlag=false
+    }
+    
+    
+    @IBAction func onClickStartButton(_ sender: Any) {
+
+
             recordingFlag=true
             //start recording
             startButton.isHidden=true
             stopButton.isHidden=false
             currentTime.isHidden=false
-            counter=0
             
             exitButton.isHidden=true
             //            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
@@ -600,18 +582,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 AudioServicesCreateSystemSoundID(soundUrl, &soundIdstart)
                 AudioServicesPlaySystemSound(soundIdstart)
             }
-            frameCount = 0
             fileWriter!.startWriting()
             fileWriter!.startSession(atSourceTime: CMTime.zero)
             print(fileWriter?.error)
-        }
     }
 
     
     
     @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
     
-  
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
@@ -673,35 +652,100 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print("default")
         }
     }
-
+    
+    var lastFrameTime: Int64 = 0
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        //print(sampleBuffer)
+        
+        if fileWriter.status == .writing && startTimeStamp == 0 {
+            startTimeStamp = sampleBuffer.outputPresentationTimeStamp.value
+        }
+
+        //全部UIImageで処理してるが、これでは遅いので全てCIImageで処理するように書き換えたほうがよさそう
         guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             //フレームが取得できなかった場合にすぐ返る
             print("unable to get image from sample buffer")
             return
         }
-
-        //frameの時間計算、フレーム番号とFPSが必要、フレーム番号*1sec/FPSしてくれる。
-        let frameTime:CMTime = CMTimeMake(value: frameCount, timescale: Int32(Fps))
+        let frameCIImage = CIImage(cvImageBuffer: frame)
         
-        if (recordingFlag == true && fileWriter!.status == .writing) {
-            if fileWriterInput?.isReadyForMoreMediaData != nil{
-                fileWriterAdapter.append(frame, withPresentationTime: frameTime)
-            }
-        } else {
-            //print("not writing")
-        }
-        frameCount = frameCount + 1
+        let matrix = CGAffineTransform(rotationAngle: -1 * CGFloat.pi / 2)
+        let rotatedCIImage = frameCIImage.transformed(by: matrix)
         readingF=true
         let qCG0=CGFloat(quater0)
         let qCG1=CGFloat(quater1)
         let qCG2=CGFloat(quater2)
         let qCG3=CGFloat(quater3)
         readingF=false
-        let quaterImage = drawHead(width: 80, height: 80, qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
-        setImage(newImage: quaterImage)
-        // ここに処理を書くと良いと書いてあるが、まだここに飛んでこない
+        
+        let quaterImage = drawHead(width: 400, height: 400, radius: 180,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+        DispatchQueue.main.async {
+          self.quaternionView.image = quaterImage
+          self.quaternionView.setNeedsLayout()
+        }
+        //frameの時間計算, sampleBufferの時刻から算出
+        let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - startTimeStamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
+
+
+        //var frameCGImage: CGImage?
+        //VTCreateCGImageFromCVPixelBuffer(frame, options: nil, imageOut: &frameCGImage)
+        //let frameUIImage = UIImage(cgImage: frameCGImage!)
+        let frameUIImage = UIImage(ciImage: rotatedCIImage)
+        
+        UIGraphicsBeginImageContext(CGSize(width: CGFloat(Height), height: CGFloat(Width)))
+        
+        frameUIImage.draw(in: CGRect(x: 0, y: 0, width: CGFloat(Height), height: CGFloat(Width)))
+        quaterImage.draw(in: CGRect(x:0, y:0, width:quaterImage.size.width, height:quaterImage.size.height))
+        
+        let renderedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        let renderedBuffer = (renderedImage?.toCVPixelBuffer())!
+        
+        printWriterStatus(writer: fileWriter)
+        if (recordingFlag == true && startTimeStamp != 0 && fileWriter!.status == .writing) {
+            if fileWriterInput?.isReadyForMoreMediaData != nil{
+                //for speed check
+                print(frameTime.value - lastFrameTime)
+                lastFrameTime = frameTime.value
+                //
+                fileWriterAdapter.append(renderedBuffer, withPresentationTime: frameTime)
+            }
+        } else {
+            //print("not writing")
+        }
     }
 
+}
+
+extension UIImage {
+    func toCVPixelBuffer() -> CVPixelBuffer? {
+        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+        var pixelBuffer : CVPixelBuffer?
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(self.size.width), Int(self.size.height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
+        guard status == kCVReturnSuccess else {
+            return nil
+        }
+
+        if let pixelBuffer = pixelBuffer {
+            CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
+            let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer)
+
+            let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+            let context = CGContext(data: pixelData, width: Int(self.size.width), height: Int(self.size.height), bitsPerComponent: 8, bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer), space: rgbColorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue)
+
+            context?.translateBy(x: 0, y: self.size.height)
+            context?.scaleBy(x: 1.0, y: -1.0)
+
+            UIGraphicsPushContext(context!)
+            self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+            UIGraphicsPopContext()
+            CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
+
+            return pixelBuffer
+        }
+
+        return nil
+    }
 }
