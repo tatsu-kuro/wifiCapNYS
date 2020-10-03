@@ -38,9 +38,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     
     // for video resolution/fps (constants)
-    var Width: Int32 = 0
-    var Height: Int32 = 0
-    var FPS: Float64 = 0
+    var iCapNYSWidth: Int32 = 0
+    var iCapNYSHeight: Int32 = 0
+    var iCapNYSFPS: Float64 = 0
     
     
     //for gyro and face drawing
@@ -51,7 +51,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var quater2:Double=0
     var quater3:Double=0
     var readingF = false
-    
+    var timer:Timer?
     var tapF:Bool=false//??
     
     var rpk1 = Array(repeating: CGFloat(0), count:500)
@@ -83,7 +83,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView: UIImageView!
     @IBOutlet weak var topLabel: UILabel!//storyboardで使っている！大事
-    
+    func killTimer(){
+        if timer?.isValid == true {
+            timer!.invalidate()
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         //iCapNYSアルバムがなければ作成し、iCapNYSAlbumにアルバムを代入
@@ -118,30 +122,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        let str=getFilesindoc()
 //        print(str)
     }
-    
-//    @objc func update(tm: Timer) {
-//        //        print(nq0,nq1,nq2,nq3 as Any)
-////        print("update**")
-//        readingF=true
-//        let qCG0=CGFloat(quater0)
-//        let qCG1=CGFloat(quater1)
-//        let qCG2=CGFloat(quater2)
-//        let qCG3=CGFloat(quater3)
-//        readingF=false
-//        let quaterImage = drawHead(width: 80, height: 80, qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
-//        setImage(newImage: quaterImage)
-//        if recordingFlag==true{
-////            var cnt60:Int?
-//            counter += 1
-//            let cnt60=counter/60
-//            currentTime.text=String(format:"%01d",cnt60/60) + ":" + String(format: "%02d",cnt60%60)
-//            if cnt60%2==0{
-//                stopButton.tintColor=UIColor.orange
-//            }else{
-//                stopButton.tintColor=UIColor.red
-//            }
-//        }
-//    }
+    var timerCnt:Int=0
+    @objc func update(tm: Timer) {
+        if recordingFlag==true{
+            timerCnt += 1
+            currentTime.text=String(format:"%01d",timerCnt/60) + ":" + String(format: "%02d",timerCnt%60)
+            if timerCnt%2==0{
+                stopButton.tintColor=UIColor.orange
+            }else{
+                stopButton.tintColor=UIColor.red
+            }
+        }
+    }
     
    
     func setMotion(){
@@ -293,22 +285,30 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         var maxWidth: Int32 = 0
         
         // フォーマットを探る
+//        var getDesiedformat:Bool=false
         for format in videoDevice!.formats {
             // フォーマット内の情報を抜き出す (for in と書いているが1つの format につき1つの range しかない)
+//            if getDesiedformat==true{
+//                break
+//            }
             for range: AVFrameRateRange in format.videoSupportedFrameRateRanges {
                 let description = format.formatDescription as CMFormatDescription    // フォーマットの説明
                 let dimensions = CMVideoFormatDescriptionGetDimensions(description)  // 幅・高さ情報を抜き出す
                 let width = dimensions.width
+                print(dimensions.width,dimensions.height)
                 if desiredFps == range.maxFrameRate && width == 1280{//}>= maxWidth {
                     selectedFormat = format
                     maxWidth = width
+ //                   getDesiedformat=true
+                    print(range.maxFrameRate,dimensions.width,dimensions.height)
+ //                   break
                 }
             }
         }
 //ipod touch 1280x720 1440*1080
 //SE 960x540 1280x720 1920x1080
 //11 192x144 352x288 480x360 640x480 1024x768 1280x720 1440x1080 1920x1080 3840x2160
-
+//1280に設定すると上手く行く。合成のところには1920x1080で飛んでくるようだ。？
         // フォーマットが取得できていれば設定する
         if selectedFormat != nil {
             do {
@@ -320,10 +320,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 
                 let description = selectedFormat.formatDescription as CMFormatDescription    // フォーマットの説明
                 let dimensions = CMVideoFormatDescriptionGetDimensions(description)  // 幅・高さ情報を抜き出す
-                Width = dimensions.width
-                Height = dimensions.height
-                FPS = desiredFps
-                print("フォーマット・フレームレートを設定 : \(desiredFps) fps・\(Width) px x \(Height) px")
+                iCapNYSWidth = dimensions.width
+                iCapNYSHeight = dimensions.height
+                iCapNYSFPS = desiredFps
+                print("フォーマット・フレームレートを設定 : \(desiredFps) fps・\(iCapNYSWidth) px x \(iCapNYSHeight) px")
                 
                 retF=true
             }
@@ -451,8 +451,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         let videoOutputSettings: Dictionary<String, AnyObject> = [
             AVVideoCodecKey: AVVideoCodecType.h264 as AnyObject,
-            AVVideoHeightKey: Width as AnyObject,
-            AVVideoWidthKey: Height as AnyObject
+            AVVideoHeightKey: iCapNYSWidth as AnyObject,
+            AVVideoWidthKey: iCapNYSHeight as AnyObject
         ]
         fileWriterInput = AVAssetWriterInput(mediaType:AVMediaType.video, outputSettings: videoOutputSettings)
         fileWriterInput.expectsMediaDataInRealTime = true
@@ -462,8 +462,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             assetWriterInput: fileWriterInput,
             sourcePixelBufferAttributes: [
                 kCVPixelBufferPixelFormatTypeKey as String:Int(kCVPixelFormatType_32BGRA),
-                kCVPixelBufferHeightKey as String: Width,
-                kCVPixelBufferWidthKey as String: Height,
+                kCVPixelBufferHeightKey as String: iCapNYSWidth,
+                kCVPixelBufferWidthKey as String: iCapNYSHeight,
             ]
         )
     }
@@ -532,6 +532,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         // stop recording
         debugPrint("onClickStopButton")
         recordingFlag=false
+        if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
+            AudioServicesCreateSystemSoundID(soundUrl, &soundIdstop)
+            AudioServicesPlaySystemSound(soundIdstart)
+        }
         if fileWriter!.status == .writing {
 
             fileWriter!.finishWriting {
@@ -577,9 +581,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         motionManager.stopDeviceMotionUpdates()
         captureSession.stopRunning()
+        killTimer()
         performSegue(withIdentifier: "fromRecord", sender: self)
-        
-        recordingFlag=false
     }
     
     
@@ -593,7 +596,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             currentTime.isHidden=false
             
             exitButton.isHidden=true
-            //            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
             UIApplication.shared.isIdleTimerDisabled = true//スリープしない
             if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
                 AudioServicesCreateSystemSoundID(soundUrl, &soundIdstart)
@@ -689,7 +692,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //kaiten
         let matrix1 = CGAffineTransform(rotationAngle: -1 * CGFloat.pi / 2)
 //        let matrix2 = CGAffineTransform(scaleX: -1.5, y: 2.0)
-                 // 画像を移動 1280で良さそうなものの1920とは？
+        //width:1280と設定しているが？
+        // 画像を移動 1280で良さそうなものの1920とはこれいかに？
         let matrix3 = CGAffineTransform(translationX: 0, y: CGFloat(1920))
         //2つのアフィンを組み合わせ
         let matrix4 = matrix1.concatenating(matrix3);
@@ -714,10 +718,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //VTCreateCGImageFromCVPixelBuffer(frame, options: nil, imageOut: &frameCGImage)
         //let frameUIImage = UIImage(cgImage: frameCGImage!)
         let frameUIImage = UIImage(ciImage: rotatedCIImage)
+        print(frameUIImage.size.width,frameUIImage.size.height)
+        UIGraphicsBeginImageContext(CGSize(width: CGFloat(iCapNYSHeight), height: CGFloat(iCapNYSWidth)))
         
-        UIGraphicsBeginImageContext(CGSize(width: CGFloat(Height), height: CGFloat(Width)))
-        
-        frameUIImage.draw(in: CGRect(x: 0, y: 0, width: CGFloat(Height), height: CGFloat(Width)))
+        frameUIImage.draw(in: CGRect(x: 0, y: 0, width: CGFloat(iCapNYSHeight), height: CGFloat(iCapNYSWidth)))
         quaterImage.draw(in: CGRect(x:0, y:0, width:quaterImage.size.width, height:quaterImage.size.height))
         
         let renderedImage = UIGraphicsGetImageFromCurrentImageContext()
