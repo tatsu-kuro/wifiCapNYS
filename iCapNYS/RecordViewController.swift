@@ -296,7 +296,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 let description = format.formatDescription as CMFormatDescription    // フォーマットの説明
                 let dimensions = CMVideoFormatDescriptionGetDimensions(description)  // 幅・高さ情報を抜き出す
                 let width = dimensions.width
-                print(dimensions.width,dimensions.height)
+//                print(dimensions.width,dimensions.height)
                 if desiredFps == range.maxFrameRate && width == 1280{//}>= maxWidth {
                     selectedFormat = format
                     maxWidth = width
@@ -429,17 +429,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         captureSession.addOutput(videoDataOutput)
         captureSession.startRunning()
         
+        // ファイル出力設定
+//        fileOutput = AVCaptureMovieFileOutput()
+//        fileOutput.maxRecordedDuration = CMTimeMake(value:5*60, timescale: 1)//最長録画時間
+//        session.addOutput(fileOutput)
         //ファイル出力設定　writer使用
-
-        //一時ファイルに記録し、書き込み終了後にアルバムに追加する。
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
-//        newFilePath = "iCapNYS\(formatter.string(from: Date())).MOV"
-//        newFilePath = "\(documentsDirectory)/" + newFilePath
-//        let fileURL = NSURL(fileURLWithPath: newFilePath)
         
-        
-
 
         print ("TempFilePATH",TempFilePath)
         startTimeStamp = 0
@@ -537,7 +532,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                           "/System/Library/Audio/UISounds/end_record.caf"/*photoShutter.caf*/){
             AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
             AudioServicesPlaySystemSound(soundIdx)
-            print("soundError:******:")
         }
         if fileWriter!.status == .writing {
 
@@ -620,7 +614,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
-        print("tap:",x0,y0,screenSize.height)
+//        print("tap:",x0,y0,screenSize.height)
         
         if y0>screenSize.height*5/6{
             return
@@ -724,7 +718,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //VTCreateCGImageFromCVPixelBuffer(frame, options: nil, imageOut: &frameCGImage)
         //let frameUIImage = UIImage(cgImage: frameCGImage!)
         let frameUIImage = UIImage(ciImage: rotatedCIImage)
-        print(frameUIImage.size.width,frameUIImage.size.height)
+//        print(frameUIImage.size.width,frameUIImage.size.height)
         UIGraphicsBeginImageContext(CGSize(width: CGFloat(iCapNYSHeight), height: CGFloat(iCapNYSWidth)))
         
         frameUIImage.draw(in: CGRect(x: 0, y: 0, width: CGFloat(iCapNYSHeight), height: CGFloat(iCapNYSWidth)))
