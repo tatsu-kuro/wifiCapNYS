@@ -101,7 +101,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         // Do any additional setup after loading the view.
 //        timer = Timer.scheduledTimer(timeInterval: 1/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも
+        initSession(fps: 30)//60)//遅ければ30fpsにせざるを得ないかも
         //30だと最高解像度が上がるため画像処理にかかる時間が結果的に増えてしまうので一旦加速度データを別で保存し、動画保存後に再処理する必要があるかも
         //おそらくUIImageで処理しているせいで遅い。
         currentTime.layer.masksToBounds = true
@@ -686,9 +686,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             return
         }
         let frameCIImage = CIImage(cvImageBuffer: frame)
-        
-        let matrix = CGAffineTransform(rotationAngle: -1 * CGFloat.pi / 2)
-        let rotatedCIImage = frameCIImage.transformed(by: matrix)
+        //kaiten
+        let matrix1 = CGAffineTransform(rotationAngle: -1 * CGFloat.pi / 2)
+//        let matrix2 = CGAffineTransform(scaleX: -1.5, y: 2.0)
+                 // 画像を移動 1280で良さそうなものの1920とは？
+        let matrix3 = CGAffineTransform(translationX: 0, y: CGFloat(1920))
+        //2つのアフィンを組み合わせ
+        let matrix4 = matrix1.concatenating(matrix3);
+        let rotatedCIImage = frameCIImage.transformed(by: matrix4)
         readingF=true
         let qCG0=CGFloat(quater0)
         let qCG1=CGFloat(quater1)
@@ -696,7 +701,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let qCG3=CGFloat(quater3)
         readingF=false
         
-        let quaterImage = drawHead(width: 400, height: 400, radius: 180,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+        let quaterImage = drawHead(width: 130, height: 130, radius: 60,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
         DispatchQueue.main.async {
           self.quaternionView.image = quaterImage
           self.quaternionView.setNeedsLayout()
