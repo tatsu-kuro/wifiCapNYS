@@ -17,6 +17,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
+    var soundIdx:SystemSoundID = 0
 
     var recordingFlag:Bool = false
     let motionManager = CMMotionManager()
@@ -532,9 +533,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         // stop recording
         debugPrint("onClickStopButton")
         recordingFlag=false
-        if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
-            AudioServicesCreateSystemSoundID(soundUrl, &soundIdstop)
-            AudioServicesPlaySystemSound(soundIdstart)
+        if let soundUrl = URL(string:
+                          "/System/Library/Audio/UISounds/end_record.caf"/*photoShutter.caf*/){
+            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+            AudioServicesPlaySystemSound(soundIdx)
+            print("soundError:******:")
         }
         if fileWriter!.status == .writing {
 
@@ -585,7 +588,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
     
-    
     @IBAction func onClickStartButton(_ sender: Any) {
 
 
@@ -598,10 +600,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             exitButton.isHidden=true
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
             UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-            if let soundUrl = CFBundleCopyResourceURL(CFBundleGetMainBundle(), nil, nil, nil){
-                AudioServicesCreateSystemSoundID(soundUrl, &soundIdstart)
-                AudioServicesPlaySystemSound(soundIdstart)
-            }
+        
+        
+//        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if let soundUrl = URL(string:
+                          "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+            AudioServicesPlaySystemSound(soundIdx)
+        }
             fileWriter!.startWriting()
             fileWriter!.startSession(atSourceTime: CMTime.zero)
             print(fileWriter?.error)

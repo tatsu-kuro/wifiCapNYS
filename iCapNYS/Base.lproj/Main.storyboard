@@ -86,7 +86,7 @@
                                     <constraint firstAttribute="width" secondItem="Pah-7o-hki" secondAttribute="height" multiplier="1:1" id="8OB-XS-DY7"/>
                                 </constraints>
                                 <color key="tintColor" systemColor="systemOrangeColor"/>
-                                <state key="normal" image="largecircle.fill.circle" catalog="system"/>
+                                <state key="normal" image="stop.circle" catalog="system"/>
                                 <connections>
                                     <action selector="onClickStopButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="Yva-hP-8Do"/>
                                 </connections>
@@ -112,7 +112,7 @@
                                     <constraint firstAttribute="width" secondItem="5bD-tH-WDM" secondAttribute="height" multiplier="1:1" id="kDi-hq-kEu"/>
                                 </constraints>
                                 <color key="tintColor" systemColor="systemRedColor"/>
-                                <state key="normal" image="stop.circle" catalog="system"/>
+                                <state key="normal" image="largecircle.fill.circle" catalog="system"/>
                                 <connections>
                                     <action selector="onClickStartButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="zgY-w5-GBI"/>
                                 </connections>

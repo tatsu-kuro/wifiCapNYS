@@ -52,6 +52,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if segue.identifier=="fromRecord"{
 //            print("同じ")
         }
+        UIApplication.shared.isIdleTimerDisabled = false//スリープする
         if let vc = segue.source as? RecordViewController{
             let Controller:RecordViewController = vc
             print("segue:","\(segue.identifier!)")
@@ -293,4 +294,4 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
 }
-
+//UIApplication.shared.isIdleTimerDisabled = true//スリープしない
