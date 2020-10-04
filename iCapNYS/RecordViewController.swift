@@ -583,32 +583,31 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     @IBAction func onClickStartButton(_ sender: Any) {
-
-
-            recordingFlag=true
-            //start recording
-            startButton.isHidden=true
-            stopButton.isHidden=false
-            currentTime.isHidden=false
-            
-            exitButton.isHidden=true
-            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
+        //sensorをリセットし、正面に
+        motionManager.stopDeviceMotionUpdates()
+        recordingFlag=true
+        //start recording
+        startButton.isHidden=true
+        stopButton.isHidden=false
+        currentTime.isHidden=false
+        
+        exitButton.isHidden=true
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        UIApplication.shared.isIdleTimerDisabled = true//スリープしない
         
         
-//        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+        //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
         if let soundUrl = URL(string:
-                          "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+                                "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
             AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
             AudioServicesPlaySystemSound(soundIdx)
         }
-            fileWriter!.startWriting()
-            fileWriter!.startSession(atSourceTime: CMTime.zero)
-            print(fileWriter?.error)
+        fileWriter!.startWriting()
+        fileWriter!.startSession(atSourceTime: CMTime.zero)
+        print(fileWriter?.error)
+        setMotion()
     }
 
-    
-    
     @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
     
         let screenSize=cameraView.bounds.size
@@ -676,8 +675,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var lastFrameTime: Int64 = 0
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        //print(sampleBuffer)
-        
+     
         if fileWriter.status == .writing && startTimeStamp == 0 {
             startTimeStamp = sampleBuffer.outputPresentationTimeStamp.value
         }
@@ -691,13 +689,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let frameCIImage = CIImage(cvImageBuffer: frame)
         //kaiten
         let matrix1 = CGAffineTransform(rotationAngle: -1 * CGFloat.pi / 2)
-//        let matrix2 = CGAffineTransform(scaleX: -1.5, y: 2.0)
+//        let matrix = CGAffineTransform(scaleX: -1.5, y: 2.0)
         //width:1280と設定しているが？
+        //width:1920で飛んで来ている
         // 画像を移動 1280で良さそうなものの1920とはこれいかに？
-        let matrix3 = CGAffineTransform(translationX: 0, y: CGFloat(1920))
+        let matrix2 = CGAffineTransform(translationX: 0, y: CGFloat(1920))
         //2つのアフィンを組み合わせ
-        let matrix4 = matrix1.concatenating(matrix3);
-        let rotatedCIImage = frameCIImage.transformed(by: matrix4)
+        let matrix = matrix1.concatenating(matrix2);
+        let rotatedCIImage = frameCIImage.transformed(by: matrix)
         readingF=true
         let qCG0=CGFloat(quater0)
         let qCG1=CGFloat(quater1)
