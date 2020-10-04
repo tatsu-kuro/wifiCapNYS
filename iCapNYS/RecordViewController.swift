@@ -32,10 +32,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var fileWriterAdapter: AVAssetWriterInputPixelBufferAdaptor!
     var startTimeStamp:Int64 = 0
     
-    let ALBUMTITLE = "iCapNYS" // アルバム名
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     var newFilePath: String = ""
     var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
+    let ALBUMTITLE = "iCapNYS" // アルバム名
 
     
     // for video resolution/fps (constants)
@@ -440,7 +440,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startTimeStamp = 0
         //一時ファイルはこの時点で必ず消去
         //let TempFilePath = "\(NSTemporaryDirectory())temp.mp4"
-        try? FileManager.default.removeItem(atPath: TempFilePath)
+//        try? FileManager.default.removeItem(atPath: TempFilePath)
         let fileURL = NSURL(fileURLWithPath: TempFilePath)
         setMotion()//作動中ならそのまま戻る
         fileWriter = try? AVAssetWriter(outputURL: fileURL as URL, fileType: AVFileType.mov)
@@ -590,8 +590,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=true
         stopButton.isHidden=false
         currentTime.isHidden=false
-        
         exitButton.isHidden=true
+        
+        try? FileManager.default.removeItem(atPath: TempFilePath)
+
+        
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         UIApplication.shared.isIdleTimerDisabled = true//スリープしない
         

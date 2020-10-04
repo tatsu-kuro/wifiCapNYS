@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var videoTitle = Array<String>()
     var videoPath = Array<String>()
     var videoTitleofAlbum = Array<String>()
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return videoTitle.count//fruits.count
     }
@@ -46,6 +47,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //            tableView?.reloadData()
 //        }
 //    }
+    @IBOutlet weak var playButton: UIButton!
+    
     @IBOutlet weak var cameraButton: UIButton!
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
 //        let lastCnt=videoTitle.count
@@ -82,13 +85,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         camera_alert()
-        cameraButton.layer.borderColor = UIColor.green.cgColor
-        cameraButton.layer.borderWidth = 2.0
-        cameraButton.layer.cornerRadius = 10
-        videoTitleofAlbum.removeAll()
-        setTitleofAlbumArray()
-        print(videoTitleofAlbum.count)
-        
+        cameraButton.layer.borderColor = UIColor.orange.cgColor
+        cameraButton.layer.borderWidth = 10.0
+        cameraButton.layer.cornerRadius = 30
+        playButton.layer.borderColor = UIColor.orange.cgColor
+        playButton.layer.borderWidth = 10.0
+        playButton.layer.cornerRadius = 30
+        playButton.titleLabel!.lineBreakMode = NSLineBreakMode.byWordWrapping
+        playButton.titleLabel!.numberOfLines = 3
+        playButton.titleLabel!.textAlignment = NSTextAlignment.center
+//        videoTitleofAlbum.removeAll()
+//        setTitleofAlbumArray()
+//        print(videoTitleofAlbum.count)
+        let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
+        let fileURL = NSURL(fileURLWithPath: TempFilePath)
 //        tableView.dataSource = self
 //        tableView.delegate = self
 //        print(getFilesindoc())
@@ -98,7 +108,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         setPathTitleArray()
 //        searchAlbum()
-        tableView.reloadData()
+//        tableView.reloadData()
         super.viewWillAppear(animated)
         print("viewwillappear")
     }
