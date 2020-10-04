@@ -50,20 +50,10 @@ class PlayViewController: UIViewController{
         return URL(fileURLWithPath: vidpath)
     }
    
-    
-   
     override func viewDidLoad() {
         super.viewDidLoad()
+//        view.frame = CGRect(x: 0, y: view.safeAreaInsets.top, width: view.bounds.width, height: view.bounds.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom )
         let fileURL = URL(fileURLWithPath: TempFilePath)
-//        let checkValidation = FileManager.default
-//
-//        if (checkValidation.fileExists(atPath: TempFilePath)){
-//            print("ファイルあり、FILE AVAILABLE");
-//        }else{
-//            print("ファイル無し、FILE NOT AVAILABLE");
-// //           performSegue(withIdentifier: "fromPlay", sender: self)
-// //           return
-//        }
         let options = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
         let avAsset = AVURLAsset(url: fileURL, options: options)
         let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset)
@@ -136,17 +126,17 @@ class PlayViewController: UIViewController{
         })
    
         let bw=(ww-100)/4
-        backButton = UIButton(frame: CGRect(x: 10, y: wh-bh, width: bw, height: bh))
-        backButton.layer.masksToBounds = true
-        backButton.layer.cornerRadius = 5.0
-        backButton.backgroundColor = UIColor.darkGray
-        backButton.setTitle("<", for: UIControl.State.normal)
-        backButton.layer.borderColor = UIColor.green.cgColor
-        backButton.layer.borderWidth = 1.0
-        backButton.addTarget(self, action: #selector(onBackButtonTapped), for: UIControl.Event.touchUpInside)
-        view.addSubview(backButton)
+//        backButton = UIButton(frame: CGRect(x: 10, y: wh-bh, width: bw, height: bh))
+//        backButton.layer.masksToBounds = true
+//        backButton.layer.cornerRadius = 5.0
+//        backButton.backgroundColor = UIColor.darkGray
+//        backButton.setTitle("<", for: UIControl.State.normal)
+//        backButton.layer.borderColor = UIColor.green.cgColor
+//        backButton.layer.borderWidth = 1.0
+//        backButton.addTarget(self, action: #selector(onBackButtonTapped), for: UIControl.Event.touchUpInside)
+//        view.addSubview(backButton)
         // Create Movie Start Button
-        startButton = UIButton(frame: CGRect(x: 10+bw+10, y: wh-bh, width: bw, height: bh))
+        startButton = UIButton(frame: CGRect(x: ww/2-bw, y: wh-bh, width: bw*2, height: bh))
         startButton.layer.masksToBounds = true
         startButton.layer.cornerRadius = 5.0
         startButton.backgroundColor = UIColor.darkGray
@@ -157,16 +147,16 @@ class PlayViewController: UIViewController{
         startButton.addTarget(self, action: #selector(onStartButtonTapped), for: UIControl.Event.touchUpInside)
  
         view.addSubview(startButton)
-        //         Create next Button
-        nextButton = UIButton(frame: CGRect(x: 10+bw+10+bw+10, y: wh-bh, width: bw, height: bh))
-        nextButton.layer.masksToBounds = true
-        nextButton.layer.cornerRadius = 5.0
-        nextButton.backgroundColor = UIColor.darkGray
-        nextButton.setTitle(">", for: UIControl.State.normal)
-        nextButton.layer.borderColor = UIColor.green.cgColor
-        nextButton.layer.borderWidth = 1.0
-        nextButton.addTarget(self, action: #selector(onNextButtonTapped), for: UIControl.Event.touchUpInside)
-          view.addSubview(nextButton)
+//        //         Create next Button
+//        nextButton = UIButton(frame: CGRect(x: 10+bw+10+bw+10, y: wh-bh, width: bw, height: bh))
+//        nextButton.layer.masksToBounds = true
+//        nextButton.layer.cornerRadius = 5.0
+//        nextButton.backgroundColor = UIColor.darkGray
+//        nextButton.setTitle(">", for: UIControl.State.normal)
+//        nextButton.layer.borderColor = UIColor.green.cgColor
+//        nextButton.layer.borderWidth = 1.0
+//        nextButton.addTarget(self, action: #selector(onNextButtonTapped), for: UIControl.Event.touchUpInside)
+//          view.addSubview(nextButton)
         
         exitButton = UIButton(frame:CGRect(x: ww-90, y: wh-bh, width: 80, height: bh))
         exitButton.layer.masksToBounds = true
