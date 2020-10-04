@@ -18,9 +18,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sr7-zO-6eg">
-                                <rect key="frame" x="0.0" y="862" width="414" height="0.0"/>
+                                <rect key="frame" x="0.0" y="842" width="414" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" id="fSb-6f-A3B"/>
+                                    <constraint firstAttribute="height" constant="20" id="SgG-7e-xdN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -30,8 +30,8 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="832"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XCS-VA-sqk">
-                                        <rect key="frame" x="187" y="406" width="80" height="40"/>
+                                    <button opaque="NO" alpha="0.10000000000000001" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XCS-VA-sqk">
+                                        <rect key="frame" x="8" y="8" width="80" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -39,7 +39,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <segue destination="YnX-Vo-NH4" kind="unwind" identifier="fromPlay" unwindAction="unwindActionWithSegue:" id="Jgg-bK-Cuc"/>
+                                            <segue destination="YnX-Vo-NH4" kind="unwind" identifier="mainFromPlay" unwindAction="unwindActionWithSegue:" id="Jgg-bK-Cuc"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -49,9 +49,9 @@
                         <viewLayoutGuide key="safeArea" id="I0l-kG-AVa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Sr7-zO-6eg" secondAttribute="trailing" id="5T3-9w-akU"/>
-                            <constraint firstItem="Sr7-zO-6eg" firstAttribute="leading" secondItem="trx-MY-Ccg" secondAttribute="leading" id="Vky-xV-vdZ"/>
-                            <constraint firstItem="Sr7-zO-6eg" firstAttribute="bottom" secondItem="I0l-kG-AVa" secondAttribute="bottom" id="vvI-V5-h7r"/>
+                            <constraint firstItem="Sr7-zO-6eg" firstAttribute="bottom" secondItem="I0l-kG-AVa" secondAttribute="bottom" id="6oR-pR-qdU"/>
+                            <constraint firstItem="Sr7-zO-6eg" firstAttribute="leading" secondItem="trx-MY-Ccg" secondAttribute="leading" id="8up-DI-li8"/>
+                            <constraint firstAttribute="trailing" secondItem="Sr7-zO-6eg" secondAttribute="trailing" id="sDz-Tc-lpu"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3iq-ZH-Akx"/>
