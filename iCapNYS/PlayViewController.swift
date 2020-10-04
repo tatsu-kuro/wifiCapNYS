@@ -54,24 +54,18 @@ class PlayViewController: UIViewController{
    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        if videoPath==""{
-//              return
-//        }
         let fileURL = URL(fileURLWithPath: TempFilePath)
-        // Create AVPlayerItem
-//        guard let path = Bundle.main.path(forResource: "vhit20", ofType: "mov") else {
-//            fatalError("Movie file can not find.")
+//        let checkValidation = FileManager.default
+//
+//        if (checkValidation.fileExists(atPath: TempFilePath)){
+//            print("ファイルあり、FILE AVAILABLE");
+//        }else{
+//            print("ファイル無し、FILE NOT AVAILABLE");
+// //           performSegue(withIdentifier: "fromPlay", sender: self)
+// //           return
 //        }
-//        let fileURL = getfileURL(path: videoPath!)
         let options = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
         let avAsset = AVURLAsset(url: fileURL, options: options)
-//        print("fps:",avAsset.tracks.first!.nominalFrameRate)
-//        currentFPS=avAsset.tracks.first!.nominalFrameRate
-//        let ww=view.bounds.width
-//        let wh=view.bounds.height
-        
-//        let fileURL = URL(fileURLWithPath: path)
-//        let avAsset = AVURLAsset(url: fileURL)
         let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset)
         // Create AVPlayer
         videoPlayer = AVPlayer(playerItem: playerItem)
@@ -83,17 +77,29 @@ class PlayViewController: UIViewController{
         layer.frame = view.bounds
         view.layer.addSublayer(layer)
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-//        setButtons()
+        setButtons()
     }
     override func viewDidAppear(_ animated: Bool) {
-        setButtons()
+ //       setButtons()
     }
     func setButtons(){
         let bottomY=damySoko.frame.minY
         let ww=view.bounds.width
         let wh=bottomY//view.bounds.height
         let bh:CGFloat=(ww-20-6*4)/7//トップページのボタンの高さ
-        
+ /*
+         if let path = Bundle.main.path(forResource: "test", ofType: "csv") {
+             print("exists", path)
+             //=> exists /var/containers/Bundle/Application/(中略)/ProjectName.app/test.csv
+
+             //このpathを与えてやれば.fileExistsでも判別できる
+             print(FileManager.default.fileExists(atPath: path))
+             //=> true
+         } else {
+             print("does not exist")
+         }
+
+         */
 //        let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
 //        let fileURL = NSURL(fileURLWithPath: TempFilePath)
         let fileURL = URL(fileURLWithPath: TempFilePath)
@@ -115,6 +121,7 @@ class PlayViewController: UIViewController{
  
         // Set SeekBar Interval
         let interval : Double = Double(0.005 * seekBar.maximumValue) / Double(seekBar.bounds.maxX)
+        
         // ConvertCMTime
         let time : CMTime = CMTimeMakeWithSeconds(interval, preferredTimescale: Int32(NSEC_PER_SEC))
         // Observer
@@ -246,7 +253,7 @@ class PlayViewController: UIViewController{
         if seekBarValue>duration-0.5{
             seekBarValue=duration-0.5//これがないとフレームが読めないことがある。
         }
-        self.performSegue(withIdentifier: "mainFromPlay", sender: self)
+        self.performSegue(withIdentifier: "fromPlay", sender: self)
     }
     // SeekBar Value Changed
     @objc func onSliderValueChange(){

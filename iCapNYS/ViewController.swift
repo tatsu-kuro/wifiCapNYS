@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var videoTitle = Array<String>()
     var videoPath = Array<String>()
     var videoTitleofAlbum = Array<String>()
+    let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return videoTitle.count//fruits.count
@@ -39,7 +40,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 return cell
     }
-    @IBOutlet weak var tableView: UITableView!
+//    @IBOutlet weak var tableView: UITableView!
 //    @IBOutlet weak var cameraView: UIImageView!
 //    @IBOutlet weak var currentTime: UILabel!
 //    private var users: [tableView] = [] {
@@ -55,6 +56,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if segue.identifier=="fromRecord"{
 //            print("同じ")
         }
+        setPlayButtonEnable()//tempFilePathがあれば有効化
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
         if let vc = segue.source as? RecordViewController{
             let Controller:RecordViewController = vc
@@ -82,6 +84,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // フォトライブラリに写真を保存するなど、実施したいことをここに書く
         }
     }
+    func setPlayButtonEnable(){
+        let checkValidation = FileManager.default
+        if (checkValidation.fileExists(atPath: TempFilePath)){
+            playButton.setTitle("最新録画再生\nin the album\niCapNYS", for: .normal)
+            print("ファイルあり、FILE AVAILABLE");
+            playButton.isEnabled=true
+        }else{
+            playButton.setTitle("録画ファイルが\nありません。", for: .normal)
+            print("ファイル無し、FILE NOT AVAILABLE");
+            playButton.isEnabled=false
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         camera_alert()
@@ -94,10 +108,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         playButton.titleLabel!.lineBreakMode = NSLineBreakMode.byWordWrapping
         playButton.titleLabel!.numberOfLines = 3
         playButton.titleLabel!.textAlignment = NSTextAlignment.center
+        setPlayButtonEnable()
 //        videoTitleofAlbum.removeAll()
 //        setTitleofAlbumArray()
 //        print(videoTitleofAlbum.count)
-        let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
+//        let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
         let fileURL = NSURL(fileURLWithPath: TempFilePath)
 //        tableView.dataSource = self
 //        tableView.delegate = self
