@@ -436,10 +436,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //ファイル出力設定　writer使用
         
 
-        print ("TempFilePATH",TempFilePath)
+//        print ("TempFilePATH",TempFilePath)
         startTimeStamp = 0
         //一時ファイルはこの時点で必ず消去
-        //let TempFilePath = "\(NSTemporaryDirectory())temp.mp4"
+        //start recordのところで消去でも動くようだ。Exitで抜けた時は消さないように下行はコメントアウト
 //        try? FileManager.default.removeItem(atPath: TempFilePath)
         let fileURL = NSURL(fileURLWithPath: TempFilePath)
         setMotion()//作動中ならそのまま戻る
@@ -574,7 +574,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 print(error)
 
             }
-            _ = try? FileManager.default.removeItem(atPath: self.TempFilePath)
+//            _ = try? FileManager.default.removeItem(atPath: self.TempFilePath)
         }
         motionManager.stopDeviceMotionUpdates()
         captureSession.stopRunning()
@@ -695,7 +695,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        let matrix = CGAffineTransform(scaleX: -1.5, y: 2.0)
         //width:1280と設定しているが？
         //width:1920で飛んで来ている
-        // 画像を移動 1280で良さそうなものの1920とはこれいかに？
         let matrix2 = CGAffineTransform(translationX: 0, y: CGFloat(1920))
         //2つのアフィンを組み合わせ
         let matrix = matrix1.concatenating(matrix2);

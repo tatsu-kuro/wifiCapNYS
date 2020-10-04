@@ -17,7 +17,7 @@ class PlayViewController: UIViewController{
     var nextButton:UIButton!
     var backButton:UIButton!
     var playF:Bool=false
-
+    let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     var duration:Float=0
     var currTime:UILabel?
 //    var duraTime:UILabel?
@@ -31,6 +31,18 @@ class PlayViewController: UIViewController{
              timer.invalidate()
          }
      }
+    @objc func update(tm: Timer) {
+        if playF==true{
+            if seekBarValue>duration-0.1{
+                startButton.setTitle("Play", for: UIControl.State.normal)
+                playF=false
+                videoPlayer.pause()
+                seekBarValue=0
+                let newTime = CMTime(seconds: Double(seekBarValue), preferredTimescale: 600)
+                videoPlayer.seek(to: newTime, toleranceBefore: .zero, toleranceAfter: .zero)
+            }
+        }
+    }
     func getfileURL(path:String)->URL{
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentsDirectory = paths[0] as String
@@ -39,12 +51,40 @@ class PlayViewController: UIViewController{
     }
    
     
+   
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+//        if videoPath==""{
+//              return
+//        }
+        let fileURL = URL(fileURLWithPath: TempFilePath)
+        // Create AVPlayerItem
+//        guard let path = Bundle.main.path(forResource: "vhit20", ofType: "mov") else {
+//            fatalError("Movie file can not find.")
+//        }
+//        let fileURL = getfileURL(path: videoPath!)
+        let options = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
+        let avAsset = AVURLAsset(url: fileURL, options: options)
+//        print("fps:",avAsset.tracks.first!.nominalFrameRate)
+//        currentFPS=avAsset.tracks.first!.nominalFrameRate
+//        let ww=view.bounds.width
+//        let wh=view.bounds.height
+        
+//        let fileURL = URL(fileURLWithPath: path)
+//        let avAsset = AVURLAsset(url: fileURL)
+        let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset)
+        // Create AVPlayer
+        videoPlayer = AVPlayer(playerItem: playerItem)
+        // Add AVPlayer
+        let layer = AVPlayerLayer()
+        //            layer.videoGravity = AVLayerVideoGravity.resizeAspect
+        layer.videoGravity = AVLayerVideoGravity.resize
+        layer.player = videoPlayer
+        layer.frame = view.bounds
+        view.layer.addSublayer(layer)
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+//        setButtons()
     }
-    
     override func viewDidAppear(_ animated: Bool) {
         setButtons()
     }
@@ -54,10 +94,10 @@ class PlayViewController: UIViewController{
         let wh=bottomY//view.bounds.height
         let bh:CGFloat=(ww-20-6*4)/7//トップページのボタンの高さ
         
-        let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
+//        let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
 //        let fileURL = NSURL(fileURLWithPath: TempFilePath)
-
-        let fileURL = getfileURL(path: TempFilePath)
+        let fileURL = URL(fileURLWithPath: TempFilePath)
+//        let fileURL = URL(path: TempFilePath)
         let options = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
         let avAsset = AVURLAsset(url: fileURL, options: options)
         // Create Movie SeekBar
@@ -72,7 +112,7 @@ class PlayViewController: UIViewController{
         seekBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
         view.addSubview(seekBar)
         // Processing to synchronize the seek bar with the movie.
- /*
+ 
         // Set SeekBar Interval
         let interval : Double = Double(0.005 * seekBar.maximumValue) / Double(seekBar.bounds.maxX)
         // ConvertCMTime
@@ -87,7 +127,7 @@ class PlayViewController: UIViewController{
             self.currTime!.text = String(format:"%.2f/%.2f",value,self.duration)
             //            self.currTime!.text = String(format:"%.2f",value)
         })
-   */
+   
         let bw=(ww-100)/4
         backButton = UIButton(frame: CGRect(x: 10, y: wh-bh, width: bw, height: bh))
         backButton.layer.masksToBounds = true
