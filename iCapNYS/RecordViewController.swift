@@ -91,15 +91,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        //iCapNYSアルバムがなければ作成し、iCapNYSAlbumにアルバムを代入
-        createNewAlbum(albumTitle: ALBUMTITLE) { (isSuccess) in
-            if isSuccess{
-                debugPrint("iCapNYS_album can be made,")
-            } else{
-                debugPrint("iCapNYS_album can't be made.")
-            }
-        }
-        
+//        //iCapNYSアルバムがなければ作成し、iCapNYSAlbumにアルバムを代入
+//        createNewAlbum(albumTitle: ALBUMTITLE) { (isSuccess) in
+//            if isSuccess{
+//                debugPrint("iCapNYS_album can be made,")
+//            } else{
+//                debugPrint("iCapNYS_album can't be made.")
+//            }
+//        }
+//        
         camera_alert()
         set_rpk_ppk()
         setMotion()
@@ -525,6 +525,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func onClickStopButton(_ sender: Any) {
+        if albumExists(albumTitle: "iCapNYS")==false{
+            createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
+                if isSuccess{
+                    print("iCapNYS_album can be made,")
+                } else{
+                    print("iCapNYS_album can't be made.")
+                }
+            }
+        }else{
+            print("iCapNYS_album exist already.")
+        }
         // stop recording
         debugPrint("onClickStopButton")
         recordingFlag=false
@@ -583,6 +594,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     @IBAction func onClickStartButton(_ sender: Any) {
+        if albumExists(albumTitle: "iCapNYS")==false{
+            createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
+                if isSuccess{
+                    print("iCapNYS_album can be made,")
+                } else{
+                    print("iCapNYS_album can't be made.")
+                }
+            }
+        }else{
+            print("iCapNYS_album exist already.")
+        }
         //sensorをリセットし、正面に
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true

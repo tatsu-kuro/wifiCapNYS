@@ -77,21 +77,7 @@ class PlayViewController: UIViewController{
         let ww=view.bounds.width
         let wh=bottomY//view.bounds.height
         let bh:CGFloat=(ww-20-6*4)/7//トップページのボタンの高さ
- /*
-         if let path = Bundle.main.path(forResource: "test", ofType: "csv") {
-             print("exists", path)
-             //=> exists /var/containers/Bundle/Application/(中略)/ProjectName.app/test.csv
-
-             //このpathを与えてやれば.fileExistsでも判別できる
-             print(FileManager.default.fileExists(atPath: path))
-             //=> true
-         } else {
-             print("does not exist")
-         }
-
-         */
-//        let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
-//        let fileURL = NSURL(fileURLWithPath: TempFilePath)
+ 
         let fileURL = URL(fileURLWithPath: TempFilePath)
 //        let fileURL = URL(path: TempFilePath)
         let options = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
