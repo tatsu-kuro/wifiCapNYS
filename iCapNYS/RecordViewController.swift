@@ -699,7 +699,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     
-    var lastFrameTime: Int64 = 0
+//    var lastFrameTime: Int64 = 0
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
      
@@ -754,12 +754,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         let renderedBuffer = (renderedImage?.toCVPixelBuffer())!
         
-        printWriterStatus(writer: fileWriter)
+//        printWriterStatus(writer: fileWriter)
         if (recordingFlag == true && startTimeStamp != 0 && fileWriter!.status == .writing) {
             if fileWriterInput?.isReadyForMoreMediaData != nil{
                 //for speed check
-                print(frameTime.value - lastFrameTime)
-                lastFrameTime = frameTime.value
+//                print(frameTime.value - lastFrameTime)
+//                lastFrameTime = frameTime.value
                 //
                 fileWriterAdapter.append(renderedBuffer, withPresentationTime: frameTime)
             }

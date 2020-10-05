@@ -87,11 +87,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func setPlayButtonEnable(){
         let checkValidation = FileManager.default
         if (checkValidation.fileExists(atPath: TempFilePath)){
-            playButton.setTitle("最新録画再生\nin the album\niCapNYS", for: .normal)
+            playButton.setTitle("iCapNYSアルバム\n\nの最新映像を\n\n再生します。", for: .normal)
             print("ファイルあり、FILE AVAILABLE");
             playButton.isEnabled=true
         }else{
-            playButton.setTitle("録画ファイルが\nありません。", for: .normal)
+            playButton.setTitle("眼振映像は\n\niCapNYSアルバムに\n\n保存されます。", for: .normal)
             print("ファイル無し、FILE NOT AVAILABLE");
             playButton.isEnabled=false
         }
@@ -99,21 +99,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         camera_alert()
-        cameraButton.layer.borderColor = UIColor.orange.cgColor
-        cameraButton.layer.borderWidth = 10.0
+//        cameraButton.layer.borderColor = UIColor.white.cgColor
+        cameraButton.setTitleColor(.white, for: .normal)
+        cameraButton.backgroundColor=UIColor.systemGreen
+//        cameraButton.layer.borderWidth = 2.0
         cameraButton.layer.cornerRadius = 30
-        playButton.layer.borderColor = UIColor.orange.cgColor
-        playButton.layer.borderWidth = 10.0
+//        playButton.layer.borderColor = UIColor.white.cgColor
+        playButton.setTitleColor(.white, for: .normal)
+        playButton.backgroundColor=UIColor.systemGreen
+//        playButton.layer.borderWidth = 2.0
         playButton.layer.cornerRadius = 30
         playButton.titleLabel!.lineBreakMode = NSLineBreakMode.byWordWrapping
-        playButton.titleLabel!.numberOfLines = 3
+        playButton.titleLabel!.numberOfLines = 5
         playButton.titleLabel!.textAlignment = NSTextAlignment.center
         setPlayButtonEnable()
 //        videoTitleofAlbum.removeAll()
 //        setTitleofAlbumArray()
 //        print(videoTitleofAlbum.count)
 //        let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
-        let fileURL = NSURL(fileURLWithPath: TempFilePath)
+//        let fileURL = NSURL(fileURLWithPath: TempFilePath)
 //        tableView.dataSource = self
 //        tableView.delegate = self
 //        print(getFilesindoc())
