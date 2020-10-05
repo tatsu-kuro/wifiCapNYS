@@ -17,24 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="top" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OH2-Wp-DAw">
-                                <rect key="frame" x="0.0" y="44" width="414" height="0.0"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" id="XdE-86-atP"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="soko" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sr7-zO-6eg">
-                                <rect key="frame" x="0.0" y="842" width="414" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="SgG-7e-xdN"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="bfs-Cj-lVp">
                                 <rect key="frame" x="0.0" y="44" width="414" height="798"/>
                                 <subviews>
@@ -58,16 +40,10 @@
                         <viewLayoutGuide key="safeArea" id="I0l-kG-AVa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="OH2-Wp-DAw" secondAttribute="trailing" id="4Aw-YV-mfF"/>
-                            <constraint firstItem="Sr7-zO-6eg" firstAttribute="bottom" secondItem="I0l-kG-AVa" secondAttribute="bottom" id="6oR-pR-qdU"/>
-                            <constraint firstItem="Sr7-zO-6eg" firstAttribute="leading" secondItem="trx-MY-Ccg" secondAttribute="leading" id="8up-DI-li8"/>
-                            <constraint firstItem="bfs-Cj-lVp" firstAttribute="top" secondItem="OH2-Wp-DAw" secondAttribute="bottom" id="CQA-aL-aXr"/>
                             <constraint firstItem="bfs-Cj-lVp" firstAttribute="trailing" secondItem="I0l-kG-AVa" secondAttribute="trailing" id="F2U-qY-giE"/>
-                            <constraint firstItem="OH2-Wp-DAw" firstAttribute="top" secondItem="I0l-kG-AVa" secondAttribute="top" id="RpQ-Bz-opp"/>
-                            <constraint firstItem="Sr7-zO-6eg" firstAttribute="top" secondItem="bfs-Cj-lVp" secondAttribute="bottom" id="cOb-5B-Wbt"/>
-                            <constraint firstItem="OH2-Wp-DAw" firstAttribute="leading" secondItem="trx-MY-Ccg" secondAttribute="leading" id="d9y-wv-KwL"/>
                             <constraint firstItem="bfs-Cj-lVp" firstAttribute="leading" secondItem="I0l-kG-AVa" secondAttribute="leading" id="mje-c5-ofY"/>
-                            <constraint firstAttribute="trailing" secondItem="Sr7-zO-6eg" secondAttribute="trailing" id="sDz-Tc-lpu"/>
+                            <constraint firstItem="I0l-kG-AVa" firstAttribute="bottom" secondItem="bfs-Cj-lVp" secondAttribute="bottom" constant="20" id="ruL-eW-gdG"/>
+                            <constraint firstItem="bfs-Cj-lVp" firstAttribute="top" secondItem="I0l-kG-AVa" secondAttribute="top" id="yPs-Wj-bwp"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3iq-ZH-Akx"/>
