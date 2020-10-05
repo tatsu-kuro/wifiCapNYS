@@ -525,6 +525,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func onClickStopButton(_ sender: Any) {
+        //ここでもチェックしないとダメのよう
         if albumExists(albumTitle: "iCapNYS")==false{
             createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
                 if isSuccess{
@@ -594,6 +595,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     @IBAction func onClickStartButton(_ sender: Any) {
+        //ここでもチェックし、Stopでもチェックする
         if albumExists(albumTitle: "iCapNYS")==false{
             createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
                 if isSuccess{
