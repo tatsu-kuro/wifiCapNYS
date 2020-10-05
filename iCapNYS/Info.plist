@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>This app uses camera to take movies.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app save the movies there</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app make &quot;iCapNYS album&quot; and save the movies there.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app uses micriophone to take movies.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -25,9 +17,17 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app uses camera to take movies.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app uses micriophone to take movies.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app make "iCapNYS album" and save the movies there.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app save the movies there</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
