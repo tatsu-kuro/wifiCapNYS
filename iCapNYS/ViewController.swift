@@ -62,6 +62,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let Controller:RecordViewController = vc
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
+            Controller.captureSession.stopRunning()
 //            if Controller.recordedFlag==true{//Exitの時はsearchAlbumしない
 //                setTitleofAlbum()
 //                while lastCnt == videoTitle.count{
