@@ -192,7 +192,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     
-
     func drawHead(width w:CGFloat, height h:CGFloat, radius r:CGFloat, qOld0:CGFloat, qOld1:CGFloat, qOld2:CGFloat, qOld3:CGFloat)->UIImage{
         //        var ppk:[CGFloat]=[]
         var ppk = Array(repeating: CGFloat(0), count:500)
@@ -595,6 +594,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     @IBAction func onClickStartButton(_ sender: Any) {
+        setFocus0()
         //ここでもチェックし、Stopでもチェックする
         if albumExists(albumTitle: "iCapNYS")==false{
             createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
@@ -680,7 +680,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         setMotion()
     }
-    func setFocus0() {
+    func setFocus0() {//focusを0とする。0:最接近　0-1.0
          if let device = videoDevice{
             do {
                 try device.lockForConfiguration()
