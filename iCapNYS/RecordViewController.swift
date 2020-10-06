@@ -107,17 +107,27 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=false
         stopButton.isHidden=true
         currentTime.isHidden=true
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
 //        setFlashlevel(level: 0.0)
     }
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
-        if recordingFlag==true{
-            timerCnt += 1
+        timerCnt += 1
+        if recordingFlag==true{//trueになった時 0にリセットされる
             currentTime.text=String(format:"%01d",timerCnt/60) + ":" + String(format: "%02d",timerCnt%60)
             if timerCnt%2==0{
                 stopButton.tintColor=UIColor.orange
             }else{
                 stopButton.tintColor=UIColor.red
+            }
+        }
+        if timerCnt > 60*5{
+            if recordingFlag==true{
+                killTimer()
+                onClickStopButton(0)
+            }else{
+                killTimer()
+                performSegue(withIdentifier: "fromRecord", sender: self)
             }
         }
     }
@@ -610,8 +620,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         try? FileManager.default.removeItem(atPath: TempFilePath)
 
-        
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        timerCnt=0
+//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         UIApplication.shared.isIdleTimerDisabled = true//スリープしない
         
         
