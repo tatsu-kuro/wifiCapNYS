@@ -634,7 +634,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         print(fileWriter?.error)
         setMotion()
     }
-
     @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
     
         let screenSize=cameraView.bounds.size
@@ -642,9 +641,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let y0 = sender.location(in: self.view).y
 //        print("tap:",x0,y0,screenSize.height)
         
-        if y0>screenSize.height*5/6{
-            return
-        }
+//        if y0>screenSize.height*5/6{
+//            return
+//        }
         //ここでリセットしてz軸を正面とする。
         motionManager.stopDeviceMotionUpdates()
         let x = y0/screenSize.height
@@ -654,11 +653,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if let device = videoDevice{
             do {
                 try device.lockForConfiguration()
-                
-                device.focusPointOfInterest = focusPoint
-                //                device.focusMode = .continuousAutoFocus
-                device.focusMode = .autoFocus
-                //                device.focusMode = .locked
+//                device.focusPointOfInterest = focusPoint
+                device.focusMode = .locked
+                device.setFocusModeLocked(lensPosition: 0, completionHandler: { _ in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+                        device.unlockForConfiguration()
+                    })
+                })
                 // 露出の設定
                 if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
                     device.exposurePointOfInterest = focusPoint
@@ -679,7 +680,23 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         setMotion()
     }
-    
+    func setFocus0() {
+         if let device = videoDevice{
+            do {
+                try device.lockForConfiguration()
+                device.focusMode = .locked
+                device.setFocusModeLocked(lensPosition: 0, completionHandler: { _ in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+                        device.unlockForConfiguration()
+                    })
+                })
+                device.unlockForConfiguration()
+            }
+            catch {
+                // just ignore
+            }
+        }
+    }
     //debug用、AVAssetWriterの状態を見るため、そのうち消去
     func printWriterStatus(writer: AVAssetWriter) {
         print("recordingFlag=", recordingFlag)
