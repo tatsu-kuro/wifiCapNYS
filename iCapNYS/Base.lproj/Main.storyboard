@@ -83,8 +83,8 @@
                                 <rect key="frame" x="304" y="54" width="100" height="50"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="4ld-8n-Mph"/>
-                                    <constraint firstAttribute="height" constant="50" id="jtP-Fe-27m"/>
+                                    <constraint firstAttribute="width" constant="100" id="7ZK-S5-yW6"/>
+                                    <constraint firstAttribute="height" constant="50" id="fn9-gN-GhN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Exit">
@@ -118,8 +118,8 @@
                                 <rect key="frame" x="304" y="54" width="100" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="bqB-bd-rAs"/>
-                                    <constraint firstAttribute="height" constant="50" id="oLi-5r-7WY"/>
+                                    <constraint firstAttribute="width" constant="100" id="FA6-QM-IMY"/>
+                                    <constraint firstAttribute="height" constant="50" id="i4F-QP-XEw"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -144,24 +144,24 @@
                         <constraints>
                             <constraint firstItem="ZdO-VK-uDo" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="FoG-er-MtK"/>
                             <constraint firstItem="ZdO-VK-uDo" firstAttribute="bottom" secondItem="rQ7-Kf-AuZ" secondAttribute="bottom" id="GOc-Kl-u2l"/>
+                            <constraint firstItem="rQ7-Kf-AuZ" firstAttribute="trailing" secondItem="eJp-tL-Pfc" secondAttribute="trailing" constant="10" id="GyX-Bv-IbU"/>
+                            <constraint firstItem="GaH-k7-GlQ" firstAttribute="top" secondItem="9F0-mW-jKg" secondAttribute="bottom" constant="10" id="IlP-p8-XBz"/>
                             <constraint firstItem="9F0-mW-jKg" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="IzH-Oc-g4n"/>
+                            <constraint firstItem="rQ7-Kf-AuZ" firstAttribute="trailing" secondItem="GaH-k7-GlQ" secondAttribute="trailing" constant="10" id="J2u-Fn-j6F"/>
                             <constraint firstAttribute="width" secondItem="E7F-hC-6hQ" secondAttribute="height" multiplier="207:40" id="JUf-h6-ioR"/>
+                            <constraint firstItem="eJp-tL-Pfc" firstAttribute="top" secondItem="9F0-mW-jKg" secondAttribute="bottom" constant="10" id="Ko7-fW-fqD"/>
                             <constraint firstItem="rQ7-Kf-AuZ" firstAttribute="trailing" secondItem="5bD-tH-WDM" secondAttribute="trailing" id="Mah-qm-GNl"/>
                             <constraint firstItem="Pah-7o-hki" firstAttribute="bottom" secondItem="rQ7-Kf-AuZ" secondAttribute="bottom" id="PQs-GI-OlT"/>
                             <constraint firstItem="Pah-7o-hki" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="Pha-PL-4c9"/>
                             <constraint firstItem="9F0-mW-jKg" firstAttribute="top" secondItem="rQ7-Kf-AuZ" secondAttribute="top" id="Q0k-fP-uCe"/>
                             <constraint firstItem="5bD-tH-WDM" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="Q84-JE-NjO"/>
-                            <constraint firstItem="rQ7-Kf-AuZ" firstAttribute="trailing" secondItem="GaH-k7-GlQ" secondAttribute="trailing" constant="10" id="YOo-uB-x0V"/>
                             <constraint firstItem="E7F-hC-6hQ" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" constant="5" id="Zg5-vP-MFd"/>
                             <constraint firstAttribute="width" secondItem="E7F-hC-6hQ" secondAttribute="width" multiplier="5.175" id="bhw-Ka-kh9"/>
                             <constraint firstItem="rQ7-Kf-AuZ" firstAttribute="trailing" secondItem="9F0-mW-jKg" secondAttribute="trailing" id="cLI-l5-hmf"/>
                             <constraint firstItem="ZdO-VK-uDo" firstAttribute="trailing" secondItem="rQ7-Kf-AuZ" secondAttribute="trailing" id="chg-Ab-K2m"/>
-                            <constraint firstItem="rQ7-Kf-AuZ" firstAttribute="trailing" secondItem="eJp-tL-Pfc" secondAttribute="trailing" constant="10" id="gg6-6G-EGy"/>
                             <constraint firstItem="ZdO-VK-uDo" firstAttribute="top" secondItem="rQ7-Kf-AuZ" secondAttribute="top" id="hhX-Y7-Ufc"/>
                             <constraint firstItem="Pah-7o-hki" firstAttribute="trailing" secondItem="rQ7-Kf-AuZ" secondAttribute="trailing" id="sbz-No-tSX"/>
-                            <constraint firstItem="GaH-k7-GlQ" firstAttribute="top" secondItem="rQ7-Kf-AuZ" secondAttribute="top" constant="10" id="sj3-wV-qMM"/>
                             <constraint firstItem="E7F-hC-6hQ" firstAttribute="top" secondItem="9F0-mW-jKg" secondAttribute="bottom" constant="5" id="t1n-4U-Zvb"/>
-                            <constraint firstItem="eJp-tL-Pfc" firstAttribute="top" secondItem="rQ7-Kf-AuZ" secondAttribute="top" constant="10" id="uyz-cn-2yC"/>
                             <constraint firstItem="rQ7-Kf-AuZ" firstAttribute="bottom" secondItem="5bD-tH-WDM" secondAttribute="bottom" id="xSO-no-gL2"/>
                         </constraints>
                         <connections>
