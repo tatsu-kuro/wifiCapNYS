@@ -88,7 +88,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func setPlayButtonEnable(){
         let checkValidation = FileManager.default
         if (checkValidation.fileExists(atPath: TempFilePath)){
-            playButton.setTitle("iCapNYSアルバム\n\nの最新映像を\n\n再生します。", for: .normal)
+            playButton.setTitle("＊＊再生＊＊\n\niCapNYSアルバム\n\nの最新映像を\n\n再生します。", for: .normal)
             print("ファイルあり、FILE AVAILABLE");
             playButton.isEnabled=true
         }else{
@@ -105,13 +105,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cameraButton.backgroundColor=UIColor.systemGreen
 //        cameraButton.layer.borderWidth = 2.0
         cameraButton.layer.cornerRadius = 30
+        cameraButton.titleLabel!.numberOfLines = 7
+        cameraButton.titleLabel!.textAlignment = NSTextAlignment.center
+        cameraButton.setTitle("＊＊録画＊＊\n\n画面の上半分のタップで\n\nLEDをオンオフします。\n\n LED光量は白紙で覆って調節", for: .normal)
+
 //        playButton.layer.borderColor = UIColor.white.cgColor
         playButton.setTitleColor(.white, for: .normal)
         playButton.backgroundColor=UIColor.systemGreen
 //        playButton.layer.borderWidth = 2.0
         playButton.layer.cornerRadius = 30
         playButton.titleLabel!.lineBreakMode = NSLineBreakMode.byWordWrapping
-        playButton.titleLabel!.numberOfLines = 5
+        playButton.titleLabel!.numberOfLines = 7
         playButton.titleLabel!.textAlignment = NSTextAlignment.center
         setPlayButtonEnable()
 //        videoTitleofAlbum.removeAll()
