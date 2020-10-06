@@ -91,21 +91,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-//        //iCapNYSアルバムがなければ作成し、iCapNYSAlbumにアルバムを代入
-//        createNewAlbum(albumTitle: ALBUMTITLE) { (isSuccess) in
-//            if isSuccess{
-//                debugPrint("iCapNYS_album can be made,")
-//            } else{
-//                debugPrint("iCapNYS_album can't be made.")
-//            }
-//        }
-//        
         camera_alert()
         set_rpk_ppk()
         setMotion()
-        
-        // Do any additional setup after loading the view.
-//        timer = Timer.scheduledTimer(timeInterval: 1/60, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         initSession(fps: 30)//60)//遅ければ30fpsにせざるを得ないかも
         //30だと最高解像度が上がるため画像処理にかかる時間が結果的に増えてしまうので一旦加速度データを別で保存し、動画保存後に再処理する必要があるかも
         //おそらくUIImageで処理しているせいで遅い。
@@ -118,10 +106,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         startButton.isHidden=false
         stopButton.isHidden=true
-
         currentTime.isHidden=true
-//        let str=getFilesindoc()
-//        print(str)
+//        setFlashlevel(level: 0.0)
     }
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
@@ -346,11 +332,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let squareFrame = CGRect.init(x:x-dia/2,y:y-dia/2,width:dia,height:dia)
         squareLayer.frame = squareFrame
         // 輪郭の色
-        squareLayer.strokeColor = UIColor.red.cgColor
+        if flashFlag==true{
+            squareLayer.strokeColor = UIColor.red.cgColor
+            squareLayer.lineWidth = 5.0
+        }else{
+            squareLayer.strokeColor = UIColor.red.cgColor
+            squareLayer.lineWidth = 1.0
+        }
         // 中の色
+    
         squareLayer.fillColor = UIColor.clear.cgColor//UIColor.red.cgColor
-        // 輪郭の太さ
-        squareLayer.lineWidth = 1.0
+       
         // 正方形を描画
         squareLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: squareFrame.size.width, height: squareFrame.size.height)).cgPath
         self.view.layer.addSublayer(squareLayer)
@@ -634,16 +626,70 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         print(fileWriter?.error)
         setMotion()
     }
-    @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
     
+//    func toggleTorch() {
+//        let avDevice = videoDeviceAVCaptureDevice.default(for: AVMediaType.video)
+//
+//        if  ((avDevice?.hasTorch) != nil) {
+//            avDevice!.lockForConfiguration(nil)
+//            avDevice.torchMode = AVCaptureDevice.TorchMode.Off == avDevice.torchMode ? AVCaptureTorchMode.On : AVCaptureTorchMode.Off
+//            avDevice!.unlockForConfiguration()
+//        }
+//    }
+    var flashFlag=false
+    func toggleFlash(){
+        if flashFlag==true{
+            setFlashlevel(level: 0)
+            flashFlag=false
+        }else{
+            //iPhone11:0.04 で適度な明るさ、これ以下にすると光らない
+            //SEでは明るすぎるが、これが最低の光量か？
+            //二つのLEDの個別の制御は出来なさそう。 
+            setFlashlevel(level: 0.04)
+            flashFlag=true
+        }
+    }
+    func setFlashlevel(level:Float){
+        if let device = videoDevice{
+            do {
+                if device.hasTorch {
+                    do {
+                        // torch device lock on
+                        try device.lockForConfiguration()
+                        
+                        if (level > 0.0){
+                            do {
+                                try device.setTorchModeOn(level: level)
+                            } catch {
+                                print("error")
+                            }
+                            
+                        } else {
+                            // flash LED OFF
+                            // 注意しないといけないのは、0.0はエラーになるのでLEDをoffさせます。
+                            device.torchMode = AVCaptureDevice.TorchMode.off
+                        }
+                        // torch device unlock
+                        device.unlockForConfiguration()
+                        
+                    } catch {
+                        print("Torch could not be used")
+                    }
+                }
+            }
+        }
+    }
+    @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
 //        print("tap:",x0,y0,screenSize.height)
         
-//        if y0>screenSize.height*5/6{
-//            return
-//        }
+        if y0<screenSize.height/2 && recordingFlag==true{
+            //recording中はライト、センサー値は変えない
+            return
+        }
+        toggleFlash()
         //ここでリセットしてz軸を正面とする。
         motionManager.stopDeviceMotionUpdates()
         let x = y0/screenSize.height
@@ -660,6 +706,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                         device.unlockForConfiguration()
                     })
                 })
+//                if  ((device.hasTorch) != nil) {
+//
+//                    do {
+//                        try device.setTorchModeOn(level: 0.9)
+//                    } catch {
+//                        print("error")
+//                    }
+//                    device.torchMode = AVCaptureDevice.TorchMode.off == device.torchMode ? AVCaptureDevice.TorchMode.on : AVCaptureDevice.TorchMode.off
+                    //                    device!.unlockForConfiguration()
+           
+//                }
                 // 露出の設定
                 if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
                     device.exposurePointOfInterest = focusPoint
