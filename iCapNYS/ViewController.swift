@@ -92,7 +92,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("ファイルあり、FILE AVAILABLE");
             playButton.isEnabled=true
         }else{
-            playButton.setTitle("［ 再生 ］\n\n最新映像はありません！\n\n眼振録画映像は\n\niCapNYSアルバム\n\nに保存されます", for: .normal)
+            playButton.setTitle("［ 再生 ］\n\nまだ映像がありません！\n\n眼振録画映像は\n\niCapNYSアルバム\n\nに保存されます", for: .normal)
             print("ファイル無し、FILE NOT AVAILABLE");
             playButton.isEnabled=false
         }
