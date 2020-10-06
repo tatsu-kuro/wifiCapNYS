@@ -88,11 +88,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func setPlayButtonEnable(){
         let checkValidation = FileManager.default
         if (checkValidation.fileExists(atPath: TempFilePath)){
-            playButton.setTitle("＊＊再生＊＊\n\niCapNYSアルバム\n\nの最新映像を\n\n再生します。", for: .normal)
+            playButton.setTitle("［ 再生 ］\n\n最新映像を再生します\n\n眼振録画映像は\n\niCapNYSアルバム\n\nに保存されています", for: .normal)
             print("ファイルあり、FILE AVAILABLE");
             playButton.isEnabled=true
         }else{
-            playButton.setTitle("眼振映像は\n\niCapNYSアルバムに\n\n保存されます。", for: .normal)
+            playButton.setTitle("［ 再生 ］\n\n最新映像はありません！\n\n眼振録画映像は\n\niCapNYSアルバム\n\nに保存されます", for: .normal)
             print("ファイル無し、FILE NOT AVAILABLE");
             playButton.isEnabled=false
         }
@@ -105,9 +105,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cameraButton.backgroundColor=UIColor.systemGreen
 //        cameraButton.layer.borderWidth = 2.0
         cameraButton.layer.cornerRadius = 30
-        cameraButton.titleLabel!.numberOfLines = 7
+        cameraButton.titleLabel!.numberOfLines = 9
         cameraButton.titleLabel!.textAlignment = NSTextAlignment.center
-        cameraButton.setTitle("＊＊録画＊＊\n\n画面の上半分のタップで\n\nLEDをオンオフします。\n\n LED光量は白紙で覆って調節", for: .normal)
+        cameraButton.setTitle("［ 録画 ］\n\n画面の上半分のタップで\n\nLEDをオンオフ出来ます\n\n 明るすぎる機種の場合は\n\nLEDを白紙等で覆って調節", for: .normal)
 
 //        playButton.layer.borderColor = UIColor.white.cgColor
         playButton.setTitleColor(.white, for: .normal)
@@ -115,7 +115,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        playButton.layer.borderWidth = 2.0
         playButton.layer.cornerRadius = 30
         playButton.titleLabel!.lineBreakMode = NSLineBreakMode.byWordWrapping
-        playButton.titleLabel!.numberOfLines = 7
+        playButton.titleLabel!.numberOfLines = 9
         playButton.titleLabel!.textAlignment = NSTextAlignment.center
         setPlayButtonEnable()
 //        videoTitleofAlbum.removeAll()
