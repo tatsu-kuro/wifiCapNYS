@@ -64,7 +64,7 @@ class PlayViewController: UIViewController{
         startButton.layer.cornerRadius = 5.0
         startButton.backgroundColor = UIColor.orange
         startButton.setTitle("Start", for: UIControl.State.normal)
-        startButton.layer.borderColor = UIColor.green.cgColor
+        startButton.layer.borderColor = UIColor.black.cgColor
         startButton.layer.borderWidth = 1.0
         startButton.addTarget(self, action: #selector(onStartButtonTapped), for: UIControl.Event.touchUpInside)
         view.addSubview(startButton)
@@ -76,7 +76,7 @@ class PlayViewController: UIViewController{
         exitButton.backgroundColor = UIColor.darkGray
         exitButton.setTitle("Exit", for:UIControl.State.normal)
         exitButton.isEnabled=true
-        exitButton.layer.borderColor = UIColor.green.cgColor
+        exitButton.layer.borderColor = UIColor.black.cgColor
         exitButton.layer.borderWidth = 1.0
         exitButton.addTarget(self, action: #selector(onExitButtonTapped), for: UIControl.Event.touchUpInside)
         view.addSubview(exitButton)
@@ -88,6 +88,8 @@ class PlayViewController: UIViewController{
         currTime.textColor = UIColor.black
         currTime.textAlignment = .center
         currTime.text = String(format:"%.2f",duration)
+        currTime.layer.borderColor = UIColor.black.cgColor
+        currTime.layer.borderWidth = 1.0
         view.addSubview(currTime)
     }
     // Start Button Tapped

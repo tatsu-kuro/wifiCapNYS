@@ -50,11 +50,11 @@ class ViewController: UIViewController{
     func setPlayButtonEnable(){
         let checkValidation = FileManager.default
         if (checkValidation.fileExists(atPath: TempFilePath)){
-            playButton.setTitle("［ 再生 ］\n\n最新映像を再生します\n\n眼振録画映像は\n\niCapNYSアルバム\n\nに保存されています", for: .normal)
+            playButton.setTitle("［ 再生 ］\n\n最新映像を再生します.\n\n眼振録画映像は\n\niCapNYSアルバム\n\nに保存されています.", for: .normal)
             print("ファイルあり、FILE AVAILABLE");
             playButton.isEnabled=true
         }else{
-            playButton.setTitle("［ 再生 ］\n\nまだ映像がありません！\n\n眼振録画映像は\n\niCapNYSアルバム\n\nに保存されます", for: .normal)
+            playButton.setTitle("［ 再生 ］\n\nまだ映像がありません！\n\n眼振録画映像は\n\niCapNYSアルバム\n\nに保存されます.", for: .normal)
             print("ファイル無し、FILE NOT AVAILABLE");
             playButton.isEnabled=false
         }
@@ -67,7 +67,7 @@ class ViewController: UIViewController{
         cameraButton.layer.cornerRadius = 30
         cameraButton.titleLabel!.numberOfLines = 9
         cameraButton.titleLabel!.textAlignment = NSTextAlignment.center
-        cameraButton.setTitle("［ 録画 ］\n\n画面の上半分のタップで\n\nLEDをオンオフ出来ます\n\n 明るすぎる機種の場合は\n\nLEDを白紙等で覆って調節", for: .normal)
+        cameraButton.setTitle("［ 録画 ］\n\n画面の上半分のタップで\n\nLEDをオンオフ出来ます.\n\n 明るすぎる機種の場合は\n\nLEDを白紙等で覆って調節.", for: .normal)
         
         playButton.setTitleColor(.white, for: .normal)
         playButton.backgroundColor=UIColor.systemGreen
