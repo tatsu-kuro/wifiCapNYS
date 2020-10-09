@@ -21,13 +21,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app uses camera to take movies.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app uses micriophone to take movies.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app make "iCapNYS album" and save the movies there.</string>
+	<string>眼振映像を撮影し、それをアルバム&quot;iCapNYS&quot;に保存します。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app save the movies there</string>
+	<string>アルバム&quot;iCapNYS&quot;を作成し、そこに眼振映像を保存します。</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
