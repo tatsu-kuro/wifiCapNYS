@@ -90,6 +90,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var topLabel: UILabel!//storyboardで使っている！大事
     var flashFlag=false
     @IBAction func LEDonoff(_ sender: Any) {
+        if recordingFlag==true{
+            return
+        }
         if flashFlag==true{
             setFlashlevel(level: 0)
             flashFlag=false
@@ -771,7 +774,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         }
  */
-        setMotion()
+        if recordingFlag==false{
+            setMotion()
+        }
     }
     func setFocus(focus:Float) {//focus 0:最接近　0-1.0
          if let device = videoDevice{
