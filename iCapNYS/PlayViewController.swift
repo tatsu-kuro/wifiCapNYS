@@ -13,7 +13,7 @@ class PlayViewController: UIViewController{
     var duration:Float=0
     var currTime:UILabel?
     var timer: Timer!
-     var playF:Bool=false
+     var playingFlag:Bool=false
     lazy var seekBar = UISlider()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,15 +91,23 @@ class PlayViewController: UIViewController{
         currTime.layer.borderColor = UIColor.black.cgColor
         currTime.layer.borderWidth = 1.0
         view.addSubview(currTime)
+        playingFlag=true
+        seekBar.value=0
+        onStartButtonTapped()
     }
     // Start Button Tapped
     @objc func onStartButtonTapped(){
-        videoPlayer.seek(to: CMTimeMakeWithSeconds(0, preferredTimescale: Int32(NSEC_PER_SEC)))
+        if seekBar.value>seekBar.maximumValue-0.5{
+            seekBar.value=0
+        }
+        videoPlayer.seek(to: CMTimeMakeWithSeconds(Float64(seekBar.value), preferredTimescale: Int32(NSEC_PER_SEC)))
         videoPlayer.play()
     }
     // SeekBar Value Changed
     @objc func onSliderValueChange(){
         videoPlayer.seek(to: CMTimeMakeWithSeconds(Float64(seekBar.value), preferredTimescale: Int32(NSEC_PER_SEC)))
+        videoPlayer.pause()
+        playingFlag=false
     }
     @objc func onExitButtonTapped(){//このボタンのところにsegueでunwindへ行く
         
