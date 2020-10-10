@@ -42,7 +42,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var iCapNYSWidth: Int32 = 0
     var iCapNYSHeight: Int32 = 0
     var iCapNYSFPS: Float64 = 0
-    
+    var focusF:Float = 0
     
     //for gyro and face drawing
     var gyro = Array<Double>()
@@ -75,7 +75,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         22,-26,0, 23,-25,0, 24,-24,1,//eye dots 3
         -22,-26,0, -23,-25,0, -24,-24,1,//eye dots 3
         -19,32,0, -14,31,0, -9,31,0, -4,31,0, 0,30,0, 4,31,0, 9,31,0, 14,31,0, 19,32,1]//mouse 9
-
+    @IBOutlet weak var focusBar: UISlider!
+    
+    @IBOutlet weak var LEDcircle: UIImageView!
+    @IBOutlet weak var LEDButton: UIButton!
+    
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     
@@ -84,6 +88,53 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView: UIImageView!
     @IBOutlet weak var topLabel: UILabel!//storyboardで使っている！大事
+    var flashFlag=false
+    @IBAction func LEDonoff(_ sender: Any) {
+        if flashFlag==true{
+            setFlashlevel(level: 0)
+            flashFlag=false
+            LEDcircle.tintColor=UIColor.gray
+        }else{
+            //iPhone11:0.04 で適度な明るさ、これ以下にすると光らない
+            //SEでは明るすぎるが、これが最低の光量か？
+            //二つのLEDの個別の制御は出来なさそう。
+            setFlashlevel(level: 0.04)
+            flashFlag=true
+            LEDcircle.tintColor=UIColor.orange
+        }
+    }
+
+    func setFlashlevel(level:Float){
+        if let device = videoDevice{
+            do {
+                if device.hasTorch {
+                    do {
+                        // torch device lock on
+                        try device.lockForConfiguration()
+                        
+                        if (level > 0.0){
+                            do {
+                                try device.setTorchModeOn(level: level)
+                            } catch {
+                                print("error")
+                            }
+                            
+                        } else {
+                            // flash LED OFF
+                            // 注意しないといけないのは、0.0はエラーになるのでLEDをoffさせます。
+                            device.torchMode = AVCaptureDevice.TorchMode.off
+                        }
+                        // torch device unlock
+                        device.unlockForConfiguration()
+                        
+                    } catch {
+                        print("Torch could not be used")
+                    }
+                }
+            }
+        }
+    }
+    
     func killTimer(){
         if timer?.isValid == true {
             timer!.invalidate()
@@ -97,18 +148,27 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         initSession(fps: 30)//60)//遅ければ30fpsにせざるを得ないかも
         //30だと最高解像度が上がるため画像処理にかかる時間が結果的に増えてしまうので一旦加速度データを別で保存し、動画保存後に再処理する必要があるかも
         //おそらくUIImageで処理しているせいで遅い。
-        currentTime.layer.masksToBounds = true
-        currentTime.layer.cornerRadius = 5
-        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 25*view.bounds.width/320, weight: .medium)
-        exitButton.layer.borderColor = UIColor.green.cgColor
-        exitButton.layer.borderWidth = 1.0
-        exitButton.layer.cornerRadius = 5
+//        currentTime.layer.masksToBounds = true
+//        currentTime.layer.cornerRadius = 5
+//        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 25*view.bounds.width/320, weight: .medium)
+//        exitButton.layer.borderColor = UIColor.green.cgColor
+//        exitButton.layer.borderWidth = 1.0
+//        exitButton.layer.cornerRadius = 5
         
         startButton.isHidden=false
         stopButton.isHidden=true
         currentTime.isHidden=true
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        setFocus(focus: focusF)
 //        setFlashlevel(level: 0.0)
+        focusBar.minimumValue = 0
+        focusBar.maximumValue = 1.0
+        focusBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
+        focusBar.value=0
+        focusBar.backgroundColor=UIColor.white
+    }
+    @objc func onSliderValueChange(){
+        setFocus(focus:focusBar.value)
     }
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
@@ -502,6 +562,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.layer.position=CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
         currentTime.layer.masksToBounds = true
         currentTime.layer.cornerRadius = 10
+        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 25*view.bounds.width/320, weight: .medium)
 
         //startButton
         startButton.frame=CGRect(x:0,y:0,width:bw,height:bw)
@@ -512,8 +573,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exitButton.layer.position = CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
         exitButton.layer.borderColor = UIColor.green.cgColor
         exitButton.layer.borderWidth = 1.0
-
         exitButton.layer.cornerRadius = 10
+//        LEDButton.frame=CGRect(x:0,y:0,width:bw/3,height:bh/5)
+//        LEDButton.layer.position = CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
+        LEDButton.layer.borderColor = UIColor.green.cgColor
+        LEDButton.layer.borderWidth = 1.0
+        LEDButton.layer.cornerRadius = 10
+        
         
 
         startButton.isHidden=false
@@ -596,7 +662,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     @IBAction func onClickStartButton(_ sender: Any) {
-        setFocus0()
+//        setFocus(focus: 0)
         //ここでもチェックし、Stopでもチェックする
         if albumExists(albumTitle: "iCapNYS")==false{
             createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
@@ -646,50 +712,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            avDevice!.unlockForConfiguration()
 //        }
 //    }
-    var flashFlag=false
-    func toggleFlash(){
-        if flashFlag==true{
-            setFlashlevel(level: 0)
-            flashFlag=false
-        }else{
-            //iPhone11:0.04 で適度な明るさ、これ以下にすると光らない
-            //SEでは明るすぎるが、これが最低の光量か？
-            //二つのLEDの個別の制御は出来なさそう。 
-            setFlashlevel(level: 0.04)
-            flashFlag=true
-        }
-    }
-    func setFlashlevel(level:Float){
-        if let device = videoDevice{
-            do {
-                if device.hasTorch {
-                    do {
-                        // torch device lock on
-                        try device.lockForConfiguration()
-                        
-                        if (level > 0.0){
-                            do {
-                                try device.setTorchModeOn(level: level)
-                            } catch {
-                                print("error")
-                            }
-                            
-                        } else {
-                            // flash LED OFF
-                            // 注意しないといけないのは、0.0はエラーになるのでLEDをoffさせます。
-                            device.torchMode = AVCaptureDevice.TorchMode.off
-                        }
-                        // torch device unlock
-                        device.unlockForConfiguration()
-                        
-                    } catch {
-                        print("Torch could not be used")
-                    }
-                }
-            }
-        }
-    }
+    
     @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
+        /*
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
@@ -699,7 +724,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             //recording中はライト、センサー値は変えない
             return
         }
-        toggleFlash()
+//        toggleFlash()
         //ここでリセットしてz軸を正面とする。
         motionManager.stopDeviceMotionUpdates()
         let x = y0/screenSize.height
@@ -745,14 +770,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 // just ignore
             }
         }
+ */
         setMotion()
     }
-    func setFocus0() {//focusを0とする。0:最接近　0-1.0
+    func setFocus(focus:Float) {//focus 0:最接近　0-1.0
          if let device = videoDevice{
             do {
                 try device.lockForConfiguration()
                 device.focusMode = .locked
-                device.setFocusModeLocked(lensPosition: 0, completionHandler: { _ in
+                device.setFocusModeLocked(lensPosition: focus, completionHandler: { _ in
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
                         device.unlockForConfiguration()
                     })
