@@ -247,6 +247,8 @@
                         <outlet property="currentTime" destination="eJp-tL-Pfc" id="vx3-sB-2CR"/>
                         <outlet property="exitButton" destination="GaH-k7-GlQ" id="P3d-YT-pSI"/>
                         <outlet property="focusBar" destination="Cn2-Mn-Pzg" id="rb0-lh-zAT"/>
+                        <outlet property="focusFar" destination="U5M-bG-o5r" id="Vpx-lR-lmA"/>
+                        <outlet property="focusNear" destination="LNl-JF-QcN" id="xrp-W1-ia8"/>
                         <outlet property="quaternionView" destination="E7F-hC-6hQ" id="fMB-sK-wwe"/>
                         <outlet property="startButton" destination="5bD-tH-WDM" id="jTC-cZ-nLP"/>
                         <outlet property="stopButton" destination="Pah-7o-hki" id="kyy-dz-Q1b"/>

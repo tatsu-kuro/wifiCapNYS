@@ -42,7 +42,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var iCapNYSWidth: Int32 = 0
     var iCapNYSHeight: Int32 = 0
     var iCapNYSFPS: Float64 = 0
-    var focusF:Float = 0
+//    var focusF:Float = 0
     
     //for gyro and face drawing
     var gyro = Array<Double>()
@@ -75,6 +75,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         22,-26,0, 23,-25,0, 24,-24,1,//eye dots 3
         -22,-26,0, -23,-25,0, -24,-24,1,//eye dots 3
         -19,32,0, -14,31,0, -9,31,0, -4,31,0, 0,30,0, 4,31,0, 9,31,0, 14,31,0, 19,32,1]//mouse 9
+    
+    
+    @IBOutlet weak var focusFar: UILabel!
+    @IBOutlet weak var focusNear: UILabel!
     @IBOutlet weak var focusBar: UISlider!
     
     @IBOutlet weak var LEDcircle: UIImageView!
@@ -162,16 +166,27 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isHidden=true
         currentTime.isHidden=true
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        setFocus(focus: focusF)
+//        setFocus(focus: focusF)
 //        setFlashlevel(level: 0.0)
         focusBar.minimumValue = 0
         focusBar.maximumValue = 1.0
         focusBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
-        focusBar.value=0
-        focusBar.backgroundColor=UIColor.white
+        focusBar.value=getUserDefault(str: "focusLength", ret: 0)
+        setFocus(focus: focusBar.value)
     }
+    func getUserDefault(str:String,ret:Float) -> Float{
+        if (UserDefaults.standard.object(forKey: str) != nil){
+            return UserDefaults.standard.float(forKey: str)
+        }else{//keyが設定してなければretをセット
+            UserDefaults.standard.set(ret, forKey: str)
+            return ret
+        }
+    }
+    
+    
     @objc func onSliderValueChange(){
         setFocus(focus:focusBar.value)
+        UserDefaults.standard.set(focusBar.value, forKey: "focusLength")
     }
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
@@ -666,6 +681,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     @IBAction func onClickStartButton(_ sender: Any) {
 //        setFocus(focus: 0)
+        LEDcircle.isHidden=true
+        LEDButton.isHidden=true
+        focusNear.isHidden=true
+        focusFar.isHidden=true
+        focusBar.isHidden=true
         //ここでもチェックし、Stopでもチェックする
         if albumExists(albumTitle: "iCapNYS")==false{
             createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
