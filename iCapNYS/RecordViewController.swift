@@ -51,9 +51,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var quater1:Double=0
     var quater2:Double=0
     var quater3:Double=0
-    var readingF = false
+    var readingFlag = false
     var timer:Timer?
-    var tapF:Bool=false//??
+//    var tapF:Bool=false//??
+    var flashFlag=false
     
     var rpk1 = Array(repeating: CGFloat(0), count:500)
     var ppk1 = Array(repeating: CGFloat(0), count:500)//144*3
@@ -92,11 +93,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView: UIImageView!
     @IBOutlet weak var topLabel: UILabel!//storyboardで使っている！大事
-    var flashFlag=false
+   
     @IBAction func LEDonoff(_ sender: Any) {
-        if recordingFlag==true{
-            return
-        }
+//        if recordingFlag==true{
+//            return
+//        }
         if flashFlag==true{
             setFlashlevel(level: 0)
             flashFlag=false
@@ -108,6 +109,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             setFlashlevel(level: 0.04)
             flashFlag=true
             LEDcircle.tintColor=UIColor.orange
+        }
+        if flashFlag==true{
+            UserDefaults.standard.set(1, forKey: "flashFlag")
+        }else{
+            UserDefaults.standard.set(0, forKey: "flashFlag")
         }
     }
 
@@ -173,6 +179,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         focusBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
         focusBar.value=getUserDefault(str: "focusLength", ret: 0)
         setFocus(focus: focusBar.value)
+        flashFlag=false
+        let flashFlagTemp=getUserDefault(str: "flashFlag", ret: 0)
+        if flashFlagTemp==1{
+            LEDonoff(0)
+        }
+        setButtons(type: true)
     }
     func getUserDefault(str:String,ret:Float) -> Float{
         if (UserDefaults.standard.object(forKey: str) != nil){
@@ -221,7 +233,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             //            self.gyro.append(CFAbsoluteTimeGetCurrent())
             //            self.gyro.append(motion.rotationRate.y)//
             let quat = motion.attitude.quaternion
-            while self.readingF==true{
+            while self.readingFlag==true{
                 usleep(1)
             }
             self.quater0 = quat.w
@@ -565,7 +577,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //    }
 
     override func viewDidAppear(_ animated: Bool) {
-        setButtons(type: true)
+//        setButtons(type: true)
     }
 
     func setButtons(type:Bool){
@@ -597,9 +609,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDButton.layer.borderColor = UIColor.green.cgColor
         LEDButton.layer.borderWidth = 1.0
         LEDButton.layer.cornerRadius = 10
+        focusFar.layer.masksToBounds = true
+        focusFar.layer.cornerRadius = 10
+        focusNear.layer.masksToBounds = true
+        focusNear.layer.cornerRadius = 10
+        focusBar.layer.masksToBounds = true
+        focusBar.layer.cornerRadius = 10
         
-        
-
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.tintColor=UIColor.orange
@@ -858,12 +874,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //2つのアフィンを組み合わせ
         let matrix = matrix1.concatenating(matrix2);
         let rotatedCIImage = frameCIImage.transformed(by: matrix)
-        readingF=true
+        readingFlag=true
         let qCG0=CGFloat(quater0)
         let qCG1=CGFloat(quater1)
         let qCG2=CGFloat(quater2)
         let qCG3=CGFloat(quater3)
-        readingF=false
+        readingFlag=false
         
         let quaterImage = drawHead(width: 130, height: 130, radius: 60,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
         DispatchQueue.main.async {
