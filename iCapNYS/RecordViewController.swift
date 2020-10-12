@@ -203,6 +203,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
         timerCnt += 1
+//        print("lenspositon:",videoDevice?.lensPosition)
+        UserDefaults.standard.set(videoDevice?.lensPosition, forKey: "focusLength")
+        focusBar.value=videoDevice!.lensPosition
         if recordingFlag==true{//trueになった時 0にリセットされる
             currentTime.text=String(format:"%01d",timerCnt/60) + ":" + String(format: "%02d",timerCnt%60)
             if timerCnt%2==0{
@@ -815,12 +818,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 //                device.focusMode = .continuousAutoFocus
                 device.focusMode = .autoFocus
                 //                device.focusMode = .locked
+//                print("lensPosition:",device.lensPosition)
                 // 露出の設定
                 if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
                     device.exposurePointOfInterest = focusPoint
                     device.exposureMode = .continuousAutoExposure
                 }
                 device.unlockForConfiguration()
+        
                 
                 if tapFlag {
                     view.layer.sublayers?.removeLast()
@@ -894,6 +899,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             catch {
                 // just ignore
             }
+//            print("lensPosition:",device.lensPosition)
         }
     }
     //debug用、AVAssetWriterの状態を見るため、そのうち消去
