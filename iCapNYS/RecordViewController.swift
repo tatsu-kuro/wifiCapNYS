@@ -53,7 +53,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var quater3:Double=0
     var readingFlag = false
     var timer:Timer?
-//    var tapF:Bool=false//??
+    var tapFlag:Bool=false//??
     var flashFlag=false
     
     var rpk1 = Array(repeating: CGFloat(0), count:500)
@@ -432,17 +432,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let squareFrame = CGRect.init(x:x-dia/2,y:y-dia/2,width:dia,height:dia)
         squareLayer.frame = squareFrame
         // 輪郭の色
-        if flashFlag==true{
-            squareLayer.strokeColor = UIColor.red.cgColor
-            squareLayer.lineWidth = 5.0
-        }else{
-            squareLayer.strokeColor = UIColor.red.cgColor
-            squareLayer.lineWidth = 1.0
-        }
+        squareLayer.strokeColor = UIColor.red.cgColor
+        squareLayer.lineWidth = 1.0
         // 中の色
-    
         squareLayer.fillColor = UIColor.clear.cgColor//UIColor.red.cgColor
-       
         // 正方形を描画
         squareLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: squareFrame.size.width, height: squareFrame.size.height)).cgPath
         self.view.layer.addSublayer(squareLayer)
@@ -702,6 +695,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         focusNear.isHidden=true
         focusFar.isHidden=true
         focusBar.isHidden=true
+        if tapFlag {
+            view.layer.sublayers?.removeLast()
+            tapFlag=false
+        }
         //ここでもチェックし、Stopでもチェックする
         if albumExists(albumTitle: "iCapNYS")==false{
             createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
@@ -751,21 +748,104 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            avDevice!.unlockForConfiguration()
 //        }
 //    }
-    
+    /*
+     @IBAction func tapGes(_ sender: UITapGestureRecognizer) {
+         let screenSize=cameraView.bounds.size
+         let x0 = sender.location(in: self.view).x
+         let y0 = sender.location(in: self.view).y
+         print("tap:",x0,y0,screenSize.height)
+         
+         if y0>screenSize.height*5/6{
+             return
+         }
+         let x = y0/screenSize.height
+         let y = 1.0 - x0/screenSize.width
+         let focusPoint = CGPoint(x:x,y:y)
+         
+         if let device = videoDevice{
+             do {
+                 try device.lockForConfiguration()
+                 
+                 device.focusPointOfInterest = focusPoint
+                 //                device.focusMode = .continuousAutoFocus
+                 device.focusMode = .autoFocus
+                 //                device.focusMode = .locked
+                 // 露出の設定
+                 if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
+                     device.exposurePointOfInterest = focusPoint
+                     device.exposureMode = .continuousAutoExposure
+                 }
+                 device.unlockForConfiguration()
+                 
+                 if tapF {
+                     view.layer.sublayers?.removeLast()
+                 }
+                 drawSquare(x: x0, y: y0)
+                 tapF=true;
+                 //                }
+             }
+             catch {
+                 // just ignore
+             }
+         }
+     }
+     */
     @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
+        if recordingFlag==true{
+            return
+        }
+        setMotion()
+        let screenSize=cameraView.bounds.size
+        let x0 = sender.location(in: self.view).x
+        let y0 = sender.location(in: self.view).y
+        print("tap:",x0,y0,screenSize.height)
+        
+        if y0>screenSize.height*5/6{
+            return
+        }
+        let x = y0/screenSize.height
+        let y = 1.0 - x0/screenSize.width
+        let focusPoint = CGPoint(x:x,y:y)
+        
+        if let device = videoDevice{
+            do {
+                try device.lockForConfiguration()
+                
+                device.focusPointOfInterest = focusPoint
+                //                device.focusMode = .continuousAutoFocus
+                device.focusMode = .autoFocus
+                //                device.focusMode = .locked
+                // 露出の設定
+                if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
+                    device.exposurePointOfInterest = focusPoint
+                    device.exposureMode = .continuousAutoExposure
+                }
+                device.unlockForConfiguration()
+                
+                if tapFlag {
+                    view.layer.sublayers?.removeLast()
+                }
+                drawSquare(x: x0, y: y0)
+                tapFlag=true;
+                //                }
+            }
+            catch {
+                // just ignore
+            }
+        }
         /*
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
 //        print("tap:",x0,y0,screenSize.height)
         
-        if y0<screenSize.height/2 && recordingFlag==true{
-            //recording中はライト、センサー値は変えない
-            return
-        }
+//        if y0<screenSize.height/2 && recordingFlag==true{
+//            //recording中はライト、センサー値は変えない
+//            return
+//        }
 //        toggleFlash()
         //ここでリセットしてz軸を正面とする。
-        motionManager.stopDeviceMotionUpdates()
+//        motionManager.stopDeviceMotionUpdates()
         let x = y0/screenSize.height
         let y = 1.0 - x0/screenSize.width
         let focusPoint = CGPoint(x:x,y:y)
@@ -780,17 +860,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                         device.unlockForConfiguration()
                     })
                 })
-//                if  ((device.hasTorch) != nil) {
-//
-//                    do {
-//                        try device.setTorchModeOn(level: 0.9)
-//                    } catch {
-//                        print("error")
-//                    }
-//                    device.torchMode = AVCaptureDevice.TorchMode.off == device.torchMode ? AVCaptureDevice.TorchMode.on : AVCaptureDevice.TorchMode.off
-                    //                    device!.unlockForConfiguration()
-           
-//                }
+
                 // 露出の設定
                 if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
                     device.exposurePointOfInterest = focusPoint
@@ -798,21 +868,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
                 device.unlockForConfiguration()
                 
-                if tapF {
+                if tapFlag {//２回目からは削除して追加
                     view.layer.sublayers?.removeLast()
                 }
                 drawSquare(x: x0, y: y0)
-                tapF=true;
-                //                }
+                tapFlag=true;
             }
             catch {
                 // just ignore
             }
-        }
- */
-        if recordingFlag==false{
-            setMotion()
-        }
+        }*/
     }
     func setFocus(focus:Float) {//focus 0:最接近　0-1.0
          if let device = videoDevice{
