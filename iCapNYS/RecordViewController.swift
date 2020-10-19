@@ -243,6 +243,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             self.quater1 = quat.x
             self.quater2 = -quat.z
             self.quater3 =  quat.y
+//            print(String(format:"%.5f,%.5f,%.5f,%.5f",self.quater0,self.quater1,self.quater2,self.quater3))
         })
     }
     
@@ -283,6 +284,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     func drawHead(width w:CGFloat, height h:CGFloat, radius r:CGFloat, qOld0:CGFloat, qOld1:CGFloat, qOld2:CGFloat, qOld3:CGFloat)->UIImage{
         //        var ppk:[CGFloat]=[]
+        print(String(format:"%.3f,%.3f,%.3f,%.3f",qOld0,qOld1,qOld2,qOld3))
         var ppk = Array(repeating: CGFloat(0), count:500)
         //  pk_ken = &pk_ken2[0][0];//no smile
         let faceX0:CGFloat = w/2;
@@ -950,6 +952,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let qCG1=CGFloat(quater1)
         let qCG2=CGFloat(quater2)
         let qCG3=CGFloat(quater3)
+//        print(quater0,quater1,quater2,quater3)
+
         readingFlag=false
         
         let quaterImage = drawHead(width: 130, height: 130, radius: 60,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
@@ -975,7 +979,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UIGraphicsEndImageContext()
         
         let renderedBuffer = (renderedImage?.toCVPixelBuffer())!
-        
+//        print(String(format:"%.5f,%.5f,%.5f,%.5f",quater0,quater1,quater2,quater3))
 //        printWriterStatus(writer: fileWriter)
         if (recordingFlag == true && startTimeStamp != 0 && fileWriter!.status == .writing) {
             if fileWriterInput?.isReadyForMoreMediaData != nil{
