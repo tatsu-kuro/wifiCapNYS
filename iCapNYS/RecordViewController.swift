@@ -82,40 +82,39 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var focusNear: UILabel!
     @IBOutlet weak var focusBar: UISlider!
     
-    @IBOutlet weak var LEDcircle: UIImageView!
-    @IBOutlet weak var LEDButton: UIButton!
+  
     
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     
+    @IBOutlet weak var LEDBar: UISlider!
+    @IBOutlet weak var LEDHigh: UILabel!
+    @IBOutlet weak var LEDLow: UILabel!
     @IBOutlet weak var currentTime: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView: UIImageView!
     @IBOutlet weak var topLabel: UILabel!//storyboardで使っている！大事
-   
-    @IBAction func LEDonoff(_ sender: Any) {
-//        if recordingFlag==true{
-//            return
-//        }
-        if flashFlag==true{
-            setFlashlevel(level: 0)
-            flashFlag=false
-            LEDcircle.tintColor=UIColor.gray
-        }else{
-            //iPhone11:0.04 で適度な明るさ、これ以下にすると光らない
-            //SEでは明るすぎるが、これが最低の光量か？
-            //二つのLEDの個別の制御は出来なさそう。
-            setFlashlevel(level: 0.04)
-            flashFlag=true
-            LEDcircle.tintColor=UIColor.orange
-        }
-        if flashFlag==true{
-            UserDefaults.standard.set(1, forKey: "flashFlag")
-        }else{
-            UserDefaults.standard.set(0, forKey: "flashFlag")
-        }
-    }
+//    @IBAction func LEDonoff(_ sender: Any) {
+//         if flashFlag==true{
+//             setFlashlevel(level: 0)
+//             flashFlag=false
+//             LEDcircle.tintColor=UIColor.gray
+//         }else{
+//             //iPhone11:0.04 で適度な明るさ、これ以下にすると光らない
+//             //SEでは明るすぎるが、これが最低の光量か？
+//             //二つのLEDの個別の制御は出来なさそう。
+//             setFlashlevel(level: 0.04)
+//             flashFlag=true
+//             LEDcircle.tintColor=UIColor.orange
+//         }
+//         if flashFlag==true{
+//             UserDefaults.standard.set(1, forKey: "flashFlag")
+//         }else{
+//             UserDefaults.standard.set(0, forKey: "flashFlag")
+//         }
+//     }
+ 
 
     func setFlashlevel(level:Float){
         if let device = videoDevice{
@@ -179,11 +178,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         focusBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
         focusBar.value=getUserDefault(str: "focusLength", ret: 0)
         setFocus(focus: focusBar.value)
-        flashFlag=false
-        let flashFlagTemp=getUserDefault(str: "flashFlag", ret: 0)
-        if flashFlagTemp==1{
-            LEDonoff(0)
-        }
+        
+        LEDBar.minimumValue = 0
+        LEDBar.maximumValue = 0.1
+        LEDBar.addTarget(self, action: #selector(onLEDValueChange), for: UIControl.Event.valueChanged)
+        LEDBar.value=getUserDefault(str: "LEDValue", ret:0)
+        setFlashlevel(level: LEDBar.value)
+    
+        
+        
+//        flashFlag=false
+//        let flashFlagTemp=getUserDefault(str: "flashFlag", ret: 0)
+//        if flashFlagTemp==1{
+//            LEDonoff(0)
+//        }
         setButtons(type: true)
     }
     func getUserDefault(str:String,ret:Float) -> Float{
@@ -195,7 +203,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     
-    
+    @objc func onLEDValueChange(){
+//        setFocus(focus:focusBar.value)
+        setFlashlevel(level: LEDBar.value)
+        UserDefaults.standard.set(LEDBar.value, forKey: "LEDValue")
+    }
     @objc func onSliderValueChange(){
         setFocus(focus:focusBar.value)
         UserDefaults.standard.set(focusBar.value, forKey: "focusLength")
@@ -604,16 +616,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exitButton.layer.cornerRadius = 10
 //        LEDButton.frame=CGRect(x:0,y:0,width:bw/3,height:bh/5)
 //        LEDButton.layer.position = CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
-        LEDButton.layer.borderColor = UIColor.green.cgColor
-        LEDButton.layer.borderWidth = 1.0
-        LEDButton.layer.cornerRadius = 10
+//        LEDButton.layer.borderColor = UIColor.green.cgColor
+//        LEDButton.layer.borderWidth = 1.0
+//        LEDButton.layer.cornerRadius = 10
         focusFar.layer.masksToBounds = true
-        focusFar.layer.cornerRadius = 10
+        focusFar.layer.cornerRadius = 5
         focusNear.layer.masksToBounds = true
-        focusNear.layer.cornerRadius = 10
-        focusBar.layer.masksToBounds = true
-        focusBar.layer.cornerRadius = 10
-        
+        focusNear.layer.cornerRadius = 5
+//        focusBar.layer.masksToBounds = true
+//        focusBar.layer.cornerRadius = 5
+        LEDLow.layer.masksToBounds=true
+        LEDLow.layer.cornerRadius=5
+        LEDHigh.layer.masksToBounds=true
+        LEDHigh.layer.cornerRadius=5
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.tintColor=UIColor.orange
@@ -695,11 +710,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     @IBAction func onClickStartButton(_ sender: Any) {
 //        setFocus(focus: 0)
-        LEDcircle.isHidden=true
-        LEDButton.isHidden=true
+//        LEDcircle.isHidden=true
+//        LEDButton.isHidden=true
         focusNear.isHidden=true
         focusFar.isHidden=true
         focusBar.isHidden=true
+        LEDLow.isHidden=true
+        LEDHigh.isHidden=true
+        LEDBar.isHidden=true
         if tapFlag {
             view.layer.sublayers?.removeLast()
             tapFlag=false
