@@ -67,7 +67,7 @@ class ViewController: UIViewController{
         cameraButton.layer.cornerRadius = 30
         cameraButton.titleLabel!.numberOfLines = 9
         cameraButton.titleLabel!.textAlignment = NSTextAlignment.center
-        cameraButton.setTitle("［ 録画 ］\n\nLEDはオンオフ出来ます.\n\n 明るすぎる機種の場合は\n\nLEDを白紙等で覆って\n\n光量を調節して下さい.", for: .normal)
+        cameraButton.setTitle("［ 録画 ］\n\nLEDは光量調節が出来ます.\n\n 明るすぎる機種の場合は\n\nLEDを紙等で覆って\n\n光量を調節して下さい.", for: .normal)
         
         playButton.setTitleColor(.white, for: .normal)
         playButton.backgroundColor=UIColor.systemGreen

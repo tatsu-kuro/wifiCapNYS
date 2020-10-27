@@ -296,7 +296,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     func drawHead(width w:CGFloat, height h:CGFloat, radius r:CGFloat, qOld0:CGFloat, qOld1:CGFloat, qOld2:CGFloat, qOld3:CGFloat)->UIImage{
         //        var ppk:[CGFloat]=[]
-        print(String(format:"%.3f,%.3f,%.3f,%.3f",qOld0,qOld1,qOld2,qOld3))
+//        print(String(format:"%.3f,%.3f,%.3f,%.3f",qOld0,qOld1,qOld2,qOld3))
         var ppk = Array(repeating: CGFloat(0), count:500)
         //  pk_ken = &pk_ken2[0][0];//no smile
         let faceX0:CGFloat = w/2;
@@ -697,7 +697,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             } else {
                 //failureBlock(error)
                 print("fail")
-                print(error)
+//                print(error)
 
             }
 //            _ = try? FileManager.default.removeItem(atPath: self.TempFilePath)
@@ -758,7 +758,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         fileWriter!.startWriting()
         fileWriter!.startSession(atSourceTime: CMTime.zero)
-        print(fileWriter?.error)
+//        print(fileWriter?.error)
         setMotion()
     }
     
