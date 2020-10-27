@@ -821,9 +821,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
-        print("tap:",x0,y0,screenSize.height)
+//        print("tap:",x0,y0,screenSize.height)
         
-        if y0>screenSize.height/2{
+        if y0>view.bounds.height*0.43{//screenSize.height/2{
             return
         }
         let x = y0/screenSize.height
