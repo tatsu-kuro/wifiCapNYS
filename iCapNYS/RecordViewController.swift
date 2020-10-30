@@ -82,8 +82,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var focusNear: UILabel!
     @IBOutlet weak var focusBar: UISlider!
     
-  
+    @IBOutlet weak var isoBar: UISlider!
     
+    
+    @IBOutlet weak var exposeBar: UISlider!
+    
+    @IBOutlet weak var exposeLow: UILabel!
+    @IBOutlet weak var exposeHigh: UILabel!
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     
@@ -171,12 +176,23 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isHidden=true
         currentTime.isHidden=true
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-//        setFocus(focus: focusF)
-//        setFlashlevel(level: 0.0)
+
+        exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
+        exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
+        let centerValue = (exposeBar.minimumValue + exposeBar.maximumValue) / 2
+        exposeBar.addTarget(self, action: #selector(onExposeChanged), for: UIControl.Event.valueChanged)
+        exposeBar.value=getUserDefault(str: "exposeValue", ret: centerValue)
+        setExpose(expose: exposeBar.value)
+//        exposeBar.transform=CGAffineTransform(scaleX: 2, y: 2)
+//        isoBar.minimumValue = Float(videoDevice!.activeFormat.minISO)
+//        isoBar.maximumValue = Float(videoDevice!.activeFormat.maxISO)
+//        self.isoBar.value = (isoBar.minimumValue + isoBar.maximumValue) / 2
+//        isoBar.addTarget(self, action: #selector(onISOChanged), for: UIControl.Event.valueChanged)
         focusBar.minimumValue = 0
         focusBar.maximumValue = 1.0
         focusBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
         focusBar.value=getUserDefault(str: "focusLength", ret: 0)
+    
         setFocus(focus: focusBar.value)
         
         LEDBar.minimumValue = 0
@@ -204,7 +220,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     @objc func onLEDValueChange(){
-//        setFocus(focus:focusBar.value)
         setFlashlevel(level: LEDBar.value)
         UserDefaults.standard.set(LEDBar.value, forKey: "LEDValue")
     }
@@ -629,6 +644,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDLow.layer.cornerRadius=5
         LEDHigh.layer.masksToBounds=true
         LEDHigh.layer.cornerRadius=5
+        exposeLow.layer.masksToBounds=true
+        exposeLow.layer.cornerRadius=5
+        exposeHigh.layer.masksToBounds=true
+        exposeHigh.layer.cornerRadius=5
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.tintColor=UIColor.orange
@@ -840,10 +859,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 //                device.focusMode = .locked
 //                print("lensPosition:",device.lensPosition)
                 // 露出の設定
-                if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
-                    device.exposurePointOfInterest = focusPoint
-                    device.exposureMode = .continuousAutoExposure
-                }
+//                if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
+//                    device.exposurePointOfInterest = focusPoint
+//                    device.exposureMode = .continuousAutoExposure
+//                }
                 device.unlockForConfiguration()
         
                 
@@ -920,6 +939,51 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 // just ignore
             }
 //            print("lensPosition:",device.lensPosition)
+        }
+    }
+    @objc func onExposeChanged(_ sender: UISlider){
+//        setFocus(focus:focusBar.value)
+        setExpose(expose: exposeBar.value)
+        UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
+    }
+    
+    func setExpose(expose:Float){
+//    @IBAction func onExposeChanged1(_ sender: UISlider) {
+        if let device = videoDevice{
+            //        let tag: Int = sender.tag
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                
+                //          露出を設定
+                device.exposureMode = .autoExpose
+                device.setExposureTargetBias(expose, completionHandler: nil)
+                
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+        }
+    }
+    @IBAction func onISOChanged(_ sender: UISlider) {
+        if let device = videoDevice{
+            //        let tag: Int = sender.tag
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                
+                //          露出を設定
+//                device.exposureMode = .autoExpose
+//                device.setExposureTargetBias(sender.value, completionHandler: nil)
+                //          ISO感度を設定
+                device.exposureMode = .custom
+                device.setExposureModeCustom(duration: AVCaptureDevice.currentExposureDuration,
+                                             iso: sender.value,
+                                             completionHandler: nil)
+//                device.unlockForConfiguration()
+                
+            } catch {
+                print("\(error.localizedDescription)")
+            }
         }
     }
     //debug用、AVAssetWriterの状態を見るため、そのうち消去
