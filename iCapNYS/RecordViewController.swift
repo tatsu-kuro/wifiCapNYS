@@ -82,7 +82,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var focusNear: UILabel!
     @IBOutlet weak var focusBar: UISlider!
     
-    @IBOutlet weak var isoBar: UISlider!
+//    @IBOutlet weak var isoBar: UISlider!
     
     
     @IBOutlet weak var exposeBar: UISlider!
@@ -604,7 +604,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override func viewDidAppear(_ animated: Bool) {
 //        setButtons(type: true)
     }
-
+    func setProperty(label:UILabel,radius:CGFloat){
+        label.layer.masksToBounds = true
+        label.layer.borderColor = UIColor.green.cgColor
+        label.layer.borderWidth = 1.0
+        label.layer.cornerRadius = radius
+    }
     func setButtons(type:Bool){
         // recording button
         let topX=topLabel.frame.maxY
@@ -615,8 +620,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let bh=bw//:Int=60
         currentTime.frame = CGRect(x:0,y: 0 ,width:ww/5, height: ww/10)
         currentTime.layer.position=CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
-        currentTime.layer.masksToBounds = true
-        currentTime.layer.cornerRadius = 10
+  //      currentTime.layer.masksToBounds = true
+//        currentTime.layer.cornerRadius = 10
+        setProperty(label: currentTime, radius: 10)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 25*view.bounds.width/320, weight: .medium)
 
         //startButton
@@ -629,25 +635,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exitButton.layer.borderColor = UIColor.green.cgColor
         exitButton.layer.borderWidth = 1.0
         exitButton.layer.cornerRadius = 10
-//        LEDButton.frame=CGRect(x:0,y:0,width:bw/3,height:bh/5)
-//        LEDButton.layer.position = CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
-//        LEDButton.layer.borderColor = UIColor.green.cgColor
-//        LEDButton.layer.borderWidth = 1.0
-//        LEDButton.layer.cornerRadius = 10
-        focusFar.layer.masksToBounds = true
-        focusFar.layer.cornerRadius = 5
-        focusNear.layer.masksToBounds = true
-        focusNear.layer.cornerRadius = 5
-//        focusBar.layer.masksToBounds = true
-//        focusBar.layer.cornerRadius = 5
-        LEDLow.layer.masksToBounds=true
-        LEDLow.layer.cornerRadius=5
-        LEDHigh.layer.masksToBounds=true
-        LEDHigh.layer.cornerRadius=5
-        exposeLow.layer.masksToBounds=true
-        exposeLow.layer.cornerRadius=5
-        exposeHigh.layer.masksToBounds=true
-        exposeHigh.layer.cornerRadius=5
+        setProperty(label: focusFar, radius: 5)
+        setProperty(label: focusNear, radius: 5)
+        setProperty(label: LEDLow, radius: 5)
+        setProperty(label: LEDHigh, radius: 5)
+        setProperty(label: exposeHigh, radius: 5)
+        setProperty(label: exposeLow, radius: 5)
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.tintColor=UIColor.orange
@@ -737,6 +730,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDLow.isHidden=true
         LEDHigh.isHidden=true
         LEDBar.isHidden=true
+        exposeLow.isHidden=true
+        exposeHigh.isHidden=true
+        exposeBar.isHidden=true
         if tapFlag {
             view.layer.sublayers?.removeLast()
             tapFlag=false
@@ -780,6 +776,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        print(fileWriter?.error)
         setMotion()
     }
+    
+//    setButtonProperty(label:helpButton,bw:bw,bh:bh,cx:10+bw/2+bwd*6,cy:bh0)
+
+
     
 //    func toggleTorch() {
 //        let avDevice = videoDeviceAVCaptureDevice.default(for: AVMediaType.video)

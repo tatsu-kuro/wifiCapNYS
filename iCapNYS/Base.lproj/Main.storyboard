@@ -211,7 +211,7 @@
                                     <constraint firstAttribute="height" constant="25" id="wrx-o3-qC0"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="＋" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8HF-AS-4vD">
@@ -330,7 +330,9 @@
                                 <state key="normal">
                                     <string key="title">最新動画再生
 in the album
-iCapNYS</string>
+iCapNYS
+kk
+kk</string>
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -341,7 +343,18 @@ iCapNYS</string>
                                 <rect key="frame" x="20" y="458" width="374" height="384"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="HiraMaruProN-W4" family="Hiragino Maru Gothic ProN" pointSize="20"/>
-                                <state key="normal" title="カメラへ">
+                                <state key="normal">
+                                    <string key="title">カメラへ
+pp
+pp
+pp
+pp
+pp
+pp
+pp
+pp
+pp
+</string>
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
