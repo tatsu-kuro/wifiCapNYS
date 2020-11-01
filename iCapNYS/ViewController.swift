@@ -19,6 +19,7 @@ class ViewController: UIViewController{
     
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     
+    @IBOutlet weak var howTo: UIButton!
     @IBOutlet weak var playButton: UIButton!
     
     @IBOutlet weak var cameraButton: UIButton!
@@ -62,6 +63,7 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         camera_alert()
+        howTo.layer.cornerRadius=15
         cameraButton.setTitleColor(.white, for: .normal)
         cameraButton.backgroundColor=UIColor.systemGreen
         cameraButton.layer.cornerRadius = 30
