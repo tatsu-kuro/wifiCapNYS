@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -379,16 +378,15 @@ kk</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IwN-Th-8hI">
-                                <rect key="frame" x="304" y="73" width="80" height="42"/>
+                                <rect key="frame" x="319" y="79" width="60" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="g5R-Sc-ygb"/>
-                                    <constraint firstAttribute="width" constant="80" id="lTb-o0-J08"/>
+                                    <constraint firstAttribute="height" constant="30" id="g5R-Sc-ygb"/>
+                                    <constraint firstAttribute="width" constant="60" id="lTb-o0-J08"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="使い方">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <imageReference key="backgroundImage" image="rectangle" catalog="system" symbolScale="large"/>
+                                <state key="normal" title="装具">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <segue destination="eL6-VO-9Mc" kind="show" id="lIi-V7-BL5"/>
@@ -404,7 +402,7 @@ kk</string>
                             <constraint firstItem="zEa-EM-TRz" firstAttribute="top" secondItem="hsN-Ie-1eT" secondAttribute="bottom" constant="20" id="4FQ-49-FQD"/>
                             <constraint firstItem="qRG-Ve-NLC" firstAttribute="top" secondItem="zEa-EM-TRz" secondAttribute="bottom" constant="10" id="777-mh-WdP"/>
                             <constraint firstItem="hsN-Ie-1eT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="7Rt-M2-8Qk"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="IwN-Th-8hI" secondAttribute="trailing" constant="30" id="AdY-PN-36N"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="IwN-Th-8hI" secondAttribute="trailing" constant="35" id="AdY-PN-36N"/>
                             <constraint firstItem="1km-Jh-hmY" firstAttribute="top" secondItem="qRG-Ve-NLC" secondAttribute="bottom" constant="10" id="GFH-iV-Mmn"/>
                             <constraint firstItem="hoK-ZM-hT5" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Jmt-hl-Oc0"/>
                             <constraint firstItem="1km-Jh-hmY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="LG9-cQ-XtO"/>
@@ -413,7 +411,7 @@ kk</string>
                             <constraint firstItem="qRG-Ve-NLC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Tmt-vd-8nP"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hoK-ZM-hT5" secondAttribute="trailing" id="aV5-eV-dtX"/>
                             <constraint firstItem="hoK-ZM-hT5" firstAttribute="top" secondItem="1km-Jh-hmY" secondAttribute="bottom" constant="20" id="gpt-bR-hYT"/>
-                            <constraint firstItem="IwN-Th-8hI" firstAttribute="top" secondItem="hsN-Ie-1eT" secondAttribute="bottom" constant="30" id="j4n-o5-LxH"/>
+                            <constraint firstItem="IwN-Th-8hI" firstAttribute="top" secondItem="hsN-Ie-1eT" secondAttribute="bottom" constant="35" id="j4n-o5-LxH"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qRG-Ve-NLC" secondAttribute="trailing" id="kcS-EW-NzY"/>
                             <constraint firstItem="hsN-Ie-1eT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="pnC-hg-EIk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1km-Jh-hmY" secondAttribute="trailing" constant="20" id="tX6-Sv-79V"/>
@@ -423,6 +421,7 @@ kk</string>
                     <connections>
                         <outlet property="cameraButton" destination="1km-Jh-hmY" id="uJO-XE-73f"/>
                         <outlet property="playButton" destination="zEa-EM-TRz" id="2KC-bW-obX"/>
+                        <outlet property="soguButton" destination="IwN-Th-8hI" id="e7H-zu-JVL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
