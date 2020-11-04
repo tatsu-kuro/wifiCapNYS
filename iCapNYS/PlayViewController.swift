@@ -74,7 +74,7 @@ class PlayViewController: UIViewController{
         exitButton.layer.masksToBounds = true
         exitButton.layer.cornerRadius = 5.0
         exitButton.backgroundColor = UIColor.darkGray
-        exitButton.setTitle("Exit", for:UIControl.State.normal)
+        exitButton.setTitle("戻る", for:UIControl.State.normal)
         exitButton.isEnabled=true
         exitButton.layer.borderColor = UIColor.black.cgColor
         exitButton.layer.borderWidth = 1.0
