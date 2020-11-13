@@ -176,13 +176,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isHidden=true
         currentTime.isHidden=true
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-
-        exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
+        //露出はオートの方が良さそう
+        exposeHigh.isHidden=true
+        exposeLow.isHidden=true
+        exposeBar.isHidden=true
+/*        exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
         exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
         let centerValue = (exposeBar.minimumValue + exposeBar.maximumValue) / 2
         exposeBar.addTarget(self, action: #selector(onExposeChanged), for: UIControl.Event.valueChanged)
         exposeBar.value=getUserDefault(str: "exposeValue", ret: centerValue)
-        setExpose(expose: exposeBar.value)
+//        autoExpose()
+        setExpose(expose: exposeBar.value)*/
 //        exposeBar.transform=CGAffineTransform(scaleX: 2, y: 2)
 //        isoBar.minimumValue = Float(videoDevice!.activeFormat.minISO)
 //        isoBar.maximumValue = Float(videoDevice!.activeFormat.maxISO)
@@ -733,10 +737,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeLow.isHidden=true
         exposeHigh.isHidden=true
         exposeBar.isHidden=true
-        if tapFlag {
-            view.layer.sublayers?.removeLast()
-            tapFlag=false
-        }
+ //       if tapFlag {
+   //         view.layer.sublayers?.removeLast()
+ //           tapFlag=false
+ //       }
         //ここでもチェックし、Stopでもチェックする
         if albumExists(albumTitle: "iCapNYS")==false{
             createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
@@ -790,6 +794,39 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            avDevice!.unlockForConfiguration()
 //        }
 //    }
+    func autoExpose(){
+ //       let screenSize=cameraView.bounds.size
+ //       let x0 = view.bounds.width/2// CGFloat(0)//sender.location(in: self.view).x
+ //       let y0 = view.bounds.height/4//CGFloat(0)//sender.location(in: self.view).y
+ //       print("tap:",x0,y0,screenSize.height)
+        
+//        if y0>screenSize.height*5/6{
+//            return
+//        }
+//        let x = 0.25//y0/screenSize.height
+//        let y = 0.5//1.0 - x0/screenSize.width
+        let focusPoint = CGPoint(x:0.25,y:0.5)
+        
+        if let device = videoDevice{
+            do {
+                try device.lockForConfiguration()
+                
+  //              device.focusPointOfInterest = focusPoint
+                //                device.focusMode = .continuousAutoFocus
+    //            device.focusMode = .autoFocus
+                //                device.focusMode = .locked
+                // 露出の設定
+                if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
+                    device.exposurePointOfInterest = focusPoint
+                    device.exposureMode = .continuousAutoExposure
+                }
+                device.unlockForConfiguration()
+            }
+            catch {
+                // just ignore
+            }
+        }
+    }
     /*
      @IBAction func tapGes(_ sender: UITapGestureRecognizer) {
          let screenSize=cameraView.bounds.size
@@ -840,7 +877,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
-//        print("tap:",x0,y0,screenSize.height)
+//        print("tap:",x0,y0,screenSize,view.bounds)
         
         if y0>view.bounds.height*0.43{//screenSize.height/2{
             return
@@ -866,11 +903,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 device.unlockForConfiguration()
         
                 
-                if tapFlag {
-                    view.layer.sublayers?.removeLast()
-                }
-                drawSquare(x: x0, y: y0)
-                tapFlag=true;
+  //              if tapFlag {
+  //                  view.layer.sublayers?.removeLast()
+  //              }
+  //              drawSquare(x: x0, y: y0)
+  //              tapFlag=true;
                 //                }
             }
             catch {

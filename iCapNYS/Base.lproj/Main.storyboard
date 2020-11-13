@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -455,17 +455,18 @@ kk</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iCapNYShelp" translatesAutoresizingMaskIntoConstraints="NO" id="KXn-JY-fvB">
-                                <rect key="frame" x="10" y="44" width="394" height="818"/>
+                                <rect key="frame" x="10" y="44" width="394" height="758"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="swt-4C-G4l">
-                                <rect key="frame" x="314" y="808" width="80" height="37.5"/>
+                                <rect key="frame" x="314" y="807" width="80" height="40"/>
+                                <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="PNG-ba-deK"/>
                                     <constraint firstAttribute="width" constant="80" id="Xi5-nn-Mfo"/>
                                 </constraints>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="戻る" backgroundImage="rectangle" catalog="system">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" systemColor="systemGrayColor"/>
+                                <state key="normal" title="戻る">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <segue destination="pLX-6O-bBD" kind="unwind" unwindAction="unwindActionWithSegue:" id="u5N-ES-V5l"/>
@@ -476,16 +477,16 @@ kk</string>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Wk0-jB-uMg" firstAttribute="top" secondItem="5AE-QU-xbp" secondAttribute="top" id="5TG-yw-My8"/>
-                            <constraint firstItem="hx9-Ny-w1G" firstAttribute="top" secondItem="KXn-JY-fvB" secondAttribute="bottom" id="9WJ-K4-XA7"/>
                             <constraint firstItem="5AE-QU-xbp" firstAttribute="trailing" secondItem="swt-4C-G4l" secondAttribute="trailing" constant="20" id="BFd-cO-zMI"/>
                             <constraint firstItem="hx9-Ny-w1G" firstAttribute="top" secondItem="swt-4C-G4l" secondAttribute="bottom" constant="15" id="EMX-59-XVE"/>
                             <constraint firstItem="Wk0-jB-uMg" firstAttribute="leading" secondItem="5AE-QU-xbp" secondAttribute="leading" id="JEm-XQ-QTx"/>
-                            <constraint firstItem="KXn-JY-fvB" firstAttribute="top" secondItem="Wk0-jB-uMg" secondAttribute="bottom" id="K0y-d8-g2z"/>
                             <constraint firstItem="5AE-QU-xbp" firstAttribute="trailing" secondItem="Wk0-jB-uMg" secondAttribute="trailing" id="PaE-wB-WzH"/>
-                            <constraint firstItem="KXn-JY-fvB" firstAttribute="leading" secondItem="5AE-QU-xbp" secondAttribute="leading" constant="10" id="a7t-6r-6EG"/>
+                            <constraint firstItem="swt-4C-G4l" firstAttribute="top" secondItem="KXn-JY-fvB" secondAttribute="bottom" constant="5" id="Tbv-mQ-7ka"/>
+                            <constraint firstItem="KXn-JY-fvB" firstAttribute="leading" secondItem="5AE-QU-xbp" secondAttribute="leading" constant="10" id="VNd-9U-boy"/>
+                            <constraint firstItem="KXn-JY-fvB" firstAttribute="top" secondItem="Wk0-jB-uMg" secondAttribute="bottom" id="WN8-we-dsw"/>
                             <constraint firstItem="5AE-QU-xbp" firstAttribute="trailing" secondItem="hx9-Ny-w1G" secondAttribute="trailing" id="e3g-mc-c9U"/>
                             <constraint firstItem="hx9-Ny-w1G" firstAttribute="leading" secondItem="5AE-QU-xbp" secondAttribute="leading" id="hV5-el-FfE"/>
-                            <constraint firstItem="5AE-QU-xbp" firstAttribute="trailing" secondItem="KXn-JY-fvB" secondAttribute="trailing" constant="10" id="npk-8X-ejJ"/>
+                            <constraint firstItem="5AE-QU-xbp" firstAttribute="trailing" secondItem="KXn-JY-fvB" secondAttribute="trailing" constant="10" id="rlv-Vy-E4C"/>
                             <constraint firstItem="hx9-Ny-w1G" firstAttribute="bottom" secondItem="5AE-QU-xbp" secondAttribute="bottom" id="td0-CU-QKL"/>
                         </constraints>
                     </view>
@@ -498,12 +499,14 @@ kk</string>
         </scene>
     </scenes>
     <resources>
-        <image name="iCapNYShelp" width="1032" height="2121"/>
+        <image name="iCapNYShelp" width="1036" height="1926"/>
         <image name="largecircle.fill.circle" catalog="system" width="128" height="121"/>
-        <image name="rectangle" catalog="system" width="128" height="93"/>
         <image name="stop.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
