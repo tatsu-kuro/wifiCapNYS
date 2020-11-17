@@ -85,10 +85,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //    @IBOutlet weak var isoBar: UISlider!
     
     
-    @IBOutlet weak var exposeBar: UISlider!
-    
-    @IBOutlet weak var exposeLow: UILabel!
-    @IBOutlet weak var exposeHigh: UILabel!
+//    @IBOutlet weak var exposeBar: UISlider!
+//
+//    @IBOutlet weak var exposeLow: UILabel!
+//    @IBOutlet weak var exposeHigh: UILabel!
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     
@@ -177,9 +177,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.isHidden=true
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         //露出はオートの方が良さそう
-        exposeHigh.isHidden=true
-        exposeLow.isHidden=true
-        exposeBar.isHidden=true
+//        exposeHigh.isHidden=true
+//        exposeLow.isHidden=true
+//        exposeBar.isHidden=true
 /*        exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
         exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
         let centerValue = (exposeBar.minimumValue + exposeBar.maximumValue) / 2
@@ -643,8 +643,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setProperty(label: focusNear, radius: 5)
         setProperty(label: LEDLow, radius: 5)
         setProperty(label: LEDHigh, radius: 5)
-        setProperty(label: exposeHigh, radius: 5)
-        setProperty(label: exposeLow, radius: 5)
+//        setProperty(label: exposeHigh, radius: 5)
+//        setProperty(label: exposeLow, radius: 5)
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.tintColor=UIColor.orange
@@ -734,9 +734,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDLow.isHidden=true
         LEDHigh.isHidden=true
         LEDBar.isHidden=true
-        exposeLow.isHidden=true
-        exposeHigh.isHidden=true
-        exposeBar.isHidden=true
+//        exposeLow.isHidden=true
+//        exposeHigh.isHidden=true
+//        exposeBar.isHidden=true
  //       if tapFlag {
    //         view.layer.sublayers?.removeLast()
  //           tapFlag=false
@@ -978,11 +978,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            print("lensPosition:",device.lensPosition)
         }
     }
-    @objc func onExposeChanged(_ sender: UISlider){
-//        setFocus(focus:focusBar.value)
-        setExpose(expose: exposeBar.value)
-        UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
-    }
+//    @objc func onExposeChanged(_ sender: UISlider){
+//        setExpose(expose: exposeBar.value)
+//        UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
+//    }
     
     func setExpose(expose:Float){
 //    @IBAction func onExposeChanged1(_ sender: UISlider) {
