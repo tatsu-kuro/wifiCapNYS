@@ -62,6 +62,7 @@ class ViewController: UIViewController{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+//        self.view.backgroundColor = UIColor.white// .cyanColor()
         camera_alert()
         soguButton.layer.cornerRadius=10
         cameraButton.setTitleColor(.white, for: .normal)
