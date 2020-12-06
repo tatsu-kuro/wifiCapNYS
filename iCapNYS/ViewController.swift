@@ -159,5 +159,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(videoDate[indexPath.row])
+        let storyboard: UIStoryboard = self.storyboard!
+        let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
+        self.present(nextView, animated: true, completion: nil)
        }
 }

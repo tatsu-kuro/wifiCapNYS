@@ -12,7 +12,7 @@
         <!--Play View Controller-->
         <scene sceneID="sPJ-MW-f3s">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="x93-Is-wG7" customClass="PlayViewController" customModule="iCapNYS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="playView" modalPresentationStyle="fullScreen" id="x93-Is-wG7" customClass="PlayViewController" customModule="iCapNYS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="trx-MY-Ccg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
