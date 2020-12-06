@@ -20,7 +20,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let TODO = ["abd","cddd","nanda"]
     var videoDate = Array<String>()
-    var videoPath = Array<String>()
+    var videoIdentifier = Array<String>()
     @IBOutlet weak var how2Button: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     
@@ -42,7 +42,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     func getAlbumList(){
    //     let imgManager = PHImageManager.default()
         videoDate.removeAll()
-        videoPath.removeAll()
+        videoIdentifier.removeAll()
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
@@ -68,7 +68,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     let str1 = str.components(separatedBy: " +")
                     let str2 = cnt.description + ") " + str1[0]
                     videoDate.append(str2)//asset.creationDate!.description)
-                    videoPath.append(asset.localIdentifier)
+                    videoIdentifier.append(asset.localIdentifier)
                     print(str2)
                 }
                 // 画像のリクエスト
@@ -162,7 +162,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         print(videoDate[indexPath.row])
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
-        nextView.videoIdentifier=videoPath[indexPath.row]
+        nextView.videoIdentifier=videoIdentifier[indexPath.row]
         self.present(nextView, animated: true, completion: nil)
     }
 }
