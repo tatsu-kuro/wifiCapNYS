@@ -616,14 +616,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     func setButtons(type:Bool){
         // recording button
-        let topX=topLabel.frame.maxY
+        let topY=topLabel.frame.maxY
         let ww:CGFloat=view.bounds.width
         let wh:CGFloat=view.bounds.height//dammyBottom.frame.maxY// view.bounds.height
         let bw=ww*3/5
 
         let bh=bw//:Int=60
         currentTime.frame = CGRect(x:0,y: 0 ,width:ww/5, height: ww/10)
-        currentTime.layer.position=CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
+        currentTime.layer.position=CGPoint(x:ww-bw*11/60,y:topY+ww/20+10)//wh-bh*4/5)
   //      currentTime.layer.masksToBounds = true
 //        currentTime.layer.cornerRadius = 10
         setProperty(label: currentTime, radius: 10)
@@ -635,7 +635,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.frame=CGRect(x:0,y:0,width:bw,height:bw)
         stopButton.layer.position = CGPoint(x:ww/2,y:wh-bh*4/5)
         exitButton.frame=CGRect(x:0,y:0,width:bw/3,height:bh/5)
-        exitButton.layer.position = CGPoint(x:ww-bw*11/60,y:wh-bh*4/5)
+        exitButton.layer.position = CGPoint(x:ww-bw*11/60,y:topY+ww/20+10)//+wh-bh*4/5)
         exitButton.layer.borderColor = UIColor.green.cgColor
         exitButton.layer.borderWidth = 1.0
         exitButton.layer.cornerRadius = 10
@@ -650,7 +650,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.tintColor=UIColor.orange
         
         quaternionView.frame=CGRect(x:0,y:0,width:ww/6,height:ww/6)
-        quaternionView.layer.position=CGPoint(x:ww/12+10,y:topX + ww/12+10)
+        quaternionView.layer.position=CGPoint(x:ww/12+10,y:topY + ww/12+10)
 
     }
 

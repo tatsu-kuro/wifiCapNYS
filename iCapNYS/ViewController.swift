@@ -22,6 +22,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     var videoDate = Array<String>()
     @IBOutlet weak var how2Button: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
+    
+    @IBOutlet weak var topLabel: UILabel!
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
         if segue.identifier=="fromRecord"{
             //            print("同じ")
@@ -109,20 +111,19 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //    }
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.view.backgroundColor = UIColor.white// .cyanColor()
-        camera_alert()
-        let vw=view.bounds.width
-        let bw=vw/4
-        how2Button.frame=CGRect(x:0,y:0,width:bw,height:bw/2)
-        how2Button.layer.position = CGPoint(x:vw-bw/2-10,y:bw/2+20)
+        
+//        let topY=topLabel.frame.maxY
+//        let ww:CGFloat=view.bounds.width
+//        let wh:CGFloat=view.bounds.height
+//        let bw=ww/4
+////        let bh=bw
+//        how2Button.frame=CGRect(x:0,y:0,width:bw,height:bw/2)
+//        how2Button.layer.position = CGPoint(x:ww-bw/2-10,y:topY+bw/4+10)//+wh-bh*4/5)
         how2Button.layer.borderColor = UIColor.green.cgColor
-        how2Button.layer.backgroundColor = UIColor.gray.cgColor
         how2Button.layer.borderWidth = 1.0
         how2Button.layer.cornerRadius = 10
-        
-        
+ 
         getAlbumList()
-        how2Button.layer.cornerRadius=10
         cameraButton.setTitleColor(.white, for: .normal)
         cameraButton.backgroundColor=UIColor.systemGreen
         cameraButton.layer.cornerRadius = 30
