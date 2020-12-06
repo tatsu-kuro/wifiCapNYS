@@ -145,26 +145,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     //    override func viewDidAppear(_ animated: Bool) {
     //    }
-    fileprivate var targetSize = CGSize.zero
-    fileprivate let kCellReuseIdentifier = "Cell"
-    fileprivate let kColumnCnt: Int = 1
-    fileprivate let kCellSpacing: CGFloat = 2
-    func initView() {
-//        let imgWidth = (collectionView.frame.width - (kCellSpacing * (CGFloat(kColumnCnt) - 1))) / CGFloat(kColumnCnt)
-        //表示調整を上でやっていたが、何故？
-        let imgWidth=view.bounds.width*0.85
-    
-        targetSize = CGSize(width: imgWidth, height: imgWidth*200/500)//vhit
-       
-        //print(imgWidth)
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = targetSize
-        layout.minimumInteritemSpacing = kCellSpacing
-        layout.minimumLineSpacing = kCellSpacing
-     
-    }
  
-
     //nuber of cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //最初に一回通る        print("collection -> int")
@@ -176,4 +157,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         cell.textLabel!.text = videoDate[indexPath.row]
         return cell
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(videoDate[indexPath.row])
+       }
 }
