@@ -13,10 +13,12 @@ class PlayViewController: UIViewController{
     var duration:Float=0
     var currTime:UILabel?
     var timer: Timer!
-     var playingFlag:Bool=false
+    var videoIdentifier:String?
+    var playingFlag:Bool=false
     lazy var seekBar = UISlider()
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(videoIdentifier)
         // Create AVPlayerItem
         //            guard let path = Bundle.main.path(forResource: "movie", ofType: "mp4") else {
         //    fatalError("Movie file can not find.")
