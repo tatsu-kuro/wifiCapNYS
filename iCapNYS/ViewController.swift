@@ -63,13 +63,13 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 if assetCollection.localizedTitle == "iCapNYS2"{
                     cnt += 1
                     //print(asset.creationDate as Any,cnt)
-                    print(asset.localIdentifier)
+//                    print(asset.localIdentifier)
                     let str = asset.creationDate!.description//2020-11-24 09:29:43 +0000
                     let str1 = str.components(separatedBy: " +")
                     let str2 = cnt.description + ") " + str1[0]
                     videoDate.append(str2)//asset.creationDate!.description)
                     videoIdentifier.append(asset.localIdentifier)
-                    print(str2)
+//                    print(str2)
                 }
                 // 画像のリクエスト
                 //                imgManager.requestImage(for: asset, targetSize: CGSize(width: 200, height: 200), contentMode:

@@ -115,5 +115,17 @@ class PlayViewController: UIViewController{
         
         self.performSegue(withIdentifier: "fromPlay", sender: self)
     }
+//    func getURL4identifier(){
+//        if let asset = PHAsset.fetchAssets(withLocalIdentifiers:videoIdentifier, options: nil).firstObject {
+//            let options = PHVideoRequestOptions()
+//            options.version = .original
+//            PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
+//                if let urlAsset = asset as? AVURLAsset {
+//                    let localVideoUrl = urlAsset.url as URL
+//                    print(localVideoUrl) // ここで取れる？
+//                }
+//            }
+//        }
+//    }
 }
 
