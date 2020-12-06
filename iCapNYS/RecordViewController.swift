@@ -688,9 +688,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             debugPrint("done!!")
         }
         
-        startButton.isHidden=false
-        stopButton.isHidden=true
-        currentTime.isHidden=true
+//        startButton.isHidden=false
+//        stopButton.isHidden=true
+//        currentTime.isHidden=true
         
         if FileManager.default.fileExists(atPath: TempFilePath){
             print("tempFileExists")

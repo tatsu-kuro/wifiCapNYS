@@ -19,6 +19,7 @@ class PlayViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         print(videoIdentifier)
+        
         // Create AVPlayerItem
         //            guard let path = Bundle.main.path(forResource: "movie", ofType: "mp4") else {
         //    fatalError("Movie file can not find.")

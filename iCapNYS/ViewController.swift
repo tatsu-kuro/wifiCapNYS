@@ -20,26 +20,50 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let TODO = ["abd","cddd","nanda"]
     var videoDate = Array<String>()
+    var videoArrayCount:Int = 0
     var videoIdentifier = Array<String>()
     @IBOutlet weak var how2Button: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var topLabel: UILabel!
-    @IBAction func unwindAction(segue: UIStoryboardSegue) {
-        if segue.identifier=="fromRecord"{
-            //            print("同じ")
+    private var videoCnt: [Int] = [] {
+        didSet {
+            tableView?.reloadData()
         }
+    }
+    @IBAction func unwindAction(segue: UIStoryboardSegue) {
+//        if segue.identifier=="fromRecord"{
+//            //            print("同じ")
+//
+//        }
+ //       getAlbumList()
+ //       print(videoDate.count)
+//        tableView.delegate = self
+//        tableView.dataSource = self
 //        setPlayButtonEnable()//tempFilePathがあれば有効化
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
         if let vc = segue.source as? RecordViewController{
             let Controller:RecordViewController = vc
+            if vc.stopButton.isHidden==true{
+                print("Exit")
+            }else{//videoDate.countが増えるのを待
+                print(videoArrayCount,getAlbumList())
+                while videoArrayCount == getAlbumList(){
+                    sleep(UInt32(0.1))
+                }
+                print(videoArrayCount,getAlbumList())
+                print("recorded")
+                tableView.reloadData()
+                videoArrayCount=getAlbumList()
+            }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
         }
     }
     //アルバムの一覧表示
-    func getAlbumList(){
+    func getAlbumList() -> Int{
    //     let imgManager = PHImageManager.default()
         videoDate.removeAll()
         videoIdentifier.removeAll()
@@ -60,7 +84,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
             var cnt:Int=0
             assets.enumerateObjects { [self] asset, _, _ in
-                if assetCollection.localizedTitle == "iCapNYS2"{
+                if assetCollection.localizedTitle == "iCapNYS"{
                     cnt += 1
                     //print(asset.creationDate as Any,cnt)
 //                    print(asset.localIdentifier)
@@ -81,6 +105,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 //                                            })
             }
         }
+        return videoDate.count
     }
     //     if assetCollection.localizedTitle == "アルバム１"{
     //     imageArray.append(img)
@@ -123,7 +148,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         how2Button.layer.borderWidth = 1.0
         how2Button.layer.cornerRadius = 10
  
-        getAlbumList()
+        videoArrayCount = getAlbumList()
         cameraButton.setTitleColor(.white, for: .normal)
         cameraButton.backgroundColor=UIColor.systemGreen
         cameraButton.layer.cornerRadius = 30
@@ -143,6 +168,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("viewwillappear")
+//        DispatchQueue.main.async{
+//            self.tableView.reloadData()
+//        }
     }
     //    override func viewDidAppear(_ animated: Bool) {
     //    }
@@ -163,6 +191,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
         nextView.videoIdentifier=videoIdentifier[indexPath.row]
-        self.present(nextView, animated: true, completion: nil)
+         self.present(nextView, animated: true, completion: nil)
     }
 }

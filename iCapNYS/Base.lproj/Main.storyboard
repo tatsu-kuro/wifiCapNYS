@@ -384,6 +384,7 @@
                     <connections>
                         <outlet property="cameraButton" destination="1km-Jh-hmY" id="uJO-XE-73f"/>
                         <outlet property="how2Button" destination="IwN-Th-8hI" id="e7H-zu-JVL"/>
+                        <outlet property="tableView" destination="doJ-Ju-u1K" id="oD8-Nq-4nq"/>
                         <outlet property="topLabel" destination="hsN-Ie-1eT" id="vBP-k1-hod"/>
                     </connections>
                 </viewController>
