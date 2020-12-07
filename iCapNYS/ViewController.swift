@@ -46,7 +46,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
         if let vc = segue.source as? RecordViewController{
             let Controller:RecordViewController = vc
-            if vc.stopButton.isHidden==true{
+            if Controller.stopButton.isHidden==true{
                 print("Exit")
             }else{//videoDate.countが増えるのを待
                 print(videoArrayCount,getAlbumList())
@@ -187,10 +187,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
 //        print("indexpath:",indexPath)
-        let str = videoAsset[indexPath.row].creationDate?.description//2020-11-24 09:29:43 +0000
+        let str = videoAsset[indexPath.row].creationDate?.description
+        //2020-11-24 09:29:43 +0000
         let str1 = str!.components(separatedBy: " +")
-        let str2 = (indexPath.row+1).description + ") " + str1[0]
-        cell.textLabel!.text = str2//videoDate[indexPath.row]
+        cell.textLabel!.text = (indexPath.row+1).description + ") " + str1[0]
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
