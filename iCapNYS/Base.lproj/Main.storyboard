@@ -392,10 +392,10 @@
             </objects>
             <point key="canvasLocation" x="-71.014492753623188" y="387.72321428571428"/>
         </scene>
-        <!--View Controller-->
+        <!--How2 View Controller-->
         <scene sceneID="Hlh-kf-1ur">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="eL6-VO-9Mc" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="eL6-VO-9Mc" customClass="How2ViewController" customModule="iCapNYS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hgq-XY-6g1">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -427,15 +427,14 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="758"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="swt-4C-G4l">
-                                <rect key="frame" x="314" y="808" width="80" height="37.5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="314" y="807" width="80" height="40"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="PNG-ba-deK"/>
                                     <constraint firstAttribute="width" constant="80" id="Xi5-nn-Mfo"/>
                                 </constraints>
-                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="戻る" backgroundImage="square" catalog="system">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="戻る">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <segue destination="pLX-6O-bBD" kind="unwind" unwindAction="unwindActionWithSegue:" id="u5N-ES-V5l"/>
@@ -464,6 +463,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9qM-w1-LJl"/>
+                    <connections>
+                        <outlet property="how2Button" destination="swt-4C-G4l" id="Dv7-Aw-paA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yNe-KU-a0d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="pLX-6O-bBD" userLabel="Exit" sceneMemberID="exit"/>
@@ -474,7 +476,6 @@
     <resources>
         <image name="iCapNYShelp" width="1036" height="1943"/>
         <image name="largecircle.fill.circle" catalog="system" width="128" height="121"/>
-        <image name="square" catalog="system" width="128" height="114"/>
         <image name="stop.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
