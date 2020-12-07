@@ -18,10 +18,11 @@ import AssetsLibrary
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
-    let TODO = ["abd","cddd","nanda"]
-    var videoDate = Array<String>()
+//    let TODO = ["abd","cddd","nanda"]
+//    var videoDate = Array<String>()
+    var videoAsset = Array<PHAsset>()
     var videoArrayCount:Int = 0
-    var videoIdentifier = Array<String>()
+//    var videoIdentifier = Array<String>()
     @IBOutlet weak var how2Button: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     
@@ -65,8 +66,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //アルバムの一覧表示
     func getAlbumList() -> Int{
    //     let imgManager = PHImageManager.default()
-        videoDate.removeAll()
-        videoIdentifier.removeAll()
+//        videoDate.removeAll()
+//        videoIdentifier.removeAll()
+        videoAsset.removeAll()
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
@@ -85,15 +87,16 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             var cnt:Int=0
             assets.enumerateObjects { [self] asset, _, _ in
                 if assetCollection.localizedTitle == "iCapNYS"{
-                    cnt += 1
+ //                   cnt += 1
                     //print(asset.creationDate as Any,cnt)
 //                    print(asset.localIdentifier)
-                    let str = asset.creationDate!.description//2020-11-24 09:29:43 +0000
-                    let str1 = str.components(separatedBy: " +")
-                    let str2 = cnt.description + ") " + str1[0]
-                    videoDate.append(str2)//asset.creationDate!.description)
-                    videoIdentifier.append(asset.localIdentifier)
+//                    let str = asset.creationDate!.description//2020-11-24 09:29:43 +0000
+//                    let str1 = str.components(separatedBy: " +")
+//                    let str2 = cnt.description + ") " + str1[0]
+//                    videoDate.append(str2)//asset.creationDate!.description)
+//                    videoIdentifier.append(asset.localIdentifier)
 //                    print(str2)
+                    videoAsset.append(asset)
                 }
                 // 画像のリクエスト
                 //                imgManager.requestImage(for: asset, targetSize: CGSize(width: 200, height: 200), contentMode:
@@ -105,7 +108,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 //                                            })
             }
         }
-        return videoDate.count
+        return videoAsset.count
     }
     //     if assetCollection.localizedTitle == "アルバム１"{
     //     imageArray.append(img)
@@ -178,19 +181,23 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //nuber of cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //最初に一回通る        print("collection -> int")
-        return videoDate.count
+        return videoAsset.count
     }
     //set data on cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
-        cell.textLabel!.text = videoDate[indexPath.row]
+//        print("indexpath:",indexPath)
+        let str = videoAsset[indexPath.row].creationDate?.description//2020-11-24 09:29:43 +0000
+        let str1 = str!.components(separatedBy: " +")
+        let str2 = (indexPath.row+1).description + ") " + str1[0]
+        cell.textLabel!.text = str2//videoDate[indexPath.row]
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(videoDate[indexPath.row])
+//        print(videoDate[indexPath.row])
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
-        nextView.videoIdentifier=videoIdentifier[indexPath.row]
+        nextView.videoIdentifier=videoAsset[indexPath.row].localIdentifier
          self.present(nextView, animated: true, completion: nil)
     }
 }
