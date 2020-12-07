@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import Photos
 class PlayViewController: UIViewController{
     var videoPlayer: AVPlayer!
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
@@ -16,48 +17,92 @@ class PlayViewController: UIViewController{
     var videoIdentifier:String?
     var playingFlag:Bool=false
     lazy var seekBar = UISlider()
+    
+    var pHAsset: PHAsset?
+     
+     
+     func addVideoLayer(playerItem:AVPlayerItem?, _: [AnyHashable : Any]?) {
+         duration=Float(CMTimeGetSeconds(playerItem!.duration))
+         // Create AVPlayer
+         videoPlayer = AVPlayer(playerItem: playerItem)
+         // Add AVPlayer
+         let layer = AVPlayerLayer()
+         layer.videoGravity = AVLayerVideoGravity.resizeAspect
+         layer.player = videoPlayer
+         layer.frame = view.bounds
+         view.layer.addSublayer(layer)
+         // Create Movie SeekBar
+         seekBar.frame = CGRect(x: 0, y: 0, width: view.bounds.maxX - 40, height: 50)
+         seekBar.layer.position = CGPoint(x: view.bounds.midX, y: view.bounds.maxY - 100)
+         seekBar.minimumValue = 0
+         seekBar.maximumValue = duration
+         seekBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
+         view.addSubview(seekBar)
+         // Set SeekBar Interval
+         let interval : Double = Double(0.5 * seekBar.maximumValue) / Double(seekBar.bounds.maxX)
+         // ConvertCMTime
+         let time : CMTime = CMTimeMakeWithSeconds(interval, preferredTimescale: Int32(NSEC_PER_SEC))
+         // Observer
+         videoPlayer.addPeriodicTimeObserver(forInterval: time, queue: nil, using: {time in
+             // Change SeekBar Position
+             let duration = CMTimeGetSeconds(self.videoPlayer.currentItem!.duration)
+             let time = CMTimeGetSeconds(self.videoPlayer.currentTime())
+             let value = Float(self.seekBar.maximumValue - self.seekBar.minimumValue) * Float(time) / Float(duration) + Float(self.seekBar.minimumValue)
+             self.seekBar.value = value
+         })
+         
+     }
+     
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(videoIdentifier)
-        
+//        print(videoIdentifier)
+        let option = PHVideoRequestOptions()
+        option.deliveryMode = .highQualityFormat
+        let manager = PHImageManager.default()
+        manager.requestPlayerItem(forVideo: pHAsset!, options: option, resultHandler: addVideoLayer)
+
         // Create AVPlayerItem
         //            guard let path = Bundle.main.path(forResource: "movie", ofType: "mp4") else {
         //    fatalError("Movie file can not find.")
         //            }
-        let fileURL = URL(fileURLWithPath: TempFilePath)
-        //    let fileURL = URL(fileURLWithPath: path)
-        let avAsset = AVURLAsset(url: fileURL)
-        duration=Float(CMTimeGetSeconds(avAsset.duration))
-        let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset)
-        // Create AVPlayer
-        videoPlayer = AVPlayer(playerItem: playerItem)
-        // Add AVPlayer
-        let layer = AVPlayerLayer()
-        layer.videoGravity = AVLayerVideoGravity.resizeAspect
-        layer.player = videoPlayer
-        layer.frame = view.bounds
-        view.layer.addSublayer(layer)
-        // Create Movie SeekBar
-        seekBar.frame = CGRect(x: 0, y: 0, width: view.bounds.maxX - 40, height: 50)
-        seekBar.layer.position = CGPoint(x: view.bounds.midX, y: view.bounds.maxY - 100)
-        seekBar.minimumValue = 0
-        seekBar.maximumValue = Float(CMTimeGetSeconds(avAsset.duration))
-        seekBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
-        view.addSubview(seekBar)
-        // Processing to synchronize the seek bar with the movie.
-        
-        // Set SeekBar Interval
-        let interval : Double = Double(0.5 * seekBar.maximumValue) / Double(seekBar.bounds.maxX)
-        // ConvertCMTime
-        let time : CMTime = CMTimeMakeWithSeconds(interval, preferredTimescale: Int32(NSEC_PER_SEC))
-        // Observer
-        videoPlayer.addPeriodicTimeObserver(forInterval: time, queue: nil, using: {time in
-            // Change SeekBar Position
-            let duration = CMTimeGetSeconds(self.videoPlayer.currentItem!.duration)
-            let time = CMTimeGetSeconds(self.videoPlayer.currentTime())
-            let value = Float(self.seekBar.maximumValue - self.seekBar.minimumValue) * Float(time) / Float(duration) + Float(self.seekBar.minimumValue)
-            self.seekBar.value = value
-        })
+//        let fileURL = URL(fileURLWithPath: TempFilePath)
+//        //    let fileURL = URL(fileURLWithPath: path)
+//        let avAsset = AVURLAsset(url: fileURL)
+//        duration=Float(CMTimeGetSeconds(avAsset.duration))
+//        let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset)
+//        // Create AVPlayer
+//        videoPlayer = AVPlayer(playerItem: playerItem)
+//        // Add AVPlayer
+//        let layer = AVPlayerLayer()
+//        layer.videoGravity = AVLayerVideoGravity.resizeAspect
+//        layer.player = videoPlayer
+//        layer.frame = view.bounds
+//        view.layer.addSublayer(layer)
+//        // Create Movie SeekBar
+//        seekBar.frame = CGRect(x: 0, y: 0, width: view.bounds.maxX - 40, height: 50)
+//        seekBar.layer.position = CGPoint(x: view.bounds.midX, y: view.bounds.maxY - 100)
+//        seekBar.minimumValue = 0
+//        seekBar.maximumValue = Float(CMTimeGetSeconds(avAsset.duration))
+//        seekBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
+//        view.addSubview(seekBar)
+//        // Processing to synchronize the seek bar with the movie.
+//        
+//        // Set SeekBar Interval
+//        let interval : Double = Double(0.5 * seekBar.maximumValue) / Double(seekBar.bounds.maxX)
+//        // ConvertCMTime
+//        let time : CMTime = CMTimeMakeWithSeconds(interval, preferredTimescale: Int32(NSEC_PER_SEC))
+//        // Observer
+//        videoPlayer.addPeriodicTimeObserver(forInterval: time, queue: nil, using: {time in
+//            // Change SeekBar Position
+//            let duration = CMTimeGetSeconds(self.videoPlayer.currentItem!.duration)
+//            let time = CMTimeGetSeconds(self.videoPlayer.currentTime())
+//            let value = Float(self.seekBar.maximumValue - self.seekBar.minimumValue) * Float(time) / Float(duration) + Float(self.seekBar.minimumValue)
+//            self.seekBar.value = value
+//        })
         let ww=view.bounds.width
         let butW=(ww-20*4)/3
         // Create Movie Start Button
@@ -96,7 +141,7 @@ class PlayViewController: UIViewController{
         view.addSubview(currTime)
         playingFlag=true
         seekBar.value=0
-        onStartButtonTapped()
+//        onStartButtonTapped()
     }
     // Start Button Tapped
     @objc func onStartButtonTapped(){

@@ -100,26 +100,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView: UIImageView!
     @IBOutlet weak var topLabel: UILabel!//storyboardで使っている！大事
-//    @IBAction func LEDonoff(_ sender: Any) {
-//         if flashFlag==true{
-//             setFlashlevel(level: 0)
-//             flashFlag=false
-//             LEDcircle.tintColor=UIColor.gray
-//         }else{
-//             //iPhone11:0.04 で適度な明るさ、これ以下にすると光らない
-//             //SEでは明るすぎるが、これが最低の光量か？
-//             //二つのLEDの個別の制御は出来なさそう。
-//             setFlashlevel(level: 0.04)
-//             flashFlag=true
-//             LEDcircle.tintColor=UIColor.orange
-//         }
-//         if flashFlag==true{
-//             UserDefaults.standard.set(1, forKey: "flashFlag")
-//         }else{
-//             UserDefaults.standard.set(0, forKey: "flashFlag")
-//         }
-//     }
- 
 
     func setFlashlevel(level:Float){
         if let device = videoDevice{
@@ -163,35 +143,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         set_rpk_ppk()
         setMotion()
         initSession(fps: 30)//60)//遅ければ30fpsにせざるを得ないかも
-        //30だと最高解像度が上がるため画像処理にかかる時間が結果的に増えてしまうので一旦加速度データを別で保存し、動画保存後に再処理する必要があるかも
-        //おそらくUIImageで処理しているせいで遅い。
-//        currentTime.layer.masksToBounds = true
-//        currentTime.layer.cornerRadius = 5
-//        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 25*view.bounds.width/320, weight: .medium)
-//        exitButton.layer.borderColor = UIColor.green.cgColor
-//        exitButton.layer.borderWidth = 1.0
-//        exitButton.layer.cornerRadius = 5
-        
+  
         startButton.isHidden=false
         stopButton.isHidden=true
         currentTime.isHidden=true
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         //露出はオートの方が良さそう
-//        exposeHigh.isHidden=true
-//        exposeLow.isHidden=true
-//        exposeBar.isHidden=true
-/*        exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
-        exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
-        let centerValue = (exposeBar.minimumValue + exposeBar.maximumValue) / 2
-        exposeBar.addTarget(self, action: #selector(onExposeChanged), for: UIControl.Event.valueChanged)
-        exposeBar.value=getUserDefault(str: "exposeValue", ret: centerValue)
-//        autoExpose()
-        setExpose(expose: exposeBar.value)*/
-//        exposeBar.transform=CGAffineTransform(scaleX: 2, y: 2)
-//        isoBar.minimumValue = Float(videoDevice!.activeFormat.minISO)
-//        isoBar.maximumValue = Float(videoDevice!.activeFormat.maxISO)
-//        self.isoBar.value = (isoBar.minimumValue + isoBar.maximumValue) / 2
-//        isoBar.addTarget(self, action: #selector(onISOChanged), for: UIControl.Event.valueChanged)
+
         focusBar.minimumValue = 0
         focusBar.maximumValue = 1.0
         focusBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
@@ -204,14 +162,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDBar.addTarget(self, action: #selector(onLEDValueChange), for: UIControl.Event.valueChanged)
         LEDBar.value=getUserDefault(str: "LEDValue", ret:0)
         setFlashlevel(level: LEDBar.value)
-    
-        
-        
-//        flashFlag=false
-//        let flashFlagTemp=getUserDefault(str: "flashFlag", ret: 0)
-//        if flashFlagTemp==1{
-//            LEDonoff(0)
-//        }
+ 
         setButtons(type: true)
     }
     func getUserDefault(str:String,ret:Float) -> Float{
@@ -234,7 +185,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
         timerCnt += 1
-//        print("lenspositon:",videoDevice?.lensPosition)
         UserDefaults.standard.set(videoDevice?.lensPosition, forKey: "focusLength")
         focusBar.value=videoDevice!.lensPosition
         if recordingFlag==true{//trueになった時 0にリセットされる
@@ -274,7 +224,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             self.quater1 = quat.x
             self.quater2 = -quat.z
             self.quater3 =  quat.y
-//            print(String(format:"%.5f,%.5f,%.5f,%.5f",self.quater0,self.quater1,self.quater2,self.quater3))
         })
     }
     
