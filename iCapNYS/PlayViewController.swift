@@ -55,7 +55,7 @@ class PlayViewController: UIViewController{
         startButton.layer.masksToBounds = true
         startButton.layer.cornerRadius = 5.0
         startButton.backgroundColor = UIColor.orange
-        startButton.setTitle("Start", for: UIControl.State.normal)
+        startButton.setTitle("Play", for: UIControl.State.normal)
         startButton.layer.borderColor = UIColor.black.cgColor
         startButton.layer.borderWidth = 1.0
         startButton.addTarget(self, action: #selector(onStartButtonTapped), for: UIControl.Event.touchUpInside)
