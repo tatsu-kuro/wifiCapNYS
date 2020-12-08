@@ -105,12 +105,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         how2Button.layer.borderWidth = 1.0
         how2Button.layer.cornerRadius = 10
         videoArrayCount = getAlbumList()
-        cameraButton.setTitleColor(.white, for: .normal)
-        cameraButton.backgroundColor=UIColor.systemGreen
-        cameraButton.layer.cornerRadius = 30
-        cameraButton.titleLabel!.numberOfLines = 11
-        cameraButton.titleLabel!.textAlignment = NSTextAlignment.center
-        cameraButton.setTitle("［ 録画 ］\n\nLEDは光量調節が出来ます.\n\n 明るすぎる機種の場合は\n\nLEDを紙等で覆って\n\n光量を調節して下さい.\n\nKuroda ENT Clinic", for: .normal)
+//        cameraButton.setTitleColor(.white, for: .normal)
+//        cameraButton.backgroundColor=UIColor.systemGreen
+//        cameraButton.layer.cornerRadius = 30
+//        cameraButton.titleLabel!.numberOfLines = 11
+//        cameraButton.titleLabel!.textAlignment = NSTextAlignment.center
+//        cameraButton.setTitle("［ 録画 ］\n\nLEDは光量調節が出来ます.\n\n 明るすぎる機種の場合は\n\nLEDを紙等で覆って\n\n光量を調節して下さい.\n\nKuroda ENT Clinic", for: .normal)
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
     }
     override func viewWillAppear(_ animated: Bool) {
