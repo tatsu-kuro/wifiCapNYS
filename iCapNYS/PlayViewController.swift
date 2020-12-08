@@ -79,7 +79,7 @@ class PlayViewController: UIViewController{
         currTime.layer.cornerRadius = 5
         currTime.textColor = UIColor.black
         currTime.textAlignment = .center
-        currTime.text = String(format:"%.2fs",duration)
+        currTime.text = String(format:"%.1fs",duration)
         currTime.layer.borderColor = UIColor.black.cgColor
         currTime.layer.borderWidth = 1.0
         view.addSubview(currTime)
