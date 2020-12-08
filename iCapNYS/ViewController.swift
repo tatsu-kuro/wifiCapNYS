@@ -146,6 +146,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
         nextView.pHAsset = videoAssets!.object(at: indexPath.row)
+        if (videoAssets?.object(at: indexPath.row).duration)! < 0.1{
+            //playViewでduration周りで、エラーが出るのでとりあえず、こうしてみた。
+            return
+        }
         self.present(nextView, animated: true, completion: nil)
     }
 }

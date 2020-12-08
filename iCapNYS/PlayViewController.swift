@@ -18,7 +18,7 @@ class PlayViewController: UIViewController{
     lazy var seekBar = UISlider()
     var pHAsset: PHAsset?
     
-    func addVideoLayer(playerItem:AVPlayerItem?, _: [AnyHashable : Any]?) {
+    func addVideoLayer(playerItem:AVPlayerItem?, _: [AnyHashable : Any]?) {        
         duration=Float(CMTimeGetSeconds(playerItem!.duration))
         // Create AVPlayer
         videoPlayer = AVPlayer(playerItem: playerItem)
@@ -84,7 +84,7 @@ class PlayViewController: UIViewController{
         currTime.layer.borderWidth = 1.0
         view.addSubview(currTime)
 //        playingFlag=true
-        onStartButtonTapped()
+//        onStartButtonTapped()
     }
     
     override func viewDidLoad() {
