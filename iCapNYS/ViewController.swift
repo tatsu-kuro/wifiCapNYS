@@ -135,7 +135,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let date = formatter.string(from: (videoAssets?.object(at: indexPath.row).creationDate)!)
-        cell.textLabel!.text = indexPath.row.description + ") " + date
+        let duration = String(format:"%.1fs",videoAssets?.object(at: indexPath.row).duration as! CVarArg)
+        
+        
+        let number = (indexPath.row + 1).description + ") "
+        cell.textLabel!.text = number + date + "(" + duration + ")"
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
