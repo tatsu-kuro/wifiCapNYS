@@ -43,7 +43,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 print("Exit")
             }else{//videoが増えるのを待
                 getAlbumList()
-                videoURL.count
                 while videoArrayCount == videoURL.count{
                     sleep(UInt32(0.1))
                     getAlbumList()
@@ -87,7 +86,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         if (assetCollections.count > 0) {
             //同じ名前のアルバムは一つしかないはずなので最初のオブジェクトを使用
             let assetCollection = assetCollections.object(at:0)
-            
             // creationDate降順でアルバム内のアセットをフェッチ
             let fetchOptions = PHFetchOptions()
             fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
@@ -97,7 +95,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             for i in 0..<assets.count{
-                let asset=assets[i]
+                let asset=assets[i]                
                 let date_sub = asset.creationDate
                 let date = formatter.string(from: date_sub!)
                 let duration = String(format:"%.1fs",asset.duration)
@@ -123,6 +121,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }else{
             albumExist=false
         }
+        gettingAlbumF=false
     }
 
     func camera_alert(){
