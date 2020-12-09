@@ -20,6 +20,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     var videoAssets:PHFetchResult<PHAsset>?
     var videoArrayCount:Int = 0
+    var videoDate = Array<String>()
+    var videoURL = Array<URL>()
     var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
 //    let ALBUMTITLE = "iCapNYS" // アルバム名
     var albumExist:Bool=false
@@ -40,30 +42,44 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             if Controller.stopButton.isHidden==true{//Exit
                 print("Exit")
             }else{//videoが増えるのを待
-                var tmpCnt=getAlbumList()
-                while videoArrayCount == tmpCnt{
+                getAlbumList()
+                videoURL.count
+                while videoArrayCount == videoURL.count{
                     sleep(UInt32(0.1))
-                    tmpCnt=getAlbumList()
+                    getAlbumList()
                 }
-                print(videoArrayCount,tmpCnt)
+                print(videoArrayCount,videoURL.count)
                 print("recorded")
                 tableView.reloadData()
-                videoArrayCount=tmpCnt
+                videoArrayCount=videoURL.count
             }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
         }
     }
-    //アルバムの一覧表示
-    func getAlbumList()->Int{
+    //アルバムの一覧取得
+    var gettingAlbumF:Bool=true
+    func getAlbumList(){//最後のvideoを取得するまで待つ
+        gettingAlbumF = true
+        getAlbumList_sub()
+        while gettingAlbumF == true{
+            sleep(UInt32(0.1))
+        }
+    }
+    func getAlbumList_sub(){
         //     let imgManager = PHImageManager.default()
         let requestOptions = PHImageRequestOptions()
+        videoURL.removeAll()
+        videoDate.removeAll()
         requestOptions.isSynchronous = true
+        requestOptions.isNetworkAccessAllowed = false
+//        requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
 //        requestOptions.isNetworkAccessAllowed = false //これでもicloud上のvideoを取ってしまう
         // "iCapNYS"という名前のアルバムをフェッチ
         let assetFetchOptions = PHFetchOptions()
+        
         assetFetchOptions.predicate = NSPredicate(format: "title == %@", "iCapNYS")
         let assetCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumVideos, options: assetFetchOptions)
         
@@ -78,10 +94,34 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
             videoAssets = assets
             albumExist=true
-            return videoAssets!.count
+            for i in 0..<videoAssets!.count{
+                let asset=videoAssets![i]//str += files[i] + "\n"
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                let date_sub = asset.creationDate
+                let date = formatter.string(from: date_sub!)
+                let duration = String(format:"%.1fs",asset.duration)
+                let options=PHVideoRequestOptions()
+                PHImageManager.default().requestAVAsset(forVideo:asset,
+                                                        options: options){ [self](asset:AVAsset?,audioMix, info:[AnyHashable:Any]?)->Void in
+                    
+                    if let urlAsset = asset as? AVURLAsset{//not on iCloud
+                        videoURL.append(urlAsset.url)
+                        print(urlAsset.url)
+                        videoDate.append(date + "(" + duration + ")")
+                        print(videoDate.last as Any)
+                        if i == videoAssets!.count - 1{
+                            gettingAlbumF=false
+                        }
+                    }else{//on icloud
+                        if i == videoAssets!.count - 1{
+                            gettingAlbumF=false
+                        }
+                    }
+                }
+            }
         }else{
             albumExist=false
-            return 0
         }
     }
 
@@ -104,7 +144,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         how2Button.layer.borderColor = UIColor.green.cgColor
         how2Button.layer.borderWidth = 1.0
         how2Button.layer.cornerRadius = 10
-        videoArrayCount = getAlbumList()
+        getAlbumList()
+        videoArrayCount = videoURL.count
+        tableView.reloadData()
 //        cameraButton.setTitleColor(.white, for: .normal)
 //        cameraButton.backgroundColor=UIColor.systemGreen
 //        cameraButton.layer.cornerRadius = 30
@@ -126,20 +168,16 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         if albumExist==false{
             return 0
         }else{
-            return videoAssets!.count
+//            print("cell number:",videoURL.count)
+            return videoURL.count
         }
     }
     //set data on cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let date = formatter.string(from: (videoAssets?.object(at: indexPath.row).creationDate)!)
-        let duration = String(format:"%.1fs",videoAssets?.object(at: indexPath.row).duration as! CVarArg)
-        
-        
-        let number = (indexPath.row + 1).description + ") "
-        cell.textLabel!.text = number + date + "(" + duration + ")"
+        print("set data on cell:",indexPath.row)
+        let number = (indexPath.row+1).description + ") "
+        cell.textLabel!.text = number + videoDate[indexPath.row]
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
