@@ -17,13 +17,36 @@ class PlayViewController: UIViewController{
     var currTime:UILabel?
     lazy var seekBar = UISlider()
     var pHAsset: PHAsset?
-    
-    func addVideoLayer(playerItem:AVPlayerItem?, _: [AnyHashable : Any]?) {        
-        duration=Float(CMTimeGetSeconds(playerItem!.duration))
+    var videoURL:URL?
+    /*
+     let fileURL = URL(fileURLWithPath: TempFilePath)
+     //    let fileURL = URL(fileURLWithPath: path)
+     let avAsset = AVURLAsset(url: fileURL)
+     duration=Float(CMTimeGetSeconds(avAsset.duration))
+     let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset)
+     // Create AVPlayer
+     videoPlayer = AVPlayer(playerItem: playerItem)
+     // Add AVPlayer
+     let layer = AVPlayerLayer()
+     */
+    func addVideoLayer(){//(playerItem:AVPlayerItem?, _: [AnyHashable : Any]?) {
+//        duration=Float(CMTimeGetSeconds(playerItem!.duration))
+//        // Create AVPlayer
+//        videoPlayer = AVPlayer(playerItem: playerItem)
+//        // Add AVPlayer
+//        let layer = AVPlayerLayer()
+        
+//        let fileURL = URL(fileURLWithPath: TempFilePath)
+        //    let fileURL = URL(fileURLWithPath: path)
+        let avAsset = AVURLAsset(url: videoURL!)
+        duration=Float(CMTimeGetSeconds(avAsset.duration))
+        let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset)
         // Create AVPlayer
         videoPlayer = AVPlayer(playerItem: playerItem)
         // Add AVPlayer
         let layer = AVPlayerLayer()
+        
+        
         layer.videoGravity = AVLayerVideoGravity.resizeAspect
         layer.player = videoPlayer
         layer.frame = view.bounds
@@ -89,11 +112,11 @@ class PlayViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let option = PHVideoRequestOptions()
-        option.deliveryMode = .highQualityFormat
-        let manager = PHImageManager.default()
-        manager.requestPlayerItem(forVideo: pHAsset!, options: option, resultHandler: addVideoLayer)
+        addVideoLayer()
+//        let option = PHVideoRequestOptions()
+//        option.deliveryMode = .highQualityFormat
+//        let manager = PHImageManager.default()
+//        manager.requestPlayerItem(forVideo: pHAsset!, options: option, resultHandler: addVideoLayer)
         
         // Create AVPlayerItem
         //            guard let path = Bundle.main.path(forResource: "movie", ofType: "mp4") else {
