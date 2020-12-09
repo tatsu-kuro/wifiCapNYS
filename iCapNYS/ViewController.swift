@@ -61,7 +61,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .highQualityFormat
-        
+//        requestOptions.isNetworkAccessAllowed = false //これでもicloud上のvideoを取ってしまう
         // "iCapNYS"という名前のアルバムをフェッチ
         let assetFetchOptions = PHFetchOptions()
         assetFetchOptions.predicate = NSPredicate(format: "title == %@", "iCapNYS")

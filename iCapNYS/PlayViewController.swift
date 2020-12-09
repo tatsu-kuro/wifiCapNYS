@@ -84,7 +84,7 @@ class PlayViewController: UIViewController{
         currTime.layer.borderWidth = 1.0
         view.addSubview(currTime)
 //        playingFlag=true
-//        onStartButtonTapped()
+        onStartButtonTapped()
     }
     
     override func viewDidLoad() {
