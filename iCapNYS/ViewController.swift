@@ -92,6 +92,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
 //            videoAssets = assets
             albumExist=true
+            if assets.count == 0{
+                gettingAlbumF=false
+            }
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             for i in 0..<assets.count{
@@ -120,8 +123,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             }
         }else{
             albumExist=false
+            gettingAlbumF=false
         }
-        gettingAlbumF=false
     }
 
     func camera_alert(){
