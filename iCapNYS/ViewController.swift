@@ -18,7 +18,7 @@ import AssetsLibrary
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
-    var videoAssets:PHFetchResult<PHAsset>?
+//    var videoAssets:PHFetchResult<PHAsset>?
     var videoArrayCount:Int = 0
     var videoDate = Array<String>()
     var videoURL = Array<URL>()
@@ -92,12 +92,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             let fetchOptions = PHFetchOptions()
             fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
             let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
-            videoAssets = assets
+//            videoAssets = assets
             albumExist=true
-            for i in 0..<videoAssets!.count{
-                let asset=videoAssets![i]//str += files[i] + "\n"
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            for i in 0..<assets.count{
+                let asset=assets[i]
                 let date_sub = asset.creationDate
                 let date = formatter.string(from: date_sub!)
                 let duration = String(format:"%.1fs",asset.duration)
@@ -107,14 +107,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     
                     if let urlAsset = asset as? AVURLAsset{//not on iCloud
                         videoURL.append(urlAsset.url)
-                        print(urlAsset.url)
+//                        print(urlAsset.url)
                         videoDate.append(date + "(" + duration + ")")
-                        print(videoDate.last as Any)
-                        if i == videoAssets!.count - 1{
+//                        print(videoDate.last as Any)
+                        if i == assets.count - 1{
                             gettingAlbumF=false
                         }
                     }else{//on icloud
-                        if i == videoAssets!.count - 1{
+                        if i == assets.count - 1{
                             gettingAlbumF=false
                         }
                     }
@@ -147,20 +147,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         getAlbumList()
         videoArrayCount = videoURL.count
         tableView.reloadData()
-//        cameraButton.setTitleColor(.white, for: .normal)
-//        cameraButton.backgroundColor=UIColor.systemGreen
-//        cameraButton.layer.cornerRadius = 30
-//        cameraButton.titleLabel!.numberOfLines = 11
-//        cameraButton.titleLabel!.textAlignment = NSTextAlignment.center
-//        cameraButton.setTitle("［ 録画 ］\n\nLEDは光量調節が出来ます.\n\n 明るすぎる機種の場合は\n\nLEDを紙等で覆って\n\n光量を調節して下さい.\n\nKuroda ENT Clinic", for: .normal)
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("viewwillappear")
-//        DispatchQueue.main.async{
-//            self.tableView.reloadData()
-//        }
     }
  
     //nuber of cell
@@ -168,14 +159,13 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         if albumExist==false{
             return 0
         }else{
-//            print("cell number:",videoURL.count)
             return videoURL.count
         }
     }
     //set data on cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
-        print("set data on cell:",indexPath.row)
+//        print("set data on cell:",indexPath.row)
         let number = (indexPath.row+1).description + ") "
         cell.textLabel!.text = number + videoDate[indexPath.row]
         return cell

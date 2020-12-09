@@ -16,7 +16,7 @@ class PlayViewController: UIViewController{
     var duration:Float=0
     var currTime:UILabel?
     lazy var seekBar = UISlider()
-    var pHAsset: PHAsset?
+//    var pHAsset: PHAsset?
     var videoURL:URL?
     /*
      let fileURL = URL(fileURLWithPath: TempFilePath)
