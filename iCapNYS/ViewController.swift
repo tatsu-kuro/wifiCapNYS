@@ -94,6 +94,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             albumExist=true
             if assets.count == 0{
                 gettingAlbumF=false
+                albumExist=false
             }
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
