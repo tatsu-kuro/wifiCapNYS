@@ -35,9 +35,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     var newFilePath: String = ""
     var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
-    let ALBUMTITLE = "iCapNYS" // アルバム名
-
-    
+//    let ALBUMTITLE = "iCapNYS" // アルバム名
     // for video resolution/fps (constants)
     var iCapNYSWidth: Int32 = 0
     var iCapNYSHeight: Int32 = 0
@@ -547,8 +545,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setProperty(label: focusNear, radius: 5)
         setProperty(label: LEDLow, radius: 5)
         setProperty(label: LEDHigh, radius: 5)
-//        setProperty(label: exposeHigh, radius: 5)
-//        setProperty(label: exposeLow, radius: 5)
+
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.tintColor=UIColor.orange
@@ -588,13 +585,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             while fileWriter!.status == .writing {
                 usleep(1)
             }
-
             debugPrint("done!!")
         }
-        
-//        startButton.isHidden=false
-//        stopButton.isHidden=true
-//        currentTime.isHidden=true
         
         if FileManager.default.fileExists(atPath: TempFilePath){
             print("tempFileExists")
@@ -663,8 +655,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         timerCnt=0
 //        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-        
-        
         //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
         if let soundUrl = URL(string:
                                 "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
@@ -749,7 +739,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
 
-    
     func setExpose(expose:Float){
 //    @IBAction func onExposeChanged1(_ sender: UISlider) {
         if let device = videoDevice{
