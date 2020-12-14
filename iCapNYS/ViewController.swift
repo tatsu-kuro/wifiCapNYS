@@ -22,7 +22,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     var videoArrayCount:Int = 0
     var videoDate = Array<String>()
     var videoURL = Array<URL>()
-    var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
+//    var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
 //    let ALBUMTITLE = "iCapNYS" // アルバム名
     var albumExist:Bool=false
     @IBOutlet weak var how2Button: UIButton!

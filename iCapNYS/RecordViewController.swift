@@ -554,9 +554,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         quaternionView.layer.position=CGPoint(x:ww/12+10,y:topY + ww/12+10)
 
     }
-
-    @IBAction func onClickStopButton(_ sender: Any) {
-        //ここでもチェックしないとダメのよう
+    func albumCheck(){//ここでもチェックしないとダメのよう
         if albumExists(albumTitle: "iCapNYS")==false{
             createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
                 if isSuccess{
@@ -568,6 +566,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else{
             print("iCapNYS_album exist already.")
         }
+    }
+    @IBAction func onClickStopButton(_ sender: Any) {
+        albumCheck()//start&stopでチェックしないとダメのよう
         // stop recording
         debugPrint("onClickStopButton")
         recordingFlag=false
@@ -628,19 +629,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDLow.isHidden=true
         LEDHigh.isHidden=true
         LEDBar.isHidden=true
-
-        //ここでもチェックし、Stopでもチェックする
-        if albumExists(albumTitle: "iCapNYS")==false{
-            createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
-                if isSuccess{
-                    print("iCapNYS_album can be made,")
-                } else{
-                    print("iCapNYS_album can't be made.")
-                }
-            }
-        }else{
-            print("iCapNYS_album exist already.")
-        }
+        albumCheck()//record start stopでチェックする
         //sensorをリセットし、正面に
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
