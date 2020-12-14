@@ -11,11 +11,13 @@ import Photos
 class PlayViewController: UIViewController{
     //    let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     //    var timer: Timer!
-    //    var playingFlag:Bool=false
+    var playingFlag:Bool=false
     var videoPlayer: AVPlayer!
     var duration:Float=0
+    var timer: Timer!
     var currTime:UILabel?
     lazy var seekBar = UISlider()
+    var startButton:UIButton!
 //    var pHAsset: PHAsset?
     var videoURL:URL?
     /*
@@ -73,16 +75,19 @@ class PlayViewController: UIViewController{
         let ww=view.bounds.width
         let butW=(ww-20*4)/3
         // Create Movie Start Button
-        let startButton = UIButton(frame: CGRect(x: 0, y: 0, width: butW, height: 40))
-        startButton.layer.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.maxY - 50)
-        startButton.layer.masksToBounds = true
-        startButton.layer.cornerRadius = 5.0
-        startButton.backgroundColor = UIColor.orange
-        startButton.setTitle("Play", for: UIControl.State.normal)
-        startButton.layer.borderColor = UIColor.black.cgColor
-        startButton.layer.borderWidth = 1.0
-        startButton.addTarget(self, action: #selector(onStartButtonTapped), for: UIControl.Event.touchUpInside)
-        view.addSubview(startButton)
+        //let startButton = UIButton(frame: CGRect(x: 0, y: 0, width: butW, height: 40))
+
+        startButton = UIButton(frame: CGRect(x: self.view.bounds.midX-butW/2, y: self.view.bounds.maxY-50-20, width: butW, height: 40))
+//       startButton.frame = CGRect(x: 0, y: 0, width: butW, height: 40)
+//        startButton!.layer.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.maxY - 50)
+        startButton!.layer.masksToBounds = true
+        startButton!.layer.cornerRadius = 5.0
+        startButton!.backgroundColor = UIColor.orange
+        startButton!.setTitle("Pause", for: UIControl.State.normal)
+        startButton!.layer.borderColor = UIColor.black.cgColor
+        startButton!.layer.borderWidth = 1.0
+        startButton!.addTarget(self, action: #selector(onStartButtonTapped), for: UIControl.Event.touchUpInside)
+        view.addSubview(startButton!)
         
         let exitButton = UIButton(frame:CGRect(x: 0, y: 0, width:butW , height: 40))
         exitButton.layer.position = CGPoint(x: ww-20-butW/2, y: self.view.bounds.maxY - 50)
@@ -106,8 +111,9 @@ class PlayViewController: UIViewController{
         currTime.layer.borderColor = UIColor.black.cgColor
         currTime.layer.borderWidth = 1.0
         view.addSubview(currTime)
-//        playingFlag=true
-        onStartButtonTapped()
+        playingFlag=true
+        videoPlayer.play()
+//        onStartButtonTapped()
     }
     
     override func viewDidLoad() {
@@ -156,21 +162,39 @@ class PlayViewController: UIViewController{
         //            let value = Float(self.seekBar.maximumValue - self.seekBar.minimumValue) * Float(time) / Float(duration) + Float(self.seekBar.minimumValue)
         //            self.seekBar.value = value
         //        })
-        
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+
+    }
+    @objc func update(tm: Timer) {
+        if playingFlag==true{
+            if seekBar.value>duration-0.1{
+                startButton.setTitle("Play", for: UIControl.State.normal)
+                playingFlag=false
+             }
+        }
     }
     // Start Button Tapped
     @objc func onStartButtonTapped(){
+        if playingFlag==true{
+            videoPlayer.pause()
+            startButton.setTitle("Play", for: UIControl.State.normal)
+            playingFlag=false
+            return
+        }
         if seekBar.value>seekBar.maximumValue-0.5{
             seekBar.value=0
         }
         videoPlayer.seek(to: CMTimeMakeWithSeconds(Float64(seekBar.value), preferredTimescale: Int32(NSEC_PER_SEC)))
         videoPlayer.play()
+        startButton.setTitle("Pause", for: UIControl.State.normal)
+        playingFlag=true
     }
     // SeekBar Value Changed
     @objc func onSliderValueChange(){
         videoPlayer.seek(to: CMTimeMakeWithSeconds(Float64(seekBar.value), preferredTimescale: Int32(NSEC_PER_SEC)))
         videoPlayer.pause()
-//        playingFlag=false
+        playingFlag=false
+        startButton!.setTitle("Play", for: UIControl.State.normal)
     }
     @objc func onExitButtonTapped(){//このボタンのところにsegueでunwindへ行く
         self.performSegue(withIdentifier: "fromPlay", sender: self)

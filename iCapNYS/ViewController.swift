@@ -144,7 +144,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
  
-        how2Button.layer.borderColor = UIColor.green.cgColor
+        how2Button.layer.borderColor = UIColor.black.cgColor
         how2Button.layer.borderWidth = 1.0
         how2Button.layer.cornerRadius = 10
         getAlbumList()

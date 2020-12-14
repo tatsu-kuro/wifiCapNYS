@@ -559,7 +559,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     func setProperty(label:UILabel,radius:CGFloat){
         label.layer.masksToBounds = true
-        label.layer.borderColor = UIColor.green.cgColor
+        label.layer.borderColor = UIColor.black.cgColor
         label.layer.borderWidth = 1.0
         label.layer.cornerRadius = radius
     }
@@ -585,7 +585,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.layer.position = CGPoint(x:ww/2,y:wh-bh*4/5)
         exitButton.frame=CGRect(x:0,y:0,width:bw/3,height:bh/5)
         exitButton.layer.position = CGPoint(x:ww-bw*11/60,y:topY+ww/20+10)//+wh-bh*4/5)
-        exitButton.layer.borderColor = UIColor.green.cgColor
+        exitButton.layer.borderColor = UIColor.black.cgColor
         exitButton.layer.borderWidth = 1.0
         exitButton.layer.cornerRadius = 10
         setProperty(label: focusFar, radius: 5)
