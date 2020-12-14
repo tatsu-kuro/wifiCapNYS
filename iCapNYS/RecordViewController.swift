@@ -82,13 +82,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var focusNear: UILabel!
     @IBOutlet weak var focusBar: UISlider!
     
-//    @IBOutlet weak var isoBar: UISlider!
-    
-    
-//    @IBOutlet weak var exposeBar: UISlider!
-//
-//    @IBOutlet weak var exposeLow: UILabel!
-//    @IBOutlet weak var exposeHigh: UILabel!
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     
@@ -409,24 +402,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         return retF
     }
-    
-    func drawSquare(x:CGFloat,y:CGFloat){
-        /* --- 正方形を描画 --- */
-        let dia:CGFloat = view.bounds.width/5
-        let squareLayer = CAShapeLayer.init()
-        let squareFrame = CGRect.init(x:x-dia/2,y:y-dia/2,width:dia,height:dia)
-        squareLayer.frame = squareFrame
-        // 輪郭の色
-        squareLayer.strokeColor = UIColor.red.cgColor
-        squareLayer.lineWidth = 1.0
-        // 中の色
-        squareLayer.fillColor = UIColor.clear.cgColor//UIColor.red.cgColor
-        // 正方形を描画
-        squareLayer.path = UIBezierPath.init(rect: CGRect.init(x: 0, y: 0, width: squareFrame.size.width, height: squareFrame.size.height)).cgPath
-        self.view.layer.addSublayer(squareLayer)
-    }
-
-    
+ 
     // アルバムが既にあるか確認し、iCapNYSAlbumに代入
     func albumExists(albumTitle: String) -> Bool {
         // ここで以下のようなエラーが出るが、なぜか問題なくアルバムが取得できている
@@ -532,27 +508,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             ]
         )
     }
-
-//    func getFilesindoc()->String{
-//        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-//        do {
-//            let contentUrls = try FileManager.default.contentsOfDirectory(at: documentDirectoryURL, includingPropertiesForKeys: nil)
-//            let files = contentUrls.map{$0.lastPathComponent}
-//            var str:String=""
-//            if files.count==0{
-//                return("")
-//            }
-//            for i in 0..<files.count{
-//                str += files[i] + "\n"
-//            }
-//            let str2=str.dropLast()
-////            print("before",str)
-////            print("after",str2)
-//            return String(str2)
-//        } catch {
-//            return ""
-//        }
-//    }
 
     override func viewDidAppear(_ animated: Bool) {
 //        setButtons(type: true)
@@ -674,22 +629,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     @IBAction func onClickStartButton(_ sender: Any) {
-//        setFocus(focus: 0)
-//        LEDcircle.isHidden=true
-//        LEDButton.isHidden=true
+
         focusNear.isHidden=true
         focusFar.isHidden=true
         focusBar.isHidden=true
         LEDLow.isHidden=true
         LEDHigh.isHidden=true
         LEDBar.isHidden=true
-//        exposeLow.isHidden=true
-//        exposeHigh.isHidden=true
-//        exposeBar.isHidden=true
- //       if tapFlag {
-   //         view.layer.sublayers?.removeLast()
- //           tapFlag=false
- //       }
+
         //ここでもチェックし、Stopでもチェックする
         if albumExists(albumTitle: "iCapNYS")==false{
             createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
@@ -729,41 +676,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        print(fileWriter?.error)
         setMotion()
     }
-    
-//    setButtonProperty(label:helpButton,bw:bw,bh:bh,cx:10+bw/2+bwd*6,cy:bh0)
 
-
-    
-//    func toggleTorch() {
-//        let avDevice = videoDeviceAVCaptureDevice.default(for: AVMediaType.video)
-//
-//        if  ((avDevice?.hasTorch) != nil) {
-//            avDevice!.lockForConfiguration(nil)
-//            avDevice.torchMode = AVCaptureDevice.TorchMode.Off == avDevice.torchMode ? AVCaptureTorchMode.On : AVCaptureTorchMode.Off
-//            avDevice!.unlockForConfiguration()
-//        }
-//    }
     func autoExpose(){
- //       let screenSize=cameraView.bounds.size
- //       let x0 = view.bounds.width/2// CGFloat(0)//sender.location(in: self.view).x
- //       let y0 = view.bounds.height/4//CGFloat(0)//sender.location(in: self.view).y
- //       print("tap:",x0,y0,screenSize.height)
-        
-//        if y0>screenSize.height*5/6{
-//            return
-//        }
-//        let x = 0.25//y0/screenSize.height
-//        let y = 0.5//1.0 - x0/screenSize.width
+ 
         let focusPoint = CGPoint(x:0.25,y:0.5)
         
         if let device = videoDevice{
             do {
                 try device.lockForConfiguration()
-                
-  //              device.focusPointOfInterest = focusPoint
-                //                device.focusMode = .continuousAutoFocus
-    //            device.focusMode = .autoFocus
-                //                device.focusMode = .locked
                 // 露出の設定
                 if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
                     device.exposurePointOfInterest = focusPoint
@@ -776,48 +696,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         }
     }
-    /*
-     @IBAction func tapGes(_ sender: UITapGestureRecognizer) {
-         let screenSize=cameraView.bounds.size
-         let x0 = sender.location(in: self.view).x
-         let y0 = sender.location(in: self.view).y
-         print("tap:",x0,y0,screenSize.height)
-         
-         if y0>screenSize.height*5/6{
-             return
-         }
-         let x = y0/screenSize.height
-         let y = 1.0 - x0/screenSize.width
-         let focusPoint = CGPoint(x:x,y:y)
-         
-         if let device = videoDevice{
-             do {
-                 try device.lockForConfiguration()
-                 
-                 device.focusPointOfInterest = focusPoint
-                 //                device.focusMode = .continuousAutoFocus
-                 device.focusMode = .autoFocus
-                 //                device.focusMode = .locked
-                 // 露出の設定
-                 if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
-                     device.exposurePointOfInterest = focusPoint
-                     device.exposureMode = .continuousAutoExposure
-                 }
-                 device.unlockForConfiguration()
-                 
-                 if tapF {
-                     view.layer.sublayers?.removeLast()
-                 }
-                 drawSquare(x: x0, y: y0)
-                 tapF=true;
-                 //                }
-             }
-             catch {
-                 // just ignore
-             }
-         }
-     }
-     */
+   
     @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
         if recordingFlag==true{
             return
@@ -842,72 +721,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 device.focusPointOfInterest = focusPoint
                 //                device.focusMode = .continuousAutoFocus
                 device.focusMode = .autoFocus
-                //                device.focusMode = .locked
-//                print("lensPosition:",device.lensPosition)
-                // 露出の設定
-//                if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
-//                    device.exposurePointOfInterest = focusPoint
-//                    device.exposureMode = .continuousAutoExposure
-//                }
+
                 device.unlockForConfiguration()
-        
-                
-  //              if tapFlag {
-  //                  view.layer.sublayers?.removeLast()
-  //              }
-  //              drawSquare(x: x0, y: y0)
-  //              tapFlag=true;
-                //                }
+ 
             }
             catch {
                 // just ignore
             }
         }
-        /*
-        let screenSize=cameraView.bounds.size
-        let x0 = sender.location(in: self.view).x
-        let y0 = sender.location(in: self.view).y
-//        print("tap:",x0,y0,screenSize.height)
-        
-//        if y0<screenSize.height/2 && recordingFlag==true{
-//            //recording中はライト、センサー値は変えない
-//            return
-//        }
-//        toggleFlash()
-        //ここでリセットしてz軸を正面とする。
-//        motionManager.stopDeviceMotionUpdates()
-        let x = y0/screenSize.height
-        let y = 1.0 - x0/screenSize.width
-        let focusPoint = CGPoint(x:x,y:y)
-        
-        if let device = videoDevice{
-            do {
-                try device.lockForConfiguration()
-//                device.focusPointOfInterest = focusPoint
-                device.focusMode = .locked
-                device.setFocusModeLocked(lensPosition: 0, completionHandler: { _ in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-                        device.unlockForConfiguration()
-                    })
-                })
-
-                // 露出の設定
-                if device.isExposureModeSupported(.continuousAutoExposure) && device.isExposurePointOfInterestSupported {
-                    device.exposurePointOfInterest = focusPoint
-                    device.exposureMode = .continuousAutoExposure
-                }
-                device.unlockForConfiguration()
-                
-                if tapFlag {//２回目からは削除して追加
-                    view.layer.sublayers?.removeLast()
-                }
-                drawSquare(x: x0, y: y0)
-                tapFlag=true;
-            }
-            catch {
-                // just ignore
-            }
-        }*/
     }
     func setFocus(focus:Float) {//focus 0:最接近　0-1.0
          if let device = videoDevice{
@@ -927,10 +748,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            print("lensPosition:",device.lensPosition)
         }
     }
-//    @objc func onExposeChanged(_ sender: UISlider){
-//        setExpose(expose: exposeBar.value)
-//        UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
-//    }
+
     
     func setExpose(expose:Float){
 //    @IBAction func onExposeChanged1(_ sender: UISlider) {
