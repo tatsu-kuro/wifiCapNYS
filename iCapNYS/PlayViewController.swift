@@ -9,28 +9,15 @@ import UIKit
 import AVFoundation
 import Photos
 class PlayViewController: UIViewController{
-    //    let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
-    //    var timer: Timer!
-//    var playingFlag:Bool=false
+
     var videoPlayer: AVPlayer!
     var duration:Float=0
-//    var timer: Timer!
     var currTime:UILabel?
     lazy var seekBar = UISlider()
-//    var startButton:UIButton!
+
 //    var pHAsset: PHAsset?
     var videoURL:URL?
-    /*
-     let fileURL = URL(fileURLWithPath: TempFilePath)
-     //    let fileURL = URL(fileURLWithPath: path)
-     let avAsset = AVURLAsset(url: fileURL)
-     duration=Float(CMTimeGetSeconds(avAsset.duration))
-     let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset)
-     // Create AVPlayer
-     videoPlayer = AVPlayer(playerItem: playerItem)
-     // Add AVPlayer
-     let layer = AVPlayerLayer()
-     */
+    
     func addVideoLayer(){//(playerItem:AVPlayerItem?, _: [AnyHashable : Any]?) {
 //        duration=Float(CMTimeGetSeconds(playerItem!.duration))
 //        // Create AVPlayer
@@ -76,14 +63,12 @@ class PlayViewController: UIViewController{
         let butW=(ww-20*4)/3
         // Create Movie Start Button
         let startButton = UIButton(frame: CGRect(x: 0, y: 0, width: butW, height: 40))
-
-//        startButton = UIButton(frame: CGRect(x: self.view.bounds.midX-butW/2, y: self.view.bounds.maxY-50-20, width: butW, height: 40))
         startButton.frame = CGRect(x: 0, y: 0, width: butW, height: 40)
         startButton.layer.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.maxY - 50)
         startButton.layer.masksToBounds = true
         startButton.layer.cornerRadius = 5.0
         startButton.backgroundColor = UIColor.orange
-        startButton.setTitle("Pause/Play", for: UIControl.State.normal)
+        startButton.setTitle("停・再", for: UIControl.State.normal)
         startButton.layer.borderColor = UIColor.black.cgColor
         startButton.layer.borderWidth = 1.0
         startButton.addTarget(self, action: #selector(onStartButtonTapped), for: UIControl.Event.touchUpInside)
@@ -178,8 +163,6 @@ class PlayViewController: UIViewController{
     @objc func onSliderValueChange(){
         videoPlayer.seek(to: CMTimeMakeWithSeconds(Float64(seekBar.value), preferredTimescale: Int32(NSEC_PER_SEC)))
         videoPlayer.pause()
-//        playingFlag=false
-//        startButton!.setTitle("Play", for: UIControl.State.normal)
     }
     @objc func onExitButtonTapped(){//このボタンのところにsegueでunwindへ行く
         self.performSegue(withIdentifier: "fromPlay", sender: self)

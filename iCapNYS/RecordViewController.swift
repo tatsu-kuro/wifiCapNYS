@@ -197,7 +197,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     
-   
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
         motionManager.deviceMotionUpdateInterval = 1 / 100//が最速の模様
@@ -826,7 +825,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         //frameの時間計算, sampleBufferの時刻から算出
         let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - startTimeStamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
-
 
         //var frameCGImage: CGImage?
         //VTCreateCGImageFromCVPixelBuffer(frame, options: nil, imageOut: &frameCGImage)

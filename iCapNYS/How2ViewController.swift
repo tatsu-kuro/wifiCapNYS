@@ -11,13 +11,13 @@ class How2ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        how2Button.layer.borderColor = UIColor.black.cgColor
-        how2Button.layer.borderWidth = 1.0
-        how2Button.layer.cornerRadius = 10
+        exitButton.layer.borderColor = UIColor.black.cgColor
+        exitButton.layer.borderWidth = 1.0
+        exitButton.layer.cornerRadius = 10
         // Do any additional setup after loading the view.
     }
     
-    @IBOutlet weak var how2Button: UIButton!
+    @IBOutlet weak var exitButton: UIButton!
     
     
     /*
