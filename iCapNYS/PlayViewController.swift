@@ -18,7 +18,8 @@ class PlayViewController: UIViewController{
 //    var pHAsset: PHAsset?
     var videoURL:URL?
     @objc func update(tm: Timer) {
-        currTime?.text=String(format:"%.1fs",seekBar.value)
+//        currTime?.text=String(format:"%.1fs",seekBar.value)
+        currTime?.text=String(format:"%.0fs",seekBar.value)
     }
     func addVideoLayer(){//(playerItem:AVPlayerItem?, _: [AnyHashable : Any]?) {
 //        duration=Float(CMTimeGetSeconds(playerItem!.duration))
