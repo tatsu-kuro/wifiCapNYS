@@ -14,10 +14,12 @@ class PlayViewController: UIViewController{
     var duration:Float=0
     var currTime:UILabel?
     lazy var seekBar = UISlider()
-
+    var timer:Timer?
 //    var pHAsset: PHAsset?
     var videoURL:URL?
-    
+    @objc func update(tm: Timer) {
+        currTime?.text=String(format:"%.1fs",seekBar.value)
+    }
     func addVideoLayer(){//(playerItem:AVPlayerItem?, _: [AnyHashable : Any]?) {
 //        duration=Float(CMTimeGetSeconds(playerItem!.duration))
 //        // Create AVPlayer
@@ -85,23 +87,30 @@ class PlayViewController: UIViewController{
         exitButton.layer.borderWidth = 1.0
         exitButton.addTarget(self, action: #selector(onExitButtonTapped), for: UIControl.Event.touchUpInside)
         view.addSubview(exitButton)
-        let currTime = UILabel(frame:CGRect(x:0,y:0,width:butW,height:40))
-        currTime.layer.position = CGPoint(x: 20+butW/2, y: self.view.bounds.maxY - 50)
-        currTime.backgroundColor = UIColor.white
-        currTime.layer.masksToBounds = true
-        currTime.layer.cornerRadius = 5
-        currTime.textColor = UIColor.black
-        currTime.textAlignment = .center
-        currTime.text = String(format:"%.1fs",duration)
-        currTime.layer.borderColor = UIColor.black.cgColor
-        currTime.layer.borderWidth = 1.0
-        view.addSubview(currTime)
+        currTime = UILabel(frame:CGRect(x:0,y:0,width:butW,height:40))
+        currTime!.layer.position = CGPoint(x: 20+butW/2, y: self.view.bounds.maxY - 50)
+        currTime!.backgroundColor = UIColor.white
+        currTime!.layer.masksToBounds = true
+        currTime!.layer.cornerRadius = 5
+        currTime!.textColor = UIColor.black
+        currTime!.textAlignment = .center
+        currTime!.font=UIFont.monospacedDigitSystemFont(ofSize: 18, weight: .medium)
+//        currTime!.text = String(format:"%.1fs",duration)
+        currTime!.layer.borderColor = UIColor.black.cgColor
+        currTime!.layer.borderWidth = 1.0
+//        currTime1=currTime
+        view.addSubview(currTime!)
         videoPlayer.play()
     }
-    
+    func killTimer(){
+        if timer?.isValid == true {
+            timer!.invalidate()
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         addVideoLayer()
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
 //        let option = PHVideoRequestOptions()
 //        option.deliveryMode = .highQualityFormat
 //        let manager = PHImageManager.default()
@@ -165,6 +174,7 @@ class PlayViewController: UIViewController{
         videoPlayer.pause()
     }
     @objc func onExitButtonTapped(){//このボタンのところにsegueでunwindへ行く
+        killTimer()
         self.performSegue(withIdentifier: "fromPlay", sender: self)
     }
 }
