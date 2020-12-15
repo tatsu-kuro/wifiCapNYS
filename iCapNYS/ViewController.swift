@@ -19,11 +19,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
 //    var videoAssets:PHFetchResult<PHAsset>?
+//    var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
+//    let ALBUMTITLE = "iCapNYS" // アルバム名
     var videoArrayCount:Int = 0
     var videoDate = Array<String>()
     var videoURL = Array<URL>()
-//    var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
-//    let ALBUMTITLE = "iCapNYS" // アルバム名
     var albumExist:Bool=false
     @IBOutlet weak var how2Button: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
@@ -72,13 +72,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         videoURL.removeAll()
         videoDate.removeAll()
         requestOptions.isSynchronous = true
-        requestOptions.isNetworkAccessAllowed = false
-//        requestOptions.isSynchronous = true
+        requestOptions.isNetworkAccessAllowed = false//これでもicloud上のvideoを取ってしまう
         requestOptions.deliveryMode = .highQualityFormat
-//        requestOptions.isNetworkAccessAllowed = false //これでもicloud上のvideoを取ってしまう
         // "iCapNYS"という名前のアルバムをフェッチ
         let assetFetchOptions = PHFetchOptions()
-        
         assetFetchOptions.predicate = NSPredicate(format: "title == %@", "iCapNYS")
         let assetCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumVideos, options: assetFetchOptions)
         
@@ -104,6 +101,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 let date = formatter.string(from: date_sub!)
                 let duration = String(format:"%.1fs",asset.duration)
                 let options=PHVideoRequestOptions()
+                options.version = .original
                 PHImageManager.default().requestAVAsset(forVideo:asset,
                                                         options: options){ [self](asset:AVAsset?,audioMix, info:[AnyHashable:Any]?)->Void in
                     
