@@ -169,6 +169,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //        print("set data on cell:",indexPath.row)
         let number = (indexPath.row+1).description + ") "
         cell.textLabel!.text = number + videoDate[indexPath.row]
+        
+//        cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
+//        cell.textLabel?.numberOfLines = 1
+        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
