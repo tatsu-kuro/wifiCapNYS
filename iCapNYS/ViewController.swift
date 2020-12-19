@@ -42,7 +42,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             if Controller.stopButton.isHidden==true{//Exit
                 print("Exit")
             }else{//recorded
-                while Controller.recordedFlag == false{//albumに保存されるのを待つ
+                while Controller.saved2album == false{//albumに保存されるのを待つ
                     sleep(UInt32(0.1))
                 }
 //                print(videoArrayCount,videoURL.count)

@@ -20,7 +20,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var soundIdx:SystemSoundID = 0
 
     var recordingFlag:Bool = false
-    var recordedFlag:Bool = false
+    var saved2album:Bool = false
     let motionManager = CMMotionManager()
     
     //for video input
@@ -605,12 +605,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 // 保存した画像にアクセスする為のimageIDを返却
                 //completionBlock(imageID)
                 print("success")
-                self.recordedFlag=true
+                self.saved2album=true
             } else {
                 //failureBlock(error)
                 print("fail")
 //                print(error)
-                self.recordedFlag=true
+                self.saved2album=true
             }
 //            _ = try? FileManager.default.removeItem(atPath: self.TempFilePath)
         }
