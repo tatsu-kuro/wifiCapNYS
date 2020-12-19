@@ -41,13 +41,17 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             let Controller:RecordViewController = vc
             if Controller.stopButton.isHidden==true{//Exit
                 print("Exit")
-            }else{//videoが増えるのを待
-                getAlbumList()
-                while videoArrayCount == videoURL.count{
+            }else{//recorded
+                while Controller.recordedFlag == false{//albumに保存されるのを待つ
                     sleep(UInt32(0.1))
-                    getAlbumList()
                 }
-                print(videoArrayCount,videoURL.count)
+//                print(videoArrayCount,videoURL.count)
+                getAlbumList()
+//                while videoArrayCount == videoURL.count{
+//                    sleep(UInt32(0.1))
+//                    getAlbumList()
+//                }
+//                print(videoArrayCount,videoURL.count)
                 print("recorded")
                 tableView.reloadData()
                 videoArrayCount=videoURL.count

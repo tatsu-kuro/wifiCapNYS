@@ -20,6 +20,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var soundIdx:SystemSoundID = 0
 
     var recordingFlag:Bool = false
+    var recordedFlag:Bool = false
     let motionManager = CMMotionManager()
     
     //for video input
@@ -476,8 +477,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        fileOutput.maxRecordedDuration = CMTimeMake(value:5*60, timescale: 1)//最長録画時間
 //        session.addOutput(fileOutput)
         //ファイル出力設定　writer使用
-        
-
 //        print ("TempFilePATH",TempFilePath)
         startTimeStamp = 0
         //一時ファイルはこの時点で必ず消去
@@ -601,16 +600,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             albumChangeRequest?.addAssets([placeHolder!] as NSArray)
             //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
             print("file add to album")
-        }) { (isSuccess, error) in
+        }) { [self] (isSuccess, error) in
             if isSuccess {
                 // 保存した画像にアクセスする為のimageIDを返却
                 //completionBlock(imageID)
                 print("success")
+                self.recordedFlag=true
             } else {
                 //failureBlock(error)
                 print("fail")
 //                print(error)
-
+                self.recordedFlag=true
             }
 //            _ = try? FileManager.default.removeItem(atPath: self.TempFilePath)
         }
