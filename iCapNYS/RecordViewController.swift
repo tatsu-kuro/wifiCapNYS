@@ -836,7 +836,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         frameUIImage.draw(in: CGRect(x: 0, y: 0, width: CGFloat(iCapNYSHeight), height: CGFloat(iCapNYSWidth)))
         quaterImage.draw(in: CGRect(x:0, y:0, width:quaterImage.size.width, height:quaterImage.size.height))
         //写真で再生すると左上の頭位アニメが隠れてしまうので、中央右にも表示。
-        quaterImage.draw(in: CGRect(x:CGFloat(iCapNYSHeight)-quaterImage.size.width, y:CGFloat(iCapNYSWidth)/2, width:quaterImage.size.width, height:quaterImage.size.height))
+        quaterImage.draw(in: CGRect(x:CGFloat(iCapNYSHeight)-quaterImage.size.width, y:CGFloat(iCapNYSWidth)*3/4, width:quaterImage.size.width, height:quaterImage.size.height))
         let renderedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
