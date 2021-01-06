@@ -338,14 +338,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     func setVideoFormat(desiredFps: Double)->Bool {
-
         var retF:Bool=false
-
         // 取得したフォーマットを格納する変数
         var selectedFormat: AVCaptureDevice.Format! = nil
         // そのフレームレートの中で一番大きい解像度を取得する
-        var maxWidth: Int32 = 0
-        
+//        var maxWidth: Int32 = 0
         // フォーマットを探る
 //        var getDesiedformat:Bool=false
         for format in videoDevice!.formats {
@@ -360,7 +357,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //                print(dimensions.width,dimensions.height)
                 if desiredFps == range.maxFrameRate && width == 1280{//}>= maxWidth {
                     selectedFormat = format
-                    maxWidth = width
+//                    maxWidth = width
  //                   getDesiedformat=true
                     print(range.maxFrameRate,dimensions.width,dimensions.height)
  //                   break
