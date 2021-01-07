@@ -18,7 +18,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
     var soundIdx:SystemSoundID = 0
-
+    let albumName:String = "iCapNYS"
     var recordingFlag:Bool = false
     var saved2album:Bool = false
     let motionManager = CMMotionManager()
@@ -156,6 +156,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setFlashlevel(level: LEDBar.value)
  
         setButtons(type: true)
+        makeAlbum(albumTitle: albumName)
     }
     func getUserDefault(str:String,ret:Float) -> Float{
         if (UserDefaults.standard.object(forKey: str) != nil){
@@ -397,36 +398,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         return retF
     }
- 
+ /*
     // アルバムが既にあるか確認し、iCapNYSAlbumに代入
-    func albumExists(albumTitle: String) -> Bool {
-        // ここで以下のようなエラーが出るが、なぜか問題なくアルバムが取得できている
-        // [core] "Error returned from daemon: Error Domain=com.apple.accounts Code=7 "(null)""
-        let albums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype:
-            PHAssetCollectionSubtype.albumRegular, options: nil)
-        for i in 0 ..< albums.count {
-            let album = albums.object(at: i)
-            if album.localizedTitle != nil && album.localizedTitle == albumTitle {
-                iCapNYSAlbum = album
-                return true
-            }
-        }
-        return false
-    }
-    
-    //何も返していないが、ここで見つけたor作成したalbumを返したい。そうすればグローバル変数にアクセスせずに済む
-    func createNewAlbum(albumTitle: String, callback: @escaping (Bool) -> Void) {
-        if self.albumExists(albumTitle: albumTitle) {
-            callback(true)
-        } else {
-            PHPhotoLibrary.shared().performChanges({
-                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
-            }) { (isSuccess, error) in
-                callback(isSuccess)
-            }
-        }
-    }
-    
+ 
+  */
     func camera_alert(){
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization { status in
@@ -549,7 +524,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         quaternionView.layer.position=CGPoint(x:ww/12+10,y:topY + ww/12+10)
 
     }
-    func albumCheck(){//ここでもチェックしないとダメのよう
+  /*  func albumCheck(){//ここでもチェックしないとダメのよう
         if albumExists(albumTitle: "iCapNYS")==false{
             createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
                 if isSuccess{
@@ -561,9 +536,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else{
             print("iCapNYS_album exist already.")
         }
-    }
+    }*/
     @IBAction func onClickStopButton(_ sender: Any) {
-        albumCheck()//start&stopでチェックしないとダメのよう
+//        albumCheck()//start&stopでチェックしないとダメのよう
         // stop recording
         debugPrint("onClickStopButton")
         recordingFlag=false
@@ -589,10 +564,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         let fileURL = URL(fileURLWithPath: TempFilePath)
         //let avAsset = AVAsset(url: fileURL)
-        PHPhotoLibrary.shared().performChanges({
+        PHPhotoLibrary.shared().performChanges({ [self] in
             //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
             let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
-            let albumChangeRequest = PHAssetCollectionChangeRequest(for: (self.iCapNYSAlbum)!)
+            let albumChangeRequest = PHAssetCollectionChangeRequest(for: getPHAssetcollection(albumTitle: albumName))
             let placeHolder = assetRequest.placeholderForCreatedAsset
             albumChangeRequest?.addAssets([placeHolder!] as NSArray)
             //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
@@ -616,7 +591,46 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         killTimer()
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
+    func albumExists(albumTitle: String) -> Bool {
+        // ここで以下のようなエラーが出るが、なぜか問題なくアルバムが取得できている
+        // [core] "Error returned from daemon: Error Domain=com.apple.accounts Code=7 "(null)""
+        let albums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype:
+            PHAssetCollectionSubtype.albumRegular, options: nil)
+        for i in 0 ..< albums.count {
+            let album = albums.object(at: i)
+            if album.localizedTitle != nil && album.localizedTitle == albumTitle {
+                iCapNYSAlbum = album
+                return true
+            }
+        }
+        return false
+    }
     
+    //何も返していないが、ここで見つけたor作成したalbumを返したい。そうすればグローバル変数にアクセスせずに済む
+    func createNewAlbum(albumTitle: String, callback: @escaping (Bool) -> Void) {
+        if self.albumExists(albumTitle: albumTitle) {
+            callback(true)
+        } else {
+            PHPhotoLibrary.shared().performChanges({
+                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
+            }) { (isSuccess, error) in
+                callback(isSuccess)
+            }
+        }
+    }
+    func makeAlbum(albumTitle:String){
+        if albumExists(albumTitle: albumName)==false{
+            createNewAlbum(albumTitle: albumName) { [self] (isSuccess) in
+                if isSuccess{
+                    print(albumName," can be made,")
+                } else{
+                    print(albumName," can't be made.")
+                }
+            }
+        }else{
+            print(albumName," exist already.")
+        }
+    }
     @IBAction func onClickStartButton(_ sender: Any) {
 
         focusNear.isHidden=true
@@ -625,7 +639,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDLow.isHidden=true
         LEDHigh.isHidden=true
         LEDBar.isHidden=true
-        albumCheck()//record start stopでチェックする
+//        albumCheck()//record start stopでチェックする
         //sensorをリセットし、正面に
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
@@ -783,7 +797,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
 //    var lastFrameTime: Int64 = 0
-    
+    func getPHAssetcollection(albumTitle:String)->PHAssetCollection{
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        requestOptions.isNetworkAccessAllowed = false
+        requestOptions.deliveryMode = .highQualityFormat //これでもicloud上のvideoを取ってしまう
+        //アルバムをフェッチ
+        let assetFetchOptions = PHFetchOptions()
+        assetFetchOptions.predicate = NSPredicate(format: "title == %@", albumTitle)
+        let assetCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumVideos, options: assetFetchOptions)
+        //アルバムはviewdidloadで作っているのであるはず？
+//        if (assetCollections.count > 0) {
+        //同じ名前のアルバムは一つしかないはずなので最初のオブジェクトを使用
+        return assetCollections.object(at:0)
+    }
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
      
         if fileWriter.status == .writing && startTimeStamp == 0 {
