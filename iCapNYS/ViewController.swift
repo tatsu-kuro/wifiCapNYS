@@ -18,9 +18,7 @@ import AssetsLibrary
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
-//    var videoAssets:PHFetchResult<PHAsset>?
-//    var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
-//    let ALBUMTITLE = "iCapNYS" // アルバム名
+    let albumName:String = "iCapNYS"
     var videoArrayCount:Int = 0
     var videoDate = Array<String>()
     var videoURL = Array<URL>()
@@ -78,9 +76,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         requestOptions.isSynchronous = true
         requestOptions.isNetworkAccessAllowed = false//これでもicloud上のvideoを取ってしまう
         requestOptions.deliveryMode = .highQualityFormat
-        // "iCapNYS"という名前のアルバムをフェッチ
+        // アルバムをフェッチ
         let assetFetchOptions = PHFetchOptions()
-        assetFetchOptions.predicate = NSPredicate(format: "title == %@", "iCapNYS")
+        assetFetchOptions.predicate = NSPredicate(format: "title == %@", albumName)
         let assetCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumVideos, options: assetFetchOptions)
         
         //アルバムが存在しない事もある？

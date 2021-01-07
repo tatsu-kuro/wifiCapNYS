@@ -35,7 +35,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     var newFilePath: String = ""
-    var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
+//    var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
 //    let ALBUMTITLE = "iCapNYS" // アルバム名
     // for video resolution/fps (constants)
     var iCapNYSWidth: Int32 = 0
@@ -524,19 +524,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         quaternionView.layer.position=CGPoint(x:ww/12+10,y:topY + ww/12+10)
 
     }
-  /*  func albumCheck(){//ここでもチェックしないとダメのよう
-        if albumExists(albumTitle: "iCapNYS")==false{
-            createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
-                if isSuccess{
-                    print("iCapNYS_album can be made,")
-                } else{
-                    print("iCapNYS_album can't be made.")
-                }
-            }
-        }else{
-            print("iCapNYS_album exist already.")
-        }
-    }*/
+  
     @IBAction func onClickStopButton(_ sender: Any) {
 //        albumCheck()//start&stopでチェックしないとダメのよう
         // stop recording
@@ -599,7 +587,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         for i in 0 ..< albums.count {
             let album = albums.object(at: i)
             if album.localizedTitle != nil && album.localizedTitle == albumTitle {
-                iCapNYSAlbum = album
+//                iCapNYSAlbum = album
                 return true
             }
         }
