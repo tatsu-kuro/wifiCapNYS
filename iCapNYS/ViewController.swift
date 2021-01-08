@@ -43,13 +43,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 while Controller.saved2album == false{//albumに保存されるのを待つ
                     sleep(UInt32(0.1))
                 }
-//                print(videoArrayCount,videoURL.count)
                 getAlbumList()
-//                while videoArrayCount == videoURL.count{
-//                    sleep(UInt32(0.1))
-//                    getAlbumList()
-//                }
-//                print(videoArrayCount,videoURL.count)
                 print("recorded")
                 tableView.reloadData()
                 videoArrayCount=videoURL.count
@@ -89,7 +83,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             let fetchOptions = PHFetchOptions()
             fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
             let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
-//            videoAssets = assets
             albumExist=true
             if assets.count == 0{
                 gettingAlbumF=false
@@ -109,9 +102,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     
                     if let urlAsset = asset as? AVURLAsset{//not on iCloud
                         videoURL.append(urlAsset.url)
-//                        print(urlAsset.url)
                         videoDate.append(date + "(" + duration + ")")
-//                        print(videoDate.last as Any)
                         if i == assets.count - 1{
                             gettingAlbumF=false
                         }
@@ -167,24 +158,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //set data on cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
-//        print("set data on cell:",indexPath.row)
         let number = (indexPath.row+1).description + ") "
         cell.textLabel!.text = number + videoDate[indexPath.row]
-        
-//        cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
-//        cell.textLabel?.numberOfLines = 1
-        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
         nextView.videoURL = videoURL[indexPath.row]
-//        nextView.pHAsset = videoAssets!.object(at: indexPath.row)
-//        if (videoAssets?.object(at: indexPath.row).duration)! < 0.1{
-//            //playViewでduration周りで、エラーが出るのでとりあえず、こうしてみた。
-//            return
-//        }
         self.present(nextView, animated: true, completion: nil)
     }
 }
