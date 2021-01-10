@@ -581,19 +581,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     @IBAction func onClickStartButton(_ sender: Any) {
-        if ( UIDevice.current.model.range(of: "iPad") != nil){//universalized
-            print("iPad")
-            let alert: UIAlertController = UIAlertController(title: "iPadでは使えません。", message: "ゴーグルでiPhoneを顔面に固定し、眼球の動きを撮影するアプリです。詳細は、使い方ページをご覧ください。", preferredStyle:  UIAlertController.Style.alert)
-            
-            let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
-                // ボタンが押された時の処理を書く（クロージャ実装）
-                (action: UIAlertAction!) -> Void in
-                print("OK")
-            })
-            alert.addAction(defaultAction)
-            present(alert, animated: true, completion: nil)
-            return
-        }
+//        if ( UIDevice.current.model.range(of: "iPad") != nil){//universalized
+//            print("iPad")
+//            let alert: UIAlertController = UIAlertController(title: "iPadでは使えません。", message: "ゴーグルでiPhoneを顔面に固定し、眼球の動きを撮影するアプリです。詳細は、使い方ページをご覧ください。", preferredStyle:  UIAlertController.Style.alert)
+//            
+//            let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+//                // ボタンが押された時の処理を書く（クロージャ実装）
+//                (action: UIAlertAction!) -> Void in
+//                print("OK")
+//            })
+//            alert.addAction(defaultAction)
+//            present(alert, animated: true, completion: nil)
+//            return
+//        }
         focusNear.isHidden=true
         focusFar.isHidden=true
         focusBar.isHidden=true
