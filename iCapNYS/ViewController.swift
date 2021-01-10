@@ -16,13 +16,13 @@ import Photos
 import AssetsLibrary
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    
+    let album = AlbumController()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let albumName:String = "iCapNYS"
     var videoArrayCount:Int = 0
     var videoDate = Array<String>()
     var videoURL = Array<URL>()
-    var albumExist:Bool=false
+//    var albumExist:Bool=false
     @IBOutlet weak var how2Button: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     
@@ -43,17 +43,17 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 while Controller.saved2album == false{//albumに保存されるのを待つ
                     sleep(UInt32(0.1))
                 }
-                getAlbumList()
+                album.getAlbumList()
                 print("recorded")
                 tableView.reloadData()
-                videoArrayCount=videoURL.count
+                videoArrayCount=album.videoURL.count
             }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
         }
     }
-    //アルバムの一覧取得
+/*    //アルバムの一覧取得
     var gettingAlbumF:Bool=true
     func getAlbumList(){//最後のvideoを取得するまで待つ
         gettingAlbumF = true
@@ -117,7 +117,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             albumExist=false
             gettingAlbumF=false
         }
-    }
+    }*/
 //
 //    func camera_alert(){
 //        if PHPhotoLibrary.authorizationStatus() != .authorized {
@@ -134,12 +134,13 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
- 
         how2Button.layer.borderColor = UIColor.black.cgColor
         how2Button.layer.borderWidth = 1.0
         how2Button.layer.cornerRadius = 10
-        getAlbumList()
-        videoArrayCount = videoURL.count
+//        let album = AlbumController()
+        album.getAlbumList()
+//        getAlbumList()
+        videoArrayCount = album.videoURL.count
         tableView.reloadData()
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
     }
@@ -149,23 +150,24 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     //nuber of cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if albumExist==false{
+        if album.albumExist==false{
             return 0
         }else{
-            return videoURL.count
+//            let album = AlbumController()
+            return album.videoURL.count
         }
     }
     //set data on cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
         let number = (indexPath.row+1).description + ") "
-        cell.textLabel!.text = number + videoDate[indexPath.row]
+        cell.textLabel!.text = number + album.videoDate[indexPath.row]
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
-        nextView.videoURL = videoURL[indexPath.row]
+        nextView.videoURL = album.videoURL[indexPath.row]
         self.present(nextView, animated: true, completion: nil)
     }
 }

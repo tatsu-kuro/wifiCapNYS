@@ -151,7 +151,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setFlashlevel(level: LEDBar.value)
  
         setButtons(type: true)
-        makeAlbum(albumTitle: albumName)
+        let album = AlbumController()
+        album.makeAlbum()
+//        makeAlbum(albumTitle: albumName)
     }
     func getUserDefault(str:String,ret:Float) -> Float{
         if (UserDefaults.standard.object(forKey: str) != nil){
@@ -516,11 +518,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         let fileURL = URL(fileURLWithPath: TempFilePath)
         //let avAsset = AVAsset(url: fileURL)
-        if albumExists(albumTitle: albumName){
+        let album = AlbumController()
+        if album.albumExists()==true{
+//        if albumExists(albumTitle: albumName){
             PHPhotoLibrary.shared().performChanges({ [self] in
                 //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
                 let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
-                let albumChangeRequest = PHAssetCollectionChangeRequest(for: getPHAssetcollection(albumTitle: albumName))
+                let albumChangeRequest = PHAssetCollectionChangeRequest(for:album.getPHAssetcollection())
                 let placeHolder = assetRequest.placeholderForCreatedAsset
                 albumChangeRequest?.addAssets([placeHolder!] as NSArray)
                 //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
@@ -548,44 +552,44 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         killTimer()
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
-    func albumExists(albumTitle: String) -> Bool {
-        // ここで以下のようなエラーが出るが、なぜか問題なくアルバムが取得できている
-        let albums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype:
-            PHAssetCollectionSubtype.albumRegular, options: nil)
-        for i in 0 ..< albums.count {
-            let album = albums.object(at: i)
-            if album.localizedTitle != nil && album.localizedTitle == albumTitle {
-                return true
-            }
-        }
-        return false
-    }
-    
+//    func albumExists(albumTitle: String) -> Bool {
+//        // ここで以下のようなエラーが出るが、なぜか問題なくアルバムが取得できている
+//        let albums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype:
+//            PHAssetCollectionSubtype.albumRegular, options: nil)
+//        for i in 0 ..< albums.count {
+//            let album = albums.object(at: i)
+//            if album.localizedTitle != nil && album.localizedTitle == albumTitle {
+//                return true
+//            }
+//        }
+//        return false
+//    }
+//    
     //何も返していないが、ここで見つけたor作成したalbumを返したい。そうすればグローバル変数にアクセスせずに済む
-    func createNewAlbum(albumTitle: String, callback: @escaping (Bool) -> Void) {
-        if self.albumExists(albumTitle: albumTitle) {
-            callback(true)
-        } else {
-            PHPhotoLibrary.shared().performChanges({
-                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
-            }) { (isSuccess, error) in
-                callback(isSuccess)
-            }
-        }
-    }
-    func makeAlbum(albumTitle:String){
-        if albumExists(albumTitle: albumName)==false{
-            createNewAlbum(albumTitle: albumName) { [self] (isSuccess) in
-                if isSuccess{
-                    print(albumName," can be made,")
-                } else{
-                    print(albumName," can't be made.")
-                }
-            }
-        }else{
-            print(albumName," exist already.")
-        }
-    }
+//    func createNewAlbum(albumTitle: String, callback: @escaping (Bool) -> Void) {
+//        if self.albumExists(albumTitle: albumTitle) {
+//            callback(true)
+//        } else {
+//            PHPhotoLibrary.shared().performChanges({
+//                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
+//            }) { (isSuccess, error) in
+//                callback(isSuccess)
+//            }
+//        }
+//    }
+//    func makeAlbum(albumTitle:String){
+//        if albumExists(albumTitle: albumName)==false{
+//            createNewAlbum(albumTitle: albumName) { [self] (isSuccess) in
+//                if isSuccess{
+//                    print(albumName," can be made,")
+//                } else{
+//                    print(albumName," can't be made.")
+//                }
+//            }
+//        }else{
+//            print(albumName," exist already.")
+//        }
+//    }
     @IBAction func onClickStartButton(_ sender: Any) {
 //        if ( UIDevice.current.model.range(of: "iPad") != nil){//universalized
 //            print("iPad")
@@ -762,20 +766,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
 //    var lastFrameTime: Int64 = 0
-    func getPHAssetcollection(albumTitle:String)->PHAssetCollection{
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
-        requestOptions.isNetworkAccessAllowed = false
-        requestOptions.deliveryMode = .highQualityFormat //これでもicloud上のvideoを取ってしまう
-        //アルバムをフェッチ
-        let assetFetchOptions = PHFetchOptions()
-        assetFetchOptions.predicate = NSPredicate(format: "title == %@", albumTitle)
-        let assetCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumVideos, options: assetFetchOptions)
-        //アルバムはviewdidloadで作っているのであるはず？
-//        if (assetCollections.count > 0) {
-        //同じ名前のアルバムは一つしかないはずなので最初のオブジェクトを使用
-        return assetCollections.object(at:0)
-    }
+//    func getPHAssetcollection(albumTitle:String)->PHAssetCollection{
+//        let requestOptions = PHImageRequestOptions()
+//        requestOptions.isSynchronous = true
+//        requestOptions.isNetworkAccessAllowed = false
+//        requestOptions.deliveryMode = .highQualityFormat //これでもicloud上のvideoを取ってしまう
+//        //アルバムをフェッチ
+//        let assetFetchOptions = PHFetchOptions()
+//        assetFetchOptions.predicate = NSPredicate(format: "title == %@", albumTitle)
+//        let assetCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumVideos, options: assetFetchOptions)
+//        //アルバムはviewdidloadで作っているのであるはず？
+////        if (assetCollections.count > 0) {
+//        //同じ名前のアルバムは一つしかないはずなので最初のオブジェクトを使用
+//        return assetCollections.object(at:0)
+//    }
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
      
         if fileWriter.status == .writing && startTimeStamp == 0 {
