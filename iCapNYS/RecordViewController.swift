@@ -126,7 +126,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        camera_alert()
+//        camera_alert()
         set_rpk_ppk()
         setMotion()
         initSession(fps: 30)//60)//遅ければ30fpsにせざるを得ないかも
@@ -376,18 +376,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         return retF
     }
 
-    func camera_alert(){
-        if PHPhotoLibrary.authorizationStatus() != .authorized {
-            PHPhotoLibrary.requestAuthorization { status in
-                if status == .authorized {
-                    // フォトライブラリに写真を保存するなど、実施したいことをここに書く
-                } else if status == .denied {
-                }
-            }
-        } else {
-            // フォトライブラリに写真を保存するなど、実施したいことをここに書く
-        }
-    }
+//    func camera_alert(){
+//        if PHPhotoLibrary.authorizationStatus() != .authorized {
+//            PHPhotoLibrary.requestAuthorization { status in
+//                if status == .authorized {
+//                    // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+//                } else if status == .denied {
+//                }
+//            }
+//        } else {
+//            // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+//        }
+//    }
     
     func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ

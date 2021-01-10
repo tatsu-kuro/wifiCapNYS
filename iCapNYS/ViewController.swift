@@ -118,19 +118,19 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             gettingAlbumF=false
         }
     }
-
-    func camera_alert(){
-        if PHPhotoLibrary.authorizationStatus() != .authorized {
-            PHPhotoLibrary.requestAuthorization { status in
-                if status == .authorized {
-                    // フォトライブラリに写真を保存するなど、実施したいことをここに書く
-                } else if status == .denied {
-                }
-            }
-        } else {
-            // フォトライブラリに写真を保存するなど、実施したいことをここに書く
-        }
-    }
+//
+//    func camera_alert(){
+//        if PHPhotoLibrary.authorizationStatus() != .authorized {
+//            PHPhotoLibrary.requestAuthorization { status in
+//                if status == .authorized {
+//                    // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+//                } else if status == .denied {
+//                }
+//            }
+//        } else {
+//            // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+//        }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
