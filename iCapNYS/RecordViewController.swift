@@ -516,26 +516,32 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         let fileURL = URL(fileURLWithPath: TempFilePath)
         //let avAsset = AVAsset(url: fileURL)
-        PHPhotoLibrary.shared().performChanges({ [self] in
-            //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
-            let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
-            let albumChangeRequest = PHAssetCollectionChangeRequest(for: getPHAssetcollection(albumTitle: albumName))
-            let placeHolder = assetRequest.placeholderForCreatedAsset
-            albumChangeRequest?.addAssets([placeHolder!] as NSArray)
-            //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
-            print("file add to album")
-        }) { [self] (isSuccess, error) in
-            if isSuccess {
-                // 保存した画像にアクセスする為のimageIDを返却
-                //completionBlock(imageID)
-                print("success")
-                self.saved2album=true
-            } else {
-                //failureBlock(error)
-                print("fail")
-//                print(error)
-                self.saved2album=true
+        if albumExists(albumTitle: albumName){
+            PHPhotoLibrary.shared().performChanges({ [self] in
+                //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
+                let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
+                let albumChangeRequest = PHAssetCollectionChangeRequest(for: getPHAssetcollection(albumTitle: albumName))
+                let placeHolder = assetRequest.placeholderForCreatedAsset
+                albumChangeRequest?.addAssets([placeHolder!] as NSArray)
+                //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
+                print("file add to album")
+            }) { [self] (isSuccess, error) in
+                if isSuccess {
+                    // 保存した画像にアクセスする為のimageIDを返却
+                    //completionBlock(imageID)
+                    print("success")
+                    self.saved2album=true
+                } else {
+                    //failureBlock(error)
+                    print("fail")
+                    //                print(error)
+                    self.saved2album=true
+                }
             }
+        }else{
+            //アプリ起動中にアルバムを削除して録画するとここを通る。
+            stopButton.isHidden=true
+            //と変更することで、Exitボタンで帰った状態にする。
         }
         motionManager.stopDeviceMotionUpdates()
         captureSession.stopRunning()
