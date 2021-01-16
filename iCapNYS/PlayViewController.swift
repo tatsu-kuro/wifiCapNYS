@@ -120,7 +120,11 @@ class PlayViewController: UIViewController{
     }
     @objc func onExitButtonTapped(){//このボタンのところにsegueでunwindへ行く
         killTimer()
-        self.performSegue(withIdentifier: "fromPlay", sender: self)
+        let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
+        if UIApplication.shared.isIdleTimerDisabled == true{
+            UIApplication.shared.isIdleTimerDisabled = false//スリープする
+        }
+        self.present(mainView, animated: false, completion: nil)
     }
 }
 

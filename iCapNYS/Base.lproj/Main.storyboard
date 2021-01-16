@@ -19,19 +19,6 @@
                         <subviews>
                             <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="bfs-Cj-lVp">
                                 <rect key="frame" x="0.0" y="44" width="414" height="798"/>
-                                <subviews>
-                                    <button opaque="NO" alpha="0.10000000000000001" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XCS-VA-sqk">
-                                        <rect key="frame" x="-9" y="41" width="158" height="128"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Exit" image="vide">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="YnX-Vo-NH4" kind="unwind" identifier="fromPlay" unwindAction="unwindActionWithSegue:" id="Jgg-bK-Cuc"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="8"/>
                             </view>
@@ -48,7 +35,6 @@
                     <navigationItem key="navigationItem" id="3iq-ZH-Akx"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Z8-K4-WMh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="YnX-Vo-NH4" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-749.27536231884062" y="387.72321428571428"/>
         </scene>
@@ -282,7 +268,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="BYZ-38-t0r" customClass="ViewController" customModule="iCapNYS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainView" modalPresentationStyle="fullScreen" id="BYZ-38-t0r" customClass="ViewController" customModule="iCapNYS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -481,7 +467,6 @@
         <image name="iCapNYShelp" width="1035" height="2096"/>
         <image name="largecircle.fill.circle" catalog="system" width="128" height="121"/>
         <image name="stop.circle" catalog="system" width="128" height="121"/>
-        <image name="vide" width="128" height="128"/>
         <image name="video.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
