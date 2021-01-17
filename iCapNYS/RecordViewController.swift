@@ -552,58 +552,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         killTimer()
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
-//    func albumExists(albumTitle: String) -> Bool {
-//        // ここで以下のようなエラーが出るが、なぜか問題なくアルバムが取得できている
-//        let albums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype:
-//            PHAssetCollectionSubtype.albumRegular, options: nil)
-//        for i in 0 ..< albums.count {
-//            let album = albums.object(at: i)
-//            if album.localizedTitle != nil && album.localizedTitle == albumTitle {
-//                return true
-//            }
-//        }
-//        return false
-//    }
-//    
-    //何も返していないが、ここで見つけたor作成したalbumを返したい。そうすればグローバル変数にアクセスせずに済む
-//    func createNewAlbum(albumTitle: String, callback: @escaping (Bool) -> Void) {
-//        if self.albumExists(albumTitle: albumTitle) {
-//            callback(true)
-//        } else {
-//            PHPhotoLibrary.shared().performChanges({
-//                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
-//            }) { (isSuccess, error) in
-//                callback(isSuccess)
-//            }
-//        }
-//    }
-//    func makeAlbum(albumTitle:String){
-//        if albumExists(albumTitle: albumName)==false{
-//            createNewAlbum(albumTitle: albumName) { [self] (isSuccess) in
-//                if isSuccess{
-//                    print(albumName," can be made,")
-//                } else{
-//                    print(albumName," can't be made.")
-//                }
-//            }
-//        }else{
-//            print(albumName," exist already.")
-//        }
-//    }
+
     @IBAction func onClickStartButton(_ sender: Any) {
-//        if ( UIDevice.current.model.range(of: "iPad") != nil){//universalized
-//            print("iPad")
-//            let alert: UIAlertController = UIAlertController(title: "iPadでは使えません。", message: "ゴーグルでiPhoneを顔面に固定し、眼球の動きを撮影するアプリです。詳細は、使い方ページをご覧ください。", preferredStyle:  UIAlertController.Style.alert)
-//            
-//            let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
-//                // ボタンが押された時の処理を書く（クロージャ実装）
-//                (action: UIAlertAction!) -> Void in
-//                print("OK")
-//            })
-//            alert.addAction(defaultAction)
-//            present(alert, animated: true, completion: nil)
-//            return
-//        }
         focusNear.isHidden=true
         focusFar.isHidden=true
         focusBar.isHidden=true
