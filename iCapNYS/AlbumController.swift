@@ -13,6 +13,7 @@ class AlbumController: NSObject {
     var videoDate = Array<String>()
     var videoURL = Array<URL>()
     var albumExist:Bool = false
+    var dialogStatus:Int = 0
     func albumExists() -> Bool {
         // ここで以下のようなエラーが出るが、なぜか問題なくアルバムが取得できている
         let albums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype:
@@ -127,6 +128,58 @@ class AlbumController: NSObject {
         }else{
             albumExist=false
             gettingAlbumF=false
+        }
+    }
+    func eraseVideo(number:Int) {
+ //       videoAsset[videoCurrent]
+        dialogStatus=0
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        requestOptions.isNetworkAccessAllowed = false
+        requestOptions.deliveryMode = .highQualityFormat //これでもicloud上のvideoを取ってしまう
+        //アルバムをフェッチ
+        let assetFetchOptions = PHFetchOptions()
+        
+        assetFetchOptions.predicate = NSPredicate(format: "title == %@", albumName)
+        
+        let assetCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumVideos, options: assetFetchOptions)
+//        print("asset:",assetCollections.count)
+        //アルバムが存在しない事もある？
+        
+        if (assetCollections.count > 0) {
+            //同じ名前のアルバムは一つしかないはずなので最初のオブジェクトを使用
+            let assetCollection = assetCollections.object(at:0)
+            // creationDate降順でアルバム内のアセットをフェッチ
+            let fetchOptions = PHFetchOptions()
+            fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+            let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//            var eraseAssetDate=assets[0].creationDate
+//            var eraseAssetPngNumber=0
+            for i in 0..<assets.count{
+                let date_sub=assets[i].creationDate
+                let date = formatter.string(from:date_sub!)
+                if videoDate[number].contains(date){
+                    if !assets[i].canPerform(.delete) {
+                        return
+                    }
+                    var delAssets=Array<PHAsset>()
+                    delAssets.append(assets[i])
+                    
+                    PHPhotoLibrary.shared().performChanges({
+                        PHAssetChangeRequest.deleteAssets(NSArray(array: delAssets))
+                    }, completionHandler: { [self] success,error in//[self] _, _ in
+                        if success==true{
+                            dialogStatus = 1//YES
+                        }else{
+                            dialogStatus = -1//NO
+                        }
+                        // 削除後の処理
+                    })
+//                    break
+                }
+            }
         }
     }
 }
