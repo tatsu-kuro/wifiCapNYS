@@ -550,6 +550,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         motionManager.stopDeviceMotionUpdates()
         captureSession.stopRunning()
         killTimer()
+        while saved2album==false{
+            sleep(UInt32(0.1))
+        }
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
 

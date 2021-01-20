@@ -67,6 +67,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     //set data on cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
+        album.getAlbumList()
+
+        videoArrayCount=album.videoURL.count
+        
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
         let number = (indexPath.row+1).description + ") "
         cell.textLabel!.text = number + album.videoDate[indexPath.row]
