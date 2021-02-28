@@ -13,6 +13,7 @@ class PlayViewController: UIViewController{
     var videoPlayer: AVPlayer!
     var duration:Float=0
     var currTime:UILabel?
+    var calcDate:String?
     lazy var seekBar = UISlider()
     var timer:Timer?
     var videoURL:URL?

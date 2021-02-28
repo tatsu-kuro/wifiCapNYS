@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6945B1A725EB207400A52272 /* CameraAlbumEtc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945B1A625EB207400A52272 /* CameraAlbumEtc.swift */; };
 		6945E7D92519145F00E16DDB /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7D82519145F00E16DDB /* RecordViewController.swift */; };
 		6945E7DC25196C3600E16DDB /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7DB25196C3600E16DDB /* PlayViewController.swift */; };
 		6961FBEB257E756E004B6A8C /* How2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6961FBEA257E756D004B6A8C /* How2ViewController.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6945B1A625EB207400A52272 /* CameraAlbumEtc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAlbumEtc.swift; sourceTree = "<group>"; };
 		6945E7D82519145F00E16DDB /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		6945E7DB25196C3600E16DDB /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
 		6961FBEA257E756D004B6A8C /* How2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How2ViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				69E22891251834490004E53C /* AppDelegate.swift */,
 				69E22893251834490004E53C /* SceneDelegate.swift */,
 				69E22895251834490004E53C /* ViewController.swift */,
+				6945B1A625EB207400A52272 /* CameraAlbumEtc.swift */,
 				6961FBEA257E756D004B6A8C /* How2ViewController.swift */,
 				69E22897251834490004E53C /* Main.storyboard */,
 				6945E7DB25196C3600E16DDB /* PlayViewController.swift */,
@@ -151,6 +154,7 @@
 			files = (
 				69E22896251834490004E53C /* ViewController.swift in Sources */,
 				6945E7DC25196C3600E16DDB /* PlayViewController.swift in Sources */,
+				6945B1A725EB207400A52272 /* CameraAlbumEtc.swift in Sources */,
 				69E22892251834490004E53C /* AppDelegate.swift in Sources */,
 				69E22894251834490004E53C /* SceneDelegate.swift in Sources */,
 				69D0D83A25AB451D00658D61 /* AlbumController.swift in Sources */,
