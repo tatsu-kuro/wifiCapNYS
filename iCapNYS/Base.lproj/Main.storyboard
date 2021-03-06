@@ -434,7 +434,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iCapNYShelp" translatesAutoresizingMaskIntoConstraints="NO" id="KXn-JY-fvB">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KXn-JY-fvB">
                                 <rect key="frame" x="0.0" y="44" width="414" height="758"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="swt-4C-G4l">
@@ -449,6 +449,18 @@
                                 </state>
                                 <connections>
                                     <segue destination="pLX-6O-bBD" kind="unwind" unwindAction="unwindActionWithSegue:" id="u5N-ES-V5l"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uBR-zf-qpR">
+                                <rect key="frame" x="20" y="807" width="80" height="40"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="N1x-pA-ROi"/>
+                                    <constraint firstAttribute="width" constant="80" id="bPE-UD-lY6"/>
+                                </constraints>
+                                <state key="normal" title="次へ"/>
+                                <connections>
+                                    <action selector="onNextButton:" destination="eL6-VO-9Mc" eventType="touchUpInside" id="QJY-ss-qOR"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -468,7 +480,9 @@
                             <constraint firstItem="ZF7-xB-7w1" firstAttribute="leading" secondItem="5AE-QU-xbp" secondAttribute="leading" id="bcT-FY-srF"/>
                             <constraint firstItem="5AE-QU-xbp" firstAttribute="trailing" secondItem="hx9-Ny-w1G" secondAttribute="trailing" id="e3g-mc-c9U"/>
                             <constraint firstItem="hx9-Ny-w1G" firstAttribute="leading" secondItem="5AE-QU-xbp" secondAttribute="leading" id="hV5-el-FfE"/>
+                            <constraint firstItem="hx9-Ny-w1G" firstAttribute="top" secondItem="uBR-zf-qpR" secondAttribute="bottom" constant="15" id="i3j-vt-Lwg"/>
                             <constraint firstItem="ZF7-xB-7w1" firstAttribute="top" secondItem="Wk0-jB-uMg" secondAttribute="bottom" id="mZ5-nf-vtR"/>
+                            <constraint firstItem="uBR-zf-qpR" firstAttribute="leading" secondItem="5AE-QU-xbp" secondAttribute="leading" constant="20" id="nD7-Ub-eWG"/>
                             <constraint firstItem="5AE-QU-xbp" firstAttribute="trailing" secondItem="KXn-JY-fvB" secondAttribute="trailing" id="rlv-Vy-E4C"/>
                             <constraint firstItem="hx9-Ny-w1G" firstAttribute="bottom" secondItem="5AE-QU-xbp" secondAttribute="bottom" id="td0-CU-QKL"/>
                         </constraints>
@@ -476,6 +490,8 @@
                     <navigationItem key="navigationItem" id="9qM-w1-LJl"/>
                     <connections>
                         <outlet property="exitButton" destination="swt-4C-G4l" id="Dv7-Aw-paA"/>
+                        <outlet property="helpView" destination="KXn-JY-fvB" id="BKf-2D-L6j"/>
+                        <outlet property="nextButton" destination="uBR-zf-qpR" id="lMT-lv-anp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yNe-KU-a0d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -486,7 +502,6 @@
     </scenes>
     <resources>
         <image name="arrow.triangle.2.circlepath.camera" catalog="system" width="128" height="94"/>
-        <image name="iCapNYShelp" width="1035" height="2096"/>
         <image name="largecircle.fill.circle" catalog="system" width="128" height="121"/>
         <image name="stop.circle" catalog="system" width="128" height="121"/>
         <image name="video.circle.fill" catalog="system" width="128" height="121"/>
