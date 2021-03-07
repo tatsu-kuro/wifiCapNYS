@@ -14,22 +14,22 @@ class How2ViewController: UIViewController {
         exitButton.layer.borderColor = UIColor.black.cgColor
         exitButton.layer.borderWidth = 1.0
         exitButton.layer.cornerRadius = 10
-        nextButton.isHidden=true
-//        nextButton.layer.borderColor = UIColor.black.cgColor
-//        nextButton.layer.borderWidth = 1.0
-//        nextButton.layer.cornerRadius = 10
-//        helpView.image = UIImage(named: "help1")
+//        nextButton.isHidden=true
+        nextButton.layer.borderColor = UIColor.black.cgColor
+        nextButton.layer.borderWidth = 1.0
+        nextButton.layer.cornerRadius = 10
+        helpView.image = UIImage(named: "help3")
         // Do any additional setup after loading the view.
     }
     var helpNum:Int = 0
     @IBAction func onNextButton(_ sender: Any) {
-//        helpNum += 1
-//        if helpNum%2 == 0{
-//            helpView.image = UIImage(named: "help1")
-//        }else{
-//            helpView.image = UIImage(named:"help2")
-//        }
-//        
+        helpNum += 1
+        if helpNum%2 == 0{
+            helpView.image = UIImage(named: "help3")
+        }else{
+            helpView.image = UIImage(named:"help4")
+        }
+        
     }
     @IBOutlet weak var nextButton: UIButton!
     
