@@ -18,14 +18,14 @@ class How2ViewController: UIViewController {
         nextButton.layer.borderColor = UIColor.black.cgColor
         nextButton.layer.borderWidth = 1.0
         nextButton.layer.cornerRadius = 10
-        helpView.image = UIImage(named: "help3")
+        helpView.image = UIImage(named: "help1")
         // Do any additional setup after loading the view.
     }
     var helpNum:Int = 0
     @IBAction func onNextButton(_ sender: Any) {
         helpNum += 1
         if helpNum%2 == 0{
-            helpView.image = UIImage(named: "help3")
+            helpView.image = UIImage(named: "help1")
         }else{
             helpView.image = UIImage(named:"help4")
         }
