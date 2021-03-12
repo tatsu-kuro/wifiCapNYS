@@ -164,7 +164,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GaH-k7-GlQ">
-                                <rect key="frame" x="324" y="44" width="80" height="40"/>
+                                <rect key="frame" x="324" y="54" width="80" height="40"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="QDA-j4-dTc"/>
@@ -191,7 +191,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJp-tL-Pfc">
-                                <rect key="frame" x="324" y="44" width="80" height="40"/>
+                                <rect key="frame" x="324" y="54" width="80" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="9mA-ou-t3m"/>
@@ -209,8 +209,8 @@
                         </accessibility>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="eJp-tL-Pfc" firstAttribute="top" secondItem="9F0-mW-jKg" secondAttribute="bottom" id="3Ly-JX-Gs2"/>
-                            <constraint firstItem="GaH-k7-GlQ" firstAttribute="top" secondItem="9F0-mW-jKg" secondAttribute="bottom" id="4yA-HC-RdB"/>
+                            <constraint firstItem="eJp-tL-Pfc" firstAttribute="top" secondItem="9F0-mW-jKg" secondAttribute="bottom" constant="10" id="3Ly-JX-Gs2"/>
+                            <constraint firstItem="GaH-k7-GlQ" firstAttribute="top" secondItem="9F0-mW-jKg" secondAttribute="bottom" constant="10" id="4yA-HC-RdB"/>
                             <constraint firstItem="DDK-mU-MaY" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="5eX-4Z-eI7"/>
                             <constraint firstItem="Pah-7o-hki" firstAttribute="top" secondItem="U5M-bG-o5r" secondAttribute="bottom" id="8rh-4Y-JzM"/>
                             <constraint firstItem="U5M-bG-o5r" firstAttribute="leading" secondItem="Cn2-Mn-Pzg" secondAttribute="trailing" constant="10" id="8s8-OL-cIN"/>
