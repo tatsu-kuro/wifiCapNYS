@@ -36,6 +36,19 @@ class CameraAlbumEtc: NSObject, AVCaptureFileOutputRecordingDelegate{
 //        // 全てのプロパティを初期化する前にインスタンスメソッドを実行することはできない
 //        self.albumName = "Fushiki"//name
 //    }
+    func getCameraNumber()->Int{
+        var cameras:Int = 0
+        if AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) != nil {
+            cameras += 4
+        }
+        if AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) != nil {
+            cameras += 2
+        }
+        if AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) != nil {
+            cameras += 1
+        }
+        return cameras
+    }
     //ジワーッと文字を表示するため
     func updateRecClarification(tm: Int)->CGFloat {
         var cnt=tm%40
