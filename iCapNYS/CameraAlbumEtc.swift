@@ -154,7 +154,7 @@ class CameraAlbumEtc: NSObject, AVCaptureFileOutputRecordingDelegate{
    
     var setURLfromPHAssetFlag:Bool=false
     var getURL:URL?
-    func getURLfromPHAsset(asset:PHAsset)->URL{
+    func getURLfromPHAsset(asset:PHAsset)->URL?{
         setURLfromPHAssetFlag=false
         setURLfromPHAsset(asset: asset)
         while setURLfromPHAssetFlag == false{
