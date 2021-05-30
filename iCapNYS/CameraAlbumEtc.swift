@@ -290,7 +290,21 @@ class CameraAlbumEtc: NSObject, AVCaptureFileOutputRecordingDelegate{
         }
         captureSession.stopRunning()
     }
-
+    var topPadding:CGFloat=0
+    var bottomPadding:CGFloat=0
+    var leftPadding:CGFloat=0
+    var rightPadding:CGFloat=0
+    func getAllPadding(view:UIView) {
+        if #available(iOS 11.0, *) {
+            // viewDidLayoutSubviewsではSafeAreaの取得ができている
+            topPadding = view.safeAreaInsets.top
+            bottomPadding = view.safeAreaInsets.bottom
+            leftPadding = view.safeAreaInsets.left
+            rightPadding = view.safeAreaInsets.right
+            print("in viewDidLayoutSubviews")
+            print(topPadding,bottomPadding,leftPadding,rightPadding)
+        }
+    }
     func initSession(camera:Int,bounds:CGRect,cameraView:UIImageView) {
         // セッション生成
         cameraMode=camera
