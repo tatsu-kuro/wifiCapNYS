@@ -27,7 +27,6 @@ class How2ViewController: UIViewController {
         exitButton.frame=CGRect(x:x0+bw*6+sp*6,y:by,width:bw,height:bh)//,UIColor.darkGray)
         nextButton.frame=CGRect(x:x0,y:by,width:bw,height:bh)//,UIColor.darkGray)
 
-        
         exitButton.layer.borderColor = UIColor.black.cgColor
         exitButton.layer.borderWidth = 1.0
         exitButton.layer.cornerRadius = 5
