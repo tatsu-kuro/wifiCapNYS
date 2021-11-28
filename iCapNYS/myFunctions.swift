@@ -14,7 +14,7 @@ import UIKit
 import Photos
 import AVFoundation
 
-class CameraAlbumEtc: NSObject, AVCaptureFileOutputRecordingDelegate{
+class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
     let tempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let albumName:String = "iCapNYS"
     var videoDevice: AVCaptureDevice?

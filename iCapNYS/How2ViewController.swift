@@ -11,13 +11,31 @@ class How2ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
+        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))/2
+        let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
+        let wh:CGFloat=view.bounds.height-topPadding-bottomPadding
+        let sp=ww/120//間隙
+        let bw=(ww-sp*10)/7//ボタン幅
+        let bh=bw*170/440
+        let by=wh-bh-sp
+        let by1=wh-(bh+sp)*2+1.5*sp
+        let x0=leftPadding+sp*2
+        
+        exitButton.frame=CGRect(x:x0+bw*6+sp*6,y:by,width:bw,height:bh)//,UIColor.darkGray)
+        nextButton.frame=CGRect(x:x0,y:by,width:bw,height:bh)//,UIColor.darkGray)
+
+        
         exitButton.layer.borderColor = UIColor.black.cgColor
         exitButton.layer.borderWidth = 1.0
-        exitButton.layer.cornerRadius = 10
+        exitButton.layer.cornerRadius = 5
 //        nextButton.isHidden=true
         nextButton.layer.borderColor = UIColor.black.cgColor
         nextButton.layer.borderWidth = 1.0
-        nextButton.layer.cornerRadius = 10
+        nextButton.layer.cornerRadius = 5
+        helpView.frame=CGRect(x:x0,y:topPadding+sp,width: ww-4*sp,height: wh-2*sp)
         helpView.image = UIImage(named: "help")
         // Do any additional setup after loading the view.
     }
@@ -36,6 +54,13 @@ class How2ViewController: UIViewController {
     @IBOutlet weak var exitButton: UIButton!
     
     @IBOutlet weak var helpView: UIImageView!
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+    
     
     /*
     // MARK: - Navigation
