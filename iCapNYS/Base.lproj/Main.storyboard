@@ -51,11 +51,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bD-tH-WDM">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bD-tH-WDM">
                                 <rect key="frame" x="174" y="50" width="220" height="220"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="5bD-tH-WDM" secondAttribute="height" multiplier="20:20" id="I9x-Tp-zdh" userLabel="aspect = 20:20"/>
-                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemRedColor"/>
                                 <state key="normal" image="largecircle.fill.circle" catalog="system"/>
                                 <connections>
@@ -133,11 +131,9 @@
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pah-7o-hki">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="200" verticalHuggingPriority="200" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pah-7o-hki">
                                 <rect key="frame" x="174" y="50" width="220" height="220"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Pah-7o-hki" secondAttribute="height" multiplier="1:1" id="RLz-Gg-012"/>
-                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemOrangeColor"/>
                                 <state key="normal" image="stop.circle" catalog="system"/>
                                 <connections>
@@ -169,14 +165,6 @@
                             <bool key="isElement" value="YES"/>
                         </accessibility>
                         <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="rQ7-Kf-AuZ" firstAttribute="bottom" secondItem="5bD-tH-WDM" secondAttribute="bottom" constant="50" id="8zp-sQ-cbc"/>
-                            <constraint firstItem="Pah-7o-hki" firstAttribute="centerX" secondItem="bzg-mg-vx4" secondAttribute="centerX" id="9wo-9K-lsq"/>
-                            <constraint firstItem="5bD-tH-WDM" firstAttribute="top" secondItem="rQ7-Kf-AuZ" secondAttribute="top" constant="50" id="FFJ-Cc-XUG"/>
-                            <constraint firstItem="5bD-tH-WDM" firstAttribute="centerX" secondItem="bzg-mg-vx4" secondAttribute="centerX" id="OBr-RS-j5b"/>
-                            <constraint firstItem="rQ7-Kf-AuZ" firstAttribute="bottom" secondItem="Pah-7o-hki" secondAttribute="bottom" constant="50" id="WJu-Y0-Y34"/>
-                            <constraint firstItem="Pah-7o-hki" firstAttribute="top" secondItem="rQ7-Kf-AuZ" secondAttribute="top" constant="50" id="qt8-ef-vD6"/>
-                        </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="XfI-xn-bCQ" appends="YES" id="dIM-2m-zEX"/>
                         </connections>
