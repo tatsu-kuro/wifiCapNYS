@@ -35,16 +35,16 @@ class How2ViewController: UIViewController {
         nextButton.layer.borderWidth = 1.0
         nextButton.layer.cornerRadius = 5
         helpView.frame=CGRect(x:x0,y:topPadding+sp,width: ww-4*sp,height: wh-2*sp)
-        helpView.image = UIImage(named: "help")
+        helpView.image = UIImage(named: "helpnew")
         // Do any additional setup after loading the view.
     }
     var helpNum:Int = 0
     @IBAction func onNextButton(_ sender: Any) {
         helpNum += 1
         if helpNum%2 == 0{
-            helpView.image = UIImage(named: "help")
+            helpView.image = UIImage(named: "helpnew")
         }else{
-            helpView.image = UIImage(named:"help4")
+            helpView.image = UIImage(named:"helpnew2")
         }
         
     }
