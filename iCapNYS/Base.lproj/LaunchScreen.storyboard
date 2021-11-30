@@ -17,14 +17,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CFf-MR-qy4">
-                                <rect key="frame" x="44" y="0.0" width="808" height="393"/>
-                                <string key="text">iCapNYS
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CFf-MR-qy4">
+                                <rect key="frame" x="44" y="208" width="808" height="185"/>
+                                <string key="text">2021-11-30  Version 2.1
+Kuroda ENT
 
-2021-11-28  Version 2.2
+</string>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="29"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3OQ-8B-VV5">
+                                <rect key="frame" x="44" y="206" width="808" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="1ry-PJ-BgQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gv5-16-kDu">
+                                <rect key="frame" x="44" y="0.0" width="808" height="206"/>
+                                <string key="text">
 
-Kuroda ENT</string>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="24"/>
+iCapNYS</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="44"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -32,16 +49,23 @@ Kuroda ENT</string>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="CFf-MR-qy4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0rj-5W-rbG"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CFf-MR-qy4" secondAttribute="trailing" id="3hP-WR-EJx"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="CFf-MR-qy4" secondAttribute="bottom" id="IXR-Ih-XT6"/>
-                            <constraint firstItem="CFf-MR-qy4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="tFP-dh-4Nl"/>
+                            <constraint firstItem="3OQ-8B-VV5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5wl-dm-zUL"/>
+                            <constraint firstItem="gv5-16-kDu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ii9-qy-JNe"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gv5-16-kDu" secondAttribute="trailing" id="LHQ-cw-oQg"/>
+                            <constraint firstItem="gv5-16-kDu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="LWN-zC-dcA"/>
+                            <constraint firstItem="3OQ-8B-VV5" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Mpy-u2-i82"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3OQ-8B-VV5" secondAttribute="trailing" id="NTh-NM-yWM"/>
+                            <constraint firstItem="CFf-MR-qy4" firstAttribute="top" secondItem="3OQ-8B-VV5" secondAttribute="bottom" id="ivO-i4-nxX"/>
+                            <constraint firstItem="CFf-MR-qy4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="orD-Ra-oJR"/>
+                            <constraint firstItem="3OQ-8B-VV5" firstAttribute="top" secondItem="gv5-16-kDu" secondAttribute="bottom" id="rQm-Ya-4kk"/>
+                            <constraint firstItem="CFf-MR-qy4" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="wC5-tt-3vE"/>
+                            <constraint firstItem="CFf-MR-qy4" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="xu1-yL-ZXp"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.901785714285715" y="373.91304347826087"/>
         </scene>
     </scenes>
     <resources>
