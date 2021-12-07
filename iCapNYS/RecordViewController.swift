@@ -921,6 +921,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        quaternionView.layer.position=CGPoint(x:ww/12+10,y:leftPadding + ww/12+10)
         startButton.frame=CGRect(x:leftPadding+ww/2-wh/4,y:sp+topPadding,width: wh/2,height: wh/2)
         stopButton.frame=CGRect(x:leftPadding+ww/2-wh/2,y:sp+topPadding,width: wh,height: wh)
+        panTapExplanation.frame=CGRect(x:leftPadding,y:topPadding,width:ww,height:wh/2)
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {

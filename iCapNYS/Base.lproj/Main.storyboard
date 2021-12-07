@@ -174,13 +174,11 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KR-ld-QTe">
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KR-ld-QTe">
                                 <rect key="frame" x="0.0" y="-40" width="568" height="400"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="400" id="B4Z-gc-xvs"/>
-                                </constraints>
                                 <string key="text">Tap anywhere on the screen to reset the HEAD.
 Pan up or down anywhere to move the buttons.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -194,11 +192,6 @@ Pan up or down anywhere to move the buttons.</string>
                             <bool key="isElement" value="YES"/>
                         </accessibility>
                         <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="rQ7-Kf-AuZ" firstAttribute="trailing" secondItem="9KR-ld-QTe" secondAttribute="trailing" id="1GK-26-LHF"/>
-                            <constraint firstItem="9KR-ld-QTe" firstAttribute="centerY" secondItem="bzg-mg-vx4" secondAttribute="centerY" id="NIs-G0-uEw"/>
-                            <constraint firstItem="9KR-ld-QTe" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="pRS-NV-Mdf"/>
-                        </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Qhd-kv-Jkz" appends="YES" id="fr0-If-gvD"/>
                             <outletCollection property="gestureRecognizers" destination="00q-Mg-hiA" appends="YES" id="82E-mW-00Z"/>

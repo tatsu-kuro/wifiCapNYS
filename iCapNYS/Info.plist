@@ -18,12 +18,14 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>眼振映像を撮影し、それをアルバム&quot;iCapNYS&quot;に保存します。</string>
+	<string>眼振映像を撮影し、それをアルバム"iCapNYS"に保存します。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>アルバム&quot;iCapNYS&quot;を作成し、そこに眼振映像を保存します。</string>
+	<string>アルバム"iCapNYS"を作成し、そこに眼振映像を保存します。</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -53,8 +55,6 @@
 	<array>
 		<string>armv7</string>
 	</array>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationLandscapeRight</string>
