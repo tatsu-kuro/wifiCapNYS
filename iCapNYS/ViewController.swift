@@ -243,7 +243,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by, w: bw, h: bh, UIColor.darkGray)
         someFunctions.setButtonProperty(changeLandscapeSideButton, x:x0+bw*6+sp*6, y: by0, w: bw, h: bh, UIColor.darkGray)
-        //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。
+        //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
         changeLandscapeSideButton.isHidden=true
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
