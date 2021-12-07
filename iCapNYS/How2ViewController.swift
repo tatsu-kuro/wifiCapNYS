@@ -8,7 +8,21 @@
 import UIKit
 
 class How2ViewController: UIViewController {
-
+    let someFunctions = myFunctions()
+    
+    @IBOutlet weak var upDownLabel: UILabel!
+    //    override var shouldAutorotate: Bool {
+//        return false
+//    }
+//
+//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+//        let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
+//        if landscapeSide==0{
+//            return UIInterfaceOrientationMask.landscapeRight
+//        }else{
+//            return UIInterfaceOrientationMask.landscapeLeft
+//        }
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -37,6 +51,16 @@ class How2ViewController: UIViewController {
         helpView.frame=CGRect(x:x0,y:topPadding+sp,width: ww-4*sp,height: wh-2*sp)
         helpView.image = UIImage(named: "helpnew")
         // Do any additional setup after loading the view.
+        upDownLabel.isHidden=true
+
+        if helpNum==999{
+            nextButton.isHidden=true
+            helpView.isHidden=true
+//            helpView.image = UIImage(named:"helpnew2")
+            exitButton.setTitle("OK", for: .normal)
+            
+            upDownLabel.isHidden=false
+        }
     }
     var helpNum:Int = 0
     @IBAction func onNextButton(_ sender: Any) {

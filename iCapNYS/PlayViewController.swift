@@ -17,7 +17,28 @@ class PlayViewController: UIViewController{
     lazy var seekBar = UISlider()
     var timer:Timer?
     var videoURL:URL?
-   
+    let someFunctions = myFunctions()
+    override var shouldAutorotate: Bool {
+        return false
+    }
+/*
+ let value = UIInterfaceOrientation.landscapeLeft.rawValue
+ UIDevice.current.setValue(value, forKey: "orientation")
+ 
+ 
+ override var shouldAutorotate: Bool {
+     return true
+ }
+*/
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
+        if landscapeSide==0{
+            return UIInterfaceOrientationMask.landscapeRight
+        }else{
+            return UIInterfaceOrientationMask.landscapeLeft
+        }
+    }
+    
     @objc func update(tm: Timer) {
         let min=Int(seekBar.value/60)
         let sec=Int(seekBar.value)%60
@@ -36,6 +57,7 @@ class PlayViewController: UIViewController{
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
+    
     func setButtonProperty(button:UIButton,title:String,color:UIColor){
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1.0

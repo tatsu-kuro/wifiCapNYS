@@ -15,6 +15,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sleep(2)
         return true
     }
+    
+//    func getUserDefaultInt(str:String,ret:Int) -> Int{
+//        if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
+//            return UserDefaults.standard.integer(forKey:str)
+//        }else{
+//            UserDefaults.standard.set(ret, forKey: str)
+//            return ret
+//        }
+//    }
+//    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+//
+//        let landscapeSide=getUserDefaultInt(str: "landscapeSide", ret: 0)
+//        if landscapeSide==0{
+//            return UIInterfaceOrientationMask.landscapeRight
+//        }else{
+//            return UIInterfaceOrientationMask.landscapeLeft
+//        }
+//    }
 
     // MARK: UISceneSession Lifecycle
 
