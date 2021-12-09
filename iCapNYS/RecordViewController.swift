@@ -247,20 +247,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         super.viewDidLoad()
         getCameras()
         camera.makeAlbum()
-        if false {//speakerSwitchは、ipod touchの時に便利だが、iPodは使わないだろう
-            let sound=getUserDefault(str: "recordSound", ret: 1)
-            if sound==0{
-                speakerSwitch.isOn=false
-                speakerLabel.tintColor=UIColor.gray
-            }else{
-                speakerSwitch.isOn=true
-                speakerLabel.tintColor=UIColor.green
-            }
-        }else{
-            speakerLabel.isHidden=true
-            speakerSwitch.isHidden=true
-            UserDefaults.standard.set(1,forKey: "recordSound")
-        }
+        //speakerSwitchは、ipod touchの時に便利
+//        let sound=getUserDefault(str: "recordSound", ret: 1)
+//        if sound==0{
+//            speakerSwitch.isOn=false
+//            speakerLabel.tintColor=UIColor.gray
+//        }else{
+//            speakerSwitch.isOn=true
+//            speakerLabel.tintColor=UIColor.green
+//        }
+        //speakerSwitch使用しない
+        speakerLabel.isHidden=true
+        speakerSwitch.isHidden=true
+        UserDefaults.standard.set(1,forKey: "recordSound")
+        
         if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
             cameraType=UserDefaults.standard.integer(forKey:"cameraType")
         }else{

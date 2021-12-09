@@ -35,7 +35,7 @@ class How2ViewController: UIViewController {
         let bw=(ww-sp*10)/7//ボタン幅
         let bh=bw*170/440
         let by=wh-bh-sp
-        let by1=wh-(bh+sp)*2+1.5*sp
+//        let by1=wh-(bh+sp)*2+1.5*sp
         let x0=leftPadding+sp*2
         
         exitButton.frame=CGRect(x:x0+bw*6+sp*6,y:by,width:bw,height:bh)//,UIColor.darkGray)
