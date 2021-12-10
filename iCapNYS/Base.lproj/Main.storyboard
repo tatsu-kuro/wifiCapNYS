@@ -92,7 +92,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="light" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYh-14-k4L">
-                                <rect key="frame" x="12" y="250" width="60" height="25"/>
+                                <rect key="frame" x="12" y="78" width="60" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -174,15 +174,23 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KR-ld-QTe">
-                                <rect key="frame" x="0.0" y="-40" width="568" height="400"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KR-ld-QTe">
+                                <rect key="frame" x="0.0" y="0.0" width="568" height="109"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Tap anywhere on the screen to reset the HEAD.
 Pan up or down anywhere to move the buttons.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="flD-sk-DFz">
+                                <rect key="frame" x="0.0" y="157.5" width="568" height="5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="5" id="Vsp-0P-ugn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -192,6 +200,15 @@ Pan up or down anywhere to move the buttons.</string>
                             <bool key="isElement" value="YES"/>
                         </accessibility>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="flD-sk-DFz" firstAttribute="top" secondItem="9KR-ld-QTe" secondAttribute="bottom" constant="48.5" id="EwG-3S-cC0"/>
+                            <constraint firstAttribute="trailing" secondItem="9KR-ld-QTe" secondAttribute="trailing" id="GLc-oy-b0V"/>
+                            <constraint firstItem="9KR-ld-QTe" firstAttribute="top" secondItem="bzg-mg-vx4" secondAttribute="top" id="PkA-Ed-6Nx"/>
+                            <constraint firstItem="flD-sk-DFz" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="SYk-Dz-x2W"/>
+                            <constraint firstItem="flD-sk-DFz" firstAttribute="trailing" secondItem="rQ7-Kf-AuZ" secondAttribute="trailing" id="U8D-Pl-p4b"/>
+                            <constraint firstItem="flD-sk-DFz" firstAttribute="centerY" secondItem="bzg-mg-vx4" secondAttribute="centerY" id="ay0-Rx-ena"/>
+                            <constraint firstItem="9KR-ld-QTe" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="pjJ-3M-G4M"/>
+                        </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Qhd-kv-Jkz" appends="YES" id="fr0-If-gvD"/>
                             <outletCollection property="gestureRecognizers" destination="00q-Mg-hiA" appends="YES" id="82E-mW-00Z"/>
