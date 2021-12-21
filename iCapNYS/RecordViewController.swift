@@ -280,7 +280,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         lightBar.addTarget(self, action: #selector(onLEDValueChange), for: UIControl.Event.valueChanged)
         lightBar.value=UserDefaults.standard.float(forKey: "")
         if cameraType==0{
-            lightBar.value=UserDefaults.standard.float(forKey: "screenBrightnessValue")
+            lightBar.value=camera.getUserDefaultFloat(str: "screenBrightnessValue", ret: 0.9)
+//            lightBar.value=UserDefaults.standard.float(forKey: "screenBrightnessValue")
         }else{
             lightBar.value=UserDefaults.standard.float(forKey: "ledValue")
         }
@@ -347,6 +348,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==0{
             UIScreen.main.brightness = 10*CGFloat(lightBar.value)
             UserDefaults.standard.set(lightBar.value, forKey: "screenBrightnessValue")
+//            print("screenBrightnessValue:",lightBar.value)
         }else{
             UIScreen.main.brightness=CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
             setFlashlevel(level: lightBar.value)

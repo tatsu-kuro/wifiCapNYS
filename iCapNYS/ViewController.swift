@@ -121,10 +121,18 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
         print("didappear")
         checkLibraryAuthorized()
-        print("checkLibraryAuthrizedflag:",checkLibraryAuthrizedFlag)
+        print("checkLibraryAuthrizedflag1:",checkLibraryAuthrizedFlag)
+        var count:Int=0
         while checkLibraryAuthrizedFlag==0{
-            sleep(UInt32(0.1))
+//            sleep(UInt32(0.1))
+            usleep(1000)//0.001sec
+            count += 1
+            if count>5000{
+                break
+            }
         }
+        print("checkLibraryAuthrizedflag2:",checkLibraryAuthrizedFlag)
+
         if checkLibraryAuthrizedFlag==1{
             someFunctions.getAlbumAssets()
         }
@@ -147,7 +155,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         videoArrayCount=someFunctions.videoURL.count
         print(videoArrayCount,someFunctions.videoURL.count,someFunctions.videoDate.count)
         tableView.reloadData()
-        
     }
     var checkLibraryAuthrizedFlag:Int=0
     func checkLibraryAuthorized(){
