@@ -23,9 +23,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Take a nystagmus image.</string>
+	<string>This app takes a nystagmus image.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Create an album &quot;iCapNYS&quot;.</string>
+	<string>This app create an album "iCapNYS".</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
