@@ -34,7 +34,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if #available(iOS 11.0, *) {
+//        if #available(iOS 11.0, *) {
             // viewDidLayoutSubviewsではSafeAreaの取得ができている
             let topPadding = self.view.safeAreaInsets.top
             let bottomPadding = self.view.safeAreaInsets.bottom
@@ -46,7 +46,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
             let left=UserDefaults.standard.integer(forKey:"leftPadding")
             print("top,bottom,right,left,(int Left)",topPadding,bottomPadding,rightPadding,leftPadding,left)    // iPhoneXなら44, その他は20.0
-        }
+//        }
+        setButtons()
     }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -119,7 +120,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             UIApplication.shared.isIdleTimerDisabled = false//監視する
         }
         print("didappear")
-        someFunctions.getAlbumAssets()
+        checkLibraryAuthorized()
+        print("checkLibraryAuthrizedflag:",checkLibraryAuthrizedFlag)
+        while checkLibraryAuthrizedFlag==0{
+            sleep(UInt32(0.1))
+        }
+        if checkLibraryAuthrizedFlag==1{
+            someFunctions.getAlbumAssets()
+        }
 //        let landscapeSide=0//landscapeRight
 //        UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
         for i in 0..<someFunctions.videoURL.count{//cloud のURL->nilを入れる
@@ -139,13 +147,50 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         videoArrayCount=someFunctions.videoURL.count
         print(videoArrayCount,someFunctions.videoURL.count,someFunctions.videoDate.count)
         tableView.reloadData()
+        
     }
- 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let mainBrightness = UIScreen.main.brightness
-        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
-
+    var checkLibraryAuthrizedFlag:Int=0
+    func checkLibraryAuthorized(){
+        //iOS14に対応
+        checkLibraryAuthrizedFlag=0//0：ここの処理が終わっていないとき　1：許可　−１：拒否
+        if #available(iOS 14.0, *) {
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+                switch status {
+                case .limited:
+                    self.checkLibraryAuthrizedFlag=1
+                    print("制限あり")
+                    break
+                case .authorized:
+                    self.checkLibraryAuthrizedFlag=1
+                    print("許可ずみ")
+                    break
+                case .denied:
+                    self.checkLibraryAuthrizedFlag = -1
+                    print("拒否ずみ")
+                    break
+                default:
+                    self.checkLibraryAuthrizedFlag = -1
+                    break
+                }
+            }
+        }
+        else  {
+            if PHPhotoLibrary.authorizationStatus() != .authorized {
+                PHPhotoLibrary.requestAuthorization { status in
+                    if status == .authorized {
+                        self.checkLibraryAuthrizedFlag=1
+                        print("許可ずみ")
+                    } else if status == .denied {
+                        self.checkLibraryAuthrizedFlag = -1
+                        print("拒否ずみ")
+                    }
+                }
+            } else {
+                self.checkLibraryAuthrizedFlag=1
+            }
+        }
+    }
+    func setButtons(){
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -169,6 +214,37 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 
         cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-2*sp-wh+2*bh, y: topPadding+bh, width:wh-2*bh, height: wh-2*bh)
         tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-2*sp-wh+2*bh-leftPadding,height: wh-2*sp)
+
+
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let mainBrightness = UIScreen.main.brightness
+        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+
+//        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+//        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+//        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
+//        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))/2
+//        let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
+//        let wh:CGFloat=view.bounds.height-topPadding-bottomPadding
+//        let sp=ww/120//間隙
+//        let bw=(ww-sp*10)/7//ボタン幅
+//        let bh=bw*170/440
+//        let by=wh-bh-sp
+//        let by0=topPadding+sp
+//        let x0=leftPadding+sp*2
+//
+//        someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by, w: bw, h: bh, UIColor.darkGray)
+//        someFunctions.setButtonProperty(changeLandscapeSideButton, x:x0+bw*6+sp*6, y: by0, w: bw, h: bh, UIColor.darkGray)
+//        //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
+//        changeLandscapeSideButton.isHidden=true
+//        //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
+//        let landscapeSide=0//0:right 1:left
+//        UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
+//
+//        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-2*sp-wh+2*bh, y: topPadding+bh, width:wh-2*bh, height: wh-2*bh)
+//        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-2*sp-wh+2*bh-leftPadding,height: wh-2*sp)
 
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
     }
