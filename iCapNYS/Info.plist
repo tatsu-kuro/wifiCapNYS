@@ -23,9 +23,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>眼振映像を撮影し、それをアルバム"iCapNYS"に保存します。</string>
+	<string>Take a nystagmus image.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>アルバム"iCapNYS"を作成し、そこに眼振映像を保存します。</string>
+	<string>Create an album &quot;iCapNYS&quot;.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
