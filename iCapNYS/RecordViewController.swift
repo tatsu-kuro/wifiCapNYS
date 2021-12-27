@@ -32,7 +32,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var recordingFlag:Bool = false
     var saved2album:Bool = false
     let motionManager = CMMotionManager()
+    @IBOutlet weak var previewSwitch: UISwitch!
     
+    @IBAction func onPreviewSwitch(_ sender: Any) {
+        if previewSwitch.isOn==true{
+            UserDefaults.standard.set(1, forKey: "previewOn")
+        }else{
+            UserDefaults.standard.set(0, forKey: "previewOn")
+        }
+    }
+    @IBOutlet weak var previewLabel: UILabel!
     //for video input
     var captureSession: AVCaptureSession!
     var videoDevice: AVCaptureDevice?
@@ -256,6 +265,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            speakerSwitch.isOn=true
 //            speakerLabel.tintColor=UIColor.green
 //        }
+        let previewOn=getUserDefault(str: "previewOn", ret: 0)
+        if previewOn==0{
+            previewSwitch.isOn=false
+        }else{
+            previewSwitch.isOn=true
+        }
         //speakerSwitch使用しない
         speakerLabel.isHidden=true
         speakerSwitch.isHidden=true
@@ -315,8 +330,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        isoBar.value=camera.getUserDefaultFloat(str: "isoValue", ret: isoHalf)
 //        onIsoValueChange()
         isoBar.isHidden=true//exposeとisoは互いに影響している？exposeだけ使う事とした
-        let buttonsHeight=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
-        setButtons(height:buttonsHeight)
+//        let buttonsHeight=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
+        setButtons()//height:buttonsHeight)
         
         currentTime.isHidden=true
         startButton.alpha=0.25
@@ -767,6 +782,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         onZoomValueChange()
         onFocusValueChange()
         onExposeValueChange()
+        setButtons()
     }
     
     func initSession(fps:Double) {
@@ -876,13 +892,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 changedButtonHeight = 0
             }
             UserDefaults.standard.set(changedButtonHeight,forKey: "buttonsHeight")
-            setButtons(height: changedButtonHeight)
-            print("height:",changedButtonHeight)
+            setButtons()//,changedButtonHeight)
         }else if sender.state == .ended{
         }
     }
-    func setButtons(height:CGFloat){
+    func setButtons(){
         // recording button
+        let height=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
+
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -896,7 +913,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let by1=wh-(bh+sp)*2-height
         let by2=wh-(bh+sp)*2.5-height
         let x0=leftPadding+sp*2
- 
+        
+        previewSwitch.frame = CGRect(x:view.bounds.width*2/3+sp,y:topPadding+sp,width: bw,height: bh)
+        let switchHeight=previewSwitch.frame.height
+        previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
+        previewLabel.frame.origin.y=(topPadding+sp+switchHeight/2)-bh/2
+        previewLabel.frame.size.width=bw*5
+        previewLabel.frame.size.height=bh
         camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.darkGray)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
         camera.setLabelProperty(lightLabel,x:x0,y:by1,w:bw,h:bh,UIColor.darkGray)
@@ -911,7 +934,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         speakerSwitch.frame = CGRect(x:x0+bw*5*sp*5,y:by1,width:bw,height:bh)
 //        //switchの大きさは規定されているので、作ってみてそのサイズを得て、再設定
         let switchWidth=speakerSwitch.frame.width
-        let switchHeight=speakerSwitch.frame.height
+//        let switchHeight=speakerSwitch.frame.height
         let d=(bh-switchHeight)/2
         speakerSwitch.frame = CGRect(x:x0+bw*5+sp*5,y:by1+d,width:switchWidth,height: bh)
         speakerLabel.frame = CGRect(x:x0+bw*5+sp*4+switchWidth,y:by1,width:bw/2,height:bh)
@@ -924,6 +947,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.frame=CGRect(x:leftPadding+ww/2-wh/4,y:sp+topPadding,width: wh/2,height: wh/2)
         stopButton.frame=CGRect(x:leftPadding+ww/2-wh/2,y:sp+topPadding,width: wh,height: wh)
         panTapExplanation.frame=CGRect(x:leftPadding,y:topPadding,width:ww,height:wh/2)
+        if cameraType==0{
+            previewSwitch.isHidden=false
+            previewLabel.isHidden=false
+        }else{
+            previewSwitch.isHidden=true
+            previewLabel.isHidden=true
+        }
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
@@ -1019,7 +1049,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         speakerSwitch.isHidden=true
         speakerLabel.isHidden=true
         stopButton.alpha=0.02
-        
+        previewLabel.isHidden=true
+        previewSwitch.isHidden=true
+        if cameraType==0 && previewSwitch.isOn==false{
+            quaternionView.isHidden=true
+            cameraView.isHidden=true
+            currentTime.alpha=0.1
+        }
         try? FileManager.default.removeItem(atPath: TempFilePath)
 
         timerCnt=0
