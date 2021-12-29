@@ -16,7 +16,7 @@ class PlayViewController: UIViewController{
     var calcDate:String?
     lazy var seekBar = UISlider()
     var timer:Timer?
-    var videoURL:URL?
+//    var videoURL:URL?
     let someFunctions = myFunctions()
     override var shouldAutorotate: Bool {
         return false
@@ -284,9 +284,43 @@ class PlayViewController: UIViewController{
         }
         self.present(mainView, animated: false, completion: nil)
     }
+ /*   func playVideo (view: UIViewController, videoAsset: PHAsset) {
+
+        guard (videoAsset.mediaType == .video) else {
+            print("Not a valid video media type")
+            return
+        }
+
+        PHCachingImageManager().requestAVAsset(forVideo: videoAsset, options: nil) { (asset, audioMix, args) in
+            let asset = asset as! AVURLAsset
+
+            DispatchQueue.main.async {
+                let player = AVPlayer(url: asset.url)
+                let playerViewController = AVPlayerViewController()
+                playerViewController.player = player
+                view.present(playerViewController, animated: true) {
+                    playerViewController.player!.play()
+                }
+            }
+        }
+    }*/
+   
 }
 
 /*
+ 
+ let requestOptions = PHVideoRequestOptions()
+ requestOptions.version = PHVideoRequestOptionsVersion.current
+ requestOptions.deliveryMode = PHVideoRequestOptionsDeliveryMode.highQualityFormat
+ requestOptions.isNetworkAccessAllowed = true
+         
+ PHImageManager.default().requestPlayerItem(forVideo: avAsset,
+                                            options: options) { playerItem, info in
+
+ }
+ 
+ 
+ 
  func playVideo (view: UIViewController, videoAsset: PHAsset) {
 
      guard (videoAsset.mediaType == .video) else {

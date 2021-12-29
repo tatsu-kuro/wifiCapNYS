@@ -21,7 +21,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     let albumName:String = "iCapNYS"
     var videoArrayCount:Int = 0
     var videoDate = Array<String>()
-    var videoURL = Array<URL>()
+//    var videoURL = Array<URL>()
     @IBOutlet weak var how2Button: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     
@@ -138,23 +138,23 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
 //        let landscapeSide=0//landscapeRight
 //        UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
-       for i in 0..<someFunctions.videoURL.count{//cloud のURL->nilを入れる
+/*       for i in 0..<someFunctions.videoURL.count{//cloud のURL->nilを入れる
             someFunctions.videoURL[i] = someFunctions.getURLfromPHAsset(asset: someFunctions.videoAlbumAssets[i])
             let str = someFunctions.videoURL[i]?.absoluteString
             if str!.contains("temp.mp4"){
                 someFunctions.videoURL[i] = nil
            }
-        }
-        for i in (0..<someFunctions.videoURL.count).reversed(){//cloud(nil) のものは削除する
+        }*/
+/*        for i in (0..<someFunctions.videoURL.count).reversed(){//cloud(nil) のものは削除する
             if someFunctions.videoURL[i] == nil{
                 someFunctions.videoURL.remove(at: i)
                 someFunctions.videoDate.remove(at: i)
                 someFunctions.videoAlbumAssets.remove(at: i)
             }
         }
-
-        videoArrayCount=someFunctions.videoURL.count
-        print(videoArrayCount,someFunctions.videoURL.count,someFunctions.videoDate.count)
+*/
+        videoArrayCount=someFunctions.videoDate.count
+        print(videoArrayCount,someFunctions.videoDate.count,someFunctions.videoDate.count)
         tableView.reloadData()
     }
     var checkLibraryAuthrizedFlag:Int=0
@@ -265,7 +265,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 
     //nuber of cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return someFunctions.videoURL.count
+        return someFunctions.videoDate.count// videoURL.count
     }
     
     //set data on cell
@@ -283,14 +283,15 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //            return
 //        }
 //        return
-        if someFunctions.videoURL[indexPath.row]==nil{
-            return
-        }
+//        print("asset:",someFunctions.videoAlbumAssets[indexPath.row])
+//        if someFunctions.videoURL[indexPath.row]==nil{
+//            return
+//        }
         print(someFunctions.videoAlbumAssets[indexPath.row])
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
       
-        nextView.videoURL = someFunctions.videoURL[indexPath.row]
+//        nextView.videoURL = someFunctions.videoURL[indexPath.row]
         nextView.phasset = someFunctions.videoAlbumAssets[indexPath.row]
         nextView.calcDate = someFunctions.videoDate[indexPath.row]
         self.present(nextView, animated: true, completion: nil)
@@ -311,12 +312,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 sleep(UInt32(0.1))
             }
             if someFunctions.dialogStatus==1{
-                someFunctions.videoURL.remove(at: indexPath.row)
+//                someFunctions.videoURL.remove(at: indexPath.row)
                 someFunctions.videoDate.remove(at: indexPath.row)
                 tableView.reloadData()
-                if indexPath.row>4 && indexPath.row<someFunctions.videoURL.count{
+                if indexPath.row>4 && indexPath.row<someFunctions.videoDate.count{
                     tableView.reloadRows(at: [indexPath], with: .fade)
-                }else if indexPath.row == someFunctions.videoURL.count && indexPath.row != 0{
+                }else if indexPath.row == someFunctions.videoDate.count && indexPath.row != 0{
                     let indexPath1 = IndexPath(row:indexPath.row-1,section:0)
                     tableView.reloadRows(at: [indexPath1], with: .fade)
                 }
