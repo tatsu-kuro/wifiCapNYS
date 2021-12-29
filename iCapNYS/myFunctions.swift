@@ -142,7 +142,7 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
                 let asset=assets[i]
                 if asset.duration>0{//静止画を省く
                     videoAlbumAssets.append(asset)
-                    print("asset:",asset)
+//                    print("asset:",asset)
 //                    videoURL.append(nil)
                     let date_sub = asset.creationDate
                     let date = formatter.string(from: date_sub!)

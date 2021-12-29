@@ -10,6 +10,7 @@ import AVFoundation
 import Photos
 class PlayViewController: UIViewController{
     var phasset:PHAsset?
+    var avasset:AVAsset?
     var videoPlayer: AVPlayer!
     var duration:Float=0
     var currTime:UILabel?
@@ -115,22 +116,22 @@ class PlayViewController: UIViewController{
         return avAsset
     }*/
     func requestAVAsset(asset: PHAsset)-> AVAsset? {
-            guard asset.mediaType == .video else { return nil }
-            let phVideoOptions = PHVideoRequestOptions()
-            phVideoOptions.version = .original
-            let group = DispatchGroup()
-            let imageManager = PHImageManager.default()
-            var avAsset: AVAsset?
-            group.enter()
-            imageManager.requestAVAsset(forVideo: asset, options: phVideoOptions) { (asset, _, _) in
-                avAsset = asset
-                group.leave()
-                
-            }
-            group.wait()
+        guard asset.mediaType == .video else { return nil }
+        let phVideoOptions = PHVideoRequestOptions()
+        phVideoOptions.version = .original
+        let group = DispatchGroup()
+        let imageManager = PHImageManager.default()
+        var avAsset: AVAsset?
+        group.enter()
+        imageManager.requestAVAsset(forVideo: asset, options: phVideoOptions) { (asset, _, _) in
+            avAsset = asset
+            group.leave()
             
-            return avAsset
         }
+        group.wait()
+        
+        return avAsset
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -149,9 +150,9 @@ class PlayViewController: UIViewController{
 
 //        let videoURL=getURL(ofPhotoWith: phasset!)
 //        let avAsset = AVURLAsset(url: videoURL)
-        let avAsset = requestAVAsset(asset: phasset!)
+//        let avAsset = requestAVAsset(asset: phasset!)
         
-        let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset!)
+        let playerItem: AVPlayerItem = AVPlayerItem(asset: avasset!)
         // Create AVPlayer
         videoPlayer = AVPlayer(playerItem: playerItem)
         // Add AVPlayer
@@ -283,6 +284,9 @@ class PlayViewController: UIViewController{
             UIApplication.shared.isIdleTimerDisabled = false//スリープする
         }
         self.present(mainView, animated: false, completion: nil)
+        
+//        performSegue(withIdentifier: "toMainView", sender: self)
+        
     }
  /*   func playVideo (view: UIViewController, videoAsset: PHAsset) {
 

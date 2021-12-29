@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bfs-Cj-lVp">
-                                <rect key="frame" x="0.0" y="0.0" width="568" height="300"/>
+                                <rect key="frame" x="72" y="-98" width="568" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="8"/>
@@ -31,7 +31,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Z8-K4-WMh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-750" y="386.25"/>
+            <point key="canvasLocation" x="-918" y="268"/>
         </scene>
         <!--Record View Controller-->
         <scene sceneID="4IL-9P-CKU">
@@ -336,6 +336,7 @@ Pan up or down anywhere to move the buttons.</string>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <gestureRecognizers/>
                     </view>
+                    <navigationItem key="navigationItem" id="fJU-H7-qud"/>
                     <connections>
                         <outlet property="cameraButton" destination="1km-Jh-hmY" id="uJO-XE-73f"/>
                         <outlet property="changeLandscapeSideButton" destination="VOs-bS-GtU" id="Utm-tP-tzA"/>
@@ -345,7 +346,7 @@ Pan up or down anywhere to move the buttons.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-71.83098591549296" y="386.25"/>
+            <point key="canvasLocation" x="-260" y="268"/>
         </scene>
         <!--How2 View Controller-->
         <scene sceneID="Hlh-kf-1ur">

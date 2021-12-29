@@ -19,7 +19,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let albumName:String = "iCapNYS"
-    var videoArrayCount:Int = 0
+//    var videoArrayCount:Int = 0
+    var videoCurrentCount:Int = 0
     var videoDate = Array<String>()
 //    var videoURL = Array<URL>()
     @IBOutlet weak var how2Button: UIButton!
@@ -44,8 +45,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             UserDefaults.standard.set(bottomPadding,forKey: "bottomPadding")
             UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
             UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
-            let left=UserDefaults.standard.integer(forKey:"leftPadding")
-            print("top,bottom,right,left,(int Left)",topPadding,bottomPadding,rightPadding,leftPadding,left)    // iPhoneXなら44, その他は20.0
+//            let left=UserDefaults.standard.integer(forKey:"leftPadding")
+//            print("top,bottom,right,left,(int Left)",topPadding,bottomPadding,rightPadding,leftPadding,left)    // iPhoneXなら44, その他は20.0
 //        }
         setButtons()
     }
@@ -86,12 +87,15 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
-
         if let vc = segue.source as? RecordViewController{
             let Controller:RecordViewController = vc
             if Controller.stopButton.isHidden==true{//Exit
                 print("Exit")
-           
+            }else{
+                UserDefaults.standard.set(0,forKey: "contentOffsetY")
+                DispatchQueue.main.async { [self] in
+                    self.tableView.contentOffset.y=0
+                }
             }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
@@ -101,7 +105,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         print("unwi")
     }
- 
+    
     func camera_alert(){
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization { status in
@@ -153,9 +157,31 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             }
         }
 */
-        videoArrayCount=someFunctions.videoDate.count
-        print(videoArrayCount,someFunctions.videoDate.count,someFunctions.videoDate.count)
+//        videoArrayCount=someFunctions.videoDate.count
+//        print(videoArrayCount,someFunctions.videoDate.count,someFunctions.videoDate.count)
         tableView.reloadData()
+//        videoCurrentCount=45
+//        print("ddd:",videoCurrentCount)
+//        print("content:",contentOffsetY)
+        let contentOffsetY = CGFloat(someFunctions.getUserDefaultFloat(str:"contentOffsetY",ret:0))
+
+        
+        DispatchQueue.main.async { [self] in
+//           let indexPath = IndexPath(row: videoCurrentCount, section: 0)
+//            self.tableView.scrollToRow(at: indexPath, at: UITableView.ScrollPosition.top, animated: false)
+            self.tableView.contentOffset.y=contentOffsetY
+         }
+
+        
+        
+//        if videoCurrentCount>4 && videoCurrentCount<someFunctions.videoDate.count{
+//            tableView.reloadRows(at: [indexPath], with: .fade)
+//        }else if videoCurrentCount == someFunctions.videoDate.count && videoCurrentCount != 0{
+//            let indexPath1 = IndexPath(row:indexPath.row-1,section:0)
+//            tableView.reloadRows(at: [indexPath1], with: .fade)
+//        }
+        
+        
     }
     var checkLibraryAuthrizedFlag:Int=0
     func checkLibraryAuthorized(){
@@ -275,7 +301,25 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row]
         return cell
     }
+    func requestAVAsset(asset: PHAsset)-> AVAsset? {
+        guard asset.mediaType == .video else { return nil }
+        let phVideoOptions = PHVideoRequestOptions()
+        phVideoOptions.version = .original
+        let group = DispatchGroup()
+        let imageManager = PHImageManager.default()
+        var avAsset: AVAsset?
+        group.enter()
+        imageManager.requestAVAsset(forVideo: asset, options: phVideoOptions) { (asset, _, _) in
+            avAsset = asset
+            group.leave()
+            
+        }
+        group.wait()
+        
+        return avAsset
+    }
     //play item
+//    var contentOffsetY:CGFloat=0
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let str=someFunctions.videoAlbumAssets[indexPath.row]?.a absoluteString
 //        print(str as Any)
@@ -287,13 +331,25 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //        if someFunctions.videoURL[indexPath.row]==nil{
 //            return
 //        }
-        print(someFunctions.videoAlbumAssets[indexPath.row])
+//        print(someFunctions.videoAlbumAssets[indexPath.row])
+        videoCurrentCount=indexPath.row
+        print("video:",videoCurrentCount)
+        let contentOffsetY = tableView.contentOffset.y
+        print("offset:",contentOffsetY)
+        UserDefaults.standard.set(contentOffsetY,forKey: "contentOffsetY")
+        let phasset = someFunctions.videoAlbumAssets[indexPath.row]
+        let avasset = requestAVAsset(asset: phasset)
+        if avasset == nil {
+            return
+        }
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
       
 //        nextView.videoURL = someFunctions.videoURL[indexPath.row]
         nextView.phasset = someFunctions.videoAlbumAssets[indexPath.row]
+        nextView.avasset = avasset
         nextView.calcDate = someFunctions.videoDate[indexPath.row]
+        
         self.present(nextView, animated: true, completion: nil)
         
     }
