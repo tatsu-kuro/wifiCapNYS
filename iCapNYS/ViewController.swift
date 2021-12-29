@@ -257,7 +257,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         super.viewDidLoad()
         let mainBrightness = UIScreen.main.brightness
         UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
-
+ 
 //        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
 //        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
 //        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -288,7 +288,16 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         super.viewWillAppear(animated)
         print("viewwillappear")
     }
-
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        //            // 画面非表示直後の処理を書く
+        //            print("画面非表示直後")
+        //        UserDefaults.standard.set(0,forKey: "contentOffsetY")
+        //
+        let contentOffsetY = tableView.contentOffset.y
+        print("offset:",contentOffsetY)
+        UserDefaults.standard.set(contentOffsetY,forKey: "contentOffsetY")
+    }
     //nuber of cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return someFunctions.videoDate.count// videoURL.count

@@ -964,11 +964,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        debugPrint("onClickStopButton")
 //        if timerCnt<2{
 //            return
-//        }
+//        }end_video_record.caf
         recordingFlag=false
         if speakerSwitch.isOn==true{
             if let soundUrl = URL(string:
-                                    "/System/Library/Audio/UISounds/end_record.caf"/*photoShutter.caf*/){
+                                    "/System/Library/Audio/UISounds/begin_record.caf"){
                 AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
                 AudioServicesPlaySystemSound(soundIdx)
             }
@@ -1066,6 +1066,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
         if speakerSwitch.isOn==true{
         if let soundUrl = URL(string:
+                                
                                 "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
             AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
             AudioServicesPlaySystemSound(soundIdx)
