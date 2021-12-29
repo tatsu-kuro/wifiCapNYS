@@ -278,10 +278,10 @@ Pan up or down anywhere to move the buttons.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1km-Jh-hmY">
-                                <rect key="frame" x="303" y="30" width="260" height="260"/>
+                                <rect key="frame" x="381" y="86" width="182" height="159"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemGreenColor"/>
-                                <state key="normal" image="video.circle.fill" catalog="system">
+                                <state key="normal" image="video.circle" catalog="system">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -345,7 +345,7 @@ Pan up or down anywhere to move the buttons.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-71.651785714285708" y="386.95652173913044"/>
+            <point key="canvasLocation" x="-71.83098591549296" y="386.25"/>
         </scene>
         <!--How2 View Controller-->
         <scene sceneID="Hlh-kf-1ur">
@@ -435,7 +435,7 @@ Pan up or down anywhere to move the buttons.</string>
         <image name="largecircle.fill.circle" catalog="system" width="128" height="121"/>
         <image name="speaker.wave.2.circle" catalog="system" width="128" height="121"/>
         <image name="stop.circle" catalog="system" width="128" height="121"/>
-        <image name="video.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="video.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

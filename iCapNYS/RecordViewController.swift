@@ -882,6 +882,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let move:CGPoint = sender.translation(in: self.view)
 //        let pos = sender.location(in: self.view)
         print("panGesture")
+        if recordingFlag==true{
+            return
+        }
         if sender.state == .began {
             startButtonsHeight=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
         } else if sender.state == .changed {

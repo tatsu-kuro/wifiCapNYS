@@ -142,6 +142,7 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
                 let asset=assets[i]
                 if asset.duration>0{//静止画を省く
                     videoAlbumAssets.append(asset)
+                    print("asset:",asset)
                     videoURL.append(nil)
                     let date_sub = asset.creationDate
                     let date = formatter.string(from: date_sub!)
@@ -154,7 +155,16 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
    
     var setURLfromPHAssetFlag:Bool=false
     var getURL:URL?
-    func getURLfromPHAsset(asset:PHAsset)->URL?{
+/*    func getURLfromPHAsset(asset:PHAsset)->URL?{
+        setURLfromPHAssetFlag=false
+        setURLfromPHAsset(phasset: asset)
+        while setURLfromPHAssetFlag == false{
+            sleep(UInt32(0.1))
+        }
+        print("geturl:",getURL)
+        return getURL!
+    }*/
+   func getURLfromPHAsset(asset:PHAsset)->URL?{
         setURLfromPHAssetFlag=false
         setURLfromPHAsset(asset: asset)
         while setURLfromPHAssetFlag == false{
@@ -178,6 +188,39 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
             }
         }
     }
+ /*   func setURLfromPHAsset(phasset:PHAsset){
+        setURLfromPHAssetFlag=false
+        PHCachingImageManager().requestAVAsset(forVideo: phasset, options: nil) { (asset, audioMix, args) in
+            let asset = asset as! AVURLAsset
+            DispatchQueue.main.async {
+                self.getURL=asset.url
+                self.setURLfromPHAssetFlag=true
+                print("url:",self.getURL as Any)
+            }
+        }
+    }*/
+    /*
+     func playVideo (view: UIViewController, videoAsset: PHAsset) {
+
+         guard (videoAsset.mediaType == .video) else {
+             print("Not a valid video media type")
+             return
+         }
+
+         PHCachingImageManager().requestAVAsset(forVideo: videoAsset, options: nil) { (asset, audioMix, args) in
+             let asset = asset as! AVURLAsset
+
+             DispatchQueue.main.async {
+                 let player = AVPlayer(url: asset.url)
+                 let playerViewController = AVPlayerViewController()
+                 playerViewController.player = player
+                 view.present(playerViewController, animated: true) {
+                     playerViewController.player!.play()
+                 }
+             }
+         }
+     }
+     */
     
     func setZoom(level:Float){//
         if cameraMode==2{

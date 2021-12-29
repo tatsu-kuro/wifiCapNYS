@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 import Photos
 class PlayViewController: UIViewController{
-
+    var phasset:PHAsset?
     var videoPlayer: AVPlayer!
     var duration:Float=0
     var currTime:UILabel?
@@ -67,7 +67,70 @@ class PlayViewController: UIViewController{
         button.layer.cornerRadius = 5.0
         button.backgroundColor = color
     }
-    
+    /*
+    func getURL(ofPhotoWith mPhasset: PHAsset) -> URL{
+        
+        let options: PHVideoRequestOptions = PHVideoRequestOptions()
+        options.deliveryMode = .highQualityFormat
+        options.version = .original
+        var urlStr2 = URL(string:"")
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        PHImageManager.default().requestAVAsset(forVideo: mPhasset, options: options, resultHandler: { (asset, audioMix, info) in
+            
+            if let tokenStr = info?["PHImageFileSandboxExtensionTokenKey"] as? String {
+                let tokenKeys = tokenStr.components(separatedBy: ";")
+                let urlStr = tokenKeys.filter { $0.contains("/private/var/mobile/Media") }.first
+                urlStr2 = URL(string:urlStr!)
+                if let urlStr = urlStr {
+                    if let url = URL(string: urlStr) {
+                        print(url.lastPathComponent)
+                        print(url.pathExtension)
+                    }
+                }
+            }
+            do {semaphore.signal() }
+        })
+//        semaphore.wait(timeout: DispatchTime.distantFuture)
+        return urlStr2!
+    }*/
+    /*
+    func requestAVAsset(asset: PHAsset) -> AVAsset? {
+        // We only want videos here
+        guard asset.mediaType == .video else { return nil }
+        // Create your semaphore and allow only one thread to access it
+        let semaphore = DispatchSemaphore.init(value: 1)
+        let imageManager = PHImageManager()
+        var avAsset: AVAsset?
+        // Lock the thread with the wait() command
+        semaphore.wait()
+        // Now go fetch the AVAsset for the given PHAsset
+        imageManager.requestAVAsset(forVideo: asset, options: nil) { (asset, _, _) in
+            // Save your asset to the earlier place holder
+            avAsset = asset
+            // We're done, let the semaphore know it can unlock now
+            semaphore.signal()
+        }
+
+        return avAsset
+    }*/
+    func requestAVAsset(asset: PHAsset)-> AVAsset? {
+            guard asset.mediaType == .video else { return nil }
+            let phVideoOptions = PHVideoRequestOptions()
+            phVideoOptions.version = .original
+            let group = DispatchGroup()
+            let imageManager = PHImageManager.default()
+            var avAsset: AVAsset?
+            group.enter()
+            imageManager.requestAVAsset(forVideo: asset, options: phVideoOptions) { (asset, _, _) in
+                avAsset = asset
+                group.leave()
+                
+            }
+            group.wait()
+            
+            return avAsset
+        }
     override func viewDidLoad() {
         super.viewDidLoad()
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -82,16 +145,16 @@ class PlayViewController: UIViewController{
         let by=wh-bh-sp
         let by1=wh-(bh+sp)*2+1.5*sp
         let x0=leftPadding+sp*2
+        duration=Float(phasset!.duration)// Float(CMTimeGetSeconds(avAsset.duration))
 
+//        let videoURL=getURL(ofPhotoWith: phasset!)
+//        let avAsset = AVURLAsset(url: videoURL)
+        let avAsset = requestAVAsset(asset: phasset!)
         
-        
-        let avAsset = AVURLAsset(url: videoURL!)
-        duration=Float(CMTimeGetSeconds(avAsset.duration))
-        let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset)
+        let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset!)
         // Create AVPlayer
         videoPlayer = AVPlayer(playerItem: playerItem)
         // Add AVPlayer
-    
         let layer = AVPlayerLayer()
         layer.videoGravity = AVLayerVideoGravity.resizeAspect
         layer.player = videoPlayer
@@ -222,4 +285,51 @@ class PlayViewController: UIViewController{
         self.present(mainView, animated: false, completion: nil)
     }
 }
+
+/*
+ func playVideo (view: UIViewController, videoAsset: PHAsset) {
+
+     guard (videoAsset.mediaType == .video) else {
+         print("Not a valid video media type")
+         return
+     }
+
+     PHCachingImageManager().requestAVAsset(forVideo: videoAsset, options: nil) { (asset, audioMix, args) in
+         let asset = asset as! AVURLAsset
+
+         DispatchQueue.main.async {
+             let player = AVPlayer(url: asset.url)
+             let playerViewController = AVPlayerViewController()
+             playerViewController.player = player
+             view.present(playerViewController, animated: true) {
+                 playerViewController.player!.play()
+             }
+         }
+     }
+ }
+ static func playVideo (view:UIViewController, asset:PHAsset) {
+
+         guard (asset.mediaType == PHAssetMediaType.Video)
+
+             else {
+                 print("Not a valid video media type")
+                 return
+         }
+
+         PHCachingImageManager().requestAVAssetForVideo(asset, options: nil, resultHandler: {(asset: AVAsset?, audioMix: AVAudioMix?, info: [NSObject : AnyObject]?) in
+
+             let asset = asset as! AVURLAsset
+
+             dispatch_async(dispatch_get_main_queue(), {
+
+                 let player = AVPlayer(URL: asset.URL)
+                 let playerViewController = AVPlayerViewController()
+                 playerViewController.player = player
+                 view.presentViewController(playerViewController, animated: true) {
+                     playerViewController.player!.play()
+                 }
+             })
+         })
+     }
+ */
 

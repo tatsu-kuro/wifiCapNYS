@@ -138,7 +138,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
 //        let landscapeSide=0//landscapeRight
 //        UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
-        for i in 0..<someFunctions.videoURL.count{//cloud のURL->nilを入れる
+       for i in 0..<someFunctions.videoURL.count{//cloud のURL->nilを入れる
             someFunctions.videoURL[i] = someFunctions.getURLfromPHAsset(asset: someFunctions.videoAlbumAssets[i])
             let str = someFunctions.videoURL[i]?.absoluteString
             if str!.contains("temp.mp4"){
@@ -152,6 +152,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 someFunctions.videoAlbumAssets.remove(at: i)
             }
         }
+
         videoArrayCount=someFunctions.videoURL.count
         print(videoArrayCount,someFunctions.videoURL.count,someFunctions.videoDate.count)
         tableView.reloadData()
@@ -219,8 +220,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
 
-        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-2*sp-wh+2*bh, y: topPadding+bh, width:wh-2*bh, height: wh-2*bh)
-        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-2*sp-wh+2*bh-leftPadding,height: wh-2*sp)
+        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*3/4, y: topPadding+wh/8, width:wh*3/4, height: wh*3/4)
+        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-2*sp)
+//        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-2*sp-wh+2*bh, y: topPadding+bh, width:wh-2*bh, height: wh-2*bh)
+//        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-2*sp-wh+2*bh-leftPadding,height: wh-2*sp)
 
 
     }
@@ -274,9 +277,21 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     //play item
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let str=someFunctions.videoAlbumAssets[indexPath.row]?.a absoluteString
+//        print(str as Any)
+//        if str!.contains("temp.mp4"){
+//            return
+//        }
+//        return
+        if someFunctions.videoURL[indexPath.row]==nil{
+            return
+        }
+        print(someFunctions.videoAlbumAssets[indexPath.row])
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
+      
         nextView.videoURL = someFunctions.videoURL[indexPath.row]
+        nextView.phasset = someFunctions.videoAlbumAssets[indexPath.row]
         nextView.calcDate = someFunctions.videoDate[indexPath.row]
         self.present(nextView, animated: true, completion: nil)
         
