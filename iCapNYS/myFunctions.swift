@@ -163,6 +163,7 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
         }
     }
     */
+    var gettingAlbumF:Bool = false
     func getAlbumAssets_last(){
         gettingAlbumF = true
         getAlbumAssets_last_sub()
@@ -171,7 +172,6 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
         }
     }
     
-    var gettingAlbumF:Bool = false
     func getAlbumAssets_last_sub(){
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = false

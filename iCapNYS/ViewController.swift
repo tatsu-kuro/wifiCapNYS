@@ -152,27 +152,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             UIApplication.shared.isIdleTimerDisabled = false//監視する
         }
         print("viewDidAppear*********")
-//        checkLibraryAuthorized()
-//        print("checkLibraryAuthrizedflag1:",checkLibraryAuthrizedFlag)
-//        var count:Int=0
-//        while checkLibraryAuthrizedFlag==0{
-//            usleep(1000)//0.001sec
-//            count += 1
-//            if count>5000{
-//                break
-//            }
-//        }
-//        print("checkLibraryAuthrizedflag2:",checkLibraryAuthrizedFlag)
-//
-//        if checkLibraryAuthrizedFlag==1{
-//            someFunctions.getAlbumAssets()
-//        }
         tableView.reloadData()
         let contentOffsetY = CGFloat(someFunctions.getUserDefaultFloat(str:"contentOffsetY",ret:0))
         DispatchQueue.main.async { [self] in
-
             self.tableView.contentOffset.y=contentOffsetY
-         }
+        }
     }
     var checkLibraryAuthrizedFlag:Int=0
     func checkLibraryAuthorized(){
