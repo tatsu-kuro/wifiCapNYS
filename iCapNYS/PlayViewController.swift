@@ -17,7 +17,9 @@ class PlayViewController: UIViewController{
     var calcDate:String?
     lazy var seekBar = UISlider()
     var timer:Timer?
-//    var videoURL:URL?
+    @IBOutlet weak var exit2Button: UIButton!
+    //    var videoURL:URL?
+  
     let someFunctions = myFunctions()
     override var shouldAutorotate: Bool {
         return false
@@ -134,6 +136,7 @@ class PlayViewController: UIViewController{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+//        print("viewDidLoad*******")
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -199,10 +202,10 @@ class PlayViewController: UIViewController{
         stopButton.addTarget(self, action: #selector(onStopButtonTapped), for: UIControl.Event.touchUpInside)
         view.addSubview(stopButton)
 
-       let exitButton = UIButton(frame:CGRect(x: x0+6*bw+6*sp, y: by, width:bw , height: bh))
-        setButtonProperty(button: exitButton, title:"Exit",color: UIColor.darkGray)
-        exitButton.addTarget(self, action: #selector(onExitButtonTapped), for: UIControl.Event.touchUpInside)
-        view.addSubview(exitButton)
+//       let exitButton = UIButton(frame:CGRect(x: x0+6*bw+6*sp, y: by, width:bw , height: bh))
+//        setButtonProperty(button: exitButton, title:"Exit",color: UIColor.darkGray)
+//        exitButton.addTarget(self, action: #selector(onExitButtonTapped), for: UIControl.Event.touchUpInside)
+//        view.addSubview(exitButton)
         
         currTime = UILabel(frame:CGRect(x:x0,y:by,width:bw*2+sp,height:bh))
         currTime!.backgroundColor = UIColor.white
@@ -216,6 +219,9 @@ class PlayViewController: UIViewController{
         view.addSubview(currTime!)
         videoPlayer.play()
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        exit2Button.frame=CGRect(x: x0+6*bw+6*sp, y: by, width:bw , height: bh)
+        setButtonProperty(button: exit2Button, title: "Exit", color: UIColor.darkGray)
+        view.bringSubviewToFront(exit2Button)
 //        view.bringSubviewToFront(toTopButton)
 //        view.bringSubviewToFront(exitButton1)
 //        view.bringSubviewToFront(playButton1)
@@ -277,17 +283,17 @@ class PlayViewController: UIViewController{
         videoPlayer.seek(to: CMTimeMakeWithSeconds(Float64(seekBar.value), preferredTimescale: Int32(NSEC_PER_SEC)))
         videoPlayer.pause()
     }
-    @objc func onExitButtonTapped(){//このボタンのところにsegueでunwindへ行く
-        killTimer()
-        let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
-        if UIApplication.shared.isIdleTimerDisabled == true{
-            UIApplication.shared.isIdleTimerDisabled = false//スリープする
-        }
-        self.present(mainView, animated: false, completion: nil)
-        
+//    @objc func onExitButtonTapped(){//このボタンのところにsegueでunwindへ行く
+//        killTimer()
+//        let mainView = storyboard?.instantiateViewController(withIdentifier: "mainView") as! ViewController
+//        if UIApplication.shared.isIdleTimerDisabled == true{
+//            UIApplication.shared.isIdleTimerDisabled = false//スリープする
+//        }
+////        self.present(mainView, animated: false, completion: nil)
+//
 //        performSegue(withIdentifier: "toMainView", sender: self)
-        
-    }
+//
+//    }
  /*   func playVideo (view: UIViewController, videoAsset: PHAsset) {
 
         guard (videoAsset.mediaType == .video) else {

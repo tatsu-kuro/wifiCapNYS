@@ -338,9 +338,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
-//        setupSlider()
-//        brightnessSlider.value=UserDefaults.standard.float(forKey: "cameraBrightnessValue")
-//         setExpose(expose: brightnessSlider.value)
      }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -960,11 +957,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
-        // stop recording
-//        debugPrint("onClickStopButton")
-//        if timerCnt<2{
-//            return
-//        }end_video_record.caf
         recordingFlag=false
         if speakerSwitch.isOn==true{
             if let soundUrl = URL(string:
@@ -990,10 +982,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print("tempFileExists")
         }
         let fileURL = URL(fileURLWithPath: TempFilePath)
-        //let avAsset = AVAsset(url: fileURL)
-//        let album = AlbumController()
         if camera.albumExists()==true{
-//        if albumExists(albumTitle: albumName){
             PHPhotoLibrary.shared().performChanges({ [self] in
                 //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
                 let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!

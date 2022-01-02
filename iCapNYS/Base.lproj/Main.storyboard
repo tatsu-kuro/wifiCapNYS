@@ -23,13 +23,27 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="8"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wk2-Cg-LBI">
+                                <rect key="frame" x="461" y="251" width="48" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Exit"/>
+                                <connections>
+                                    <segue destination="1tp-Pv-lNK" kind="unwind" unwindAction="unwindActionWithSegue:" id="CdE-wk-jo8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="I0l-kG-AVa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="3iq-ZH-Akx"/>
+                    <connections>
+                        <outlet property="exit2Button" destination="Wk2-Cg-LBI" id="clT-nh-HQv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Z8-K4-WMh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="1tp-Pv-lNK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-918" y="268"/>
         </scene>

@@ -35,6 +35,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        print("viewDidLayoutSubviews*******")
+
 //        if #available(iOS 11.0, *) {
             // viewDidLayoutSubviewsではSafeAreaの取得ができている
             let topPadding = self.view.safeAreaInsets.top
@@ -45,10 +47,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             UserDefaults.standard.set(bottomPadding,forKey: "bottomPadding")
             UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
             UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
-//            let left=UserDefaults.standard.integer(forKey:"leftPadding")
-//            print("top,bottom,right,left,(int Left)",topPadding,bottomPadding,rightPadding,leftPadding,left)    // iPhoneXなら44, その他は20.0
-//        }
-        setButtons()
+            setButtons()
     }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -90,8 +89,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         if let vc = segue.source as? RecordViewController{
             let Controller:RecordViewController = vc
             if Controller.stopButton.isHidden==true{//Exit
-                print("Exit")
+                print("Exit / not recorded")
             }else{
+                print("Exit / recorded")
+//                if someFunctions.videoPHAsset.count<5{
+                    someFunctions.getAlbumAssets()
+//                }else{
+//                    someFunctions.getAlbumAssets_last()
+//                }
                 UserDefaults.standard.set(0,forKey: "contentOffsetY")
                 DispatchQueue.main.async { [self] in
                     self.tableView.contentOffset.y=0
@@ -119,69 +124,55 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
 
     }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("viewDidLoad*******")
+        let mainBrightness = UIScreen.main.brightness
+        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+        if PHPhotoLibrary.authorizationStatus() != .authorized {
+            PHPhotoLibrary.requestAuthorization { status in
+                if status == .authorized {
+                    self.checkLibraryAuthrizedFlag=1
+                    print("authorized")
+                } else if status == .denied {
+                    self.checkLibraryAuthrizedFlag = -1
+                    print("denied")
+                }else{
+                    self.checkLibraryAuthrizedFlag = -1
+                }
+            }
+        }else{
+            someFunctions.getAlbumAssets()//完了したら戻ってくるようにしたつもり
+        }
+         UIApplication.shared.isIdleTimerDisabled = false//スリープする
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         if UIApplication.shared.isIdleTimerDisabled == true{
             UIApplication.shared.isIdleTimerDisabled = false//監視する
         }
-        print("didappear")
-        checkLibraryAuthorized()
-        print("checkLibraryAuthrizedflag1:",checkLibraryAuthrizedFlag)
-        var count:Int=0
-        while checkLibraryAuthrizedFlag==0{
-//            sleep(UInt32(0.1))
-            usleep(1000)//0.001sec
-            count += 1
-            if count>5000{
-                break
-            }
-        }
-        print("checkLibraryAuthrizedflag2:",checkLibraryAuthrizedFlag)
-
-        if checkLibraryAuthrizedFlag==1{
-            someFunctions.getAlbumAssets()
-        }
-//        let landscapeSide=0//landscapeRight
-//        UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
-/*       for i in 0..<someFunctions.videoURL.count{//cloud のURL->nilを入れる
-            someFunctions.videoURL[i] = someFunctions.getURLfromPHAsset(asset: someFunctions.videoAlbumAssets[i])
-            let str = someFunctions.videoURL[i]?.absoluteString
-            if str!.contains("temp.mp4"){
-                someFunctions.videoURL[i] = nil
-           }
-        }*/
-/*        for i in (0..<someFunctions.videoURL.count).reversed(){//cloud(nil) のものは削除する
-            if someFunctions.videoURL[i] == nil{
-                someFunctions.videoURL.remove(at: i)
-                someFunctions.videoDate.remove(at: i)
-                someFunctions.videoAlbumAssets.remove(at: i)
-            }
-        }
-*/
-//        videoArrayCount=someFunctions.videoDate.count
-//        print(videoArrayCount,someFunctions.videoDate.count,someFunctions.videoDate.count)
+        print("viewDidAppear*********")
+//        checkLibraryAuthorized()
+//        print("checkLibraryAuthrizedflag1:",checkLibraryAuthrizedFlag)
+//        var count:Int=0
+//        while checkLibraryAuthrizedFlag==0{
+//            usleep(1000)//0.001sec
+//            count += 1
+//            if count>5000{
+//                break
+//            }
+//        }
+//        print("checkLibraryAuthrizedflag2:",checkLibraryAuthrizedFlag)
+//
+//        if checkLibraryAuthrizedFlag==1{
+//            someFunctions.getAlbumAssets()
+//        }
         tableView.reloadData()
-//        videoCurrentCount=45
-//        print("ddd:",videoCurrentCount)
-//        print("content:",contentOffsetY)
         let contentOffsetY = CGFloat(someFunctions.getUserDefaultFloat(str:"contentOffsetY",ret:0))
-
-        
         DispatchQueue.main.async { [self] in
-//           let indexPath = IndexPath(row: videoCurrentCount, section: 0)
-//            self.tableView.scrollToRow(at: indexPath, at: UITableView.ScrollPosition.top, animated: false)
+
             self.tableView.contentOffset.y=contentOffsetY
          }
-
-        
-        
-//        if videoCurrentCount>4 && videoCurrentCount<someFunctions.videoDate.count{
-//            tableView.reloadRows(at: [indexPath], with: .fade)
-//        }else if videoCurrentCount == someFunctions.videoDate.count && videoCurrentCount != 0{
-//            let indexPath1 = IndexPath(row:indexPath.row-1,section:0)
-//            tableView.reloadRows(at: [indexPath1], with: .fade)
-//        }
-        
-        
     }
     var checkLibraryAuthrizedFlag:Int=0
     func checkLibraryAuthorized(){
@@ -192,15 +183,15 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 switch status {
                 case .limited:
                     self.checkLibraryAuthrizedFlag=1
-                    print("制限あり")
+                    print("limited")
                     break
                 case .authorized:
                     self.checkLibraryAuthrizedFlag=1
-                    print("許可ずみ")
+                    print("authorized")
                     break
                 case .denied:
                     self.checkLibraryAuthrizedFlag = -1
-                    print("拒否ずみ")
+                    print("denied")
                     break
                 default:
                     self.checkLibraryAuthrizedFlag = -1
@@ -213,10 +204,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 PHPhotoLibrary.requestAuthorization { status in
                     if status == .authorized {
                         self.checkLibraryAuthrizedFlag=1
-                        print("許可ずみ")
+                        print("authorized")
                     } else if status == .denied {
                         self.checkLibraryAuthrizedFlag = -1
-                        print("拒否ずみ")
+                        print("denied")
                     }
                 }
             } else {
@@ -253,40 +244,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 
 
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let mainBrightness = UIScreen.main.brightness
-        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
- 
-//        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
-//        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
-//        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
-//        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))/2
-//        let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
-//        let wh:CGFloat=view.bounds.height-topPadding-bottomPadding
-//        let sp=ww/120//間隙
-//        let bw=(ww-sp*10)/7//ボタン幅
-//        let bh=bw*170/440
-//        let by=wh-bh-sp
-//        let by0=topPadding+sp
-//        let x0=leftPadding+sp*2
-//
-//        someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by, w: bw, h: bh, UIColor.darkGray)
-//        someFunctions.setButtonProperty(changeLandscapeSideButton, x:x0+bw*6+sp*6, y: by0, w: bw, h: bh, UIColor.darkGray)
-//        //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
-//        changeLandscapeSideButton.isHidden=true
-//        //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
-//        let landscapeSide=0//0:right 1:left
-//        UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
-//
-//        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-2*sp-wh+2*bh, y: topPadding+bh, width:wh-2*bh, height: wh-2*bh)
-//        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-2*sp-wh+2*bh-leftPadding,height: wh-2*sp)
-
-        UIApplication.shared.isIdleTimerDisabled = false//スリープする
-    }
+  
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("viewwillappear")
+        print("viewWillAppear********")
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -300,7 +261,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     //nuber of cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return someFunctions.videoDate.count// videoURL.count
+        return someFunctions.videoDate.count
     }
     
     //set data on cell
@@ -346,16 +307,16 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let contentOffsetY = tableView.contentOffset.y
         print("offset:",contentOffsetY)
         UserDefaults.standard.set(contentOffsetY,forKey: "contentOffsetY")
-        let phasset = someFunctions.videoAlbumAssets[indexPath.row]
+        let phasset = someFunctions.videoPHAsset[indexPath.row]
         let avasset = requestAVAsset(asset: phasset)
-        if avasset == nil {
+        if avasset == nil {//なぜ？icloudから落ちてきていないのか？
             return
         }
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
       
 //        nextView.videoURL = someFunctions.videoURL[indexPath.row]
-        nextView.phasset = someFunctions.videoAlbumAssets[indexPath.row]
+        nextView.phasset = someFunctions.videoPHAsset[indexPath.row]
         nextView.avasset = avasset
         nextView.calcDate = someFunctions.videoDate[indexPath.row]
         
