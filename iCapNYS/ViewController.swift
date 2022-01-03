@@ -92,11 +92,13 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 print("Exit / not recorded")
             }else{
                 print("Exit / recorded")
-//                if someFunctions.videoPHAsset.count<5{
+                if someFunctions.videoPHAsset.count<5{
                     someFunctions.getAlbumAssets()
-//                }else{
-//                    someFunctions.getAlbumAssets_last()
-//                }
+                    print("count<5")
+                }else{
+                    someFunctions.getAlbumAssets_last()
+                    print("count>4")
+                }
                 UserDefaults.standard.set(0,forKey: "contentOffsetY")
                 DispatchQueue.main.async { [self] in
                     self.tableView.contentOffset.y=0

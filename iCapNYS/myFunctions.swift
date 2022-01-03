@@ -190,20 +190,20 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
             let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            for i in (assets.count-2)..<assets.count{
-                let asset=assets[i]
+//            for i in (assets.count-2)..<assets.count{
+                let asset=assets[0]
                 if asset.duration>0{//静止画を省く
-                    videoPHAsset.append(asset)
+                    videoPHAsset.insert(asset,at:0)
 //                    print("asset:",asset)
 //                    videoURL.append(nil)
                     let date_sub = asset.creationDate
                     let date = formatter.string(from: date_sub!)
                     let duration = String(format:"%.1fs",asset.duration)
-                    videoDate.append(date + "(" + duration + ")")
+                    videoDate.insert(date + "(" + duration + ")",at:0)
 //                    asset.video
 //                    videoDura.append(duration)
                 }
-            }
+//            }
             gettingAlbumF = false
         }else{
             gettingAlbumF = false
