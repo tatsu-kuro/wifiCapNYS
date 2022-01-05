@@ -25,9 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>眼振動画を撮影し、それをアルバム(iCapNYS)に保存します。</string>
+	<string>record a movie of eye movement, and put it into the album( iCapNYS).</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>アルバム(iCapNYS)を作り、そこに眼振動画を保存します。</string>
+	<string>make the album( iCapNYS) and put a movie of eye movement in it.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		693CD7D927852F8900F8008B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 693CD7DB27852F8900F8008B /* Localizable.strings */; };
+		693CD7D927852F8900F8008B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 693CD7DB27852F8900F8008B /* InfoPlist.strings */; };
 		6945B1A725EB207400A52272 /* myFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945B1A625EB207400A52272 /* myFunctions.swift */; };
 		6945E7D92519145F00E16DDB /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7D82519145F00E16DDB /* RecordViewController.swift */; };
 		6945E7DC25196C3600E16DDB /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7DB25196C3600E16DDB /* PlayViewController.swift */; };
@@ -23,7 +23,7 @@
 /* Begin PBXFileReference section */
 		693CD7D527852E1100F8008B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		693CD7D627852E1100F8008B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		693CD7DA27852F8900F8008B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		693CD7DA27852F8900F8008B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6945B1A625EB207400A52272 /* myFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myFunctions.swift; sourceTree = "<group>"; };
 		6945E7D82519145F00E16DDB /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		6945E7DB25196C3600E16DDB /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
@@ -49,10 +49,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		698A192E2785BFFD004C4CE9 /*  ja.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				693CD7DB27852F8900F8008B /* InfoPlist.strings */,
+			);
+			path = " ja.lproj";
+			sourceTree = "<group>";
+		};
 		69E22885251834490004E53C = {
 			isa = PBXGroup;
 			children = (
-				693CD7DB27852F8900F8008B /* Localizable.strings */,
 				69E22890251834490004E53C /* iCapNYS */,
 				69E2288F251834490004E53C /* Products */,
 			);
@@ -80,6 +87,7 @@
 				69E2289A2518344C0004E53C /* Assets.xcassets */,
 				69E2289C2518344C0004E53C /* LaunchScreen.storyboard */,
 				69E2289F2518344C0004E53C /* Info.plist */,
+				698A192E2785BFFD004C4CE9 /*  ja.lproj */,
 			);
 			path = iCapNYS;
 			sourceTree = "<group>";
@@ -143,7 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69E2289E2518344C0004E53C /* LaunchScreen.storyboard in Resources */,
-				693CD7D927852F8900F8008B /* Localizable.strings in Resources */,
+				693CD7D927852F8900F8008B /* InfoPlist.strings in Resources */,
 				69E2289B2518344C0004E53C /* Assets.xcassets in Resources */,
 				69E22899251834490004E53C /* Main.storyboard in Resources */,
 			);
@@ -169,12 +177,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		693CD7DB27852F8900F8008B /* Localizable.strings */ = {
+		693CD7DB27852F8900F8008B /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				693CD7DA27852F8900F8008B /* ja */,
 			);
-			name = Localizable.strings;
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		69E22897251834490004E53C /* Main.storyboard */ = {
