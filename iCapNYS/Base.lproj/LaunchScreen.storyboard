@@ -19,7 +19,7 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CFf-MR-qy4">
                                 <rect key="frame" x="44" y="208" width="808" height="185"/>
-                                <string key="text">2022-1-2  Version 2.3
+                                <string key="text">2022-1-3  Version 2.3
 Kuroda ENT
 
 </string>
