@@ -45,31 +45,45 @@ class How2ViewController: UIViewController {
         exitButton.layer.borderColor = UIColor.black.cgColor
         exitButton.layer.borderWidth = 1.0
         exitButton.layer.cornerRadius = 5
-//        nextButton.isHidden=true
         nextButton.layer.borderColor = UIColor.black.cgColor
         nextButton.layer.borderWidth = 1.0
         nextButton.layer.cornerRadius = 5
         helpView.frame=CGRect(x:x0,y:topPadding+sp,width: ww-4*sp,height: wh-2*sp)
-        helpView.image = UIImage(named: "helpnew")
-        // Do any additional setup after loading the view.
+        if firstLang().contains("ja"){
+            helpNum = -1
+           }else{
+            helpNum = 1
+        }
+        onNextButton(0)
         upDownLabel.isHidden=true
-
         if helpNum==999{
             nextButton.isHidden=true
             helpView.isHidden=true
-//            helpView.image = UIImage(named:"helpnew2")
             exitButton.setTitle("OK", for: .normal)
-            
             upDownLabel.isHidden=false
         }
     }
+    func firstLang() -> String {
+        let prefLang = Locale.preferredLanguages.first
+        return prefLang!
+    }
+
+//         if firstLang().contains("ja"){
+//            jap_eng=1//langChan()で表示するので０でなくて１
+//        }
+  
+    
     var helpNum:Int = 0
     @IBAction func onNextButton(_ sender: Any) {
         helpNum += 1
-        if helpNum%2 == 0{
-            helpView.image = UIImage(named: "helpnew")
+        if helpNum%4 == 0{
+            helpView.image = UIImage(named: "help")
+        }else if helpNum%4 == 1{
+            helpView.image = UIImage(named:"help2")
+        }else if helpNum%4 == 2{
+            helpView.image = UIImage(named:"helpEn")
         }else{
-            helpView.image = UIImage(named:"helpnew2")
+            helpView.image = UIImage(named:"help2En")
         }
         
     }
