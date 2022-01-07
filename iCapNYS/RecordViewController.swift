@@ -920,12 +920,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         previewLabel.frame.origin.y=(topPadding+sp+switchHeight/2)-bh/2
         previewLabel.frame.size.width=bw*5
         previewLabel.frame.size.height=bh
-        camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.darkGray)
+        camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
-        camera.setLabelProperty(lightLabel,x:x0,y:by1,w:bw,h:bh,UIColor.darkGray)
+        camera.setLabelProperty(lightLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
         lightBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
-        camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.darkGray)
-        camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.darkGray)
+        camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
+        camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.white)
         zoomBar.frame = CGRect(x:x0+bw*4+sp*4,y:by,width:bw*2+sp,height: bh)
         exposeBar.frame = CGRect(x:x0+bw*4+sp*4,y:by1,width:bw*2+sp,height: bh)
         isoBar.frame = CGRect(x:x0+bw*4+sp*4,y:by2,width:bw*2+sp,height: bh)
