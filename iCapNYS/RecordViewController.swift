@@ -920,10 +920,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let x0=leftPadding+sp*2
         
 //        previewSwitch.frame = CGRect(x:view.bounds.width*2/3+sp,y:topPadding+sp,width: bw,height: bh)
-        previewSwitch.frame = CGRect(x:leftPadding+10,y:wh*2/5-30,width: bw,height: bh)
+        previewSwitch.frame = CGRect(x:leftPadding+10,y:wh*2/5-35,width: bw,height: bh)
         let switchHeight=previewSwitch.frame.height
         previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
-        previewLabel.frame.origin.y=(wh*2/5-30+switchHeight/2)-bh/2
+        previewLabel.frame.origin.y=(wh*2/5-35+switchHeight/2)-bh/2
         previewLabel.frame.size.width=bw*5
         previewLabel.frame.size.height=bh
         camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
