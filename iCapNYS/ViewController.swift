@@ -129,8 +129,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad*******")
-        let mainBrightness = UIScreen.main.brightness
-        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization { status in
                 if status == .authorized {

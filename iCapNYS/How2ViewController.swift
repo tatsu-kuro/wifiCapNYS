@@ -11,18 +11,7 @@ class How2ViewController: UIViewController {
     let someFunctions = myFunctions()
     
     @IBOutlet weak var upDownLabel: UILabel!
-    //    override var shouldAutorotate: Bool {
-//        return false
-//    }
-//
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
-//        if landscapeSide==0{
-//            return UIInterfaceOrientationMask.landscapeRight
-//        }else{
-//            return UIInterfaceOrientationMask.landscapeLeft
-//        }
-//    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,11 +38,11 @@ class How2ViewController: UIViewController {
         nextButton.layer.borderWidth = 1.0
         nextButton.layer.cornerRadius = 5
         helpView.frame=CGRect(x:x0,y:topPadding+sp,width: ww-4*sp,height: wh-2*sp)
-        if firstLang().contains("ja"){
-            helpNum = -1
-           }else{
-            helpNum = 1
-        }
+//        if firstLang().contains("ja"){
+//            helpNum = -1
+//           }else{
+//            helpNum = 1
+//        }
         onNextButton(0)
         upDownLabel.isHidden=true
         if helpNum==999{
@@ -67,24 +56,32 @@ class How2ViewController: UIViewController {
         let prefLang = Locale.preferredLanguages.first
         return prefLang!
     }
-
-//         if firstLang().contains("ja"){
-//            jap_eng=1//langChan()で表示するので０でなくて１
-//        }
-  
     
     var helpNum:Int = 0
     @IBAction func onNextButton(_ sender: Any) {
         helpNum += 1
-        if helpNum%4 == 0{
-            helpView.image = UIImage(named: "help")
-        }else if helpNum%4 == 1{
-            helpView.image = UIImage(named:"help2")
-        }else if helpNum%4 == 2{
-            helpView.image = UIImage(named:"helpEn")
+        if firstLang().contains("ja"){
+            if helpNum%2==1{
+                helpView.image=UIImage(named:"help")
+            }else{
+                helpView.image=UIImage(named:"help2")
+            }
         }else{
-            helpView.image = UIImage(named:"help2En")
+            if helpNum%2==1{
+                helpView.image=UIImage(named:"helpEn")
+            }else{
+                helpView.image=UIImage(named:"help2En")
+            }
         }
+//        if helpNum%4 == 0{
+//            helpView.image = UIImage(named: "help")
+//        }else if helpNum%4 == 1{
+//            helpView.image = UIImage(named:"help2")
+//        }else if helpNum%4 == 2{
+//            helpView.image = UIImage(named:"helpEn")
+//        }else{
+//            helpView.image = UIImage(named:"help2En")
+//        }
         
     }
     @IBOutlet weak var nextButton: UIButton!
