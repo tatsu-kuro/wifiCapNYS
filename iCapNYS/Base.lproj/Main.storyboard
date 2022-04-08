@@ -133,7 +133,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="arrow.triangle.2.circlepath.camera.fill" catalog="system"/>
                                 <connections>
-                                    <action selector="onCameraChangeButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="g40-yL-IUP"/>
+                                    <action selector="onCameraChangeButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="3bs-M0-ret"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJp-tL-Pfc">

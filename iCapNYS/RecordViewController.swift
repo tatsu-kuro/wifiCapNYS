@@ -55,6 +55,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var newFilePath: String = ""
     var iCapNYSWidth: Int32 = 0
     var iCapNYSHeight: Int32 = 0
+    var iCapNYSWidthF: CGFloat = 0
+    var iCapNYSHeightF: CGFloat = 0
+    var iCapNYSWidthF120: CGFloat = 0
+    var iCapNYSHeightF5: CGFloat = 0
     var iCapNYSFPS: Float64 = 0
     //for gyro and face drawing
     var gyro = Array<Double>()
@@ -248,11 +252,23 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
      */
     
-    
-    
-    
+    var leftPadding:CGFloat=0// =CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+    var rightPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+    var topPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
+    var bottomPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
+    var realWinWidth:CGFloat=0//=view.bounds.width-leftPadding-rightPadding
+    var realWinHeight:CGFloat=0//=view.bounds.height-topPadding-bottomPadding/2
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+        rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+        topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
+        bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
+        realWinWidth=view.bounds.width-leftPadding-rightPadding
+        realWinHeight=view.bounds.height-topPadding-bottomPadding/2
+
         getCameras()
         camera.makeAlbum()
         let mainBrightness = UIScreen.main.brightness
@@ -303,14 +319,21 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             lightBar.value=UserDefaults.standard.float(forKey: "ledValue")
         }
         onLEDValueChange()
-        
 
         focusBar.minimumValue = 0
         focusBar.maximumValue = 1.0
         focusBar.addTarget(self, action: #selector(onFocusValueChange), for: UIControl.Event.valueChanged)
         focusBar.value=UserDefaults.standard.float(forKey: "focusValue")
         onFocusValueChange()
-        
+        if focusChangeable==false{
+            focusBar.isEnabled=false
+            focusBar.alpha=0.2
+            focusLabel.alpha=0.2
+        }else{
+            focusBar.isEnabled=true
+            focusBar.alpha=1.0
+            focusLabel.alpha=1.0
+        }
         zoomBar.minimumValue = 0
         zoomBar.maximumValue = 1.0
         zoomBar.addTarget(self, action: #selector(onZoomValueChange), for: UIControl.Event.valueChanged)
@@ -716,7 +739,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
                 iCapNYSFPS = desiredFps
                 print("フォーマット・フレームレートを設定 : \(desiredFps) fps・\(iCapNYSWidth) px x \(iCapNYSHeight) px")
-                
+                iCapNYSWidthF=CGFloat(iCapNYSWidth)
+                iCapNYSHeightF=CGFloat(iCapNYSHeight)
+                iCapNYSWidthF120=iCapNYSWidthF/120//quaterの表示開始位置
+                iCapNYSHeightF5=iCapNYSHeightF/5//quaterの表示サイズ
                 retF=true
             }
             catch {
@@ -751,8 +777,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     cameraType=1//telephoto
     cameraType=2//ultraWide--focusが効かない、広角、ズームを効かせる。
     */
-    @IBAction func onCameraChangeButton(_ sender: Any) {//camera>1
-        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
+    
+    @IBAction func onCameraChangeButton(_ sender: Any) {
+       cameraType=UserDefaults.standard.integer(forKey:"cameraType")
         if cameraType==0{
             cameraType=1
         }else if cameraType==1{
@@ -780,6 +807,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         onLEDValueChange()
         onZoomValueChange()
         onFocusValueChange()
+        if focusChangeable==false{
+            focusBar.isEnabled=false
+            focusBar.alpha=0.2
+            focusLabel.alpha=0.2
+        }else{
+            focusBar.isEnabled=true
+            focusBar.alpha=1.0
+            focusLabel.alpha=1.0
+        }
         onExposeValueChange()
         setButtons()
     }
@@ -904,26 +940,25 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func setButtons(){
         // recording button
         let height=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
-
-        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
-        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
-        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
-        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-        let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
-        let wh:CGFloat=view.bounds.height-topPadding-bottomPadding/2
-        let sp=ww/120//間隙
-        let bw=(ww-sp*10)/7//ボタン幅
+//        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+//        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+//        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
+//        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
+//        let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
+//        let wh:CGFloat=view.bounds.height-topPadding-bottomPadding/2
+        let sp=realWinWidth/120//間隙
+        let bw=(realWinWidth-sp*10)/7//ボタン幅
         let bh=bw*170/440
-        let by=wh-bh-sp-height
-        let by1=wh-(bh+sp)*2-height
-        let by2=wh-(bh+sp)*2.5-height
+        let by=realWinHeight-bh-sp-height
+        let by1=realWinHeight-(bh+sp)*2-height
+        let by2=realWinHeight-(bh+sp)*2.5-height
         let x0=leftPadding+sp*2
         
-//        previewSwitch.frame = CGRect(x:view.bounds.width*2/3+sp,y:topPadding+sp,width: bw,height: bh)
-        previewSwitch.frame = CGRect(x:leftPadding+10,y:wh*2/5-35,width: bw,height: bh)
+//        previewSwitch.frame = CGRect(x:view.bounds.width*2/3+sp,y:topPadding!+sp,width: bw,height: bh)
+        previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
         let switchHeight=previewSwitch.frame.height
         previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
-        previewLabel.frame.origin.y=(wh*2/5-35+switchHeight/2)-bh/2
+        previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
         previewLabel.frame.size.width=bw*5
         previewLabel.frame.size.height=bh
         camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
@@ -948,11 +983,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
-        quaternionView.frame=CGRect(x:leftPadding+sp*2,y:sp,width:wh/6,height:wh/6)
-//        quaternionView.layer.position=CGPoint(x:ww/12+10,y:leftPadding + ww/12+10)
-        startButton.frame=CGRect(x:leftPadding+ww/2-wh/4,y:sp+topPadding,width: wh/2,height: wh/2)
-        stopButton.frame=CGRect(x:leftPadding+ww/2-wh/2,y:sp+topPadding,width: wh,height: wh)
-        panTapExplanation.frame=CGRect(x:leftPadding,y:topPadding,width:ww,height:wh/2)
+        quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
+//        quaternionView.layer.position=CGPoint(x:ww/12+10,y:leftPadding! + ww/12+10)
+        startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
+        stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
+        panTapExplanation.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight/2)
         if cameraType==0{
             previewSwitch.isHidden=false
             previewLabel.isHidden=false
@@ -1113,9 +1148,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             setFocus(focus:focusBar.value)
             UserDefaults.standard.set(focusBar.value, forKey: "focusValue")
     }
+    var focusChangeable:Bool=true
     func setFocus(focus:Float) {//focus 0:最接近　0-1.0
+        focusChangeable=false
         if let device = videoDevice{
             if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
+                print("focus_supported")
                 do {
                     try device.lockForConfiguration()
                     device.focusMode = .locked
@@ -1125,12 +1163,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                         })
                     })
                     device.unlockForConfiguration()
+                    focusChangeable=true
                 }
                 catch {
                     // just ignore
                     print("focuserror")
                 }
             }else{
+                print("focus_not_supported")
+
 //                if cameraType==2{
 //                    setZoom(level: focus*4/10)//vHITに比べてすでに1/4にしてあるので
 //                    return
@@ -1312,7 +1353,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         readingFlag=false
         
-        let quaterImage = drawHead(width: 130, height: 130, radius: 50,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+//        let quaterImage = drawHead(width: 130, height: 130, radius: 50+10,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+        let quaterImage = drawHead(width: realWinHeight/2.5, height: realWinHeight/2.5, radius: realWinHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
         DispatchQueue.main.async {
           self.quaternionView.image = quaterImage
           self.quaternionView.setNeedsLayout()
@@ -1321,13 +1363,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - startTimeStamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
         let frameUIImage = UIImage(ciImage: rotatedCIImage)
 //        print(frameUIImage.size.width,frameUIImage.size.height)
-        let iCapNYSH=CGFloat(iCapNYSHeight)
-        let iCapNYSW=CGFloat(iCapNYSWidth)
-        UIGraphicsBeginImageContext(CGSize(width: iCapNYSW, height: iCapNYSH))
-        frameUIImage.draw(in: CGRect(x: 0, y: 0, width:iCapNYSW, height: iCapNYSH))
+//        let iCapNYSH=CGFloat(iCapNYSHeight)
+//        let iCapNYSW=CGFloat(iCapNYSWidth)
+        UIGraphicsBeginImageContext(CGSize(width: iCapNYSWidthF, height: iCapNYSHeightF))
+        frameUIImage.draw(in: CGRect(x:0, y:0, width:iCapNYSWidthF, height: iCapNYSHeightF))
         //let r=view.bounds.height/view.bounds.width
 //        let r=iCapNYSH/iCapNYSW
-        quaterImage.draw(in: CGRect(x:0, y:0, width:quaterImage.size.width, height:quaterImage.size.height))
+        quaterImage.draw(in: CGRect(x:iCapNYSWidthF120, y:iCapNYSWidthF120, width:iCapNYSHeightF5,height: iCapNYSHeightF5))
         //写真で再生すると左上の頭位アニメが隠れてしまうので、中央右にも表示。
 //        quaterImage.draw(in: CGRect(x:0/*CGFloat(iCapNYSHeight)-quaterImage.size.width*/, y:CGFloat(iCapNYSWidth)*3/4, width:quaterImage.size.width, height:quaterImage.size.height))
         let renderedImage = UIGraphicsGetImageFromCurrentImageContext()
