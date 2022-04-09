@@ -14,7 +14,7 @@ class How2ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //topPadding = 0 always?
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -31,7 +31,7 @@ class How2ViewController: UIViewController {
         exitButton.layer.borderColor = UIColor.black.cgColor
         exitButton.layer.borderWidth = 1.0
         exitButton.layer.cornerRadius = 5
-        helpView.frame=CGRect(x:x0,y:topPadding+sp,width: ww-4*sp,height: by)//wh-bh)
+        helpView.frame=CGRect(x:x0,y:topPadding+sp,width: ww-4*sp,height: by-sp)//wh-bh)
         if firstLang().contains("ja"){
             helpView.image=UIImage(named:"help")
         }else{
