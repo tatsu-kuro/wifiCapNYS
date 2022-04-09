@@ -370,26 +370,6 @@ Pan up or down anywhere to move the buttons.</string>
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZF7-xB-7w1">
-                                <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hx9-Ny-w1G">
-                                <rect key="frame" x="0.0" y="320" width="568" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wk0-jB-uMg">
-                                <rect key="frame" x="0.0" y="0.0" width="568" height="0.0"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="help" translatesAutoresizingMaskIntoConstraints="NO" id="KXn-JY-fvB">
                                 <rect key="frame" x="0.0" y="0.0" width="568" height="260"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -405,37 +385,14 @@ Pan up or down anywhere to move the buttons.</string>
                                     <segue destination="pLX-6O-bBD" kind="unwind" unwindAction="unwindActionWithSegue:" id="u5N-ES-V5l"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uBR-zf-qpR">
-                                <rect key="frame" x="20" y="265" width="80" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="next"/>
-                                <connections>
-                                    <action selector="onNextButton:" destination="eL6-VO-9Mc" eventType="touchUpInside" id="QJY-ss-qOR"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UP-DOWN changed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6lP-Rr-OTv">
-                                <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5AE-QU-xbp"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="6lP-Rr-OTv" firstAttribute="top" secondItem="5AE-QU-xbp" secondAttribute="top" id="3sw-Gg-qf7"/>
-                            <constraint firstItem="5AE-QU-xbp" firstAttribute="bottom" secondItem="6lP-Rr-OTv" secondAttribute="bottom" id="D4c-hf-eQ3"/>
-                            <constraint firstItem="5AE-QU-xbp" firstAttribute="trailing" secondItem="6lP-Rr-OTv" secondAttribute="trailing" id="cFZ-Us-o1m"/>
-                            <constraint firstItem="6lP-Rr-OTv" firstAttribute="leading" secondItem="5AE-QU-xbp" secondAttribute="leading" id="hi3-lp-ffU"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9qM-w1-LJl"/>
                     <connections>
                         <outlet property="exitButton" destination="swt-4C-G4l" id="Dv7-Aw-paA"/>
                         <outlet property="helpView" destination="KXn-JY-fvB" id="BKf-2D-L6j"/>
-                        <outlet property="nextButton" destination="uBR-zf-qpR" id="lMT-lv-anp"/>
-                        <outlet property="upDownLabel" destination="6lP-Rr-OTv" id="d2A-EW-JxZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yNe-KU-a0d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -446,7 +403,7 @@ Pan up or down anywhere to move the buttons.</string>
     </scenes>
     <resources>
         <image name="arrow.triangle.2.circlepath.camera.fill" catalog="system" width="128" height="94"/>
-        <image name="help" width="1020" height="1343"/>
+        <image name="help" width="1613" height="988"/>
         <image name="largecircle.fill.circle" catalog="system" width="128" height="121"/>
         <image name="speaker.wave.2.circle" catalog="system" width="128" height="121"/>
         <image name="stop.circle" catalog="system" width="128" height="121"/>

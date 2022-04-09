@@ -81,7 +81,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
         let nextView = storyboard?.instantiateViewController(withIdentifier: "HOW2") as! How2ViewController
-        nextView.helpNum=999
+//        nextView.helpNum=999
         self.present(nextView, animated: true, completion: nil)
     }
     
