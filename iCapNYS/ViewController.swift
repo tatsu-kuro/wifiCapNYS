@@ -102,13 +102,13 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     self.tableView.contentOffset.y=0
                 }
             }
+            UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
         }
-        UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
-        print("unwi")
+        print("unwind")
     }
     
     func camera_alert(){

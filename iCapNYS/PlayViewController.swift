@@ -136,8 +136,8 @@ class PlayViewController: UIViewController{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        let mainBrightness = UIScreen.main.brightness
-        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+//        let mainBrightness = UIScreen.main.brightness
+//        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
 
 //        print("viewDidLoad*******")
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
