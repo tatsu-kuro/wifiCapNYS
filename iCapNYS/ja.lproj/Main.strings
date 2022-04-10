@@ -18,10 +18,10 @@
 "U5M-bG-o5r.text" = "焦点";
 
 /* Class = "UIButton"; configuration.title = "UpDown"; ObjectID = "VOs-bS-GtU"; */
-"VOs-bS-GtU.configuration.title" = "上下";
+/*"VOs-bS-GtU.configuration.title" = "上下";*/
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "VOs-bS-GtU"; */
-"VOs-bS-GtU.normalTitle" = "Button";
+"VOs-bS-GtU.normalTitle" = "設定";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "Wk0-jB-uMg"; */
 "Wk0-jB-uMg.text" = "Label";

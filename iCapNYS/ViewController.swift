@@ -54,7 +54,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         return true
     }
     //これは.isHiddenとする
-    @IBOutlet weak var changeLandscapeSideButton: UIButton!
+    @IBOutlet weak var setteiButton: UIButton!
     
     
 //    override var shouldAutorotate: Bool {
@@ -69,19 +69,24 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //            return UIInterfaceOrientationMask.landscapeLeft
 //        }
 //    }
-    
-    @IBAction func onChangeLandscapeSide(_ sender: Any) {
-        var landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
-        if landscapeSide==0{
-            landscapeSide=1
-        }else{
-            landscapeSide=0
-        }
-        UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "HOW2") as! How2ViewController
-//        nextView.helpNum=999
+    @IBAction func onSetteiButton(_ sender: Any) {
+        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
+        nextView.setteiMode=true
         self.present(nextView, animated: true, completion: nil)
     }
+    
+    
+//    @IBAction func onChangeLandscapeSide(_ sender: Any) {
+//        var landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
+//        if landscapeSide==0{
+//            landscapeSide=1
+//        }else{
+//            landscapeSide=0
+//        }
+//        UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
+//        let nextView = storyboard?.instantiateViewController(withIdentifier: "HOW2") as! How2ViewController
+//        self.present(nextView, animated: true, completion: nil)
+//    }
     
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
         if let vc = segue.source as? RecordViewController{
@@ -212,9 +217,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let x0=leftPadding+sp*2
         
         someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by, w: bw, h: bh, UIColor.darkGray)
-        someFunctions.setButtonProperty(changeLandscapeSideButton, x:x0+bw*6+sp*6, y: by0, w: bw, h: bh, UIColor.darkGray)
+        someFunctions.setButtonProperty(setteiButton, x:x0+bw*6+sp*6, y: by0, w: bw, h: bh, UIColor.darkGray)
         //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
-        changeLandscapeSideButton.isHidden=true
+//        changeLandscapeSideButton.isHidden=true
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")

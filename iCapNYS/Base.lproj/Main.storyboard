@@ -50,7 +50,7 @@
         <!--Record View Controller-->
         <scene sceneID="4IL-9P-CKU">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="Hp4-gK-9UW" customClass="RecordViewController" customModule="iCapNYS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RECORD" modalPresentationStyle="fullScreen" id="Hp4-gK-9UW" customClass="RecordViewController" customModule="iCapNYS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bzg-mg-vx4">
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -334,15 +334,16 @@ Pan up or down anywhere to move the buttons.</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOs-bS-GtU">
-                                <rect key="frame" x="485" y="12" width="80" height="31"/>
+                                <rect key="frame" x="490" y="12" width="71" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="UpDown">
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Setting">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
-                                    <action selector="onChangeLandscapeSide:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kKW-Hl-c4q"/>
+                                    <action selector="onSetteiButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HiL-mw-6QS"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -353,8 +354,8 @@ Pan up or down anywhere to move the buttons.</string>
                     <navigationItem key="navigationItem" id="fJU-H7-qud"/>
                     <connections>
                         <outlet property="cameraButton" destination="1km-Jh-hmY" id="uJO-XE-73f"/>
-                        <outlet property="changeLandscapeSideButton" destination="VOs-bS-GtU" id="Utm-tP-tzA"/>
                         <outlet property="how2Button" destination="IwN-Th-8hI" id="e7H-zu-JVL"/>
+                        <outlet property="setteiButton" destination="VOs-bS-GtU" id="Utm-tP-tzA"/>
                         <outlet property="tableView" destination="doJ-Ju-u1K" id="oD8-Nq-4nq"/>
                     </connections>
                 </viewController>
@@ -403,7 +404,7 @@ Pan up or down anywhere to move the buttons.</string>
     </scenes>
     <resources>
         <image name="arrow.triangle.2.circlepath.camera.fill" catalog="system" width="128" height="94"/>
-        <image name="help" width="1613" height="988"/>
+        <image name="help" width="1631" height="1045"/>
         <image name="largecircle.fill.circle" catalog="system" width="128" height="121"/>
         <image name="speaker.wave.2.circle" catalog="system" width="128" height="121"/>
         <image name="stop.circle" catalog="system" width="128" height="121"/>

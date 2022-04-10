@@ -30,6 +30,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let albumName:String = "iCapNYS"
     var recordingFlag:Bool = false
     var saved2album:Bool = false
+    var setteiMode:Bool = false
     let motionManager = CMMotionManager()
     @IBOutlet weak var previewSwitch: UISwitch!
     
@@ -232,25 +233,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
              return ret
          }
      }
-    /*
-     override func viewDidLoad() {
-         super.viewDidLoad()
-         getCameras()
-         cameraType=getUserDefault(str: "cameraType", ret: 0)
- //        if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければretをセット
- //            cameraType=UserDefaults.standard.integer(forKey:"cameraType")
- //        }else{
- //            cameraType=0
- //            UserDefaults.standard.set(cameraType, forKey: "cameraType")
- //        }
-         let sound=getUserDefault(str: "recordSound", ret: 1)
-         if sound==0{
-             speakerSwitch.isOn=false
-         }else{
-             speakerSwitch.isOn=true
-         }
-
-     */
     
     var leftPadding:CGFloat=0// =CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
     var rightPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
@@ -261,7 +243,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if setteiMode==true{
+            print("setteiMode ON")
+        }else{
+            print("setteiMode false")
+        }
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -989,6 +975,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             previewSwitch.isHidden=true
             previewLabel.isHidden=true
         }
+        if setteiMode==false{
+            setButtonsSetteiMode()
+        }
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
@@ -1052,6 +1041,59 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
+    
+    func setButtonsSetteiMode() {
+        zoomLabel.isHidden=true
+        focusLabel.isHidden=true
+        focusBar.isHidden=true
+        zoomBar.isHidden=true
+        lightLabel.isHidden=true
+        lightBar.isHidden=true
+        exposeLabel.isHidden=true
+        exposeBar.isHidden=true
+        cameraChangeButton.isHidden=true
+        panTapExplanation.isHidden=true
+        //sensorをリセットし、正面に
+//        motionManager.stopDeviceMotionUpdates()
+//        recordingFlag=true
+        //start recording
+//        startButton.isHidden=true
+//        stopButton.isHidden=false
+//        stopButton.isEnabled=true
+//        startButton.isEnabled=false
+        currentTime.isHidden=false
+//        exitButton.isHidden=true
+        speakerSwitch.isHidden=true
+        speakerLabel.isHidden=true
+//        stopButton.alpha=0.02
+//        previewLabel.isHidden=true
+//        previewSwitch.isHidden=true
+//        if cameraType==0 && previewSwitch.isOn==false{
+//            quaternionView.isHidden=true
+//            cameraView.isHidden=true
+//            currentTime.alpha=0.1
+//        }
+//        try? FileManager.default.removeItem(atPath: TempFilePath)
+//
+//        timerCnt=0
+//        UIApplication.shared.isIdleTimerDisabled = true//スリープしない
+//        //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+//        if speakerSwitch.isOn==true{
+//        if let soundUrl = URL(string:
+//
+//                                "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+//            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+//            AudioServicesPlaySystemSound(soundIdx)
+//        }
+//        }
+//        fileWriter!.startWriting()
+//        fileWriter!.startSession(atSourceTime: CMTime.zero)
+//        print(fileWriter?.error)
+//        setMotion()
+    }
+
+    
+    
     @IBAction func onClickStartButton(_ sender: Any) {
         zoomLabel.isHidden=true
         focusLabel.isHidden=true
