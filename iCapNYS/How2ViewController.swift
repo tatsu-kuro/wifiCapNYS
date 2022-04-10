@@ -15,6 +15,9 @@ class How2ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //topPadding = 0 always?
+        let mainBrightness = UIScreen.main.brightness
+        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))

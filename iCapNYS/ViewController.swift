@@ -19,10 +19,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let albumName:String = "iCapNYS"
-//    var videoArrayCount:Int = 0
     var videoCurrentCount:Int = 0
     var videoDate = Array<String>()
-//    var videoURL = Array<URL>()
     @IBOutlet weak var how2Button: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     

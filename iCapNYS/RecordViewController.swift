@@ -385,7 +385,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==0{
             UIScreen.main.brightness = 10*CGFloat(lightBar.value)
             UserDefaults.standard.set(lightBar.value, forKey: "screenBrightnessValue")
-//            print("screenBrightnessValue:",lightBar.value)
         }else{
             UIScreen.main.brightness=CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
             setFlashlevel(level: lightBar.value)
@@ -396,11 +395,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
         timerCnt += 1
-//        if timerCnt>1{
-//            stopButton.isHidden=false
-//        }
-//        UserDefaults.standard.set(videoDevice?.lensPosition, forKey: "focusLength")
-//        focusBar.value=videoDevice!.lensPosition
         if recordingFlag==true{//trueになった時 0にリセットされる
             currentTime.text=String(format:"%01d",timerCnt/60) + ":" + String(format: "%02d",timerCnt%60)
             if timerCnt%2==0{
