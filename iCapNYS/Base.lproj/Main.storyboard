@@ -333,6 +333,17 @@ Pan up or down anywhere to move the buttons.</string>
                                     <segue destination="eL6-VO-9Mc" kind="show" id="lIi-V7-BL5"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FoA-QF-6Jk">
+                                <rect key="frame" x="490" y="0.0" width="78" height="87"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="onSetteiButton2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qsO-qU-1HV"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOs-bS-GtU">
                                 <rect key="frame" x="490" y="12" width="71" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -356,12 +367,13 @@ Pan up or down anywhere to move the buttons.</string>
                         <outlet property="cameraButton" destination="1km-Jh-hmY" id="uJO-XE-73f"/>
                         <outlet property="how2Button" destination="IwN-Th-8hI" id="e7H-zu-JVL"/>
                         <outlet property="setteiButton" destination="VOs-bS-GtU" id="Utm-tP-tzA"/>
+                        <outlet property="setteiButton2" destination="FoA-QF-6Jk" id="Pk2-1R-MbT"/>
                         <outlet property="tableView" destination="doJ-Ju-u1K" id="oD8-Nq-4nq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-260" y="268"/>
+            <point key="canvasLocation" x="-260.91549295774649" y="266.25"/>
         </scene>
         <!--How2 View Controller-->
         <scene sceneID="Hlh-kf-1ur">

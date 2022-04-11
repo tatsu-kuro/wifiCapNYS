@@ -56,6 +56,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //これは.isHiddenとする
     @IBOutlet weak var setteiButton: UIButton!
     
+    @IBOutlet weak var setteiButton2: UIButton!
     
 //    override var shouldAutorotate: Bool {
 //        return false
@@ -75,6 +76,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         self.present(nextView, animated: true, completion: nil)
     }
     
+    @IBAction func onSetteiButton2(_ sender: Any) {
+        onSetteiButton(0)
+    }
     
 //    @IBAction func onChangeLandscapeSide(_ sender: Any) {
 //        var landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
@@ -218,6 +222,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by, w: bw, h: bh, UIColor.darkGray)
         someFunctions.setButtonProperty(setteiButton, x:x0+bw*6+sp*6, y: by0, w: bw, h: bh, UIColor.darkGray)
+        setteiButton2.frame=CGRect(x:x0+bw*6+sp*6, y: 0, width: bw, height: bh*3)
         //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
 //        changeLandscapeSideButton.isHidden=true
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
@@ -226,10 +231,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 
         cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*3/4, y: topPadding+wh/8, width:wh*3/4, height: wh*3/4)
         tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-2*sp)
-//        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-2*sp-wh+2*bh, y: topPadding+bh, width:wh-2*bh, height: wh-2*bh)
-//        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-2*sp-wh+2*bh-leftPadding,height: wh-2*sp)
-
-
     }
   
     override func viewWillAppear(_ animated: Bool) {
