@@ -977,6 +977,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         if setteiMode==false{
             setButtonsSetteiMode()
+        }else{
+            startButton.isEnabled=false
         }
     }
   
