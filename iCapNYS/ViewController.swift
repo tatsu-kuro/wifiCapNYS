@@ -266,17 +266,16 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
         if topEndBlank==0{
             let number = (indexPath.row+1).description + ") "
-             cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row]
+            cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row]
         }else{
             let number = (indexPath.row).description + ") "
             if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
                 cell.textLabel!.text = " "
-
             }else{
-             cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row-1]
+                cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row-1]
             }
         }
-         return cell
+        return cell
     }
     func requestAVAsset(asset: PHAsset)-> AVAsset? {
         guard asset.mediaType == .video else { return nil }
@@ -298,6 +297,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //play item
 //    var contentOffsetY:CGFloat=0
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
+        if topEndBlank==1{
+            if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
+                return
+            }
+        }
 //        let str=someFunctions.videoAlbumAssets[indexPath.row]?.a absoluteString
 //        print(str as Any)
 //        if str!.contains("temp.mp4"){
@@ -337,7 +342,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     //セルの削除ボタンが押された時の処理
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
+        let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
+        if topEndBlank==1{
+            if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
+                return
+            }
+        }
         //削除するだけなのでindexPath_row = indexPath.rowをする必要はない。
         if editingStyle == UITableViewCell.EditingStyle.delete {
             someFunctions.eraseVideo(number: indexPath.row)
