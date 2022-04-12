@@ -978,10 +978,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             previewSwitch.isHidden=true
             previewLabel.isHidden=true
         }
-        if setteiMode==false{
-            setButtonsSetteiMode()
-        }else{
-            startButton.isEnabled=false
+        if setteiMode==false{//slider labelを隠す
+                hideButtonsSlides()
+//        }else{
+//            startButton.isEnabled=false
         }
     }
   
@@ -1047,7 +1047,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
     
-    func setButtonsSetteiMode() {
+    func             hideButtonsSlides() {
         zoomLabel.isHidden=true
         focusLabel.isHidden=true
         focusBar.isHidden=true
