@@ -1112,6 +1112,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         panTapExplanation.isHidden=true
+        
         //sensorをリセットし、正面に
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
@@ -1127,6 +1128,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.alpha=0.02
         previewLabel.isHidden=true
         previewSwitch.isHidden=true
+        topEndBlankLabel.isHidden=true
+        topEndBlankSwitch.isHidden=true
         if cameraType==0 && previewSwitch.isOn==false{
             quaternionView.isHidden=true
             cameraView.isHidden=true
