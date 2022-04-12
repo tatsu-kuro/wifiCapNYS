@@ -22,7 +22,6 @@
 
 /* Begin PBXFileReference section */
 		693C02882805ABC700BD4747 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/Main.storyboard; sourceTree = "<group>"; };
-		693CD7D627852E1100F8008B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		693CD7DA27852F8900F8008B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6945B1A625EB207400A52272 /* myFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myFunctions.swift; sourceTree = "<group>"; };
 		6945E7D82519145F00E16DDB /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
@@ -198,7 +197,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				69E2289D2518344C0004E53C /* Base */,
-				693CD7D627852E1100F8008B /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
