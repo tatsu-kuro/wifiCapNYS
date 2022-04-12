@@ -968,7 +968,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         
 //        quaternionView.layer.position=CGPoint(x:ww/12+10,y:leftPadding! + ww/12+10)
+        if setteiMode==true{
         startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
+        }else{
+        startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
+        }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         panTapExplanation.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight/2)
         if cameraType==0{
