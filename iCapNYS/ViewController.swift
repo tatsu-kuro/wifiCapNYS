@@ -151,7 +151,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }else{
             someFunctions.getAlbumAssets()//完了したら戻ってくるようにしたつもり
         }
-         UIApplication.shared.isIdleTimerDisabled = false//スリープする
+        //初回起動時にdefaultを設定
+        let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
+        let topEndBlank=someFunctions.getUserDefaultInt(str: "topEndBlank", ret: 0)
+        UIApplication.shared.isIdleTimerDisabled = false//スリープする
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -249,15 +252,31 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     //nuber of cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return someFunctions.videoDate.count
+        let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
+        if topEndBlank==0{
+            return someFunctions.videoDate.count
+        }else{
+            return someFunctions.videoDate.count+2
+        }
     }
     
     //set data on cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
-        let number = (indexPath.row+1).description + ") "
-        cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row]
-        return cell
+        let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
+        if topEndBlank==0{
+            let number = (indexPath.row+1).description + ") "
+             cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row]
+        }else{
+            let number = (indexPath.row).description + ") "
+            if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
+                cell.textLabel!.text = " "
+
+            }else{
+             cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row-1]
+            }
+        }
+         return cell
     }
     func requestAVAsset(asset: PHAsset)-> AVAsset? {
         guard asset.mediaType == .video else { return nil }

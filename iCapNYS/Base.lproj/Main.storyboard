@@ -264,6 +264,7 @@ Pan up or down anywhere to move the buttons.</string>
                         <outlet property="quaternionView" destination="E7F-hC-6hQ" id="fMB-sK-wwe"/>
                         <outlet property="startButton" destination="5bD-tH-WDM" id="jTC-cZ-nLP"/>
                         <outlet property="stopButton" destination="Pah-7o-hki" id="kyy-dz-Q1b"/>
+                        <outlet property="topEndBlankLabel" destination="67v-Uu-qvh" id="BKq-Gw-tH9"/>
                         <outlet property="topEndBlankSwitch" destination="DGd-wD-hZC" id="E0r-GO-Ffv"/>
                         <outlet property="whiteView" destination="DDK-mU-MaY" id="xpA-Av-ofx"/>
                         <outlet property="zoomBar" destination="be6-mz-8db" id="Vil-nb-39p"/>

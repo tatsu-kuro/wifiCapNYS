@@ -128,6 +128,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var topEndBlankSwitch: UISwitch!
     
+    @IBOutlet weak var topEndBlankLabel: UILabel!
     @IBOutlet weak var exposeLabel: UILabel!
     //    @IBOutlet weak var speakerImage: UIImageView!
 //        @IBOutlet weak var speakerLabel: UIImageView!
@@ -261,13 +262,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
 
         //speakerSwitchは、ipod touchの時に便利
-        let topEndBlank=getUserDefault(str: "topEndBlank", ret: 1)
+        let topEndBlank=camera.getUserDefaultInt(str: "topEndBlank", ret: 0)
         if topEndBlank==0{
             topEndBlankSwitch.isOn=false
-//            speakerLabel.tintColor=UIColor.gray
         }else{
             topEndBlankSwitch.isOn=true
-//            speakerLabel.tintColor=UIColor.green
         }
         let previewOn=getUserDefault(str: "previewOn", ret: 0)
         if previewOn==0{
@@ -937,6 +936,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        previewSwitch.frame = CGRect(x:view.bounds.width*2/3+sp,y:topPadding!+sp,width: bw,height: bh)
         previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
         let switchHeight=previewSwitch.frame.height
+        let switchWidth=previewSwitch.frame.width
         previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
         previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
         previewLabel.frame.size.width=bw*5
@@ -952,18 +952,21 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         isoBar.frame = CGRect(x:x0+bw*4+sp*4,y:by2,width:bw*2+sp,height: bh)
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
-        topEndBlankSwitch.frame = CGRect(x:leftPadding+10,y:by1-30,width:bw,height:bh)
+//        topEndBlankSwitch.frame = CGRect(x:leftPadding+10,y:by1-30,width:bw,height:bh)
 //        //switchの大きさは規定されているので、作ってみてそのサイズを得て、再設定
-        let switchWidth=topEndBlankSwitch.frame.width
-//        let switchHeight=speakerSwitch.frame.height
-        let d=(bh-switchHeight)/2
-        topEndBlankSwitch.frame = CGRect(x:leftPadding+10,y:by1-30+d,width:switchWidth,height: bh)
+//        let switchWidth=topEndBlankSwitch.frame.width
+//        let d=(bh-switchHeight)/2
+//        topEndBlankSwitch.frame = CGRect(x:leftPadding+10,y:sp,width:switchWidth,height: bh)
 //        speakerLabel.frame = CGRect(x:x0+bw*5+sp*4+switchWidth,y:by1,width:bw/2,height:bh)
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
+        topEndBlankSwitch.frame = CGRect(x:leftPadding+realWinHeight/5+2*sp+20,y:sp,width:switchWidth,height:bh)
+        topEndBlankLabel.frame = CGRect(x:topEndBlankSwitch.frame.maxX+sp,y:sp+switchHeight/2-bh/2,width:realWinWidth,height: bh)
+
+        
 //        quaternionView.layer.position=CGPoint(x:ww/12+10,y:leftPadding! + ww/12+10)
         startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
@@ -1055,6 +1058,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         panTapExplanation.isHidden=true
+        topEndBlankLabel.isHidden=true
+        topEndBlankSwitch.isHidden=true
         //sensorをリセットし、正面に
 //        motionManager.stopDeviceMotionUpdates()
 //        recordingFlag=true
