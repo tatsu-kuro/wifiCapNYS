@@ -298,9 +298,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //    var contentOffsetY:CGFloat=0
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
+        var indexPathRow = indexPath.row
         if topEndBlank==1{
             if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
                 return
+            }else{
+             indexPathRow -= 1
             }
         }
 //        let str=someFunctions.videoAlbumAssets[indexPath.row]?.a absoluteString
@@ -314,12 +317,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //            return
 //        }
 //        print(someFunctions.videoAlbumAssets[indexPath.row])
-        videoCurrentCount=indexPath.row
+        videoCurrentCount=indexPathRow// indexPath.row
         print("video:",videoCurrentCount)
         let contentOffsetY = tableView.contentOffset.y
         print("offset:",contentOffsetY)
         UserDefaults.standard.set(contentOffsetY,forKey: "contentOffsetY")
-        let phasset = someFunctions.videoPHAsset[indexPath.row]
+        let phasset = someFunctions.videoPHAsset[indexPathRow]//indexPath.row]
         let avasset = requestAVAsset(asset: phasset)
         if avasset == nil {//なぜ？icloudから落ちてきていないのか？
             return
@@ -328,9 +331,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
       
 //        nextView.videoURL = someFunctions.videoURL[indexPath.row]
-        nextView.phasset = someFunctions.videoPHAsset[indexPath.row]
+        nextView.phasset = someFunctions.videoPHAsset[indexPathRow]// indexPath.row]
         nextView.avasset = avasset
-        nextView.calcDate = someFunctions.videoDate[indexPath.row]
+        nextView.calcDate = someFunctions.videoDate[indexPathRow]
         
         self.present(nextView, animated: true, completion: nil)
         
@@ -343,20 +346,23 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //セルの削除ボタンが押された時の処理
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
+        var indexPathRow:Int=indexPath.row
         if topEndBlank==1{
             if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
                 return
+            }else{
+                indexPathRow -= 1
             }
         }
         //削除するだけなのでindexPath_row = indexPath.rowをする必要はない。
         if editingStyle == UITableViewCell.EditingStyle.delete {
-            someFunctions.eraseVideo(number: indexPath.row)
+            someFunctions.eraseVideo(number: indexPathRow)
             while someFunctions.dialogStatus==0{
                 sleep(UInt32(0.1))
             }
             if someFunctions.dialogStatus==1{
 //                someFunctions.videoURL.remove(at: indexPath.row)
-                someFunctions.videoDate.remove(at: indexPath.row)
+                someFunctions.videoDate.remove(at: indexPathRow)
                 tableView.reloadData()
                 if indexPath.row>4 && indexPath.row<someFunctions.videoDate.count{
                     tableView.reloadRows(at: [indexPath], with: .fade)
