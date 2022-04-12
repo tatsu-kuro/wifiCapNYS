@@ -77,13 +77,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
  
-    @IBAction func onSpeakerSwitch(_ sender: UISwitch) {
-        if speakerSwitch.isOn==true{
-            UserDefaults.standard.set(1, forKey: "recordSound")
-            speakerLabel.tintColor=UIColor.green
+    @IBAction func onTopEndBlankSwitch(_ sender: UISwitch) {
+        if topEndBlankSwitch.isOn==true{
+            UserDefaults.standard.set(1, forKey: "topEndBlank")
+//            speakerLabel.tintColor=UIColor.green
         }else{
-            UserDefaults.standard.set(0, forKey: "recordSound")
-            speakerLabel.tintColor=UIColor.gray
+            UserDefaults.standard.set(0, forKey: "topEndBlank")
+//            speakerLabel.tintColor=UIColor.gray
         }
     }
 //    @IBOutlet weak var speakerSwitch: UISwitch!
@@ -126,11 +126,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
-    @IBOutlet weak var speakerSwitch: UISwitch!
+    @IBOutlet weak var topEndBlankSwitch: UISwitch!
     
     @IBOutlet weak var exposeLabel: UILabel!
     //    @IBOutlet weak var speakerImage: UIImageView!
-        @IBOutlet weak var speakerLabel: UIImageView!
+//        @IBOutlet weak var speakerLabel: UIImageView!
     @IBOutlet weak var zoomLabel: UILabel!
 //    @IBOutlet weak var zoomFar: UILabel!
     @IBOutlet weak var zoomBar: UISlider!
@@ -261,14 +261,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
 
         //speakerSwitchは、ipod touchの時に便利
-//        let sound=getUserDefault(str: "recordSound", ret: 1)
-//        if sound==0{
-//            speakerSwitch.isOn=false
+        let topEndBlank=getUserDefault(str: "topEndBlank", ret: 1)
+        if topEndBlank==0{
+            topEndBlankSwitch.isOn=false
 //            speakerLabel.tintColor=UIColor.gray
-//        }else{
-//            speakerSwitch.isOn=true
+        }else{
+            topEndBlankSwitch.isOn=true
 //            speakerLabel.tintColor=UIColor.green
-//        }
+        }
         let previewOn=getUserDefault(str: "previewOn", ret: 0)
         if previewOn==0{
             previewSwitch.isOn=false
@@ -276,9 +276,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             previewSwitch.isOn=true
         }
         //speakerSwitch使用しない
-        speakerLabel.isHidden=true
-        speakerSwitch.isHidden=true
-        UserDefaults.standard.set(1,forKey: "recordSound")
+//        speakerLabel.isHidden=true
+//        topEndBlankSwitch.isHidden=true
+//        UserDefaults.standard.set(1,forKey: "recordSound")
         
         if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
             cameraType=UserDefaults.standard.integer(forKey:"cameraType")
@@ -952,13 +952,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         isoBar.frame = CGRect(x:x0+bw*4+sp*4,y:by2,width:bw*2+sp,height: bh)
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
-        speakerSwitch.frame = CGRect(x:x0+bw*5*sp*5,y:by1,width:bw,height:bh)
+        topEndBlankSwitch.frame = CGRect(x:leftPadding+10,y:by1-30,width:bw,height:bh)
 //        //switchの大きさは規定されているので、作ってみてそのサイズを得て、再設定
-        let switchWidth=speakerSwitch.frame.width
+        let switchWidth=topEndBlankSwitch.frame.width
 //        let switchHeight=speakerSwitch.frame.height
         let d=(bh-switchHeight)/2
-        speakerSwitch.frame = CGRect(x:x0+bw*5+sp*5,y:by1+d,width:switchWidth,height: bh)
-        speakerLabel.frame = CGRect(x:x0+bw*5+sp*4+switchWidth,y:by1,width:bw/2,height:bh)
+        topEndBlankSwitch.frame = CGRect(x:leftPadding+10,y:by1-30+d,width:switchWidth,height: bh)
+//        speakerLabel.frame = CGRect(x:x0+bw*5+sp*4+switchWidth,y:by1,width:bw/2,height:bh)
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
@@ -984,13 +984,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
   
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
-        if speakerSwitch.isOn==true{
+//        if topEndBlankSwitch.isOn==true{
             if let soundUrl = URL(string:
                                     "/System/Library/Audio/UISounds/begin_record.caf"){
                 AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
                 AudioServicesPlaySystemSound(soundIdx)
             }
-        }
+//        }
         motionManager.stopDeviceMotionUpdates()
 
         if fileWriter!.status == .writing {
@@ -1065,8 +1065,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        startButton.isEnabled=false
         currentTime.isHidden=false
 //        exitButton.isHidden=true
-        speakerSwitch.isHidden=true
-        speakerLabel.isHidden=true
+//        topEndBlankSwitch.isHidden=true
+//        speakerLabel.isHidden=true
 //        stopButton.alpha=0.02
 //        previewLabel.isHidden=true
 //        previewSwitch.isHidden=true
@@ -1117,8 +1117,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isEnabled=false
         currentTime.isHidden=false
         exitButton.isHidden=true
-        speakerSwitch.isHidden=true
-        speakerLabel.isHidden=true
+//        topEndBlankSwitch.isHidden=true
+//        speakerLabel.isHidden=true
         stopButton.alpha=0.02
         previewLabel.isHidden=true
         previewSwitch.isHidden=true
@@ -1132,14 +1132,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         timerCnt=0
         UIApplication.shared.isIdleTimerDisabled = true//スリープしない
         //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-        if speakerSwitch.isOn==true{
+//        if topEndBlankSwitch.isOn==true{
         if let soundUrl = URL(string:
                                 
                                 "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
             AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
             AudioServicesPlaySystemSound(soundIdx)
         }
-        }
+//        }
         fileWriter!.startWriting()
         fileWriter!.startSession(atSourceTime: CMTime.zero)
 //        print(fileWriter?.error)
