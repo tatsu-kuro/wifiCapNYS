@@ -1103,8 +1103,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        setMotion()
     }
 
-    
-    
     @IBAction func onClickStartButton(_ sender: Any) {
         zoomLabel.isHidden=true
         focusLabel.isHidden=true
