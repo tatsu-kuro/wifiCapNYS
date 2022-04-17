@@ -357,6 +357,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         //削除するだけなのでindexPath_row = indexPath.rowをする必要はない。
         if editingStyle == UITableViewCell.EditingStyle.delete {
             someFunctions.eraseVideo(number: indexPathRow)
+            print("erasevideo:",indexPathRow)
             while someFunctions.dialogStatus==0{
                 sleep(UInt32(0.1))
             }
