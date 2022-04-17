@@ -362,7 +362,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 sleep(UInt32(0.1))
             }
             if someFunctions.dialogStatus==1{
-//                someFunctions.videoURL.remove(at: indexPath.row)
+                someFunctions.videoPHAsset.remove(at: indexPathRow)
                 someFunctions.videoDate.remove(at: indexPathRow)
                 tableView.reloadData()
                 if indexPath.row>4 && indexPath.row<someFunctions.videoDate.count{
@@ -374,4 +374,5 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             }
         }
     }
+   
 }
