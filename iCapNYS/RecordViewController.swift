@@ -34,6 +34,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let motionManager = CMMotionManager()
     @IBOutlet weak var previewSwitch: UISwitch!
     
+    @IBOutlet weak var monoChromeSwitch: UISwitch!
+    
+    @IBOutlet weak var monoChromeLabel: UILabel!
+    
     @IBAction func onPreviewSwitch(_ sender: Any) {
         if previewSwitch.isOn==true{
             UserDefaults.standard.set(1, forKey: "previewOn")
@@ -41,6 +45,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             UserDefaults.standard.set(0, forKey: "previewOn")
         }
     }
+    
+    @IBAction func onMonoChromeSwitch(_ sender: Any) {
+    }
+    
     @IBOutlet weak var previewLabel: UILabel!
     //for video input
     var captureSession: AVCaptureSession!
@@ -1364,7 +1372,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print("default")
         }
     }
- 
+    func monoChromeFilter(_ input: CIImage, intensity: Double) -> CIImage? {
+        let ciFilter:CIFilter = CIFilter(name: "CIColorMonochrome")!
+        ciFilter.setValue(input, forKey: kCIInputImageKey)
+        ciFilter.setValue(CIColor(red: intensity, green: intensity, blue: intensity), forKey: "inputColor")
+        ciFilter.setValue(1.0, forKey: "inputIntensity")
+        return ciFilter.outputImage
+      }
+    func sepiaFilter(_ input: CIImage, intensity: Double) -> CIImage? {
+          let sepiaFilter = CIFilter(name: "CISepiaTone")
+          sepiaFilter?.setValue(input, forKey: kCIInputImageKey)
+          sepiaFilter?.setValue(intensity, forKey: kCIInputIntensityKey)
+          return sepiaFilter?.outputImage
+       }
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
      
         if fileWriter.status == .writing && startTimeStamp == 0 {
@@ -1388,7 +1408,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //2つのアフィンを組み合わせ
         let matrix = matrix1.concatenating(matrix2);
         
-        let rotatedCIImage = frameCIImage.transformed(by: matrix)
+        let rotatedCIImage = monoChromeFilter(frameCIImage.transformed(by: matrix),intensity: 0.9)
+        
 //        print(rotatedCIImage.cgImage?.width)
 //        print("width*height",frameCIImage.extent.width,frameCIImage.extent.height)
 //        print("width*height",rotatedCIImage.cgImage?.width ?? <#default value#>! as Any,rotatedCIImage.cgImage??.height)
@@ -1409,7 +1430,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         //frameの時間計算, sampleBufferの時刻から算出
         let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - startTimeStamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
-        let frameUIImage = UIImage(ciImage: rotatedCIImage)
+        let frameUIImage = UIImage(ciImage: rotatedCIImage!)
 //        print(frameUIImage.size.width,frameUIImage.size.height)
 //        let iCapNYSH=CGFloat(iCapNYSHeight)
 //        let iCapNYSW=CGFloat(iCapNYSWidth)

@@ -224,6 +224,20 @@
                                     <action selector="onTopEndBlankSwitch:" destination="Hp4-gK-9UW" eventType="valueChanged" id="ldb-L6-Ohu"/>
                                 </connections>
                             </switch>
+                            <switch hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dfv-VF-vDM">
+                                <rect key="frame" x="422" y="170" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="onMonoChromeSwitch:" destination="Hp4-gK-9UW" eventType="valueChanged" id="6Af-gn-IGb"/>
+                                </connections>
+                            </switch>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="モノクロ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5YI-QO-Boc">
+                                <rect key="frame" x="478" y="175" width="70" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rQ7-Kf-AuZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -258,6 +272,8 @@
                         <outlet property="isoBar" destination="w4O-x5-9T3" id="19U-OF-zyv"/>
                         <outlet property="lightBar" destination="htR-kn-HZ3" id="D4T-61-dfo"/>
                         <outlet property="lightLabel" destination="sYh-14-k4L" id="giR-HT-1hK"/>
+                        <outlet property="monoChromeLabel" destination="5YI-QO-Boc" id="fMC-Iy-Bfd"/>
+                        <outlet property="monoChromeSwitch" destination="dfv-VF-vDM" id="DuJ-R3-ust"/>
                         <outlet property="panTapExplanation" destination="9KR-ld-QTe" id="3nb-BG-87L"/>
                         <outlet property="previewLabel" destination="ek5-zF-XSc" id="dpM-KI-9st"/>
                         <outlet property="previewSwitch" destination="pv5-1c-4YX" id="Wab-l4-LJB"/>
