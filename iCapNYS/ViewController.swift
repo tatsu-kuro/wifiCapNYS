@@ -153,7 +153,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
         //初回起動時にdefaultを設定
         let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
-        let topEndBlank=someFunctions.getUserDefaultInt(str: "topEndBlank", ret: 0)
+        let topEndBlank=0//someFunctions.getUserDefaultInt(str: "topEndBlank", ret: 0)
+       
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
     }
     
@@ -233,7 +234,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
 
         cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*3/4, y: topPadding+wh/8, width:wh*3/4, height: wh*3/4)
-        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-2*sp)
+        //高さ/20を上下に開ける
+        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp+wh/20,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-2*sp-wh/10)
     }
   
     override func viewWillAppear(_ animated: Bool) {
@@ -252,7 +254,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     //nuber of cell
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
+        let topEndBlank=0//UserDefaults.standard.integer(forKey:"topEndBlank")
         if topEndBlank==0{
             return someFunctions.videoDate.count
         }else{
@@ -263,7 +265,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //set data on cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
-        let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
+        let topEndBlank=0//UserDefaults.standard.integer(forKey:"topEndBlank")
         if topEndBlank==0{
             let number = (indexPath.row+1).description + ") "
             cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row]
@@ -297,7 +299,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //play item
 //    var contentOffsetY:CGFloat=0
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
+        let topEndBlank=0//UserDefaults.standard.integer(forKey:"topEndBlank")
         var indexPathRow = indexPath.row
         if topEndBlank==1{
             if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
@@ -345,7 +347,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     //セルの削除ボタンが押された時の処理
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let topEndBlank=UserDefaults.standard.integer(forKey:"topEndBlank")
+        let topEndBlank=0//UserDefaults.standard.integer(forKey:"topEndBlank")
         var indexPathRow:Int=indexPath.row
         if topEndBlank==1{
             if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{

@@ -105,7 +105,7 @@
                                 <rect key="frame" x="331" y="281" width="118" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="照明" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYh-14-k4L">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="LED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYh-14-k4L">
                                 <rect key="frame" x="12" y="78" width="60" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -261,6 +261,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="tfD-sj-vez"/>
                     <connections>
+                        <outlet property="LEDBar" destination="htR-kn-HZ3" id="D4T-61-dfo"/>
+                        <outlet property="LEDLabel" destination="sYh-14-k4L" id="giR-HT-1hK"/>
                         <outlet property="cameraChangeButton" destination="znc-Gv-DbE" id="KaG-mU-oFO"/>
                         <outlet property="cameraView" destination="ZdO-VK-uDo" id="Sf8-EB-6k2"/>
                         <outlet property="currentTime" destination="eJp-tL-Pfc" id="vx3-sB-2CR"/>
@@ -270,8 +272,6 @@
                         <outlet property="focusBar" destination="Cn2-Mn-Pzg" id="rb0-lh-zAT"/>
                         <outlet property="focusLabel" destination="U5M-bG-o5r" id="Vpx-lR-lmA"/>
                         <outlet property="isoBar" destination="w4O-x5-9T3" id="19U-OF-zyv"/>
-                        <outlet property="lightBar" destination="htR-kn-HZ3" id="D4T-61-dfo"/>
-                        <outlet property="lightLabel" destination="sYh-14-k4L" id="giR-HT-1hK"/>
                         <outlet property="monoChromeLabel" destination="5YI-QO-Boc" id="fMC-Iy-Bfd"/>
                         <outlet property="monoChromeSwitch" destination="dfv-VF-vDM" id="DuJ-R3-ust"/>
                         <outlet property="panTapExplanation" destination="9KR-ld-QTe" id="3nb-BG-87L"/>

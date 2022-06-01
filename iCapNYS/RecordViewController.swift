@@ -86,13 +86,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
  
     @IBAction func onTopEndBlankSwitch(_ sender: UISwitch) {
-        if topEndBlankSwitch.isOn==true{
-            UserDefaults.standard.set(1, forKey: "topEndBlank")
-//            speakerLabel.tintColor=UIColor.green
-        }else{
-            UserDefaults.standard.set(0, forKey: "topEndBlank")
-//            speakerLabel.tintColor=UIColor.gray
-        }
+//        if topEndBlankSwitch.isOn==true{
+//            UserDefaults.standard.set(1, forKey: "topEndBlank")
+//
+//        }else{
+//            UserDefaults.standard.set(0, forKey: "topEndBlank")
+//
+//        }
     }
 //    @IBOutlet weak var speakerSwitch: UISwitch!
 //
@@ -143,8 +143,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var zoomLabel: UILabel!
 //    @IBOutlet weak var zoomFar: UILabel!
     @IBOutlet weak var zoomBar: UISlider!
-    @IBOutlet weak var lightBar: UISlider!
-    @IBOutlet weak var lightLabel: UILabel!
+    @IBOutlet weak var LEDBar: UISlider!
+    @IBOutlet weak var LEDLabel: UILabel!
 //    @IBOutlet weak var LEDLow: UILabel!
     @IBOutlet weak var currentTime: UILabel!
     @IBOutlet weak var startButton: UIButton!
@@ -177,8 +177,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 ////            zoomLabel.text = "近い"//isHidden=false
 //        }
 //    }
-    func setZoom(level:Float){//
-        let zoom=level*level/4
+    func setZoom(level:Float){//0.0-0.1
+        var zoom=0.017//level*level/4
+        if cameraType==1{
+            zoom=0.007
+        }
         if let device = videoDevice {
         do {
             try device.lockForConfiguration()
@@ -270,12 +273,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
 
         //speakerSwitchは、ipod touchの時に便利
-        let topEndBlank=camera.getUserDefaultInt(str: "topEndBlank", ret: 0)
-        if topEndBlank==0{
-            topEndBlankSwitch.isOn=false
-        }else{
-            topEndBlankSwitch.isOn=true
-        }
+//        let topEndBlank=camera.getUserDefaultInt(str: "topEndBlank", ret: 0)
+//        if topEndBlank==0{
+//            topEndBlankSwitch.isOn=false
+//        }else{
+//            topEndBlankSwitch.isOn=true
+//        }
         let previewOn=getUserDefault(str: "previewOn", ret: 0)
         if previewOn==0{
             previewSwitch.isOn=false
@@ -284,7 +287,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         //speakerSwitch使用しない
 //        speakerLabel.isHidden=true
-//        topEndBlankSwitch.isHidden=true
+        topEndBlankSwitch.isHidden=true
 //        UserDefaults.standard.set(1,forKey: "recordSound")
         
         if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
@@ -301,23 +304,33 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         //露出はオートの方が良さそう
     
-        lightBar.minimumValue = 0
-        lightBar.maximumValue = 0.1
-        lightBar.addTarget(self, action: #selector(onLEDValueChange), for: UIControl.Event.valueChanged)
-        lightBar.value=UserDefaults.standard.float(forKey: "")
+        LEDBar.minimumValue = 0
+        LEDBar.maximumValue = 1
+        LEDBar.addTarget(self, action: #selector(onLEDValueChange), for: UIControl.Event.valueChanged)
+        LEDBar.value=UserDefaults.standard.float(forKey: "")
         if cameraType==0{
-            lightBar.value=camera.getUserDefaultFloat(str: "screenBrightnessValue", ret: 0.9)
+//            LEDBar.value=camera.getUserDefaultFloat(str: "screenBrightnessValue", ret: 0.9)
 //            lightBar.value=UserDefaults.standard.float(forKey: "screenBrightnessValue")
         }else{
-            lightBar.value=UserDefaults.standard.float(forKey: "ledValue")
+            LEDBar.value=UserDefaults.standard.float(forKey: "ledValue")
         }
         onLEDValueChange()
-
+        if cameraType==0{
+            LEDBar.alpha=0.2// isHidden=true
+            LEDLabel.alpha=0.2// isHidden=true
+            LEDBar.isEnabled=false
+        }else{
+            LEDBar.alpha=1.0// isHidden=false
+            LEDLabel.alpha=1.0// isHidden=false
+            LEDBar.isEnabled=true
+        }
+        
         focusBar.minimumValue = 0
         focusBar.maximumValue = 1.0
         focusBar.addTarget(self, action: #selector(onFocusValueChange), for: UIControl.Event.valueChanged)
         focusBar.value=UserDefaults.standard.float(forKey: "focusValue")
-        onFocusValueChange()
+//        onFocusValueChange()
+        setFocus(focus: 0)
         if focusChangeable==false{
             focusBar.isEnabled=false
             focusBar.alpha=0.2
@@ -374,14 +387,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //       }
     }
     @objc func onLEDValueChange(){
-        print("brightness:",lightBar.value)
+        print("brightness:",LEDBar.value)
         if cameraType==0{
-            UIScreen.main.brightness = 10*CGFloat(lightBar.value)
-            UserDefaults.standard.set(lightBar.value, forKey: "screenBrightnessValue")
+//            UIScreen.main.brightness = 10*CGFloat(LEDBar.value)
+//            UserDefaults.standard.set(LEDBar.value, forKey: "screenBrightnessValue")
         }else{
             UIScreen.main.brightness=CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
-            setFlashlevel(level: lightBar.value)
-            UserDefaults.standard.set(lightBar.value, forKey: "ledValue")
+            setFlashlevel(level: LEDBar.value)
+            UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
         }
     }
   
@@ -745,14 +758,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     var telephotoCamera:Bool=false
     var ultrawideCamera:Bool=false
-    func getCameras(){
-        if AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) != nil{
-            ultrawideCamera=true
-        }
-        if AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) != nil{
-            telephotoCamera=true
-        }
+    func getCameras(){//wideAngleCameraのみ使用
+//        if AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) != nil{
+//            ultrawideCamera=true
+//        }
+//        if AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) != nil{
+//            telephotoCamera=true
+//        }
+        ultrawideCamera=false
+        telephotoCamera=false
     }
+    
     /*
     iCapNYS---
      cameraType=0//front
@@ -794,15 +810,24 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         onLEDValueChange()
         onZoomValueChange()
         onFocusValueChange()
-        if focusChangeable==false{
-            focusBar.isEnabled=false
-            focusBar.alpha=0.2
-            focusLabel.alpha=0.2
+        if cameraType==0{
+            LEDBar.alpha=0.3// isHidden=true
+            LEDBar.isEnabled=false
+            LEDLabel.alpha=0.3// isHidden=true
         }else{
-            focusBar.isEnabled=true
-            focusBar.alpha=1.0
-            focusLabel.alpha=1.0
+            LEDBar.alpha=1// isHidden=false
+            LEDBar.isEnabled=true
+            LEDLabel.alpha=1//isHidden=false
         }
+//        if focusChangeable==false{
+//            focusBar.isEnabled=false
+//            focusBar.alpha=0.2
+//            focusLabel.alpha=0.2
+//        }else{
+//            focusBar.isEnabled=true
+//            focusBar.alpha=1.0
+//            focusLabel.alpha=1.0
+//        }
         onExposeValueChange()
         setButtons()
     }
@@ -810,7 +835,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ
         cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-        
+
         if cameraType == 0{
         videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)//.back)
         }else if cameraType==1{
@@ -831,7 +856,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         // AVCaptureSession生成
         captureSession = AVCaptureSession()
         captureSession.addInput(videoInput)
- 
+        
+//        // 音声のインプット設定
+//        let audioDevice: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.audio)
+//        let audioInput = try! AVCaptureDeviceInput(device: audioDevice!)
+//        captureSession.addInput(audioInput)
+//以上のようなことは出来そうにない
         // プレビュー出力設定
         whiteView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
         cameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
@@ -936,43 +966,45 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let sp=realWinWidth/120//間隙
         let bw=(realWinWidth-sp*10)/7//ボタン幅
         let bh=bw*170/440
-        let by=realWinHeight-bh-sp-height
-        let by1=realWinHeight-(bh+sp)*2-height
-        let by2=realWinHeight-(bh+sp)*2.5-height
+        let by1=realWinHeight-bh-sp-height
+        let by=realWinHeight-(bh+sp)*2-height
+//        let by2=realWinHeight-(bh+sp)*2.5-height
         let x0=leftPadding+sp*2
         
 //        previewSwitch.frame = CGRect(x:view.bounds.width*2/3+sp,y:topPadding!+sp,width: bw,height: bh)
         previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
         let switchHeight=previewSwitch.frame.height
-        let switchWidth=previewSwitch.frame.width
+//        let switchWidth=previewSwitch.frame.width
         previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
         previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
         previewLabel.frame.size.width=bw*5
         previewLabel.frame.size.height=bh
+ 
         camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
-        camera.setLabelProperty(lightLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
-        lightBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
-        camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
+        
+        camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
+        LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
+        
         camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.white)
         zoomBar.frame = CGRect(x:x0+bw*4+sp*4,y:by,width:bw*2+sp,height: bh)
+        zoomLabel.isHidden=true
+        zoomBar.isHidden=true
+        focusBar.isHidden=true
+        focusLabel.isHidden=true
         exposeBar.frame = CGRect(x:x0+bw*4+sp*4,y:by1,width:bw*2+sp,height: bh)
-        isoBar.frame = CGRect(x:x0+bw*4+sp*4,y:by2,width:bw*2+sp,height: bh)
-        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
-        camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
-//        topEndBlankSwitch.frame = CGRect(x:leftPadding+10,y:by1-30,width:bw,height:bh)
-//        //switchの大きさは規定されているので、作ってみてそのサイズを得て、再設定
-//        let switchWidth=topEndBlankSwitch.frame.width
-//        let d=(bh-switchHeight)/2
-//        topEndBlankSwitch.frame = CGRect(x:leftPadding+10,y:sp,width:switchWidth,height: bh)
-//        speakerLabel.frame = CGRect(x:x0+bw*5+sp*4+switchWidth,y:by1,width:bw/2,height:bh)
+        camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
+ 
+//        isoBar.frame = CGRect(x:x0+bw*4+sp*4,y:by2,width:bw*2+sp,height: bh)
+        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
-        topEndBlankSwitch.frame = CGRect(x:leftPadding+realWinHeight/5+2*sp+20,y:sp,width:switchWidth,height:bh)
-        topEndBlankLabel.frame = CGRect(x:topEndBlankSwitch.frame.maxX+sp,y:sp+switchHeight/2-bh/2,width:realWinWidth,height: bh)
+//        topEndBlankSwitch.frame = CGRect(x:leftPadding+realWinHeight/5+2*sp+20,y:sp,width:switchWidth,height:bh)
+//        topEndBlankLabel.frame = CGRect(x:topEndBlankSwitch.frame.maxX+sp,y:sp+switchHeight/2-bh/2,width:realWinWidth,height: bh)
 
         
 //        quaternionView.layer.position=CGPoint(x:ww/12+10,y:leftPadding! + ww/12+10)
@@ -995,17 +1027,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        }else{
 //            startButton.isEnabled=false
         }
+        topEndBlankLabel.isHidden=true
+        topEndBlankSwitch.isHidden=true
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
-//        if topEndBlankSwitch.isOn==true{
-            if let soundUrl = URL(string:
-                                    "/System/Library/Audio/UISounds/begin_record.caf"){
-                AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
-                AudioServicesPlaySystemSound(soundIdx)
-            }
-//        }
+
+        if let soundUrl = URL(string:
+                                "/System/Library/Audio/UISounds/begin_record.caf"){
+            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+            AudioServicesPlaySystemSound(soundIdx)
+        }
+        
         motionManager.stopDeviceMotionUpdates()
 
         if fileWriter!.status == .writing {
@@ -1064,14 +1098,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         focusLabel.isHidden=true
         focusBar.isHidden=true
         zoomBar.isHidden=true
-        lightLabel.isHidden=true
-        lightBar.isHidden=true
+        LEDLabel.isHidden=true
+        LEDBar.isHidden=true
         exposeLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         panTapExplanation.isHidden=true
-        topEndBlankLabel.isHidden=true
-        topEndBlankSwitch.isHidden=true
+//        topEndBlankLabel.isHidden=true
+//        topEndBlankSwitch.isHidden=true
         //sensorをリセットし、正面に
 //        motionManager.stopDeviceMotionUpdates()
 //        recordingFlag=true
@@ -1082,7 +1116,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        startButton.isEnabled=false
         currentTime.isHidden=false
 //        exitButton.isHidden=true
-//        topEndBlankSwitch.isHidden=true
+
 //        speakerLabel.isHidden=true
 //        stopButton.alpha=0.02
 //        previewLabel.isHidden=true
@@ -1116,13 +1150,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         focusLabel.isHidden=true
         focusBar.isHidden=true
         zoomBar.isHidden=true
-        lightLabel.isHidden=true
-        lightBar.isHidden=true
+        LEDLabel.isHidden=true
+        LEDBar.isHidden=true
         exposeLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         panTapExplanation.isHidden=true
-        
+        UIScreen.main.brightness = 1
+
         //sensorをリセットし、正面に
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
@@ -1138,8 +1173,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.alpha=0.02
         previewLabel.isHidden=true
         previewSwitch.isHidden=true
-        topEndBlankLabel.isHidden=true
-        topEndBlankSwitch.isHidden=true
+    //    topEndBlankLabel.isHidden=true
+      //  topEndBlankSwitch.isHidden=true
         if cameraType==0 && previewSwitch.isOn==false{
             quaternionView.isHidden=true
             cameraView.isHidden=true
@@ -1150,14 +1185,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         timerCnt=0
         UIApplication.shared.isIdleTimerDisabled = true//スリープしない
         //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-//        if topEndBlankSwitch.isOn==true{
+
         if let soundUrl = URL(string:
                                 
                                 "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
             AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
             AudioServicesPlaySystemSound(soundIdx)
         }
-//        }
+
         fileWriter!.startWriting()
         fileWriter!.startSession(atSourceTime: CMTime.zero)
 //        print(fileWriter?.error)
