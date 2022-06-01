@@ -269,8 +269,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         getCameras()
         camera.makeAlbum()
-        let mainBrightness = UIScreen.main.brightness
-        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+//        let mainBrightness = UIScreen.main.brightness
+//        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
 
         //speakerSwitchは、ipod touchの時に便利
 //        let topEndBlank=camera.getUserDefaultInt(str: "topEndBlank", ret: 0)
@@ -392,7 +392,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            UIScreen.main.brightness = 10*CGFloat(LEDBar.value)
 //            UserDefaults.standard.set(LEDBar.value, forKey: "screenBrightnessValue")
         }else{
-            UIScreen.main.brightness=CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
+//            UIScreen.main.brightness=CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
             setFlashlevel(level: LEDBar.value)
             UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
         }
@@ -1156,8 +1156,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         panTapExplanation.isHidden=true
-        UIScreen.main.brightness = 1
-
+        if cameraType==0{
+            let mainBrightness = UIScreen.main.brightness
+            UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+            UIScreen.main.brightness = 1
+        }
         //sensorをリセットし、正面に
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true

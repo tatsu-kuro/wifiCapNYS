@@ -111,7 +111,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     self.tableView.contentOffset.y=0
                 }
             }
-            UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
+            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
+                UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
+            }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
