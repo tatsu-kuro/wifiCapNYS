@@ -301,7 +301,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setMotion()
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも、30fpsだ！
 
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         //露出はオートの方が良さそう
     
         LEDBar.minimumValue = 0
@@ -401,8 +401,24 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
         timerCnt += 1
-        if recordingFlag==true{//trueになった時 0にリセットされる
-            currentTime.text=String(format:"%01d",timerCnt/60) + ":" + String(format: "%02d",timerCnt%60)
+        if timerCnt == 3{
+            stopButton.isEnabled=true
+            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
+           //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+
+           if let soundUrl = URL(string:
+                                   "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+               AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+               AudioServicesPlaySystemSound(soundIdx)
+           }
+
+           fileWriter!.startWriting()
+           fileWriter!.startSession(atSourceTime: CMTime.zero)
+   //        print(fileWriter?.error)
+           setMotion()
+        }
+        if recordingFlag==true && timerCnt>3{//trueになった時 0にリセットされる
+            currentTime.text=String(format:"%01d",(timerCnt-3)/60) + ":" + String(format: "%02d",(timerCnt-3)%60)
             if timerCnt%2==0{
                 stopButton.tintColor=UIColor.cyan
             }else{
@@ -1093,7 +1109,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
     
-    func             hideButtonsSlides() {
+    func hideButtonsSlides() {
         zoomLabel.isHidden=true
         focusLabel.isHidden=true
         focusBar.isHidden=true
@@ -1161,13 +1177,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
             UIScreen.main.brightness = 1
         }
+        timerCnt=0
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         //sensorをリセットし、正面に
-        motionManager.stopDeviceMotionUpdates()
+//        motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
         //start recording
         startButton.isHidden=true
         stopButton.isHidden=false
-        stopButton.isEnabled=true
+        stopButton.isEnabled=false//timerで３秒後にtrue
         startButton.isEnabled=false
         currentTime.isHidden=false
         exitButton.isHidden=true
@@ -1184,22 +1202,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             currentTime.alpha=0.1
         }
         try? FileManager.default.removeItem(atPath: TempFilePath)
-
-        timerCnt=0
-        UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-        //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-
-        if let soundUrl = URL(string:
-                                
-                                "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
-            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
-            AudioServicesPlaySystemSound(soundIdx)
-        }
-
-        fileWriter!.startWriting()
-        fileWriter!.startSession(atSourceTime: CMTime.zero)
-//        print(fileWriter?.error)
-        setMotion()
+//         UIApplication.shared.isIdleTimerDisabled = true//スリープしない
+//        //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+//
+//        if let soundUrl = URL(string:
+//                                "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+//            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+//            AudioServicesPlaySystemSound(soundIdx)
+//        }
+//
+//        fileWriter!.startWriting()
+//        fileWriter!.startSession(atSourceTime: CMTime.zero)
+////        print(fileWriter?.error)
+//        setMotion()
     }
 
     @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
