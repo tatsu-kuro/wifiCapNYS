@@ -1227,17 +1227,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
             print("doubleTapPlay")
-            
-            if zoomBar.isHidden==true{
-                zoomBar.isHidden=false
-                zoomLabel.isHidden=false
-                focusBar.isHidden=false
-                focusLabel.isHidden=false
-            }else{
-                zoomBar.isHidden=true
-                zoomLabel.isHidden=true
-                focusBar.isHidden=true
-                focusLabel.isHidden=true
+            if setteiMode==true{
+                if zoomBar.isHidden==true{
+                    zoomBar.isHidden=false
+                    zoomLabel.isHidden=false
+                    focusBar.isHidden=false
+                    focusLabel.isHidden=false
+                }else{
+                    zoomBar.isHidden=true
+                    zoomLabel.isHidden=true
+                    focusBar.isHidden=true
+                    focusLabel.isHidden=true
+                }
             }
         }
         tapInterval=CFAbsoluteTimeGetCurrent()
