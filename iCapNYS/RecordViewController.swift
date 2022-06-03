@@ -160,33 +160,28 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     @IBOutlet weak var cameraChangeButton: UIButton!
    
-//    func setBars(){
-//        if cameraType==0 || cameraType==3{
-//            lightBar.value=camera.getUserDefaultFloat(str: "screenBrightnessValue", ret: 1.0)
-//            UIScreen.main.brightness = 10*CGFloat(lightBar.value)
-//            focusBar.value=camera.getUserDefaultFloat(str: "zoomValue", ret: 0)
-//            setZoom(level: focusBar.value)
-////            focusLabel.text = "拡大"
-////            zoomLabel.text = "縮小"
-//        }else{
-//            focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
-//            setFocus(focus: focusBar.value)
-//            lightBar.value=camera.getUserDefaultFloat(str: "ledValue", ret: 0)
-//            setFlashlevel(level: lightBar.value)
-////            focusLabel.text = "遠い"//false
-////            zoomLabel.text = "近い"//isHidden=false
-//        }
-//    }
-    func setZoom(level:Float){//0.0-0.1
-        var zoom=0.017//level*level/4
-        if cameraType==1{
-            zoom=0.007
+    func setBars(){
+        if cameraType==0{
+            zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue0", ret: 0)
+            setZoom(level: zoomBar.value)
+        }else{
+            zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue1", ret: 0)
+            focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
+            setFocus(focus: focusBar.value)
+//            LEDBar.value=camera.getUserDefaultFloat(str: "ledValue", ret: 0)
+//            setFlashlevel(level: LEDBar.value)
         }
+    }
+    func setZoom(level:Float){//0.0-0.1
+//        var zoom=0.017//level*level/4
+//        if cameraType==1{
+//            zoom=0.007
+//        }
         if let device = videoDevice {
         do {
             try device.lockForConfiguration()
                 device.ramp(
-                    toVideoZoomFactor: (device.minAvailableVideoZoomFactor) + CGFloat(zoom) * ((device.maxAvailableVideoZoomFactor) - (device.minAvailableVideoZoomFactor)),
+                    toVideoZoomFactor: (device.minAvailableVideoZoomFactor) + CGFloat(level) * ((device.maxAvailableVideoZoomFactor) - (device.minAvailableVideoZoomFactor)),
                     withRate: 30.0)
             device.unlockForConfiguration()
             } catch {
@@ -328,9 +323,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         focusBar.minimumValue = 0
         focusBar.maximumValue = 1.0
         focusBar.addTarget(self, action: #selector(onFocusValueChange), for: UIControl.Event.valueChanged)
-        focusBar.value=UserDefaults.standard.float(forKey: "focusValue")
-//        onFocusValueChange()
-        setFocus(focus: 0)
+        focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
+        onFocusValueChange()
+//        setFocus(focus: )
         if focusChangeable==false{
             focusBar.isEnabled=false
             focusBar.alpha=0.2
@@ -341,11 +336,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             focusLabel.alpha=1.0
         }
         zoomBar.minimumValue = 0
-        zoomBar.maximumValue = 1.0
+        zoomBar.maximumValue = 0.1
         zoomBar.addTarget(self, action: #selector(onZoomValueChange), for: UIControl.Event.valueChanged)
-        zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue")
-        onZoomValueChange()
-        
+        if cameraType==0{
+            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue0", ret: 0.017)
+        }else{
+            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue1", ret: 0.07)
+        }
+        setZoom(level: zoomBar.value)
         
         exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
         exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
@@ -369,6 +367,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
+        zoomBar.isHidden=true
+        zoomLabel.isHidden=true
+        focusBar.isHidden=true
+        focusLabel.isHidden=true
      }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -377,14 +379,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         return true
     }
     @objc func onZoomValueChange(){
-//        if cameraType == 0 || cameraType==3{
-           if cameraType==0{
-               setZoom(level: zoomBar.value)
-           }else{
-               setZoom(level: zoomBar.value/3)
-           }
-           UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
-//       }
+        if cameraType==0{
+            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue0")
+        }else{
+            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue1")
+        }
+        setZoom(level: zoomBar.value)
     }
     @objc func onLEDValueChange(){
         print("brightness:",LEDBar.value)
@@ -824,17 +824,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         set_rpk_ppk()
         initSession(fps: 60)
         onLEDValueChange()
-        onZoomValueChange()
+//        onZoomValueChange()
         onFocusValueChange()
         if cameraType==0{
+            zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue0")
             LEDBar.alpha=0.3// isHidden=true
             LEDBar.isEnabled=false
             LEDLabel.alpha=0.3// isHidden=true
         }else{
+            zoomBar.value=UserDefaults.standard.float(forKey:"zoomValue1")
             LEDBar.alpha=1// isHidden=false
             LEDBar.isEnabled=true
             LEDLabel.alpha=1//isHidden=false
         }
+        setZoom(level: zoomBar.value)
 //        if focusChangeable==false{
 //            focusBar.isEnabled=false
 //            focusBar.alpha=0.2
@@ -1004,10 +1007,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.white)
         zoomBar.frame = CGRect(x:x0+bw*4+sp*4,y:by,width:bw*2+sp,height: bh)
-        zoomLabel.isHidden=true
-        zoomBar.isHidden=true
-        focusBar.isHidden=true
-        focusLabel.isHidden=true
+//        zoomLabel.isHidden=true
+//        zoomBar.isHidden=true
+//        focusBar.isHidden=true
+//        focusLabel.isHidden=true
         exposeBar.frame = CGRect(x:x0+bw*4+sp*4,y:by1,width:bw*2+sp,height: bh)
         camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
  
@@ -1217,11 +1220,28 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        setMotion()
     }
 
+    var tapInterval=CFAbsoluteTimeGetCurrent()
     @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
         if recordingFlag==true{
             return
         }
-       
+        if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
+            print("doubleTapPlay")
+            
+            if zoomBar.isHidden==true{
+                zoomBar.isHidden=false
+                zoomLabel.isHidden=false
+                focusBar.isHidden=false
+                focusLabel.isHidden=false
+            }else{
+                zoomBar.isHidden=true
+                zoomLabel.isHidden=true
+                focusBar.isHidden=true
+                focusLabel.isHidden=true
+            }
+        }
+        tapInterval=CFAbsoluteTimeGetCurrent()
+        
         setMotion()
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
