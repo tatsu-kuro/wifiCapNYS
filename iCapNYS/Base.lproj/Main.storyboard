@@ -71,7 +71,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Klw-oJ-YEV" kind="unwind" unwindAction="unwindActionWithSegue:" id="JSX-X0-TGm"/>
+                                    <segue destination="Klw-oJ-YEV" kind="unwind" identifier="fromAutoRecord" unwindAction="unwindActionWithSegue:" id="JSX-X0-TGm"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jwF-gy-6qN">
