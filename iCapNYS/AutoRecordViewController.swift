@@ -23,25 +23,28 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         if timer?.isValid == true {
             timer!.invalidate()
         }
+        if movieTimer?.isValid == true{
+            movieTimer!.invalidate()
+        }
     }
     var soundPlayer: AVAudioPlayer?
     var videoPlayer: AVPlayer!
-
+    
     func sound(snd:String){
         if let sound = NSDataAsset(name: snd) {
             soundPlayer = try? AVAudioPlayer(data: sound.data)
             soundPlayer?.play() // → これで音が鳴る
         }
     }
-  
-     func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
-         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
-             return UserDefaults.standard.integer(forKey:str)
-         }else{
-             UserDefaults.standard.set(ret, forKey: str)
-             return ret
-         }
-     }
+    
+    func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
+        if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
+            return UserDefaults.standard.integer(forKey:str)
+        }else{
+            UserDefaults.standard.set(ret, forKey: str)
+            return ret
+        }
+    }
     
     var leftPadding:CGFloat=0// =CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
     var rightPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
@@ -90,6 +93,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var quater3:Double=0
     var readingFlag = false
     var timer:Timer?
+    var movieTimer:Timer?
     var tapFlag:Bool=false//??
     var flashFlag=false
     
@@ -128,48 +132,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         videoView.layer.addSublayer(layer)
         videoPlayer.play()
     }
- /*
-
-  override func viewDidLoad() {
-      super.viewDidLoad()
-//        sound(snd: "spon2m4a")
-//        guard let path = Bundle.main.path(forResource: "spon1mov", ofType: "mov") else {
-//  fatalError("Movie file can not find.")
-//          }
-      
-      let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
-      let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
-      let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
-      let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))/2
-      let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
-      let wh:CGFloat=view.bounds.height-topPadding-bottomPadding
-      let sp=ww/120//間隙
-      let bw=(ww-sp*10)/7//ボタン幅
-      let bh=bw*170/440
-//        let by=wh-bh-sp
-//        let by1=wh-(bh+sp)*2+1.5*sp
-//        let x0=leftPadding+sp*2
-
-      
-      
-      
-      
-      guard let url = Bundle.main.url(forResource: "spon1mov", withExtension: "mov") else {
-          print("Url is nil")
-          return
-      }
-      
-      videoPlayer = AVPlayer(url: url)
-      let layer = AVPlayerLayer()
-      layer.videoGravity = AVLayerVideoGravity.resizeAspect
-      layer.player = videoPlayer
-      print(self.view.bounds,":",view.bounds)
-      layer.frame = self.view.bounds
-      self.view.layer.addSublayer(layer)
-  */
-    
-    
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
       
@@ -180,6 +143,9 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
         playMoviePath("spon1mov")
+        movieTimerCnt=0
+        movieTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.movieUpdate), userInfo: nil, repeats: true)
+
         getCameras()
         camera.makeAlbum()
     
@@ -454,6 +420,10 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        }
         ultrawideCamera=false
         telephotoCamera=false
+    }
+    var movieTimerCnt:Int=0
+    @objc func movieUpdate(tm: Timer){
+        
     }
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
