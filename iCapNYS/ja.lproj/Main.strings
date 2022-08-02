@@ -15,7 +15,7 @@
 "GaH-k7-GlQ.normalTitle" = "Exit";
 
 /* Class = "UIButton"; normalTitle = "Help"; ObjectID = "IwN-Th-8hI"; */
-"IwN-Th-8hI.normalTitle" = "Help";
+"IwN-Th-8hI.normalTitle" = "使い方";
 
 /* Class = "UILabel"; text = "zoom"; ObjectID = "LNl-JF-QcN"; */
 "LNl-JF-QcN.text" = "zoom";
@@ -27,7 +27,7 @@
 "U5M-bG-o5r.text" = "focus";
 
 /* Class = "UIButton"; normalTitle = "Setting"; ObjectID = "VOs-bS-GtU"; */
-"VOs-bS-GtU.normalTitle" = "Setting";
+"VOs-bS-GtU.normalTitle" = "設定";
 
 /* Class = "UIButton"; configuration.title = "Exit"; ObjectID = "Wk2-Cg-LBI"; */
 "Wk2-Cg-LBI.configuration.title" = "Exit";

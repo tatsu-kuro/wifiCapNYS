@@ -16,6 +16,8 @@ import Photos
 import AssetsLibrary
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+    
+    @IBOutlet weak var autoRecordButton: UIButton!
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let albumName:String = "iCapNYS"
@@ -30,6 +32,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         didSet {
             tableView?.reloadData()
         }
+    }
+    
+    @IBAction func onAutoRecordButton(_ sender: Any) {
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

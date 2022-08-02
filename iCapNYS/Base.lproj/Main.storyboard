@@ -47,6 +47,60 @@
             </objects>
             <point key="canvasLocation" x="-918" y="268"/>
         </scene>
+        <!--Auto Record View Controller-->
+        <scene sceneID="ePb-2k-c2X">
+            <objects>
+                <viewController storyboardIdentifier="AUTORECORD" id="eLE-eW-PfH" customClass="AutoRecordViewController" customModule="iCapNYS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="etA-LD-VK4">
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ssz-4b-qV7">
+                                <rect key="frame" x="469" y="35" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="us7-si-304">
+                                <rect key="frame" x="457" y="238" width="67" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jwF-gy-6qN">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G1k-kV-s9j">
+                                <rect key="frame" x="0.0" y="141" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eSe-VF-lzX">
+                                <rect key="frame" x="133" y="141" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o5a-jU-Tn3">
+                                <rect key="frame" x="133" y="0.0" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Vjs-aY-gCZ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="cameraView" destination="G1k-kV-s9j" id="16h-Is-DDe"/>
+                        <outlet property="currentTime" destination="Ssz-4b-qV7" id="fnS-AM-aSF"/>
+                        <outlet property="exitButton" destination="us7-si-304" id="MJm-kp-TI7"/>
+                        <outlet property="quaternionView" destination="o5a-jU-Tn3" id="9GS-wa-giD"/>
+                        <outlet property="videoView" destination="eSe-VF-lzX" id="pbn-G6-MoR"/>
+                        <outlet property="whiteView" destination="jwF-gy-6qN" id="KAd-hX-JEh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jAl-9X-T1h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="651" y="-378"/>
+        </scene>
         <!--Record View Controller-->
         <scene sceneID="4IL-9P-CKU">
             <objects>
@@ -377,6 +431,15 @@ Pan up or down anywhere to move the buttons.</string>
                                     <action selector="onSetteiButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HiL-mw-6QS"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lth-wy-b4C">
+                                <rect key="frame" x="406" y="12" width="67" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="onAutoRecordButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nxx-Jt-o4I"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -384,6 +447,7 @@ Pan up or down anywhere to move the buttons.</string>
                     </view>
                     <navigationItem key="navigationItem" id="fJU-H7-qud"/>
                     <connections>
+                        <outlet property="autoRecordButton" destination="lth-wy-b4C" id="RKE-ZL-ZmE"/>
                         <outlet property="cameraButton" destination="1km-Jh-hmY" id="uJO-XE-73f"/>
                         <outlet property="how2Button" destination="IwN-Th-8hI" id="e7H-zu-JVL"/>
                         <outlet property="setteiButton" destination="VOs-bS-GtU" id="Utm-tP-tzA"/>
