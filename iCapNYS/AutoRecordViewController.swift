@@ -719,8 +719,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         let sp=realWinWidth/120//間隙
         let bw=(realWinWidth-sp*10)/7//ボタン幅
         let bh=bw*170/440
-        let by1=realWinHeight-bh-sp-height
-        let by=realWinHeight-(bh+sp)*2-height
+//        let by1=realWinHeight-bh-sp-height
+//        let by=realWinHeight-(bh+sp)*2-height
 //        let by2=realWinHeight-(bh+sp)*2.5-height
         let x0=leftPadding+sp*2
         
@@ -756,7 +756,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
-//        topEndBlankSwitch.frame = CGRect(x:leftPadding+realWinHeight/5+2*sp+20,y:sp,width:switchWidth,height:bh)
+ //        topEndBlankSwitch.frame = CGRect(x:leftPadding+realWinHeight/5+2*sp+20,y:sp,width:switchWidth,height:bh)
 //        topEndBlankLabel.frame = CGRect(x:topEndBlankSwitch.frame.maxX+sp,y:sp+switchHeight/2-bh/2,width:realWinWidth,height: bh)
 
         
@@ -782,6 +782,109 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        }
 //        topEndBlankLabel.isHidden=true
 //        topEndBlankSwitch.isHidden=true
+    }
+    
+    //debug用、AVAssetWriterの状態を見るため、そのうち消去
+    func printWriterStatus(writer: AVAssetWriter) {
+        print("recordingFlag=", recordingFlag)
+        switch writer.status {
+        case .unknown :
+            print("unknown")
+        case .writing :
+            print("writing")
+        case .completed :
+            print("completed")
+        case .failed :
+            print("failed")
+        case .cancelled :
+            print("cancelled")
+        default :
+            print("default")
+        }
+    }
+    func monoChromeFilter(_ input: CIImage, intensity: Double) -> CIImage? {
+        let ciFilter:CIFilter = CIFilter(name: "CIColorMonochrome")!
+        ciFilter.setValue(input, forKey: kCIInputImageKey)
+        ciFilter.setValue(CIColor(red: intensity, green: intensity, blue: intensity), forKey: "inputColor")
+        ciFilter.setValue(1.0, forKey: "inputIntensity")
+        return ciFilter.outputImage
+      }
+    func sepiaFilter(_ input: CIImage, intensity: Double) -> CIImage? {
+          let sepiaFilter = CIFilter(name: "CISepiaTone")
+          sepiaFilter?.setValue(input, forKey: kCIInputImageKey)
+          sepiaFilter?.setValue(intensity, forKey: kCIInputIntensityKey)
+          return sepiaFilter?.outputImage
+       }
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+     
+        if fileWriter.status == .writing && startTimeStamp == 0 {
+            startTimeStamp = sampleBuffer.outputPresentationTimeStamp.value
+        }
+
+        //全部UIImageで処理してるが、これでは遅いので全てCIImageで処理するように書き換えたほうがよさそう
+        guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            //フレームが取得できなかった場合にすぐ返る
+            print("unable to get image from sample buffer")
+            return
+        }
+        //backCamera->.right  frontCamera->.left
+        let frameCIImage = cameraType==0 ? CIImage(cvImageBuffer: frame).oriented(CGImagePropertyOrientation.right):CIImage(cvImageBuffer: frame).oriented(CGImagePropertyOrientation.left)
+        let matrix1 = CGAffineTransform(rotationAngle: -1*CGFloat.pi/2)
+//        let matrix = CGAffineTransform(scaleX: -1.5, y: 2.0)
+        //width:1280と設定しているが？
+        //width:1920で飛んで来ている
+          let matrix2 = CGAffineTransform(translationX: 0, y: CGFloat(1080))
+//        let matrix2 = CGAffineTransform(translationX: 0, y: CGFloat(iCapNYSWidth))
+        //2つのアフィンを組み合わせ
+        let matrix = matrix1.concatenating(matrix2);
+        
+        let rotatedCIImage = monoChromeFilter(frameCIImage.transformed(by: matrix),intensity: 0.9)
+        
+//        print(rotatedCIImage.cgImage?.width)
+//        print("width*height",frameCIImage.extent.width,frameCIImage.extent.height)
+//        print("width*height",rotatedCIImage.cgImage?.width ?? <#default value#>! as Any,rotatedCIImage.cgImage??.height)
+        readingFlag=true
+        let qCG0=CGFloat(quater0)
+        let qCG1=CGFloat(quater1)
+        let qCG2=CGFloat(quater2)
+        let qCG3=CGFloat(quater3)
+//        print(quater0,quater1,quater2,quater3)
+
+        readingFlag=false
+        
+//        let quaterImage = drawHead(width: 130, height: 130, radius: 50+10,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+        let quaterImage = drawHead(width: realWinHeight/2.5, height: realWinHeight/2.5, radius: realWinHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+        DispatchQueue.main.async {
+          self.quaternionView.image = quaterImage
+          self.quaternionView.setNeedsLayout()
+        }
+        //frameの時間計算, sampleBufferの時刻から算出
+        let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - startTimeStamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
+        let frameUIImage = UIImage(ciImage: rotatedCIImage!)
+//        print(frameUIImage.size.width,frameUIImage.size.height)
+//        let iCapNYSH=CGFloat(iCapNYSHeight)
+//        let iCapNYSW=CGFloat(iCapNYSWidth)
+        UIGraphicsBeginImageContext(CGSize(width: iCapNYSWidthF, height: iCapNYSHeightF))
+        frameUIImage.draw(in: CGRect(x:0, y:0, width:iCapNYSWidthF, height: iCapNYSHeightF))
+        //let r=view.bounds.height/view.bounds.width
+//        let r=iCapNYSH/iCapNYSW
+        quaterImage.draw(in: CGRect(x:iCapNYSWidthF120, y:iCapNYSWidthF120, width:iCapNYSHeightF5,height: iCapNYSHeightF5))
+        //写真で再生すると左上の頭位アニメが隠れてしまうので、中央右にも表示。
+//        quaterImage.draw(in: CGRect(x:0/*CGFloat(iCapNYSHeight)-quaterImage.size.width*/, y:CGFloat(iCapNYSWidth)*3/4, width:quaterImage.size.width, height:quaterImage.size.height))
+        let renderedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        let renderedBuffer = (renderedImage?.toCVPixelBuffer())!
+//        print(String(format:"%.5f,%.5f,%.5f,%.5f",quater0,quater1,quater2,quater3))
+//        printWriterStatus(writer: fileWriter)
+        if (recordingFlag == true && startTimeStamp != 0 && fileWriter!.status == .writing) {
+            if fileWriterInput?.isReadyForMoreMediaData != nil{
+                //for speed check
+                fileWriterAdapter.append(renderedBuffer, withPresentationTime: frameTime)
+            }
+        } else {
+            //print("not writing")
+        }
     }
 }
 /*
@@ -1427,108 +1530,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
  //    }
   //   let shutterSpeed = CMTimeMake(1, 400)
   //   device.setExposureModeCustom(duration: shutterSpeed, iso: 800, completionHandler: nil)
-     //debug用、AVAssetWriterの状態を見るため、そのうち消去
-     func printWriterStatus(writer: AVAssetWriter) {
-         print("recordingFlag=", recordingFlag)
-         switch writer.status {
-         case .unknown :
-             print("unknown")
-         case .writing :
-             print("writing")
-         case .completed :
-             print("completed")
-         case .failed :
-             print("failed")
-         case .cancelled :
-             print("cancelled")
-         default :
-             print("default")
-         }
-     }
-     func monoChromeFilter(_ input: CIImage, intensity: Double) -> CIImage? {
-         let ciFilter:CIFilter = CIFilter(name: "CIColorMonochrome")!
-         ciFilter.setValue(input, forKey: kCIInputImageKey)
-         ciFilter.setValue(CIColor(red: intensity, green: intensity, blue: intensity), forKey: "inputColor")
-         ciFilter.setValue(1.0, forKey: "inputIntensity")
-         return ciFilter.outputImage
-       }
-     func sepiaFilter(_ input: CIImage, intensity: Double) -> CIImage? {
-           let sepiaFilter = CIFilter(name: "CISepiaTone")
-           sepiaFilter?.setValue(input, forKey: kCIInputImageKey)
-           sepiaFilter?.setValue(intensity, forKey: kCIInputIntensityKey)
-           return sepiaFilter?.outputImage
-        }
-     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-      
-         if fileWriter.status == .writing && startTimeStamp == 0 {
-             startTimeStamp = sampleBuffer.outputPresentationTimeStamp.value
-         }
-
-         //全部UIImageで処理してるが、これでは遅いので全てCIImageで処理するように書き換えたほうがよさそう
-         guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-             //フレームが取得できなかった場合にすぐ返る
-             print("unable to get image from sample buffer")
-             return
-         }
-         //backCamera->.right  frontCamera->.left
-         let frameCIImage = cameraType==0 ? CIImage(cvImageBuffer: frame).oriented(CGImagePropertyOrientation.right):CIImage(cvImageBuffer: frame).oriented(CGImagePropertyOrientation.left)
-         let matrix1 = CGAffineTransform(rotationAngle: -1*CGFloat.pi/2)
- //        let matrix = CGAffineTransform(scaleX: -1.5, y: 2.0)
-         //width:1280と設定しているが？
-         //width:1920で飛んで来ている
-           let matrix2 = CGAffineTransform(translationX: 0, y: CGFloat(1080))
- //        let matrix2 = CGAffineTransform(translationX: 0, y: CGFloat(iCapNYSWidth))
-         //2つのアフィンを組み合わせ
-         let matrix = matrix1.concatenating(matrix2);
-         
-         let rotatedCIImage = monoChromeFilter(frameCIImage.transformed(by: matrix),intensity: 0.9)
-         
- //        print(rotatedCIImage.cgImage?.width)
- //        print("width*height",frameCIImage.extent.width,frameCIImage.extent.height)
- //        print("width*height",rotatedCIImage.cgImage?.width ?? <#default value#>! as Any,rotatedCIImage.cgImage??.height)
-         readingFlag=true
-         let qCG0=CGFloat(quater0)
-         let qCG1=CGFloat(quater1)
-         let qCG2=CGFloat(quater2)
-         let qCG3=CGFloat(quater3)
- //        print(quater0,quater1,quater2,quater3)
-
-         readingFlag=false
-         
- //        let quaterImage = drawHead(width: 130, height: 130, radius: 50+10,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
-         let quaterImage = drawHead(width: realWinHeight/2.5, height: realWinHeight/2.5, radius: realWinHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
-         DispatchQueue.main.async {
-           self.quaternionView.image = quaterImage
-           self.quaternionView.setNeedsLayout()
-         }
-         //frameの時間計算, sampleBufferの時刻から算出
-         let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - startTimeStamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
-         let frameUIImage = UIImage(ciImage: rotatedCIImage!)
- //        print(frameUIImage.size.width,frameUIImage.size.height)
- //        let iCapNYSH=CGFloat(iCapNYSHeight)
- //        let iCapNYSW=CGFloat(iCapNYSWidth)
-         UIGraphicsBeginImageContext(CGSize(width: iCapNYSWidthF, height: iCapNYSHeightF))
-         frameUIImage.draw(in: CGRect(x:0, y:0, width:iCapNYSWidthF, height: iCapNYSHeightF))
-         //let r=view.bounds.height/view.bounds.width
- //        let r=iCapNYSH/iCapNYSW
-         quaterImage.draw(in: CGRect(x:iCapNYSWidthF120, y:iCapNYSWidthF120, width:iCapNYSHeightF5,height: iCapNYSHeightF5))
-         //写真で再生すると左上の頭位アニメが隠れてしまうので、中央右にも表示。
- //        quaterImage.draw(in: CGRect(x:0/*CGFloat(iCapNYSHeight)-quaterImage.size.width*/, y:CGFloat(iCapNYSWidth)*3/4, width:quaterImage.size.width, height:quaterImage.size.height))
-         let renderedImage = UIGraphicsGetImageFromCurrentImageContext()
-         UIGraphicsEndImageContext()
-         
-         let renderedBuffer = (renderedImage?.toCVPixelBuffer())!
- //        print(String(format:"%.5f,%.5f,%.5f,%.5f",quater0,quater1,quater2,quater3))
- //        printWriterStatus(writer: fileWriter)
-         if (recordingFlag == true && startTimeStamp != 0 && fileWriter!.status == .writing) {
-             if fileWriterInput?.isReadyForMoreMediaData != nil{
-                 //for speed check
-                 fileWriterAdapter.append(renderedBuffer, withPresentationTime: frameTime)
-             }
-         } else {
-             //print("not writing")
-         }
-     }
+ 
  }
 
  extension UIImage {
