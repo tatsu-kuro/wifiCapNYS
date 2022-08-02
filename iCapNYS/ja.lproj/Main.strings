@@ -1,0 +1,51 @@
+
+/* Class = "UILabel"; text = "Insert blank lines at the top and end of the list."; ObjectID = "67v-Uu-qvh"; */
+"67v-Uu-qvh.text" = "Insert blank lines at the top and end of the list.";
+
+/* Class = "UILabel"; text = "Tap anywhere on the screen to reset the HEAD.\nPan up or down anywhere to move the buttons."; ObjectID = "9KR-ld-QTe"; */
+"9KR-ld-QTe.text" = "Tap anywhere on the screen to reset the HEAD.\nPan up or down anywhere to move the buttons.";
+
+/* Class = "UIButton"; configuration.title = "Button"; ObjectID = "FoA-QF-6Jk"; */
+"FoA-QF-6Jk.configuration.title" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "FoA-QF-6Jk"; */
+"FoA-QF-6Jk.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "GaH-k7-GlQ"; */
+"GaH-k7-GlQ.normalTitle" = "Exit";
+
+/* Class = "UIButton"; normalTitle = "Help"; ObjectID = "IwN-Th-8hI"; */
+"IwN-Th-8hI.normalTitle" = "Help";
+
+/* Class = "UILabel"; text = "zoom"; ObjectID = "LNl-JF-QcN"; */
+"LNl-JF-QcN.text" = "zoom";
+
+/* Class = "UILabel"; text = "MonoChrome"; ObjectID = "LyS-zd-GKa"; */
+"LyS-zd-GKa.text" = "MonoChrome";
+
+/* Class = "UILabel"; text = "focus"; ObjectID = "U5M-bG-o5r"; */
+"U5M-bG-o5r.text" = "focus";
+
+/* Class = "UIButton"; normalTitle = "Setting"; ObjectID = "VOs-bS-GtU"; */
+"VOs-bS-GtU.normalTitle" = "Setting";
+
+/* Class = "UIButton"; configuration.title = "Exit"; ObjectID = "Wk2-Cg-LBI"; */
+"Wk2-Cg-LBI.configuration.title" = "Exit";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Wk2-Cg-LBI"; */
+"Wk2-Cg-LBI.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "expose"; ObjectID = "bA5-Rt-Jv6"; */
+"bA5-Rt-Jv6.text" = "expose";
+
+/* Class = "UILabel"; text = "0:00"; ObjectID = "eJp-tL-Pfc"; */
+"eJp-tL-Pfc.text" = "0:00";
+
+/* Class = "UILabel"; text = "Preview"; ObjectID = "ek5-zF-XSc"; */
+"ek5-zF-XSc.text" = "Preview";
+
+/* Class = "UILabel"; text = "LED"; ObjectID = "sYh-14-k4L"; */
+"sYh-14-k4L.text" = "LED";
+
+/* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "swt-4C-G4l"; */
+"swt-4C-G4l.normalTitle" = "Exit";

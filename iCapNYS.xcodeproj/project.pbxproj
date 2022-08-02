@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		693CD7D927852F8900F8008B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 693CD7DB27852F8900F8008B /* InfoPlist.strings */; };
 		6945B1A725EB207400A52272 /* myFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945B1A625EB207400A52272 /* myFunctions.swift */; };
 		6945E7D92519145F00E16DDB /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7D82519145F00E16DDB /* RecordViewController.swift */; };
 		6945E7DC25196C3600E16DDB /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7DB25196C3600E16DDB /* PlayViewController.swift */; };
@@ -21,12 +20,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		693C02882805ABC700BD4747 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/Main.storyboard; sourceTree = "<group>"; };
-		693CD7DA27852F8900F8008B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6945B1A625EB207400A52272 /* myFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myFunctions.swift; sourceTree = "<group>"; };
 		6945E7D82519145F00E16DDB /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		6945E7DB25196C3600E16DDB /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
 		6961FBEA257E756D004B6A8C /* How2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How2ViewController.swift; sourceTree = "<group>"; };
+		69A8FDE828992945001F1483 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		69E2288E251834490004E53C /* iCapNYS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCapNYS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E22891251834490004E53C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69E22893251834490004E53C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,7 +49,6 @@
 		698A192E2785BFFD004C4CE9 /*  ja.lproj */ = {
 			isa = PBXGroup;
 			children = (
-				693CD7DB27852F8900F8008B /* InfoPlist.strings */,
 			);
 			path = " ja.lproj";
 			sourceTree = "<group>";
@@ -150,7 +147,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				69E2289E2518344C0004E53C /* LaunchScreen.storyboard in Resources */,
-				693CD7D927852F8900F8008B /* InfoPlist.strings in Resources */,
 				69E2289B2518344C0004E53C /* Assets.xcassets in Resources */,
 				69E22899251834490004E53C /* Main.storyboard in Resources */,
 			);
@@ -176,19 +172,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		693CD7DB27852F8900F8008B /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				693CD7DA27852F8900F8008B /* ja */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		69E22897251834490004E53C /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				69E22898251834490004E53C /* Base */,
-				693C02882805ABC700BD4747 /* ja */,
+				69A8FDE828992945001F1483 /* ja */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
