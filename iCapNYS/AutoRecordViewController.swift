@@ -118,7 +118,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         -22,-26,0, -23,-25,0, -24,-24,1,//eye dots 3
         -19,32,0, -14,31,0, -9,31,0, -4,31,0, 0,30,0, 4,31,0, 9,31,0, 14,31,0, 19,32,1]//mouse 9
     func playMoviePath(_ url:String){
-        guard let url = Bundle.main.url(forResource: "spon1mov", withExtension: "mov") else {
+        guard let url = Bundle.main.url(forResource: url, withExtension: "mov") else {
             print("Url is nil")
             return
         }
@@ -142,7 +142,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
-        playMoviePath("spon1mov")
+        playMoviePath("spon4mov")
         movieTimerCnt=0
         movieTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.movieUpdate), userInfo: nil, repeats: true)
 
@@ -423,7 +423,16 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     }
     var movieTimerCnt:Int=0
     @objc func movieUpdate(tm: Timer){
-        
+        movieTimerCnt += 1
+        if movieTimerCnt == 10{
+            onClickStartButton()
+        }
+        if movieTimerCnt == 20{
+            onClickStopButton()
+        }
+        print(videoPlayer.timeControlStatus)
+        print(videoPlayer.status)
+        print(videoPlayer.currentTime())
     }
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
@@ -806,6 +815,90 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         } else {
             //print("not writing")
         }
+    }
+    func onClickStopButton() {
+        recordingFlag=false
+
+        if let soundUrl = URL(string:
+                                "/System/Library/Audio/UISounds/begin_record.caf"){
+            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+            AudioServicesPlaySystemSound(soundIdx)
+        }
+        
+        motionManager.stopDeviceMotionUpdates()
+
+        if fileWriter!.status == .writing {
+            fileWriter!.finishWriting {
+                debugPrint("trying to finish")
+                return
+            }
+            while fileWriter!.status == .writing {
+                sleep(UInt32(0.1))
+            }
+            debugPrint("done!!")
+        }
+        
+        if FileManager.default.fileExists(atPath: TempFilePath){
+            print("tempFileExists")
+        }
+        let fileURL = URL(fileURLWithPath: TempFilePath)
+        if camera.albumExists()==true{
+            PHPhotoLibrary.shared().performChanges({ [self] in
+                //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
+                let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
+                let albumChangeRequest = PHAssetCollectionChangeRequest(for:camera.getPHAssetcollection())
+                let placeHolder = assetRequest.placeholderForCreatedAsset
+                albumChangeRequest?.addAssets([placeHolder!] as NSArray)
+                //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
+                print("file add to album")
+            }) { [self] (isSuccess, error) in
+                if isSuccess {
+                    // 保存した画像にアクセスする為のimageIDを返却
+                    //completionBlock(imageID)
+                    print("success")
+                    self.saved2album=true
+                } else {
+                    //failureBlock(error)
+                    print("fail")
+                    //                print(error)
+                    self.saved2album=true
+                }
+            }
+        }else{
+            //アプリ起動中にアルバムを削除して録画するとここを通る。
+//            stopButton.isHidden=true
+            //と変更することで、Exitボタンで帰った状態にする。
+        }
+        motionManager.stopDeviceMotionUpdates()
+        captureSession.stopRunning()
+        killTimer()
+        while saved2album==false{
+            sleep(UInt32(0.1))
+        }
+        performSegue(withIdentifier: "fromAutoRecord", sender: self)
+    }
+    func onClickStartButton() {
+          if cameraType==0{
+            let mainBrightness = UIScreen.main.brightness
+            UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+            UIScreen.main.brightness = 1
+        }
+//        timerCnt=0
+//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        //sensorをリセットし、正面に
+        motionManager.stopDeviceMotionUpdates()
+        recordingFlag=true
+        //start recording
+          exitButton.isHidden=true
+//        topEndBlankSwitch.isHidden=true
+//        speakerLabel.isHidden=true
+     //    topEndBlankLabel.isHidden=true
+      //  topEndBlankSwitch.isHidden=true
+             quaternionView.isHidden=true
+            cameraView.isHidden=true
+            currentTime.alpha=0.1
+         try? FileManager.default.removeItem(atPath: TempFilePath)
+
     }
 }
 
