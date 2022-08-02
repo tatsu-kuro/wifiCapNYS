@@ -412,12 +412,12 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var telephotoCamera:Bool=false
     var ultrawideCamera:Bool=false
     func getCameras(){//wideAngleCameraのみ使用
-//        if AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) != nil{
-//            ultrawideCamera=true
-//        }
-//        if AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) != nil{
-//            telephotoCamera=true
-//        }
+        //        if AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) != nil{
+        //            ultrawideCamera=true
+        //        }
+        //        if AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) != nil{
+        //            telephotoCamera=true
+        //        }
         ultrawideCamera=false
         telephotoCamera=false
     }
@@ -430,42 +430,39 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         if movieTimerCnt == 20{
             onClickStopButton()
         }
-        print(videoPlayer.timeControlStatus)
-        print(videoPlayer.status)
-        print(videoPlayer.currentTime())
     }
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
         timerCnt += 1
         if timerCnt == 3{
-//            stopButton.isEnabled=true
+            //            stopButton.isEnabled=true
             UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-           //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-
-           if let soundUrl = URL(string:
-                                   "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
-               AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
-               AudioServicesPlaySystemSound(soundIdx)
-           }
-
-           fileWriter!.startWriting()
-           fileWriter!.startSession(atSourceTime: CMTime.zero)
-   //        print(fileWriter?.error)
-           setMotion()
+            //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            
+            if let soundUrl = URL(string:
+                                    "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+                AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+                AudioServicesPlaySystemSound(soundIdx)
+            }
+            
+            fileWriter!.startWriting()
+            fileWriter!.startSession(atSourceTime: CMTime.zero)
+            //        print(fileWriter?.error)
+            setMotion()
         }
         if recordingFlag==true && timerCnt>3{//trueになった時 0にリセットされる
             currentTime.text=String(format:"%01d",(timerCnt-3)/60) + ":" + String(format: "%02d",(timerCnt-3)%60)
             if timerCnt%2==0{
-//                stopButton.tintColor=UIColor.cyan
+                //                stopButton.tintColor=UIColor.cyan
             }else{
-//                stopButton.tintColor=UIColor.yellow// red
+                //                stopButton.tintColor=UIColor.yellow// red
             }
         }
         if timerCnt > 60*5{
             motionManager.stopDeviceMotionUpdates()//tuika
             if recordingFlag==true{
                 killTimer()
-//                onClickStopButton(0)
+                //                onClickStopButton(0)
             }else{
                 killTimer()
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
@@ -483,24 +480,24 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             //            self.gyro.append(CFAbsoluteTimeGetCurrent())
             //            self.gyro.append(motion.rotationRate.y)//
             while self.readingFlag==true{
-//                sleep(UInt32(0.1))
+                //                sleep(UInt32(0.1))
                 usleep(1000)//0.001sec
             }
             let quat = motion.attitude.quaternion
             
             let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
-
+            
             if landscapeSide==0{
-            self.quater0 = quat.w
-            self.quater1 = -quat.y
-            self.quater2 = -quat.z
-            self.quater3 = quat.x
+                self.quater0 = quat.w
+                self.quater1 = -quat.y
+                self.quater2 = -quat.z
+                self.quater3 = quat.x
             }else{
                 self.quater0 = quat.w
                 self.quater1 = quat.y
                 self.quater2 = -quat.z
                 self.quater3 = -quat.x
-
+                
             }
             //degreeAtResetHead:モーションセンサーをリセットするときに-1とする。リセット時に-1なら,角度から０か１をセット
             //drawHeadで顔を描くとき利用する。
@@ -516,9 +513,9 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ
         cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-
+        
         if cameraType == 0{
-        videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)//.back)
+            videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)//.back)
         }else if cameraType==1{
             videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
         }else if cameraType==2{
@@ -528,7 +525,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         }
         
         let videoInput = try! AVCaptureDeviceInput.init(device: videoDevice!)
-
+        
         if setVideoFormat(desiredFps: fps)==false{
             print("error******")
         }else{
@@ -538,11 +535,11 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         captureSession = AVCaptureSession()
         captureSession.addInput(videoInput)
         
-//        // 音声のインプット設定
-//        let audioDevice: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.audio)
-//        let audioInput = try! AVCaptureDeviceInput(device: audioDevice!)
-//        captureSession.addInput(audioInput)
-//以上のようなことは出来そうにない
+        //        // 音声のインプット設定
+        //        let audioDevice: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.audio)
+        //        let audioInput = try! AVCaptureDeviceInput(device: audioDevice!)
+        //        captureSession.addInput(audioInput)
+        //以上のようなことは出来そうにない
         // プレビュー出力設定
         whiteView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
         cameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
@@ -567,7 +564,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             videoLayer.connection?.videoOrientation = AVCaptureVideoOrientation.landscapeLeft
         }
         cameraView.layer.addSublayer(videoLayer)
-
+        
         // VideoDataOutputを作成、startRunningするとそれ以降delegateが呼ばれるようになる。
         let videoDataOutput: AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
         videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey : kCVPixelFormatType_32BGRA] as [String : Any]
@@ -883,9 +880,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
             UIScreen.main.brightness = 1
         }
-//        timerCnt=0
-//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        //sensorをリセットし、正面に
+        
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
         //start recording
@@ -898,6 +893,38 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             cameraView.isHidden=true
             currentTime.alpha=0.1
          try? FileManager.default.removeItem(atPath: TempFilePath)
+
+        UIApplication.shared.isIdleTimerDisabled = true//スリープしない
+       //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+
+       if let soundUrl = URL(string:
+                               "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+           AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+           AudioServicesPlaySystemSound(soundIdx)
+       }
+
+       fileWriter!.startWriting()
+       fileWriter!.startSession(atSourceTime: CMTime.zero)
+//        print(fileWriter?.error)
+       setMotion()
+        
+        
+        
+//        timerCnt=0
+//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        //sensorをリセットし、正面に
+//        motionManager.stopDeviceMotionUpdates()
+//        recordingFlag=true
+//        //start recording
+//          exitButton.isHidden=true
+////        topEndBlankSwitch.isHidden=true
+////        speakerLabel.isHidden=true
+//     //    topEndBlankLabel.isHidden=true
+//      //  topEndBlankSwitch.isHidden=true
+//             quaternionView.isHidden=true
+//            cameraView.isHidden=true
+//            currentTime.alpha=0.1
+//         try? FileManager.default.removeItem(atPath: TempFilePath)
 
     }
 }

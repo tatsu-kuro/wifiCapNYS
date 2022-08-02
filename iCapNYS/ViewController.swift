@@ -124,9 +124,36 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
+        }else if let vc = segue.source as? AutoRecordViewController{
+            let Controller:AutoRecordViewController = vc
+            //            if Controller.stopButton.isHidden==true{//Exit
+            //                print("Exit / not recorded")
+            //            }else{
+            Controller.killTimer()//念の為
+            print("Exit / Auto recorded")
+            if someFunctions.videoPHAsset.count<5{
+                someFunctions.getAlbumAssets()
+                print("count<5")
+            }else{
+                someFunctions.getAlbumAssets_last()
+                print("count>4")
+            }
+            UserDefaults.standard.set(0,forKey: "contentOffsetY")
+            DispatchQueue.main.async { [self] in
+                self.tableView.contentOffset.y=0
+                self.tableView.reloadData()//こちらだけこれが必要なのはどうして
+            }
+            //            }
+            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
+                UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
+            }
+            print("segue:","\(segue.identifier!)")
+            Controller.motionManager.stopDeviceMotionUpdates()
+            Controller.captureSession.stopRunning()
         }
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         print("unwind")
+        
     }
     
     func camera_alert(){
@@ -140,7 +167,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         } else {
             // フォトライブラリに写真を保存するなど、実施したいことをここに書く
         }
-
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -163,7 +190,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         //初回起動時にdefaultを設定
         let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
         let topEndBlank=0//someFunctions.getUserDefaultInt(str: "topEndBlank", ret: 0)
-       
+        
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
     }
     
