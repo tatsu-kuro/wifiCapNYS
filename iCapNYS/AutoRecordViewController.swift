@@ -24,7 +24,15 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             timer!.invalidate()
         }
     }
-    
+    var soundPlayer: AVAudioPlayer?
+    var videoPlayer: AVPlayer!
+
+    func sound(snd:String){
+        if let sound = NSDataAsset(name: snd) {
+            soundPlayer = try? AVAudioPlayer(data: sound.data)
+            soundPlayer?.play() // → これで音が鳴る
+        }
+    }
   
      func getUserDefault(str:String,ret:Int) -> Int{//getUserDefault_one
          if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
@@ -105,7 +113,63 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         22,-26,0, 23,-25,0, 24,-24,1,//eye dots 3
         -22,-26,0, -23,-25,0, -24,-24,1,//eye dots 3
         -19,32,0, -14,31,0, -9,31,0, -4,31,0, 0,30,0, 4,31,0, 9,31,0, 14,31,0, 19,32,1]//mouse 9
- 
+    func playMoviePath(_ url:String){
+        guard let url = Bundle.main.url(forResource: "spon1mov", withExtension: "mov") else {
+            print("Url is nil")
+            return
+        }
+        videoPlayer = AVPlayer(url: url)
+        let layer = AVPlayerLayer()
+        layer.videoGravity = AVLayerVideoGravity.resizeAspect
+        layer.player = videoPlayer
+        print(self.view.bounds,":",view.bounds)
+        layer.frame = self.view.bounds
+//        self.view.layer.addSublayer(layer)
+        videoView.layer.addSublayer(layer)
+        videoPlayer.play()
+    }
+ /*
+
+  override func viewDidLoad() {
+      super.viewDidLoad()
+//        sound(snd: "spon2m4a")
+//        guard let path = Bundle.main.path(forResource: "spon1mov", ofType: "mov") else {
+//  fatalError("Movie file can not find.")
+//          }
+      
+      let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+      let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+      let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
+      let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))/2
+      let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
+      let wh:CGFloat=view.bounds.height-topPadding-bottomPadding
+      let sp=ww/120//間隙
+      let bw=(ww-sp*10)/7//ボタン幅
+      let bh=bw*170/440
+//        let by=wh-bh-sp
+//        let by1=wh-(bh+sp)*2+1.5*sp
+//        let x0=leftPadding+sp*2
+
+      
+      
+      
+      
+      guard let url = Bundle.main.url(forResource: "spon1mov", withExtension: "mov") else {
+          print("Url is nil")
+          return
+      }
+      
+      videoPlayer = AVPlayer(url: url)
+      let layer = AVPlayerLayer()
+      layer.videoGravity = AVLayerVideoGravity.resizeAspect
+      layer.player = videoPlayer
+      print(self.view.bounds,":",view.bounds)
+      layer.frame = self.view.bounds
+      self.view.layer.addSublayer(layer)
+  */
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
       
@@ -115,7 +179,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
-
+        playMoviePath("spon1mov")
         getCameras()
         camera.makeAlbum()
 //        let mainBrightness = UIScreen.main.brightness
