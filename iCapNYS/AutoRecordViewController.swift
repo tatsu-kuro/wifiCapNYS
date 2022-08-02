@@ -428,7 +428,12 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             onClickStartButton()
         }
         if movieTimerCnt == 20{
+            print("stop")
             onClickStopButton()
+        }
+        if movieTimerCnt == 30{
+            print("performSegue")
+            performSegue(withIdentifier: "fromAutoRecord", sender: self)
         }
     }
     var timerCnt:Int=0
@@ -868,11 +873,11 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         }
         motionManager.stopDeviceMotionUpdates()
         captureSession.stopRunning()
-        killTimer()
+//        killTimer()
         while saved2album==false{
             sleep(UInt32(0.1))
         }
-        performSegue(withIdentifier: "fromAutoRecord", sender: self)
+//        performSegue(withIdentifier: "fromAutoRecord", sender: self)
     }
     func onClickStartButton() {
           if cameraType==0{
