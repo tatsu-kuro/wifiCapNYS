@@ -447,11 +447,13 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             onClickStartButton()
             sound(snd: "spon2m4a",fwd: 12)
             videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
+            
         }
         if movieTimerCnt == 27+22{
             print("stop")
             exitButton.alpha=1.0
             onClickStopButton()
+            
             playMoviePath("spon4mov")
             videoView.frame = self.view.bounds
         }
@@ -693,24 +695,42 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     }
     func setButtons(){
         // recording button
-        let height=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
-//        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
-//        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
-//        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
-//        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
+        
+        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
+        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))/2
+        let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
+        let wh:CGFloat=view.bounds.height-topPadding-bottomPadding
+        let sp=ww/120//間隙
+        let bw=(ww-sp*10)/7//ボタン幅
+        let bh=bw*170/440
+        let by=wh-bh-sp
+        let by0=topPadding+sp
+        let x0=leftPadding+sp*2
+        
+//        let by=wh-bh-sp
+
+//        let height=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
+////        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+////        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
+////        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
+////        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
 //        let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
 //        let wh:CGFloat=view.bounds.height-topPadding-bottomPadding/2
-        let sp=realWinWidth/120//間隙
-        let bw=(realWinWidth-sp*10)/7//ボタン幅
-        let bh=bw*170/440
-        let by1=realWinHeight-bh-sp-height
-//        let by=realWinHeight-(bh+sp)*2-height
+////        let sp=realWinWidth/120//間隙
+//        let sp=ww/120//間隙
+////        let bw=(realWinWidth-sp*10)/7//ボタン幅
+//        let bw=(ww-sp*10)/7//ボタン幅
+//        let bh=bw*170/440
+//        let by1=ww-bh-sp-height
+////        let by=realWinHeight-(bh+sp)*2-height
 //        let by2=realWinHeight-(bh+sp)*2.5-height
 
-        let x0=leftPadding+sp*2
-        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
+//        let x0=leftPadding+sp*2
+        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
 //        exitButton.isHidden=true
-        exitButton.alpha=1.0
+//        exitButton.alpha=1.0
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)

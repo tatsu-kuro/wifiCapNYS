@@ -36,6 +36,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     @IBAction func onAutoRecordButton(_ sender: Any) {
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
+        UserDefaults.standard.set(0, forKey: "cameraType")//set frontcamera
         self.present(nextView, animated: true, completion: nil)
     }
     override func viewDidLayoutSubviews() {
