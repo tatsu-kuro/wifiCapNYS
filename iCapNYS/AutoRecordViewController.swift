@@ -177,7 +177,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         currentTime.isHidden=true
         quaternionView.isHidden=true
         cameraView.isHidden=true
-        exitButton.isHidden=true
+//        exitButton.isHidden=true
      }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -429,9 +429,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         movieTimerCnt += 1
         
         if movieTimerCnt == 1{
-            playMoviePath("sponta")
+             playMoviePath("sponta")
             videoView.frame = self.view.bounds
-            
         }
         if movieTimerCnt == 13{
             videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
@@ -442,15 +441,16 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             quaternionView.isHidden=true
             cameraView.isHidden=true
             videoView.frame = self.view.bounds
-        }
+          }
         if movieTimerCnt == 27{
-   
+            exitButton.alpha=0
             onClickStartButton()
             sound(snd: "spon2m4a",fwd: 12)
             videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
         }
         if movieTimerCnt == 27+22{
             print("stop")
+            exitButton.alpha=1.0
             onClickStopButton()
             playMoviePath("spon4mov")
             videoView.frame = self.view.bounds
@@ -708,8 +708,9 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        let by2=realWinHeight-(bh+sp)*2.5-height
 
         let x0=leftPadding+sp*2
-        camera.setButtonProperty(exitButton,x:x0+bw*5+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
-        exitButton.isHidden=true
+        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
+//        exitButton.isHidden=true
+        exitButton.alpha=1.0
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
@@ -916,15 +917,11 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
         //start recording
-          exitButton.isHidden=true
-//        topEndBlankSwitch.isHidden=true
-//        speakerLabel.isHidden=true
-     //    topEndBlankLabel.isHidden=true
-      //  topEndBlankSwitch.isHidden=true
-             quaternionView.isHidden=true
-            cameraView.isHidden=true
-            currentTime.alpha=0.1
-         try? FileManager.default.removeItem(atPath: TempFilePath)
+        //          exitButton.isHidden=true
+        quaternionView.isHidden=true
+        cameraView.isHidden=true
+        currentTime.alpha=0.1
+        try? FileManager.default.removeItem(atPath: TempFilePath)
 
         UIApplication.shared.isIdleTimerDisabled = true//スリープしない
        //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
@@ -937,27 +934,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 
        fileWriter!.startWriting()
        fileWriter!.startSession(atSourceTime: CMTime.zero)
-//        print(fileWriter?.error)
        setMotion()
-        
-        
-        
-//        timerCnt=0
-//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        //sensorをリセットし、正面に
-//        motionManager.stopDeviceMotionUpdates()
-//        recordingFlag=true
-//        //start recording
-//          exitButton.isHidden=true
-////        topEndBlankSwitch.isHidden=true
-////        speakerLabel.isHidden=true
-//     //    topEndBlankLabel.isHidden=true
-//      //  topEndBlankSwitch.isHidden=true
-//             quaternionView.isHidden=true
-//            cameraView.isHidden=true
-//            currentTime.alpha=0.1
-//         try? FileManager.default.removeItem(atPath: TempFilePath)
-
     }
 }
 
