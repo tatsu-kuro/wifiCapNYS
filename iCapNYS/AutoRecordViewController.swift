@@ -142,7 +142,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
-        playMoviePath("spon4mov")
+//        playMoviePath("spon1mov")
         movieTimerCnt=0
         movieTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.movieUpdate), userInfo: nil, repeats: true)
 
@@ -424,20 +424,24 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var movieTimerCnt:Int=0
     @objc func movieUpdate(tm: Timer){
         movieTimerCnt += 1
-        if movieTimerCnt == 10{
-            onClickStartButton()
+        if movieTimerCnt == 1{
+            playMoviePath("spon1mov")
         }
-        if movieTimerCnt == 20{
+        if movieTimerCnt == 70{
+            onClickStartButton()
+            sound(snd: "spon2m4a")
+        }
+        if movieTimerCnt == 70+15{
             print("stop")
             onClickStopButton()
+            playMoviePath("spon4mov")
         }
-        if movieTimerCnt == 30{
-            print("performSegue")
+        if movieTimerCnt == 70+15+12{
             performSegue(withIdentifier: "fromAutoRecord", sender: self)
         }
     }
-    var timerCnt:Int=0
-    @objc func update(tm: Timer) {
+//    var timerCnt:Int=0
+/*    @objc func update(tm: Timer) {
         timerCnt += 1
         if timerCnt == 3{
             //            stopButton.isEnabled=true
@@ -473,7 +477,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
         }
-    }
+    }*/
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
         motionManager.deviceMotionUpdateInterval = 1 / 100//が最速の模様
