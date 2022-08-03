@@ -30,9 +30,10 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var soundPlayer: AVAudioPlayer?
     var videoPlayer: AVPlayer!
     
-    func sound(snd:String){
+    func sound(snd:String,fwd:Double){
         if let sound = NSDataAsset(name: snd) {
             soundPlayer = try? AVAudioPlayer(data: sound.data)
+            soundPlayer!.currentTime = fwd
             soundPlayer?.play() // → これで音が鳴る
         }
     }
@@ -174,7 +175,9 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         setButtons()//height:buttonsHeight)
         
         currentTime.isHidden=true
-
+        quaternionView.isHidden=true
+        cameraView.isHidden=true
+        exitButton.isHidden=true
      }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -424,19 +427,37 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var movieTimerCnt:Int=0
     @objc func movieUpdate(tm: Timer){
         movieTimerCnt += 1
+        
         if movieTimerCnt == 1{
-            playMoviePath("spon1mov")
+            playMoviePath("sponta")
+            videoView.frame = self.view.bounds
         }
-        if movieTimerCnt == 70{
+        if movieTimerCnt == 13{
+            videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
+            quaternionView.isHidden=false
+            cameraView.isHidden=false
+        }
+        if movieTimerCnt == 24{
+            quaternionView.isHidden=true
+            cameraView.isHidden=true
+            videoView.frame = self.view.bounds
+        }
+        if movieTimerCnt == 27{
+   
             onClickStartButton()
-            sound(snd: "spon2m4a")
+            sound(snd: "spon2m4a",fwd: 12)
+            videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
         }
-        if movieTimerCnt == 70+15{
+        if movieTimerCnt == 27+22{
             print("stop")
             onClickStopButton()
             playMoviePath("spon4mov")
+            videoView.frame = self.view.bounds
         }
-        if movieTimerCnt == 70+15+12{
+//        if movieTimerCnt == 27+22+21{
+//            sound(snd: "spon3m4a",fwd: 0)
+//        }
+        if movieTimerCnt == 27+22+21{
             performSegue(withIdentifier: "fromAutoRecord", sender: self)
         }
     }
