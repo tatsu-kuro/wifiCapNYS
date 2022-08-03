@@ -431,6 +431,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         if movieTimerCnt == 1{
             playMoviePath("sponta")
             videoView.frame = self.view.bounds
+            
         }
         if movieTimerCnt == 13{
             videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
@@ -707,7 +708,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        let by2=realWinHeight-(bh+sp)*2.5-height
 
         let x0=leftPadding+sp*2
-        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(exitButton,x:x0+bw*5+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
+        exitButton.isHidden=true
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)

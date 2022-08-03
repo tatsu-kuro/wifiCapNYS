@@ -10,9 +10,8 @@
 		6945B1A725EB207400A52272 /* myFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945B1A625EB207400A52272 /* myFunctions.swift */; };
 		6945E7D92519145F00E16DDB /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7D82519145F00E16DDB /* RecordViewController.swift */; };
 		6945E7DC25196C3600E16DDB /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7DB25196C3600E16DDB /* PlayViewController.swift */; };
-		69615FC72899F3A100FFC323 /* spon1mov.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69615FC62899F3A100FFC323 /* spon1mov.mov */; };
-		69615FC92899F3B800FFC323 /* spon4mov.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69615FC82899F3B800FFC323 /* spon4mov.mov */; };
 		69615FD5289A8A1300FFC323 /* sponta.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69615FD4289A8A1300FFC323 /* sponta.mov */; };
+		69615FD7289A8D5100FFC323 /* spon4mov.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69615FD6289A8D5100FFC323 /* spon4mov.mov */; };
 		6961FBEB257E756E004B6A8C /* How2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6961FBEA257E756D004B6A8C /* How2ViewController.swift */; };
 		69A8FDEC28992B92001F1483 /* AutoRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */; };
 		69E22892251834490004E53C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22891251834490004E53C /* AppDelegate.swift */; };
@@ -27,11 +26,10 @@
 		6945B1A625EB207400A52272 /* myFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myFunctions.swift; sourceTree = "<group>"; };
 		6945E7D82519145F00E16DDB /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		6945E7DB25196C3600E16DDB /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
-		69615FC62899F3A100FFC323 /* spon1mov.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = spon1mov.mov; path = Assets.xcassets/spon1mov.dataset/spon1mov.mov; sourceTree = "<group>"; };
-		69615FC82899F3B800FFC323 /* spon4mov.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = spon4mov.mov; path = Assets.xcassets/spon4mov.dataset/spon4mov.mov; sourceTree = "<group>"; };
 		69615FCA2899F55400FFC323 /* spon2m4a.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = spon2m4a.m4a; path = Assets.xcassets/spon2m4a.dataset/spon2m4a.m4a; sourceTree = "<group>"; };
 		69615FCB2899F57300FFC323 /* spon3m4a.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = spon3m4a.m4a; path = Assets.xcassets/spon3m4a.dataset/spon3m4a.m4a; sourceTree = "<group>"; };
 		69615FD4289A8A1300FFC323 /* sponta.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = sponta.mov; path = Assets.xcassets/sponta.dataset/sponta.mov; sourceTree = "<group>"; };
+		69615FD6289A8D5100FFC323 /* spon4mov.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = spon4mov.mov; path = Assets.xcassets/spon4mov.dataset/spon4mov.mov; sourceTree = "<group>"; };
 		6961FBEA257E756D004B6A8C /* How2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How2ViewController.swift; sourceTree = "<group>"; };
 		69A8FDE828992945001F1483 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRecordViewController.swift; sourceTree = "<group>"; };
@@ -94,10 +92,9 @@
 				69E2289A2518344C0004E53C /* Assets.xcassets */,
 				69E2289C2518344C0004E53C /* LaunchScreen.storyboard */,
 				69615FCA2899F55400FFC323 /* spon2m4a.m4a */,
+				69615FD6289A8D5100FFC323 /* spon4mov.mov */,
 				69615FD4289A8A1300FFC323 /* sponta.mov */,
 				69615FCB2899F57300FFC323 /* spon3m4a.m4a */,
-				69615FC62899F3A100FFC323 /* spon1mov.mov */,
-				69615FC82899F3B800FFC323 /* spon4mov.mov */,
 				69E2289F2518344C0004E53C /* Info.plist */,
 				698A192E2785BFFD004C4CE9 /*  ja.lproj */,
 			);
@@ -164,10 +161,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				69E2289E2518344C0004E53C /* LaunchScreen.storyboard in Resources */,
-				69615FC92899F3B800FFC323 /* spon4mov.mov in Resources */,
+				69615FD7289A8D5100FFC323 /* spon4mov.mov in Resources */,
 				69E2289B2518344C0004E53C /* Assets.xcassets in Resources */,
 				69E22899251834490004E53C /* Main.storyboard in Resources */,
-				69615FC72899F3A100FFC323 /* spon1mov.mov in Resources */,
 				69615FD5289A8A1300FFC323 /* sponta.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
