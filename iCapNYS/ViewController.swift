@@ -259,9 +259,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let by=wh-bh-sp
         let by0=topPadding+sp
         let x0=leftPadding+sp*2
-        
         someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by, w: bw, h: bh, UIColor.darkGray)
         someFunctions.setButtonProperty(setteiButton, x:x0+bw*6+sp*6, y: by0, w: bw, h: bh, UIColor.darkGray)
+        someFunctions.setButtonProperty(autoRecordButton, x:x0+bw*4+sp*5, y: by0, w: bw*2, h: bh, UIColor.darkGray)
         setteiButton2.frame=CGRect(x:x0+bw*6+sp*6, y: 0, width: bw, height: bh*3)
         //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
 //        changeLandscapeSideButton.isHidden=true
