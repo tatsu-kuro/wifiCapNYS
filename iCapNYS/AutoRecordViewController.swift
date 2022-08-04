@@ -51,7 +51,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var rightPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
     var topPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
     var bottomPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-    var realWinWidth:CGFloat=0//=view.bounds.width-leftPadding-rightPadding
+//    var realWinWidth:CGFloat=0//=view.bounds.width-leftPadding-rightPadding
     var realWinHeight:CGFloat=0//=view.bounds.height-topPadding-bottomPadding/2
     
     let camera = myFunctions()
@@ -118,22 +118,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         22,-26,0, 23,-25,0, 24,-24,1,//eye dots 3
         -22,-26,0, -23,-25,0, -24,-24,1,//eye dots 3
         -19,32,0, -14,31,0, -9,31,0, -4,31,0, 0,30,0, 4,31,0, 9,31,0, 14,31,0, 19,32,1]//mouse 9
-    func playMoviePath(_ url:String){
-        guard let url = Bundle.main.url(forResource: url, withExtension: "mov") else {
-            print("Url is nil")
-            return
-        }
-        videoPlayer = AVPlayer(url: url)
-        let layer = AVPlayerLayer()
-        layer.videoGravity = AVLayerVideoGravity.resizeAspect
-        layer.player = videoPlayer
-        print(self.view.bounds,":",view.bounds)
-        layer.frame = self.view.bounds
-//        self.view.layer.addSublayer(layer)
-        videoView.layer.addSublayer(layer)
-        videoPlayer.play()
-    }
-  
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
       
@@ -141,7 +126,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-        realWinWidth=view.bounds.width-leftPadding-rightPadding
+//        realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
 //        playMoviePath("spon1mov")
         movieTimerCnt=0
@@ -424,12 +409,33 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         ultrawideCamera=false
         telephotoCamera=false
     }
+    func playMoviePath(_ urlorig:String){
+        guard let url = Bundle.main.url(forResource: urlorig, withExtension: "mov") else {
+            print("Url is nil")
+            return
+        }
+        videoPlayer = AVPlayer(url: url as URL)
+        let layer = AVPlayerLayer()
+        layer.videoGravity = AVLayerVideoGravity.resizeAspect
+        layer.player = videoPlayer
+//        videoView.layer.frame=view.bounds
+        print(self.view.bounds,":",view.bounds)
+        layer.frame = self.view.bounds
+        layer.frame = CGRect(x:-40,y:-10,width:view.bounds.width+80,height: view.bounds.height+20)
+        
+//        self.view.layer.addSublayer(layer)
+        videoView.layer.addSublayer(layer)
+        videoPlayer.play()
+        
+    }
+//    let moviePath: String? = Bundle.main.path(forResource: bundleDataName, ofType: bundleDataType)
+
     var movieTimerCnt:Int=0
     @objc func movieUpdate(tm: Timer){
         movieTimerCnt += 1
         
         if movieTimerCnt == 1{
-             playMoviePath("sponta")
+             playMoviePath("mov78sp1")
             videoView.frame = self.view.bounds
         }
         if movieTimerCnt == 13{
@@ -445,7 +451,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         if movieTimerCnt == 27{
             exitButton.alpha=0
             onClickStartButton()
-            sound(snd: "spon2m4a",fwd: 12)
+            sound(snd: "m4asp1",fwd: 12)
             videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
             
         }
@@ -454,13 +460,13 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             exitButton.alpha=1.0
             onClickStopButton()
             
-            playMoviePath("spon4mov")
+            playMoviePath("mov78sp2")
             videoView.frame = self.view.bounds
         }
 //        if movieTimerCnt == 27+22+21{
 //            sound(snd: "spon3m4a",fwd: 0)
 //        }
-        if movieTimerCnt == 27+22+21{
+        if movieTimerCnt == 27+22+20{
             performSegue(withIdentifier: "fromAutoRecord", sender: self)
         }
     }
@@ -735,7 +741,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
-        quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
+//        quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
+        quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:wh/5,height:wh/5)
  //        topEndBlankSwitch.frame = CGRect(x:leftPadding+realWinHeight/5+2*sp+20,y:sp,width:switchWidth,height:bh)
 //        topEndBlankLabel.frame = CGRect(x:topEndBlankSwitch.frame.maxX+sp,y:sp+switchHeight/2-bh/2,width:realWinWidth,height: bh)
 
