@@ -443,16 +443,19 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             quaternionView.isHidden=false
             cameraView.isHidden=false
         }
-        if movieTimerCnt == 24{
-            quaternionView.isHidden=true
-            cameraView.isHidden=true
-            videoView.frame = self.view.bounds
-          }
+//        if movieTimerCnt == 24{
+//            quaternionView.isHidden=true
+//            cameraView.isHidden=true
+//            videoView.frame = self.view.bounds
+//          }
         if movieTimerCnt == 27{
             exitButton.alpha=0
+            quaternionView.isHidden=true
+            cameraView.isHidden=true
+
             onClickStartButton()
             sound(snd: "m4asp1",fwd: 12)
-            videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
+//            videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
             
         }
         if movieTimerCnt == 27+22{

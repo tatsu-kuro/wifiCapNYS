@@ -17,6 +17,8 @@ import AssetsLibrary
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
+    @IBOutlet weak var postualNys: UILabel!
+    @IBOutlet weak var steelNys: UILabel!
     @IBOutlet weak var autoRecordButton: UIButton!
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
@@ -64,7 +66,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //これは.isHiddenとする
     @IBOutlet weak var setteiButton: UIButton!
     
-    @IBOutlet weak var setteiButton2: UIButton!
+    @IBOutlet weak var positioningAutoRecordButton: UIButton!
     
 //    override var shouldAutorotate: Bool {
 //        return false
@@ -84,8 +86,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         self.present(nextView, animated: true, completion: nil)
     }
     
-    @IBAction func onSetteiButton2(_ sender: Any) {
-        onSetteiButton(0)
+    @IBAction func onPositioningRecordButton(_ sender: Any) {
+        onAutoRecordButton(0)
     }
     
 //    @IBAction func onChangeLandscapeSide(_ sender: Any) {
@@ -260,17 +262,22 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let by=wh-bh-sp
         let by0=topPadding+sp
         let x0=leftPadding+sp*2
+        let x0but=view.bounds.width-rightPadding-wh*3/4
+        steelNys.frame=CGRect(x:x0but,y:wh/3,width: wh/2,height: bh)
+        postualNys.frame=CGRect(x:x0but,y:wh/3+wh/2-2*sp,width: wh/2,height: bh)
         someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by, w: bw, h: bh, UIColor.darkGray)
         someFunctions.setButtonProperty(setteiButton, x:x0+bw*6+sp*6, y: by0, w: bw, h: bh, UIColor.darkGray)
-        someFunctions.setButtonProperty(autoRecordButton, x:x0+bw*4+sp*5, y: by0, w: bw*2, h: bh, UIColor.darkGray)
-        setteiButton2.frame=CGRect(x:x0+bw*6+sp*6, y: 0, width: bw, height: bh*3)
+//        someFunctions.setButtonProperty(autoRecordButton, x:x0+bw*4+sp*5, y: by0, w: bw*2, h: bh, UIColor.darkGray)
+        autoRecordButton.frame=CGRect(x:x0but,           y:sp,width: wh/2,height: wh/2)
+        positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
+//        positioningAutoRecordButton.frame=CGRect(x:x0+bw*6+sp*6, y: 0, width: bw, height: bh*3)
         //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
 //        changeLandscapeSideButton.isHidden=true
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
 
-        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*3/4, y: topPadding+wh/8, width:wh*3/4, height: wh*3/4)
+        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*5/13, y:topPadding+wh*4/13,width:wh*5/13, height: wh*5/13)
         //高さ/20を上下に開ける
         tableView.frame = CGRect(x:leftPadding,y:topPadding+sp+wh/20,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-2*sp-wh/10)
     }
