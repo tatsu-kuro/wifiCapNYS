@@ -19,6 +19,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     @IBOutlet weak var whiteView: UIImageView!
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var currentTime: UILabel!
+    var isPositional:Bool!
     func killTimer(){
         if timer?.isValid == true {
             timer!.invalidate()
@@ -134,13 +135,13 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 
         getCameras()
         camera.makeAlbum()
-    
-        if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
-            cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-        }else{
-            cameraType=0
-            UserDefaults.standard.set(cameraType, forKey: "cameraType")
-        }
+        cameraType=0
+//        if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
+//            cameraType=UserDefaults.standard.integer(forKey:"cameraType")
+//        }else{
+//            cameraType=0
+//            UserDefaults.standard.set(cameraType, forKey: "cameraType")
+//        }
     
         set_rpk_ppk()
         setMotion()
@@ -201,7 +202,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     func set_rpk_ppk() {
         let faceR:CGFloat = 40//hankei
         var frontBack:Int = 0
-        let camera = Int(camera.getUserDefaultInt(str: "cameraType", ret: 0))
+        let camera = 0//Int(camera.getUserDefaultInt(str: "cameraType", ret: 0))
         if camera == 0{//front camera
             frontBack = 180
         }
@@ -433,7 +434,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var movieTimerCnt:Int=0
     @objc func movieUpdate(tm: Timer){
         movieTimerCnt += 1
-        
+        if isPositional==false{
         if movieTimerCnt == 1{
              playMoviePath("mov78sp1")
             videoView.frame = self.view.bounds
@@ -471,6 +472,17 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        }
         if movieTimerCnt == 27+22+20{
             performSegue(withIdentifier: "fromAutoRecord", sender: self)
+        }
+        }else{
+            if movieTimerCnt == 1{
+                 playMoviePath("position1")
+                videoView.frame = self.view.bounds
+            }
+            if movieTimerCnt == 88{
+                videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
+                quaternionView.isHidden=false
+                cameraView.isHidden=false
+            }
         }
     }
 //    var timerCnt:Int=0
@@ -554,8 +566,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     }
     func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ
-        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-        
+//        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
+        cameraType=0
         if cameraType == 0{
             videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)//.back)
         }else if cameraType==1{

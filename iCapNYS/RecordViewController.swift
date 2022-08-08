@@ -23,6 +23,7 @@ extension UIColor {
 class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     let camera = myFunctions()
     var cameraType:Int = 0
+    
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
@@ -250,11 +251,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if setteiMode==true{
-            print("setteiMode ON")
-        }else{
-            print("setteiMode false")
-        }
+//        if setteiMode==true{
+//            print("setteiMode ON")
+//        }else{
+//            print("setteiMode false")
+//        }
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -367,10 +368,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
-        zoomBar.isHidden=true
-        zoomLabel.isHidden=true
-        focusBar.isHidden=true
-        focusLabel.isHidden=true
+//        zoomBar.isHidden=true
+//        zoomLabel.isHidden=true
+//        focusBar.isHidden=true
+//        focusLabel.isHidden=true
      }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -1028,9 +1029,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
 //        quaternionView.layer.position=CGPoint(x:ww/12+10,y:leftPadding! + ww/12+10)
         if setteiMode==true{
-        startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
+            startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
         }else{
-        startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
+            startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         panTapExplanation.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight/2)
@@ -1228,17 +1229,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
             print("doubleTapPlay")
             if setteiMode==true{
-                if zoomBar.isHidden==true{
+//                if zoomBar.isHidden==true{
                     zoomBar.isHidden=false
                     zoomLabel.isHidden=false
                     focusBar.isHidden=false
                     focusLabel.isHidden=false
-                }else{
-                    zoomBar.isHidden=true
-                    zoomLabel.isHidden=true
-                    focusBar.isHidden=true
-                    focusLabel.isHidden=true
-                }
+//                }else{
+//                    zoomBar.isHidden=true
+//                    zoomLabel.isHidden=true
+//                    focusBar.isHidden=true
+//                    focusLabel.isHidden=true
+//                }
             }
         }
         tapInterval=CFAbsoluteTimeGetCurrent()

@@ -38,7 +38,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     @IBAction func onAutoRecordButton(_ sender: Any) {
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
-        UserDefaults.standard.set(0, forKey: "cameraType")//set frontcamera
+//        UserDefaults.standard.set(0, forKey: "cameraType")//set frontcamera
+        nextView.isPositional=false
         self.present(nextView, animated: true, completion: nil)
     }
     override func viewDidLayoutSubviews() {
@@ -87,7 +88,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func onPositioningRecordButton(_ sender: Any) {
-        onAutoRecordButton(0)
+        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
+//        UserDefaults.standard.set(0, forKey: "cameraType")//set frontcamera
+        nextView.isPositional=true
+        self.present(nextView, animated: true, completion: nil)
     }
     
 //    @IBAction func onChangeLandscapeSide(_ sender: Any) {

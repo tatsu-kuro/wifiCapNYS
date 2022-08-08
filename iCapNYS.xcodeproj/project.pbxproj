@@ -9,11 +9,14 @@
 /* Begin PBXBuildFile section */
 		6922FD53289BCF2600700EC7 /* mov78sp1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 6922FD51289BCF2600700EC7 /* mov78sp1.mov */; };
 		6922FD54289BCF2600700EC7 /* mov78sp2.mov in Resources */ = {isa = PBXBuildFile; fileRef = 6922FD52289BCF2600700EC7 /* mov78sp2.mov */; };
+		6922FD58289D3F5D00700EC7 /* post78a.mov in Resources */ = {isa = PBXBuildFile; fileRef = 6922FD57289D3F5D00700EC7 /* post78a.mov */; };
+		6922FD5A289D3F6E00700EC7 /* post78b.mov in Resources */ = {isa = PBXBuildFile; fileRef = 6922FD59289D3F6E00700EC7 /* post78b.mov */; };
 		6945B1A725EB207400A52272 /* myFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945B1A625EB207400A52272 /* myFunctions.swift */; };
 		6945E7D92519145F00E16DDB /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7D82519145F00E16DDB /* RecordViewController.swift */; };
 		6945E7DC25196C3600E16DDB /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7DB25196C3600E16DDB /* PlayViewController.swift */; };
 		6961FBEB257E756E004B6A8C /* How2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6961FBEA257E756D004B6A8C /* How2ViewController.swift */; };
 		69A8FDEC28992B92001F1483 /* AutoRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */; };
+		69B6913528A152F500E1C065 /* position1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69B6913428A152F500E1C065 /* position1.mov */; };
 		69E22892251834490004E53C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22891251834490004E53C /* AppDelegate.swift */; };
 		69E22894251834490004E53C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22893251834490004E53C /* SceneDelegate.swift */; };
 		69E22896251834490004E53C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22895251834490004E53C /* ViewController.swift */; };
@@ -25,12 +28,15 @@
 /* Begin PBXFileReference section */
 		6922FD51289BCF2600700EC7 /* mov78sp1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = mov78sp1.mov; sourceTree = "<group>"; };
 		6922FD52289BCF2600700EC7 /* mov78sp2.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = mov78sp2.mov; sourceTree = "<group>"; };
+		6922FD57289D3F5D00700EC7 /* post78a.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = post78a.mov; sourceTree = "<group>"; };
+		6922FD59289D3F6E00700EC7 /* post78b.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = post78b.mov; sourceTree = "<group>"; };
 		6945B1A625EB207400A52272 /* myFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myFunctions.swift; sourceTree = "<group>"; };
 		6945E7D82519145F00E16DDB /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		6945E7DB25196C3600E16DDB /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
 		6961FBEA257E756D004B6A8C /* How2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How2ViewController.swift; sourceTree = "<group>"; };
 		69A8FDE828992945001F1483 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRecordViewController.swift; sourceTree = "<group>"; };
+		69B6913428A152F500E1C065 /* position1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = position1.mov; sourceTree = "<group>"; };
 		69E2288E251834490004E53C /* iCapNYS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCapNYS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E22891251834490004E53C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69E22893251834490004E53C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +68,9 @@
 		69E22885251834490004E53C = {
 			isa = PBXGroup;
 			children = (
+				69B6913428A152F500E1C065 /* position1.mov */,
+				6922FD59289D3F6E00700EC7 /* post78b.mov */,
+				6922FD57289D3F5D00700EC7 /* post78a.mov */,
 				6922FD51289BCF2600700EC7 /* mov78sp1.mov */,
 				6922FD52289BCF2600700EC7 /* mov78sp2.mov */,
 				69E22890251834490004E53C /* iCapNYS */,
@@ -156,6 +165,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69B6913528A152F500E1C065 /* position1.mov in Resources */,
+				6922FD5A289D3F6E00700EC7 /* post78b.mov in Resources */,
+				6922FD58289D3F5D00700EC7 /* post78a.mov in Resources */,
 				6922FD53289BCF2600700EC7 /* mov78sp1.mov in Resources */,
 				6922FD54289BCF2600700EC7 /* mov78sp2.mov in Resources */,
 				69E2289E2518344C0004E53C /* LaunchScreen.storyboard in Resources */,
@@ -329,7 +341,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.6;
+				CURRENT_PROJECT_VERSION = 1.0.8;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = iCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -351,7 +363,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.6;
+				CURRENT_PROJECT_VERSION = 1.0.8;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = iCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
