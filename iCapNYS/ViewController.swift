@@ -133,24 +133,23 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             Controller.captureSession.stopRunning()
         }else if let vc = segue.source as? AutoRecordViewController{
             let Controller:AutoRecordViewController = vc
-            //            if Controller.stopButton.isHidden==true{//Exit
-            //                print("Exit / not recorded")
-            //            }else{
             Controller.killTimer()//念の為
-            print("Exit / Auto recorded")
-            if someFunctions.videoPHAsset.count<5{
-                someFunctions.getAlbumAssets()
-                print("count<5")
-            }else{
-                someFunctions.getAlbumAssets_last()
-                print("count>4")
+            if (Controller.isPositional==false && Controller.movieTimerCnt>25) ||
+                (Controller.isPositional==true && Controller.movieTimerCnt>112){
+                print("Exit / Auto recorded")
+                if someFunctions.videoPHAsset.count<5{
+                    someFunctions.getAlbumAssets()
+                    print("count<5")
+                }else{
+                    someFunctions.getAlbumAssets_last()
+                    print("count>4")
+                }
+                UserDefaults.standard.set(0,forKey: "contentOffsetY")
+                DispatchQueue.main.async { [self] in
+                    self.tableView.contentOffset.y=0
+                    self.tableView.reloadData()//こちらだけこれが必要なのはどうして
+                }
             }
-            UserDefaults.standard.set(0,forKey: "contentOffsetY")
-            DispatchQueue.main.async { [self] in
-                self.tableView.contentOffset.y=0
-                self.tableView.reloadData()//こちらだけこれが必要なのはどうして
-            }
-            //            }
             if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
                 UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
             }

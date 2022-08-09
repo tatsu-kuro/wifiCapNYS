@@ -80,7 +80,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Klw-oJ-YEV" kind="unwind" identifier="fromAutoRecord" unwindAction="unwindActionWithSegue:" id="JSX-X0-TGm"/>
+                                    <action selector="onClickExitButton:" destination="eLE-eW-PfH" eventType="touchUpInside" id="na0-bN-cUB"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mjm-Rl-jMd">
@@ -93,6 +93,17 @@
                                 </state>
                                 <connections>
                                     <action selector="onSkipButton:" destination="eLE-eW-PfH" eventType="touchUpInside" id="PGb-s5-8KV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="98j-l3-HIC">
+                                <rect key="frame" x="467" y="128" width="48" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="ExitDamy">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Klw-oJ-YEV" kind="unwind" identifier="fromAutoRecord" unwindAction="unwindActionWithSegue:" id="jtl-il-giU"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -32,7 +32,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         }
     }
     //    @IBOutlet weak var currentTime: UILabel!
-    var isPositional:Bool!
+   
     func killTimer(){
         if timer?.isValid == true {
             timer!.invalidate()
@@ -60,7 +60,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             return ret
         }
     }
-    
+    var isPositional:Bool!
     var leftPadding:CGFloat=0// =CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
     var rightPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
     var topPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -424,6 +424,11 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         telephotoCamera=false
     }
     func playMoviePath(_ urlorig:String){
+        
+//        if videoPlayer.timeControlStatus == .playing || videoPlayer.timeControlStatus == .paused {
+//            videoPlayer.replaceCurrentItem(with, item: AVPlayerItem?)
+//            NotificationCenter.default.removeObserver(self)
+//        }
         guard let url = Bundle.main.url(forResource: urlorig, withExtension: "mov") else {
             print("Url is nil")
             return
@@ -461,7 +466,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 cameraView.isHidden=false
             }
             if movieTimerCnt == 25{
-                exitButton.alpha=0
+                exitButton.alpha=0.05
                 quaternionView.isHidden=true
                 cameraView.isHidden=true
                 onClickStartButton()
@@ -470,11 +475,10 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 print("stop")
                 exitButton.alpha=1.0
                 onClickStopButton()
-                
                 playMoviePath("steel3")
                 videoView.frame = self.view.bounds
             }
-            if movieTimerCnt == 27+22+20{
+            if movieTimerCnt == 25+22+22{
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
         }else{
@@ -491,7 +495,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 cameraView.isHidden=false
             }
             if movieTimerCnt == 100+12{
-                exitButton.alpha=0
+                exitButton.alpha=0.05
                 quaternionView.isHidden=true
                 cameraView.isHidden=true
                 onClickStartButton()
@@ -515,6 +519,9 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
         }
+    }
+    func onExitButton(){
+   
     }
 //    var timerCnt:Int=0
 /*    @objc func update(tm: Timer) {
@@ -686,6 +693,11 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         )
     }
 
+    @IBAction func onClickExitButton(_ sender: Any) {
+        print("onClickEixtButton****")
+        onClickStopButton()
+        performSegue(withIdentifier: "fromAutoRecord", sender: self)
+    }
     override func viewDidAppear(_ animated: Bool) {
 
     }
@@ -921,6 +933,9 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         }
     }
     func onClickStopButton() {
+        if recordingFlag==false{
+            return
+        }
         recordingFlag=false
 
         if let soundUrl = URL(string:
