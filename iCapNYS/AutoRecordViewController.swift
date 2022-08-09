@@ -130,7 +130,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
 //        playMoviePath("spon1mov")
-        movieTimerCnt=0
+        movieTimerCnt=98
         movieTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.movieUpdate), userInfo: nil, repeats: true)
 
         getCameras()
@@ -435,53 +435,67 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     @objc func movieUpdate(tm: Timer){
         movieTimerCnt += 1
         if isPositional==false{
-        if movieTimerCnt == 1{
-             playMoviePath("mov78sp1")
-            videoView.frame = self.view.bounds
-        }
-        if movieTimerCnt == 13{
-            videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
-            quaternionView.isHidden=false
-            cameraView.isHidden=false
-        }
-//        if movieTimerCnt == 24{
-//            quaternionView.isHidden=true
-//            cameraView.isHidden=true
-//            videoView.frame = self.view.bounds
-//          }
-        if movieTimerCnt == 27{
-            exitButton.alpha=0
-            quaternionView.isHidden=true
-            cameraView.isHidden=true
-
-            onClickStartButton()
-            sound(snd: "m4asp1",fwd: 12)
-//            videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
-            
-        }
-        if movieTimerCnt == 27+22{
-            print("stop")
-            exitButton.alpha=1.0
-            onClickStopButton()
-            
-            playMoviePath("mov78sp2")
-            videoView.frame = self.view.bounds
-        }
-//        if movieTimerCnt == 27+22+21{
-//            sound(snd: "spon3m4a",fwd: 0)
-//        }
-        if movieTimerCnt == 27+22+20{
-            performSegue(withIdentifier: "fromAutoRecord", sender: self)
-        }
-        }else{
             if movieTimerCnt == 1{
-                 playMoviePath("position1")
+                playMoviePath("steel1")
                 videoView.frame = self.view.bounds
             }
-            if movieTimerCnt == 88{
+            if movieTimerCnt == 13{
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
+                sound(snd: "steel2", fwd: 0)
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
+            }
+            if movieTimerCnt == 25{
+                exitButton.alpha=0
+                quaternionView.isHidden=true
+                cameraView.isHidden=true
+                onClickStartButton()
+            }
+            if movieTimerCnt == 25+22{
+                print("stop")
+                exitButton.alpha=1.0
+                onClickStopButton()
+                
+                playMoviePath("steel3")
+                videoView.frame = self.view.bounds
+            }
+            if movieTimerCnt == 27+22+20{
+                performSegue(withIdentifier: "fromAutoRecord", sender: self)
+            }
+        }else{
+            if movieTimerCnt == 1{
+                playMoviePath("pos1")
+                videoView.frame = self.view.bounds
+            }
+            if movieTimerCnt == 100{
+                videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
+                sound(snd: "pos2", fwd: 0)
+                quaternionView.isHidden=false
+                cameraView.isHidden=false
+            }
+            if movieTimerCnt == 100+12{
+                exitButton.alpha=0
+                quaternionView.isHidden=true
+                cameraView.isHidden=true
+                onClickStartButton()
+            }
+            if movieTimerCnt == 100+12+23{
+                sound(snd: "pos3", fwd: 0)
+            }
+            if movieTimerCnt == 100+12+23+23{
+                sound(snd: "pos4", fwd: 0)
+            }
+            if movieTimerCnt == 100+12+23+23+22{
+                sound(snd: "pos5", fwd: 0)
+            }
+            if movieTimerCnt == 100+12+23+23+22+25{
+                exitButton.alpha=1.0
+                onClickStopButton()
+                playMoviePath("steel3")
+                videoView.frame = self.view.bounds
+            }
+            if movieTimerCnt == 100+12+23+23+22+25+22{
+                performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
         }
     }
