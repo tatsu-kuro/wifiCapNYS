@@ -776,14 +776,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var telephotoCamera:Bool=false
     var ultrawideCamera:Bool=false
     func getCameras(){//wideAngleCameraのみ使用
-//        if AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) != nil{
-//            ultrawideCamera=true
-//        }
-//        if AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) != nil{
-//            telephotoCamera=true
-//        }
-        ultrawideCamera=false
-        telephotoCamera=false
+        if AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) != nil{
+            ultrawideCamera=true
+        }
+        if AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) != nil{
+            telephotoCamera=true
+        }
+//        ultrawideCamera=false
+//        telephotoCamera=false
     }
     
     /*
@@ -839,15 +839,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             LEDLabel.alpha=1//isHidden=false
         }
         setZoom(level: zoomBar.value)
-//        if focusChangeable==false{
-//            focusBar.isEnabled=false
-//            focusBar.alpha=0.2
-//            focusLabel.alpha=0.2
-//        }else{
-//            focusBar.isEnabled=true
-//            focusBar.alpha=1.0
-//            focusLabel.alpha=1.0
-//        }
+        if focusChangeable==false{
+            focusBar.isEnabled=false
+            focusBar.alpha=0.2
+            focusLabel.alpha=0.2
+        }else{
+            focusBar.isEnabled=true
+            focusBar.alpha=1.0
+            focusLabel.alpha=1.0
+        }
         onExposeValueChange()
         setButtons()
     }

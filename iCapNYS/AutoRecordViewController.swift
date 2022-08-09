@@ -18,7 +18,20 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     @IBOutlet weak var cameraView: UIImageView!
     @IBOutlet weak var whiteView: UIImageView!
     @IBOutlet weak var exitButton: UIButton!
-    @IBOutlet weak var currentTime: UILabel!
+    @IBOutlet weak var skipButton: UIButton!
+    
+    @IBAction func onSkipButton(_ sender: Any) {
+        if isPositional==true{
+            if movieTimerCnt<98{
+                movieTimerCnt=98
+            }
+        }else{
+            if movieTimerCnt<12{
+                movieTimerCnt=12
+            }
+        }
+    }
+    //    @IBOutlet weak var currentTime: UILabel!
     var isPositional:Bool!
     func killTimer(){
         if timer?.isValid == true {
@@ -130,7 +143,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
 //        playMoviePath("spon1mov")
-        movieTimerCnt=98
+        movieTimerCnt=0
         movieTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.movieUpdate), userInfo: nil, repeats: true)
 
         getCameras()
@@ -160,7 +173,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 
         setButtons()//height:buttonsHeight)
         
-        currentTime.isHidden=true
+//        currentTime.isHidden=true
         quaternionView.isHidden=true
         cameraView.isHidden=true
 //        exitButton.isHidden=true
@@ -441,6 +454,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             }
             if movieTimerCnt == 13{
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
+                videoPlayer.pause()
+                skipButton.isHidden=true
                 sound(snd: "steel2", fwd: 0)
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
@@ -468,6 +483,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 videoView.frame = self.view.bounds
             }
             if movieTimerCnt == 100{
+                videoPlayer.pause()
+                skipButton.isHidden=true
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
                 sound(snd: "pos2", fwd: 0)
                 quaternionView.isHidden=false
@@ -763,13 +780,14 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        let by2=realWinHeight-(bh+sp)*2.5-height
 
 //        let x0=leftPadding+sp*2
-        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by-bh/3,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(skipButton,x:x0+bw*6+sp*6,y:topPadding+sp+bh/3,w:bw,h:bh,UIColor.darkGray)
 //        exitButton.isHidden=true
 //        exitButton.alpha=1.0
-        setProperty(label: currentTime, radius: 4)
-        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
-        currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
-        currentTime.alpha=0.5
+//        setProperty(label: currentTime, radius: 4)
+//        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
+//        currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
+//        currentTime.alpha=0.5
 //        quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:wh/5,height:wh/5)
  //        topEndBlankSwitch.frame = CGRect(x:leftPadding+realWinHeight/5+2*sp+20,y:sp,width:switchWidth,height:bh)
@@ -976,7 +994,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         //          exitButton.isHidden=true
         quaternionView.isHidden=true
         cameraView.isHidden=true
-        currentTime.alpha=0.1
+//        currentTime.alpha=0.1
         try? FileManager.default.removeItem(atPath: TempFilePath)
 
         UIApplication.shared.isIdleTimerDisabled = true//スリープしない
