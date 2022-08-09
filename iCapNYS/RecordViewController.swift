@@ -986,8 +986,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let sp=realWinWidth/120//間隙
         let bw=(realWinWidth-sp*10)/7//ボタン幅
         let bh=bw*170/440
-        let by1=realWinHeight-bh-sp-height
-        let by=realWinHeight-(bh+sp)*2-height
+        let by1=realWinHeight-bh-sp-height-bh*2/3
+        let by=realWinHeight-(bh+sp)*2-height-bh*2/3
 //        let by2=realWinHeight-(bh+sp)*2.5-height
         let x0=leftPadding+sp*2
         
@@ -1016,6 +1016,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
  
 //        isoBar.frame = CGRect(x:x0+bw*4+sp*4,y:by2,width:bw*2+sp,height: bh)
+        
+//        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by-bh*2/3,w:bw,h:bh,UIColor.darkGray)
+
+        
+        
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         setProperty(label: currentTime, radius: 4)

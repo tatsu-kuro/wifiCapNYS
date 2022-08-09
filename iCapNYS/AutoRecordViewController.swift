@@ -792,8 +792,10 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        let by2=realWinHeight-(bh+sp)*2.5-height
 
 //        let x0=leftPadding+sp*2
-        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by-bh/3,w:bw,h:bh,UIColor.darkGray)
-        camera.setButtonProperty(skipButton,x:x0+bw*6+sp*6,y:topPadding+sp+bh/3,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by-bh*5/3,w:bw,h:bh*2,UIColor.darkGray)
+        camera.setButtonProperty(skipButton,x:x0+bw*6+sp*6,y:topPadding+sp+bh*2/3,w:bw,h:bh*2,UIColor.darkGray)
+        exitButton.alpha=0.5
+        skipButton.alpha=0.5
 //        exitButton.isHidden=true
 //        exitButton.alpha=1.0
 //        setProperty(label: currentTime, radius: 4)

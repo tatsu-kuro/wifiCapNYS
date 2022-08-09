@@ -268,8 +268,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let x0but=view.bounds.width-rightPadding-wh*3/4
         steelNys.frame=CGRect(x:x0but,y:wh/3,width: wh/2,height: bh)
         postualNys.frame=CGRect(x:x0but,y:wh/3+wh/2-2*sp,width: wh/2,height: bh)
-        someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by-bh/3, w: bw, h: bh, UIColor.darkGray)
-        someFunctions.setButtonProperty(setteiButton, x:x0+bw*6+sp*6, y: by0+bh/3, w: bw, h: bh, UIColor.darkGray)
+        someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
+        someFunctions.setButtonProperty(setteiButton, x:x0+bw*6+sp*6, y: by0+bh*2/3, w: bw, h: bh, UIColor.darkGray)
 //        someFunctions.setButtonProperty(autoRecordButton, x:x0+bw*4+sp*5, y: by0, w: bw*2, h: bh, UIColor.darkGray)
         autoRecordButton.frame=CGRect(x:x0but,           y:sp,width: wh/2,height: wh/2)
         positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
