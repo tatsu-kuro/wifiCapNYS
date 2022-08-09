@@ -20,17 +20,6 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
     
-    @IBAction func onSkipButton(_ sender: Any) {
-        if isPositional==true{
-            if movieTimerCnt<98{
-                movieTimerCnt=98
-            }
-        }else{
-            if movieTimerCnt<12{
-                movieTimerCnt=12
-            }
-        }
-    }
     //    @IBOutlet weak var currentTime: UILabel!
    
     func killTimer(){
@@ -424,11 +413,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         telephotoCamera=false
     }
     func playMoviePath(_ urlorig:String){
-        
-//        if videoPlayer.timeControlStatus == .playing || videoPlayer.timeControlStatus == .paused {
-//            videoPlayer.replaceCurrentItem(with, item: AVPlayerItem?)
-//            NotificationCenter.default.removeObserver(self)
-//        }
+
         guard let url = Bundle.main.url(forResource: urlorig, withExtension: "mov") else {
             print("Url is nil")
             return
@@ -442,13 +427,20 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         layer.frame = self.view.bounds
         layer.frame = CGRect(x:-40,y:-10,width:view.bounds.width+80,height: view.bounds.height+20)
         
-//        self.view.layer.addSublayer(layer)
         videoView.layer.addSublayer(layer)
         videoPlayer.play()
-        
     }
-//    let moviePath: String? = Bundle.main.path(forResource: bundleDataName, ofType: bundleDataType)
-
+    @IBAction func onSkipButton(_ sender: Any) {
+        if isPositional==true{
+            if movieTimerCnt<98{
+                movieTimerCnt=108
+            }
+        }else{
+            if movieTimerCnt<12{
+                movieTimerCnt=21
+            }
+        }
+    }
     var movieTimerCnt:Int=0
     @objc func movieUpdate(tm: Timer){
         movieTimerCnt += 1
@@ -461,7 +453,15 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
                 videoPlayer.pause()
                 skipButton.isHidden=true
-                sound(snd: "steel2", fwd: 0)
+                sound(snd: "steel2a", fwd: 0)
+                quaternionView.isHidden=false
+                cameraView.isHidden=false
+            }
+            if movieTimerCnt == 13+9{
+                videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
+                videoPlayer.pause()
+                skipButton.isHidden=true
+                sound(snd: "steel2b", fwd: 0)
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
             }
@@ -473,9 +473,16 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             }
             if movieTimerCnt == 25+22{
                 print("stop")
-                exitButton.alpha=1.0
+                exitButton.alpha=0.5
                 onClickStopButton()
                 playMoviePath("steel3")
+//                videoView.frame = self.view.bounds
+            }
+            if movieTimerCnt == 25+22+1{
+//                print("stop")
+//                exitButton.alpha=1.0
+//                onClickStopButton()
+//                playMoviePath("steel3")
                 videoView.frame = self.view.bounds
             }
             if movieTimerCnt == 25+22+22{
@@ -490,7 +497,15 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 videoPlayer.pause()
                 skipButton.isHidden=true
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
-                sound(snd: "pos2", fwd: 0)
+                sound(snd: "pos2a", fwd: 0)
+                quaternionView.isHidden=false
+                cameraView.isHidden=false
+            }
+            if movieTimerCnt == 100+9{
+                videoPlayer.pause()
+                skipButton.isHidden=true
+                videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
+                sound(snd: "pos2b", fwd: 0)
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
             }
@@ -510,9 +525,15 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 sound(snd: "pos5", fwd: 0)
             }
             if movieTimerCnt == 100+12+23+23+22+25{
-                exitButton.alpha=1.0
+                exitButton.alpha=0.5
                 onClickStopButton()
                 playMoviePath("steel3")
+//                videoView.frame = self.view.bounds
+            }
+            if movieTimerCnt == 100+12+23+23+22+25+1{
+//                exitButton.alpha=1.0
+//                onClickStopButton()
+//                playMoviePath("steel3")
                 videoView.frame = self.view.bounds
             }
             if movieTimerCnt == 100+12+23+23+22+25+22{
@@ -523,44 +544,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     func onExitButton(){
    
     }
-//    var timerCnt:Int=0
-/*    @objc func update(tm: Timer) {
-        timerCnt += 1
-        if timerCnt == 3{
-            //            stopButton.isEnabled=true
-            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-            //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            
-            if let soundUrl = URL(string:
-                                    "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
-                AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
-                AudioServicesPlaySystemSound(soundIdx)
-            }
-            
-            fileWriter!.startWriting()
-            fileWriter!.startSession(atSourceTime: CMTime.zero)
-            //        print(fileWriter?.error)
-            setMotion()
-        }
-        if recordingFlag==true && timerCnt>3{//trueになった時 0にリセットされる
-            currentTime.text=String(format:"%01d",(timerCnt-3)/60) + ":" + String(format: "%02d",(timerCnt-3)%60)
-            if timerCnt%2==0{
-                //                stopButton.tintColor=UIColor.cyan
-            }else{
-                //                stopButton.tintColor=UIColor.yellow// red
-            }
-        }
-        if timerCnt > 60*5{
-            motionManager.stopDeviceMotionUpdates()//tuika
-            if recordingFlag==true{
-                killTimer()
-                //                onClickStopButton(0)
-            }else{
-                killTimer()
-                performSegue(withIdentifier: "fromAutoRecord", sender: self)
-            }
-        }
-    }*/
+
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
         motionManager.deviceMotionUpdateInterval = 1 / 100//が最速の模様
@@ -770,66 +754,14 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         let bw=(ww-sp*10)/7//ボタン幅
         let bh=bw*170/440
         let by=wh-bh-sp
-        let by0=topPadding+sp
         let x0=leftPadding+sp*2
         
-//        let by=wh-bh-sp
-
-//        let height=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
-////        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
-////        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
-////        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
-////        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-//        let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
-//        let wh:CGFloat=view.bounds.height-topPadding-bottomPadding/2
-////        let sp=realWinWidth/120//間隙
-//        let sp=ww/120//間隙
-////        let bw=(realWinWidth-sp*10)/7//ボタン幅
-//        let bw=(ww-sp*10)/7//ボタン幅
-//        let bh=bw*170/440
-//        let by1=ww-bh-sp-height
-////        let by=realWinHeight-(bh+sp)*2-height
-//        let by2=realWinHeight-(bh+sp)*2.5-height
-
-//        let x0=leftPadding+sp*2
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by-bh*5/3,w:bw,h:bh*2,UIColor.darkGray)
         camera.setButtonProperty(skipButton,x:x0+bw*6+sp*6,y:topPadding+sp+bh*2/3,w:bw,h:bh*2,UIColor.darkGray)
         exitButton.alpha=0.5
         skipButton.alpha=0.5
-//        exitButton.isHidden=true
-//        exitButton.alpha=1.0
-//        setProperty(label: currentTime, radius: 4)
-//        currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
-//        currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
-//        currentTime.alpha=0.5
-//        quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:wh/5,height:wh/5)
- //        topEndBlankSwitch.frame = CGRect(x:leftPadding+realWinHeight/5+2*sp+20,y:sp,width:switchWidth,height:bh)
-//        topEndBlankLabel.frame = CGRect(x:topEndBlankSwitch.frame.maxX+sp,y:sp+switchHeight/2-bh/2,width:realWinWidth,height: bh)
-
-        
-//        quaternionView.layer.position=CGPoint(x:ww/12+10,y:leftPadding! + ww/12+10)
-//        if setteiMode==true{
-//        startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
-//        }else{
-//        startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
-//        }
-//        stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
-//        panTapExplanation.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight/2)
-//        if cameraType==0{
-//            previewSwitch.isHidden=false
-//            previewLabel.isHidden=false
-//        }else{
-//            previewSwitch.isHidden=true
-//            previewLabel.isHidden=true
-//        }
-//        if setteiMode==false{//slider labelを隠す
-//                hideButtonsSlides()
-////        }else{
-////            startButton.isEnabled=false
-//        }
-//        topEndBlankLabel.isHidden=true
-//        topEndBlankSwitch.isHidden=true
+ 
     }
     
     //debug用、AVAssetWriterの状態を見るため、そのうち消去
