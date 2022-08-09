@@ -432,11 +432,11 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     }
     @IBAction func onSkipButton(_ sender: Any) {
         if isPositional==true{
-            if movieTimerCnt<98{
+            if movieTimerCnt<108{
                 movieTimerCnt=108
             }
         }else{
-            if movieTimerCnt<12{
+            if movieTimerCnt<21{
                 movieTimerCnt=21
             }
         }
@@ -452,7 +452,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             if movieTimerCnt == 13{
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
                 videoPlayer.pause()
-                skipButton.isHidden=true
+//                skipButton.isHidden=true
                 sound(snd: "steel2a", fwd: 0)
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
@@ -495,7 +495,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             }
             if movieTimerCnt == 100{
                 videoPlayer.pause()
-                skipButton.isHidden=true
+//                skipButton.isHidden=true
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
                 sound(snd: "pos2a", fwd: 0)
                 quaternionView.isHidden=false
