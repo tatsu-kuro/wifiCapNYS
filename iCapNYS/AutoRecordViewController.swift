@@ -475,7 +475,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 print("stop")
                 exitButton.alpha=0.5
                 onClickStopButton()
-                playMoviePath("steel3")
+                playMoviePath("steel3new")
 //                videoView.frame = self.view.bounds
             }
             if movieTimerCnt == 25+22+1{
@@ -527,7 +527,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             if movieTimerCnt == 100+12+23+23+22+25{
                 exitButton.alpha=0.5
                 onClickStopButton()
-                playMoviePath("steel3")
+                playMoviePath("steel3new")
 //                videoView.frame = self.view.bounds
             }
             if movieTimerCnt == 100+12+23+23+22+25+1{

@@ -14,13 +14,13 @@
 		69A8FDEC28992B92001F1483 /* AutoRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */; };
 		69B6913728A1C3AC00E1C065 /* pos1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69B6913628A1C3AC00E1C065 /* pos1.mov */; };
 		69B6913928A1C3BD00E1C065 /* steel1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69B6913828A1C3BD00E1C065 /* steel1.mov */; };
-		69B6913B28A1C3FB00E1C065 /* steel3.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69B6913A28A1C3FB00E1C065 /* steel3.mov */; };
 		69E22892251834490004E53C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22891251834490004E53C /* AppDelegate.swift */; };
 		69E22894251834490004E53C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22893251834490004E53C /* SceneDelegate.swift */; };
 		69E22896251834490004E53C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22895251834490004E53C /* ViewController.swift */; };
 		69E22899251834490004E53C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69E22897251834490004E53C /* Main.storyboard */; };
 		69E2289B2518344C0004E53C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69E2289A2518344C0004E53C /* Assets.xcassets */; };
 		69E2289E2518344C0004E53C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69E2289C2518344C0004E53C /* LaunchScreen.storyboard */; };
+		69E4EFC328A3406800E3413F /* steel3new.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69E4EFC228A3406800E3413F /* steel3new.mov */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +32,6 @@
 		69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRecordViewController.swift; sourceTree = "<group>"; };
 		69B6913628A1C3AC00E1C065 /* pos1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = pos1.mov; sourceTree = "<group>"; };
 		69B6913828A1C3BD00E1C065 /* steel1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel1.mov; sourceTree = "<group>"; };
-		69B6913A28A1C3FB00E1C065 /* steel3.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel3.mov; sourceTree = "<group>"; };
 		69E2288E251834490004E53C /* iCapNYS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCapNYS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E22891251834490004E53C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69E22893251834490004E53C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +40,7 @@
 		69E2289A2518344C0004E53C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		69E2289D2518344C0004E53C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69E2289F2518344C0004E53C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69E4EFC228A3406800E3413F /* steel3new.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel3new.mov; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +64,7 @@
 		69E22885251834490004E53C = {
 			isa = PBXGroup;
 			children = (
-				69B6913A28A1C3FB00E1C065 /* steel3.mov */,
+				69E4EFC228A3406800E3413F /* steel3new.mov */,
 				69B6913828A1C3BD00E1C065 /* steel1.mov */,
 				69B6913628A1C3AC00E1C065 /* pos1.mov */,
 				69E22890251834490004E53C /* iCapNYS */,
@@ -159,7 +159,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69B6913B28A1C3FB00E1C065 /* steel3.mov in Resources */,
+				69E4EFC328A3406800E3413F /* steel3new.mov in Resources */,
 				69B6913928A1C3BD00E1C065 /* steel1.mov in Resources */,
 				69B6913728A1C3AC00E1C065 /* pos1.mov in Resources */,
 				69E2289E2518344C0004E53C /* LaunchScreen.storyboard in Resources */,
@@ -333,7 +333,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.4;
+				CURRENT_PROJECT_VERSION = 1.1.6;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = iCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -355,7 +355,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.4;
+				CURRENT_PROJECT_VERSION = 1.1.6;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = iCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
