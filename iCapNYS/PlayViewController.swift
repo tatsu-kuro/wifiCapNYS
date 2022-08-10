@@ -17,11 +17,13 @@ class PlayViewController: UIViewController{
     var calcDate:String?
     lazy var seekBar = UISlider()
     var timer:Timer?
-    @IBOutlet weak var exitButton: UIButton!
-    //    var videoURL:URL?
+
     @IBOutlet weak var videoPauseButton: UIButton!
     @IBOutlet weak var videoTopButton: UIButton!
     @IBOutlet weak var videoPlayButton: UIButton!
+    
+    
+    @IBOutlet weak var quitButton: UIButton!
     let someFunctions = myFunctions()
     override var shouldAutorotate: Bool {
         return false
@@ -95,7 +97,6 @@ class PlayViewController: UIViewController{
             
         }
         group.wait()
-        
         return avAsset
     }
     override func viewDidLoad() {
@@ -155,11 +156,10 @@ class PlayViewController: UIViewController{
         view.addSubview(currTime!)
         videoPlayer.play()
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        exitButton.frame=CGRect(x: x0+6*bw+6*sp, y: by, width:bw , height: bh)
-        setButtonProperty(button: exitButton, color: UIColor.darkGray)
-        exitButton.setTitle("Exit", for: UIControl.State.normal)
+        quitButton.frame=CGRect(x: x0+6*bw+6*sp, y: by, width:bw , height: bh)
+        setButtonProperty(button: quitButton, color: UIColor.darkGray)
 
-        view.bringSubviewToFront(exitButton)
+        view.bringSubviewToFront(quitButton)
         videoPlayButton.frame=CGRect(x: x0+4*bw+4*sp, y: by, width: bw, height: bh)
         setButtonProperty(button: videoPlayButton, color: UIColor.orange)
         videoTopButton.frame=CGRect(x: x0+3*bw+3*sp, y: by, width: bw, height: bh)

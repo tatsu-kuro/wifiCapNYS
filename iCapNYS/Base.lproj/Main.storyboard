@@ -24,19 +24,6 @@
                                 <gestureRecognizers/>
                                 <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="8"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wk2-Cg-LBI">
-                                <rect key="frame" x="461" y="251" width="48" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Exit">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <segue destination="1tp-Pv-lNK" kind="unwind" unwindAction="unwindActionWithSegue:" id="CdE-wk-jo8"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rbo-cy-ZJc">
                                 <rect key="frame" x="384" y="220" width="40" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -70,6 +57,19 @@
                                     <action selector="onVideoTopButton:" destination="x93-Is-wG7" eventType="touchUpInside" id="1uW-OX-XKi"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YN8-XD-5kY">
+                                <rect key="frame" x="509" y="221" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Exit">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="1tp-Pv-lNK" kind="unwind" unwindAction="unwindActionWithSegue:" id="yLA-iP-RNe"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="I0l-kG-AVa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -80,7 +80,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="3iq-ZH-Akx"/>
                     <connections>
-                        <outlet property="exitButton" destination="Wk2-Cg-LBI" id="clT-nh-HQv"/>
+                        <outlet property="quitButton" destination="YN8-XD-5kY" id="BbM-YZ-DwY"/>
                         <outlet property="videoPauseButton" destination="Fyt-w0-loG" id="Ner-aT-kKE"/>
                         <outlet property="videoPlayButton" destination="rbo-cy-ZJc" id="j6g-gQ-G2P"/>
                         <outlet property="videoTopButton" destination="grJ-FS-IqC" id="Peg-8R-L4b"/>
@@ -88,13 +88,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Z8-K4-WMh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="1tp-Pv-lNK" userLabel="Exit" sceneMemberID="exit"/>
-                <tapGestureRecognizer numberOfTapsRequired="2" id="UFg-H4-hQg">
+                <tapGestureRecognizer id="UFg-H4-hQg">
                     <connections>
-                        <segue destination="1tp-Pv-lNK" kind="unwind" unwindAction="unwindActionWithSegue:" id="MJG-R0-epZ"/>
+                        <segue destination="1tp-Pv-lNK" kind="unwind" unwindAction="unwindActionWithSegue:" id="QlU-qL-TYW"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-918" y="268"/>
+            <point key="canvasLocation" x="26" y="-379"/>
         </scene>
         <!--Auto Record View Controller-->
         <scene sceneID="ePb-2k-c2X">
