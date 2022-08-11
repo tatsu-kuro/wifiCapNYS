@@ -38,6 +38,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func onAutoRecordButton(_ sender: Any) {
+        let mainBrightness=UIScreen.main.brightness//明るさを保持
+        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
 //        UserDefaults.standard.set(0, forKey: "cameraType")//set frontcamera
         nextView.isPositional=false
@@ -83,6 +86,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //        }
 //    }
     @IBAction func onSetteiButton(_ sender: Any) {
+        let mainBrightness=UIScreen.main.brightness//明るさを保持
+        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=true
         self.present(nextView, animated: true, completion: nil)
@@ -126,9 +132,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     self.tableView.contentOffset.y=0
                 }
             }
-            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
+//            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
                 UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
-            }
+//            }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
@@ -151,9 +157,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     self.tableView.reloadData()//こちらだけこれが必要なのはどうして
                 }
             }
-            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
+//            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
                 UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
-            }
+//            }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()

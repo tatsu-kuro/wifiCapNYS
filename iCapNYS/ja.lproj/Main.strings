@@ -18,10 +18,10 @@
 "LNl-JF-QcN.text" = "ズーム";
 
 /* Class = "UILabel"; text = "頭位眼振  90秒記録"; ObjectID = "LOn-Kn-JPU"; */
-"LOn-Kn-JPU.text" = "頭位眼振  90秒記録";
+"LOn-Kn-JPU.text" = "頭位眼振";
 
 /* Class = "UILabel"; text = "zoomLabel"; ObjectID = "LyS-zd-GKa"; */
-"LyS-zd-GKa.text" = "zoomLabel";
+"LyS-zd-GKa.text" = "ズーム";
 
 /* Class = "UILabel"; text = "focus"; ObjectID = "U5M-bG-o5r"; */
 "U5M-bG-o5r.text" = "焦点";
@@ -33,7 +33,7 @@
 "YN8-XD-5kY.normalTitle" = "Exit";
 
 /* Class = "UILabel"; text = "自発眼振  30秒記録"; ObjectID = "aBV-ql-gTR"; */
-"aBV-ql-gTR.text" = "自発眼振  30秒記録";
+"aBV-ql-gTR.text" = "自発眼振";
 
 /* Class = "UILabel"; text = "expose"; ObjectID = "bA5-Rt-Jv6"; */
 "bA5-Rt-Jv6.text" = "露出";
@@ -42,7 +42,7 @@
 "eJp-tL-Pfc.text" = "0:00";
 
 /* Class = "UILabel"; text = "Preview"; ObjectID = "ek5-zF-XSc"; */
-"ek5-zF-XSc.text" = "Preview";
+"ek5-zF-XSc.text" = "プレビュー";
 
 /* Class = "UILabel"; text = "LED"; ObjectID = "sYh-14-k4L"; */
 "sYh-14-k4L.text" = "LED";

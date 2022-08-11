@@ -933,9 +933,9 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        performSegue(withIdentifier: "fromAutoRecord", sender: self)
     }
     func onClickStartButton() {
-          if cameraType==0{
-            let mainBrightness = UIScreen.main.brightness
-            UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+        if cameraType==0{
+//            let mainBrightness = UIScreen.main.brightness
+//            UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
             UIScreen.main.brightness = 1
         }
         

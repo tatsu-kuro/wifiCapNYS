@@ -248,7 +248,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
             cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-        }else{
+        }else{//keyが設定してなければ0をセット
             cameraType=0
             UserDefaults.standard.set(cameraType, forKey: "cameraType")
         }
@@ -264,14 +264,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDBar.maximumValue = 1
         LEDBar.addTarget(self, action: #selector(onLEDValueChange), for: UIControl.Event.valueChanged)
         LEDBar.value=UserDefaults.standard.float(forKey: "")
-        if cameraType==0{
-//            LEDBar.value=camera.getUserDefaultFloat(str: "screenBrightnessValue", ret: 0.9)
-//            lightBar.value=UserDefaults.standard.float(forKey: "screenBrightnessValue")
-        }else{
+        if cameraType != 0{
             LEDBar.value=UserDefaults.standard.float(forKey: "ledValue")
         }
         onLEDValueChange()
         if cameraType==0{
+            UIScreen.main.brightness = 1
+
             LEDBar.alpha=0.2// isHidden=true
             LEDLabel.alpha=0.2// isHidden=true
             LEDBar.isEnabled=false
@@ -342,11 +341,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     @objc func onLEDValueChange(){
         print("brightness:",LEDBar.value)
-        if cameraType==0{
-//            UIScreen.main.brightness = 10*CGFloat(LEDBar.value)
-//            UserDefaults.standard.set(LEDBar.value, forKey: "screenBrightnessValue")
-        }else{
-//            UIScreen.main.brightness=CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
+        if cameraType != 0{
             setFlashlevel(level: LEDBar.value)
             UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
         }
@@ -708,6 +703,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             focusBar.alpha=1.0
             focusLabel.alpha=1.0
         }
+        if cameraType==0{
+            UIScreen.main.brightness = 1//CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
+        }else{
+            UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
+
+        }
         onExposeValueChange()
         setButtons()
     }
@@ -994,8 +995,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         cameraChangeButton.isHidden=true
         panTapExplanation.isHidden=true
         if cameraType==0{
-            let mainBrightness = UIScreen.main.brightness
-            UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
             UIScreen.main.brightness = 1
         }
         timerCnt=0
@@ -1129,23 +1128,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 //    @IBOutlet weak var isoBar: UISlider!
     @IBOutlet weak var exposeBar: UISlider!
-    
-//    func setupSlider() {
-//        // 露出用スライダー設定
-//        brightnessSlider.minimumValue = Float(videoDevice!.minExposureTargetBias)
-//        brightnessSlider.maximumValue = Float(videoDevice!.maxExposureTargetBias)
-//        self.brightnessSlider.value = (brightnessSlider.minimumValue + brightnessSlider.maximumValue) / 2
-//        brightnessSlider.addTarget(self, action: #selector(changeSlider), for: UIControl.Event.valueChanged)
-//        self.view.addSubview(brightnessSlider)
-//        brightnessSlider.tag = 1  // タグを1に設定
-//        // ISO感度用スライダー設定
-//        isoSlider.minimumValue = Float(videoDevice!.activeFormat.minISO)
-//        isoSlider.maximumValue = Float(videoDevice!.activeFormat.maxISO)
-//        self.isoSlider.value = (isoSlider.minimumValue + isoSlider.maximumValue) / 2
-//        isoSlider.addTarget(self, action: #selector(changeSlider), for: UIControl.Event.valueChanged)
-//        self.view.addSubview(isoSlider)
-//        isoSlider.tag = 2  // タグを2に設定
-//    }
+
     @objc func onExposeValueChange(){
         setExpose(expose:exposeBar.value)
         if cameraType==0{
@@ -1153,12 +1136,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else{
             UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue1")
         }
-//        exposeValueLabel.text=exposeBar.value.description
     }
-//    @objc func onIsoValueChange(){
-//        setIso(iso:isoBar.value)
-//        UserDefaults.standard.set(isoBar.value, forKey: "isoValue")
-//    }
+
     func setExpose(expose:Float) {
         
         if let currentDevice=videoDevice{
@@ -1196,63 +1175,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         }
     }
-    // MARK: - Slider Action
-//    @IBAction func changeSlider(_ sender: UISlider) {
-//
-//        let tag: Int = sender.tag
-//        if let currentDevice=videoDevice{
-//            do {
-//                try currentDevice.lockForConfiguration()
-//                defer { currentDevice.unlockForConfiguration() }
-//
-//                // 露出、または ISO感度を設定
-//                switch tag {
-//                case 1:
-//                    currentDevice.exposureMode = .autoExpose
-//                    currentDevice.setExposureTargetBias(sender.value, completionHandler: nil)
-//                    print("expose:",sender.value)
-//                    UserDefaults.standard.set(sender.value, forKey: "cameraBrightnessValue")
-//                case 2:
-//                    currentDevice.exposureMode = .custom
-//                    currentDevice.setExposureModeCustom(duration: AVCaptureDevice.currentExposureDuration,
-//                                                        iso: sender.value,
-//                                                        completionHandler: nil)
-//                    print("iso:",sender.value)
-//                default:
-//                    break
-//                }
-//            } catch {
-//                print("\(error.localizedDescription)")
-//            }
-//        }
-//    }
-//    @IBAction func onISOChanged(_ sender: UISlider) {
-//        if cameraType==0{
-//            return
-//        }
-//        if let device = videoDevice{
-//            //        let tag: Int = sender.tag
-//            do {
-//                try device.lockForConfiguration()
-//                defer { device.unlockForConfiguration() }
-//
-//                //          露出を設定
-////                device.exposureMode = .autoExpose
-////                device.setExposureTargetBias(sender.value, completionHandler: nil)
-//                //          ISO感度を設定
-//                device.exposureMode = .custom
-//                device.setExposureModeCustom(duration: AVCaptureDevice.currentExposureDuration,
-//                                             iso: sender.value,
-//                                             completionHandler: nil)
-////                device.unlockForConfiguration()
-//
-//            } catch {
-//                print("\(error.localizedDescription)")
-//            }
-//        }
-//    }
- //   let shutterSpeed = CMTimeMake(1, 400)
- //   device.setExposureModeCustom(duration: shutterSpeed, iso: 800, completionHandler: nil)
+ 
     //debug用、AVAssetWriterの状態を見るため、そのうち消去
     func printWriterStatus(writer: AVAssetWriter) {
         print("recordingFlag=", recordingFlag)
