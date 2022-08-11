@@ -154,12 +154,13 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 
         if cameraType==0{
             setZoom(level:camera.getUserDefaultFloat(str: "zoomValue0", ret: 0.017))
+            setExpose(expose: camera.getUserDefaultFloat(str: "exposeValue0", ret: 0))
         }else{
             setZoom(level:camera.getUserDefaultFloat(str: "zoomValue1", ret: 0.07))
+            setExpose(expose: camera.getUserDefaultFloat(str: "exposeValue1", ret: 0))
         }
 
-        setExpose(expose: camera.getUserDefaultFloat(str: "exposeValue", ret: 0))
-
+ 
         setButtons()//height:buttonsHeight)
         
 //        currentTime.isHidden=true
@@ -757,6 +758,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         let x0=leftPadding+sp*2
         
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by-bh*5/3,w:bw,h:bh*2,UIColor.darkGray)
+        skipButton.titleLabel?.numberOfLines = 2
         camera.setButtonProperty(skipButton,x:x0+bw*6+sp*6,y:topPadding+sp+bh*2/3,w:bw,h:bh*2,UIColor.darkGray)
         exitButton.alpha=0.5
         skipButton.alpha=0.5

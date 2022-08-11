@@ -12,10 +12,10 @@
 "GaH-k7-GlQ.normalTitle" = "Exit";
 
 /* Class = "UIButton"; normalTitle = "Help"; ObjectID = "IwN-Th-8hI"; */
-"IwN-Th-8hI.normalTitle" = "使い方";
+"IwN-Th-8hI.normalTitle" = "Help";
 
 /* Class = "UILabel"; text = "zoom"; ObjectID = "LNl-JF-QcN"; */
-"LNl-JF-QcN.text" = "ズーム";
+"LNl-JF-QcN.text" = "zoom";
 
 /* Class = "UILabel"; text = "頭位眼振  90秒記録"; ObjectID = "LOn-Kn-JPU"; */
 "LOn-Kn-JPU.text" = "頭位眼振  90秒記録";
@@ -24,10 +24,10 @@
 "LyS-zd-GKa.text" = "zoomLabel";
 
 /* Class = "UILabel"; text = "focus"; ObjectID = "U5M-bG-o5r"; */
-"U5M-bG-o5r.text" = "焦点";
+"U5M-bG-o5r.text" = "focus";
 
 /* Class = "UIButton"; normalTitle = "setting"; ObjectID = "VOs-bS-GtU"; */
-"VOs-bS-GtU.normalTitle" = "設定";
+"VOs-bS-GtU.normalTitle" = "setting";
 
 /* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "YN8-XD-5kY"; */
 "YN8-XD-5kY.normalTitle" = "Exit";
@@ -36,7 +36,7 @@
 "aBV-ql-gTR.text" = "自発眼振  30秒記録";
 
 /* Class = "UILabel"; text = "expose"; ObjectID = "bA5-Rt-Jv6"; */
-"bA5-Rt-Jv6.text" = "露出";
+"bA5-Rt-Jv6.text" = "expose";
 
 /* Class = "UILabel"; text = "0:00"; ObjectID = "eJp-tL-Pfc"; */
 "eJp-tL-Pfc.text" = "0:00";

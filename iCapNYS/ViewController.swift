@@ -16,9 +16,10 @@ import Photos
 import AssetsLibrary
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    
-    @IBOutlet weak var postualNys: UILabel!
-    @IBOutlet weak var steelNys: UILabel!
+    @IBOutlet weak var steelLabel1: UILabel!
+    @IBOutlet weak var steelLabel2: UILabel!
+    @IBOutlet weak var postualLabel2: UILabel!
+    @IBOutlet weak var postualLabel1: UILabel!
     @IBOutlet weak var autoRecordButton: UIButton!
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
@@ -266,15 +267,19 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let by0=topPadding+sp
         let x0=leftPadding+sp*2
         let x0but=view.bounds.width-rightPadding-wh*3/4
-        steelNys.frame=CGRect(x:x0but,y:wh/3,width: wh/2,height: bh)
-        postualNys.frame=CGRect(x:x0but,y:wh/3+wh/2-2*sp,width: wh/2,height: bh)
         someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
         someFunctions.setButtonProperty(setteiButton, x:x0+bw*6+sp*6, y: by0+bh*2/3, w: bw, h: bh, UIColor.darkGray)
-//        someFunctions.setButtonProperty(autoRecordButton, x:x0+bw*4+sp*5, y: by0, w: bw*2, h: bh, UIColor.darkGray)
         autoRecordButton.frame=CGRect(x:x0but,           y:sp,width: wh/2,height: wh/2)
         positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
-//        positioningAutoRecordButton.frame=CGRect(x:x0+bw*6+sp*6, y: 0, width: bw, height: bh*3)
-        //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
+        let upCircleX0=sp+wh/4
+        let downCircleX0=wh/2-sp+wh/4
+//        steelLabel1.frame=CGRect(  x:x0but,y:wh/3,width: wh/2,height: bh)
+//        postualLabel1.frame=CGRect(x:x0but,y:wh/3+wh/2-2*sp,width: wh/2,height: bh)
+        steelLabel1.frame=CGRect(x:x0but,y:upCircleX0-wh/9-bh/2,width: wh/2,height: bh)
+        steelLabel2.frame=CGRect(x:x0but,y:upCircleX0+wh/9-bh/2,width: wh/2,height: bh)
+        postualLabel1.frame=CGRect(x:x0but,y:downCircleX0-wh/9-bh/2,width: wh/2,height: bh)
+        postualLabel2.frame=CGRect(x:x0but,y:downCircleX0+wh/9-bh/2,width: wh/2,height: bh)
+       //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
 //        changeLandscapeSideButton.isHidden=true
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left

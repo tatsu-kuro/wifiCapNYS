@@ -27,8 +27,8 @@
 		6945B1A625EB207400A52272 /* myFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myFunctions.swift; sourceTree = "<group>"; };
 		6945E7D82519145F00E16DDB /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		6945E7DB25196C3600E16DDB /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
+		6945FD1728A508E30075F8E3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		6961FBEA257E756D004B6A8C /* How2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How2ViewController.swift; sourceTree = "<group>"; };
-		69A8FDE828992945001F1483 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRecordViewController.swift; sourceTree = "<group>"; };
 		69B6913628A1C3AC00E1C065 /* pos1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = pos1.mov; sourceTree = "<group>"; };
 		69B6913828A1C3BD00E1C065 /* steel1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel1.mov; sourceTree = "<group>"; };
@@ -193,7 +193,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				69E22898251834490004E53C /* Base */,
-				69A8FDE828992945001F1483 /* ja */,
+				6945FD1728A508E30075F8E3 /* ja */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

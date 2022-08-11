@@ -35,19 +35,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let motionManager = CMMotionManager()
     @IBOutlet weak var previewSwitch: UISwitch!
     
-    @IBOutlet weak var monoChromeSwitch: UISwitch!
-    
-    @IBOutlet weak var monoChromeLabel: UILabel!
-    
     @IBAction func onPreviewSwitch(_ sender: Any) {
         if previewSwitch.isOn==true{
             UserDefaults.standard.set(1, forKey: "previewOn")
         }else{
             UserDefaults.standard.set(0, forKey: "previewOn")
         }
-    }
-    
-    @IBAction func onMonoChromeSwitch(_ sender: Any) {
     }
     
     @IBOutlet weak var previewLabel: UILabel!
@@ -85,19 +78,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             return UIInterfaceOrientationMask.landscapeLeft
         }
     }
- 
-    @IBAction func onTopEndBlankSwitch(_ sender: UISwitch) {
-//        if topEndBlankSwitch.isOn==true{
-//            UserDefaults.standard.set(1, forKey: "topEndBlank")
-//
-//        }else{
-//            UserDefaults.standard.set(0, forKey: "topEndBlank")
-//
-//        }
-    }
-//    @IBOutlet weak var speakerSwitch: UISwitch!
-//
-//    @IBOutlet weak var speakerLabel: UIImageView!
     var quater0:Double=0
     var quater1:Double=0
     var quater2:Double=0
@@ -130,23 +110,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     
     @IBOutlet weak var focusLabel: UILabel!
-//    @IBOutlet weak var zoomLabel: UILabel!
     @IBOutlet weak var focusBar: UISlider!
     
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
-    @IBOutlet weak var topEndBlankSwitch: UISwitch!
-    
-    @IBOutlet weak var topEndBlankLabel: UILabel!
+    @IBOutlet weak var exposeValueLabel: UILabel!
     @IBOutlet weak var exposeLabel: UILabel!
-    //    @IBOutlet weak var speakerImage: UIImageView!
-//        @IBOutlet weak var speakerLabel: UIImageView!
     @IBOutlet weak var zoomLabel: UILabel!
-//    @IBOutlet weak var zoomFar: UILabel!
+    @IBOutlet weak var zoomValueLabel: UILabel!
+    
     @IBOutlet weak var zoomBar: UISlider!
     @IBOutlet weak var LEDBar: UISlider!
     @IBOutlet weak var LEDLabel: UILabel!
-//    @IBOutlet weak var LEDLow: UILabel!
     @IBOutlet weak var currentTime: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var quaternionView: UIImageView!
@@ -156,9 +131,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var panTapExplanation: UILabel!
     @IBOutlet weak var whiteView: UIImageView!
     
-    @IBOutlet weak var arrowUpDown: UIImageView!
-    //    @IBOutlet weak var topLabel: UILabel!//storyboardで使っている！大事
-
+//    @IBOutlet weak var arrowUpDown: UIImageView!
+   
     @IBOutlet weak var cameraChangeButton: UIButton!
    
     func setBars(){
@@ -169,6 +143,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue1", ret: 0)
             focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
             setFocus(focus: focusBar.value)
+            setZoom(level: zoomBar.value)
 //            LEDBar.value=camera.getUserDefaultFloat(str: "ledValue", ret: 0)
 //            setFlashlevel(level: LEDBar.value)
         }
@@ -179,6 +154,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            zoom=0.007
 //        }
         if let device = videoDevice {
+            zoomValueLabel.text=level.description
+
         do {
             try device.lockForConfiguration()
                 device.ramp(
@@ -251,11 +228,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        if setteiMode==true{
-//            print("setteiMode ON")
-//        }else{
-//            print("setteiMode false")
-//        }
+
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -265,26 +238,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         getCameras()
         camera.makeAlbum()
-//        let mainBrightness = UIScreen.main.brightness
-//        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
 
-        //speakerSwitchは、ipod touchの時に便利
-//        let topEndBlank=camera.getUserDefaultInt(str: "topEndBlank", ret: 0)
-//        if topEndBlank==0{
-//            topEndBlankSwitch.isOn=false
-//        }else{
-//            topEndBlankSwitch.isOn=true
-//        }
         let previewOn=getUserDefault(str: "previewOn", ret: 0)
         if previewOn==0{
             previewSwitch.isOn=false
         }else{
             previewSwitch.isOn=true
         }
-        //speakerSwitch使用しない
-//        speakerLabel.isHidden=true
-        topEndBlankSwitch.isHidden=true
-//        UserDefaults.standard.set(1,forKey: "recordSound")
         
         if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
             cameraType=UserDefaults.standard.integer(forKey:"cameraType")
@@ -349,17 +309,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
         exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
         exposeBar.addTarget(self, action: #selector(onExposeValueChange), for: UIControl.Event.valueChanged)
-        exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:0)
+        if cameraType==0{
+            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue0",ret:0)
+        }else{
+            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue1",ret:0)
+        }
         onExposeValueChange()
-        //        self.view.addSubview(brightnessSlider)
-        //        // ISO感度用スライダー設定
-//        isoBar.minimumValue = Float(videoDevice!.activeFormat.minISO)
-//        isoBar.maximumValue = Float(videoDevice!.activeFormat.maxISO)
-//        let isoHalf = (isoBar.minimumValue + isoBar.maximumValue) / 2
-//        isoBar.addTarget(self, action: #selector(onIsoValueChange), for: UIControl.Event.valueChanged)
-//        isoBar.value=camera.getUserDefaultFloat(str: "isoValue", ret: isoHalf)
-//        onIsoValueChange()
-        isoBar.isHidden=true//exposeとisoは互いに影響している？exposeだけ使う事とした
+ //        isoBar.isHidden=true//exposeとisoは互いに影響している？exposeだけ使う事とした
 //        let buttonsHeight=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
         setButtons()//height:buttonsHeight)
         
@@ -368,10 +324,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
-//        zoomBar.isHidden=true
-//        zoomLabel.isHidden=true
-//        focusBar.isHidden=true
-//        focusLabel.isHidden=true
      }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -386,6 +338,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue1")
         }
         setZoom(level: zoomBar.value)
+//        zoomValueLabel.text=zoomBar.value.description
     }
     @objc func onLEDValueChange(){
         print("brightness:",LEDBar.value)
@@ -478,100 +431,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         })
     }
-    /*
-     
-     void RotateX(float *x, float *y, float *z, float rad) {
-         float  dy, dz;
-         dy = *y * float(cos(rad)) - *z * float(sin(rad));
-         dz = *y * float(sin(rad)) + *z * float(cos(rad));
-         *y = dy;
-         *z = dz;
-     }
-
-     void RotateY(float *x, float *y, float *z, float rad) {
-         float dx,dz;// dy, dz;
-         dx = *x * float(cos(rad)) + *z * float(sin(rad));
-         dz = - *x * float(sin(rad)) + *z * float(cos(rad));
-         *x = dx;
-         *z = dz;
-     }
-
-     void RotateZ(float *x, float *y, float *z, float rad) {
-         float dx, dy;//, dz;
-         dx = *x * float(cos(rad)) - *y * float(sin(rad));
-         dy = *x * float(sin(rad)) + *y * float(cos(rad));
-         *x = dx;
-         *y = dy;
-     }
-
-     void RotateQuat(float *x, float *y, float *z, float q0, float q1, float q2, float q3)
-     {
-         float ax, ay, az, norm, mag;
-         
-         mag =float( sqrt((q0 * q0) + (q1 * q1) + (q2 * q2) +(q3 * q3)));
-         if (mag > FLT_EPSILON ) {
-             norm = 1 / mag;
-             q0 *= norm;
-             q1 *= norm;
-             q2 *= norm;
-             q3 *= norm;
-         }
-
-         ax = *x * (q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3) + *y * (2 * (q1 * q2 - q0 * q3)) + *z * (2 * (q1 * q3 + q0 * q2));
-         ay = *x * (2 * (q1 * q2 + q0 * q3)) + *y * (q0 * q0 - q1 * q1 + q2 * q2 - q3 * q3) + *z * (2 * (q2 * q3 - q0 * q1));
-         az = *x * (2 * (q1 * q3 - q0 * q2)) + *y * (2 * (q2 * q3 + q0 * q1)) + *z * (q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3);
-         *x = ax;
-         *y = ay;
-         *z = az;
-     }
-     void MultQuat(float *a0, float *a1, float *a2, float *a3, float q0, float q1, float q2, float q3, float p0, float p1, float p2, float p3)
-     {
-      *a0 = q0 * p0 - q1 * p1 - q2 * p2 - q3 * p3;
-      *a1 = q1 * p0 + q0 * p1 - q3 * p2 + q2 * p3;
-      *a2 = q2 * p0 + q3 * p1 + q0 * p2 - q1 * p3;
-      *a3 = q3 * p0 - q2 * p1 + q1 * p2 + q0 * p3;
-     }
-     void QuatXchan(float *q0,float *q1,float *q2,float *q3)
-     {
-         float tx,ty,tz;
-         if(Sxyz[0]=='1')tx=*q1;
-         else if(Sxyz[0]=='2')tx=*q2;
-         else tx=*q3;
-         if(Sxyz[1]=='-')tx=-tx;
-
-         if(Sxyz[3]=='1')ty=*q1;
-         else if(Sxyz[3]=='2')ty=*q2;
-         else ty=*q3;
-         if(Sxyz[4]=='-')ty=-ty;
-
-         if(Sxyz[6]=='1')tz=*q1;
-         else if(Sxyz[6]=='2')tz=*q2;
-         else tz=*q3;
-         if(Sxyz[7]=='-')tz=-tz;
-         *q1=tx;
-         *q2=ty;
-         *q3=tz;
-     }
-    extern float cq0, cq1, cq2, cq3;//spaceを押した時のcenter quatrnion
-    extern float nq0, nq1, nq2, nq3;//現在のquaternion
-    extern float mnq0, mnq1, mnq2, mnq3;//受け渡し用のquaternion
-
-    if (Resetheadfcnt > 0) {
-        cq0 = nq0; cq3 = -nq3;
-    }
-
-    nq0 = f0;
-    nq1 = f1;
-    nq2 = f2;
-    nq3 = f3;
-    MultQuat(&f0, &f1, &f2, &f3, cq0, cq1, cq2, cq3, nq0, nq1, nq2, nq3);
-    QuatXchan(&f0, &f1, &f2, &f3);
-
-    mnq0 = f0;
-    mnq1 = f1;
-    mnq2 = f2;
-    mnq3 = f3;
-    */
+  
     func set_rpk_ppk() {
         let faceR:CGFloat = 40//hankei
         var frontBack:Int = 0
@@ -1008,19 +868,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.white)
         zoomBar.frame = CGRect(x:x0+bw*4+sp*4,y:by,width:bw*2+sp,height: bh)
-//        zoomLabel.isHidden=true
-//        zoomBar.isHidden=true
-//        focusBar.isHidden=true
-//        focusLabel.isHidden=true
         exposeBar.frame = CGRect(x:x0+bw*4+sp*4,y:by1,width:bw*2+sp,height: bh)
         camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
- 
-//        isoBar.frame = CGRect(x:x0+bw*4+sp*4,y:by2,width:bw*2+sp,height: bh)
-        
-//        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by-bh*2/3,w:bw,h:bh,UIColor.darkGray)
-
-        
-        
+        camera.setLabelProperty(exposeValueLabel, x: x0+bw*4+sp*4, y: by-sp-bh, w: bw, h: bh, UIColor.white)
+        camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by-sp-bh, w: bw, h: bh, UIColor.white)
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         setProperty(label: currentTime, radius: 4)
@@ -1028,11 +879,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
-//        topEndBlankSwitch.frame = CGRect(x:leftPadding+realWinHeight/5+2*sp+20,y:sp,width:switchWidth,height:bh)
-//        topEndBlankLabel.frame = CGRect(x:topEndBlankSwitch.frame.maxX+sp,y:sp+switchHeight/2-bh/2,width:realWinWidth,height: bh)
-
-        
-//        quaternionView.layer.position=CGPoint(x:ww/12+10,y:leftPadding! + ww/12+10)
         if setteiMode==true{
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
         }else{
@@ -1052,8 +898,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        }else{
 //            startButton.isEnabled=false
         }
-        topEndBlankLabel.isHidden=true
-        topEndBlankSwitch.isHidden=true
+//        topEndBlankLabel.isHidden=true
+//        topEndBlankSwitch.isHidden=true
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
@@ -1120,64 +966,30 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     func hideButtonsSlides() {
         zoomLabel.isHidden=true
+        zoomValueLabel.isHidden=true
         focusLabel.isHidden=true
         focusBar.isHidden=true
         zoomBar.isHidden=true
         LEDLabel.isHidden=true
         LEDBar.isHidden=true
         exposeLabel.isHidden=true
+        exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         panTapExplanation.isHidden=true
-//        topEndBlankLabel.isHidden=true
-//        topEndBlankSwitch.isHidden=true
-        //sensorをリセットし、正面に
-//        motionManager.stopDeviceMotionUpdates()
-//        recordingFlag=true
-        //start recording
-//        startButton.isHidden=true
-//        stopButton.isHidden=false
-//        stopButton.isEnabled=true
-//        startButton.isEnabled=false
         currentTime.isHidden=false
-//        exitButton.isHidden=true
-
-//        speakerLabel.isHidden=true
-//        stopButton.alpha=0.02
-//        previewLabel.isHidden=true
-//        previewSwitch.isHidden=true
-//        if cameraType==0 && previewSwitch.isOn==false{
-//            quaternionView.isHidden=true
-//            cameraView.isHidden=true
-//            currentTime.alpha=0.1
-//        }
-//        try? FileManager.default.removeItem(atPath: TempFilePath)
-//
-//        timerCnt=0
-//        UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-//        //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-//        if speakerSwitch.isOn==true{
-//        if let soundUrl = URL(string:
-//
-//                                "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
-//            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
-//            AudioServicesPlaySystemSound(soundIdx)
-//        }
-//        }
-//        fileWriter!.startWriting()
-//        fileWriter!.startSession(atSourceTime: CMTime.zero)
-//        print(fileWriter?.error)
-//        setMotion()
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
         zoomLabel.isHidden=true
+        zoomValueLabel.isHidden=true
         focusLabel.isHidden=true
         focusBar.isHidden=true
         zoomBar.isHidden=true
         LEDLabel.isHidden=true
         LEDBar.isHidden=true
         exposeLabel.isHidden=true
+        exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         panTapExplanation.isHidden=true
@@ -1315,7 +1127,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         }
     }
-    @IBOutlet weak var isoBar: UISlider!
+//    @IBOutlet weak var isoBar: UISlider!
     @IBOutlet weak var exposeBar: UISlider!
     
 //    func setupSlider() {
@@ -1336,15 +1148,22 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //    }
     @objc func onExposeValueChange(){
         setExpose(expose:exposeBar.value)
-        UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
+        if cameraType==0{
+            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue0")
+        }else{
+            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue1")
+        }
+//        exposeValueLabel.text=exposeBar.value.description
     }
-    @objc func onIsoValueChange(){
-        setIso(iso:isoBar.value)
-        UserDefaults.standard.set(isoBar.value, forKey: "isoValue")
-    }
+//    @objc func onIsoValueChange(){
+//        setIso(iso:isoBar.value)
+//        UserDefaults.standard.set(isoBar.value, forKey: "isoValue")
+//    }
     func setExpose(expose:Float) {
         
         if let currentDevice=videoDevice{
+            exposeValueLabel.text=expose.description
+
             do {
                 try currentDevice.lockForConfiguration()
                 defer { currentDevice.unlockForConfiguration() }
