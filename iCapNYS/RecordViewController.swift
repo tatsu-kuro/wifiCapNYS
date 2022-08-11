@@ -128,7 +128,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var cameraView:
         UIImageView!
     
-    @IBOutlet weak var explanationLabel: UILabel!
+    @IBOutlet weak var explanationButton2: UIButton!
+    @IBOutlet weak var explanationButton1: UIButton!
+    @IBOutlet weak var explanationLabel2: UILabel!
+    @IBOutlet weak var explanationLabel1: UILabel!
     @IBOutlet weak var whiteView: UIImageView!
     
 //    @IBOutlet weak var arrowUpDown: UIImageView!
@@ -852,10 +855,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        let by2=realWinHeight-(bh+sp)*2.5-height
         let x0=leftPadding+sp*2
         
-//        previewSwitch.frame = CGRect(x:view.bounds.width*2/3+sp,y:topPadding!+sp,width: bw,height: bh)
         previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
         let switchHeight=previewSwitch.frame.height
-//        let switchWidth=previewSwitch.frame.width
         previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
         previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
         previewLabel.frame.size.width=bw*5
@@ -871,8 +872,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         zoomBar.frame = CGRect(x:x0+bw*4+sp*4,y:by,width:bw*2+sp,height: bh)
         exposeBar.frame = CGRect(x:x0+bw*4+sp*4,y:by1,width:bw*2+sp,height: bh)
         camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
-        camera.setLabelProperty(exposeValueLabel, x: x0+bw*4+sp*4, y: by-sp-bh, w: bw, h: bh, UIColor.white)
-        camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by-sp-bh, w: bw, h: bh, UIColor.white)
+        camera.setLabelProperty(exposeValueLabel, x: x0+bw*3+sp*3, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
+        camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         setProperty(label: currentTime, radius: 4)
@@ -886,7 +887,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
-        explanationLabel.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight/2)
+        let ex1=realWinWidth/3
+        let ex2=ex1+bh+sp
+        let ey1=sp
+        let ey2=sp*2+bh
+        
+        explanationLabel1.frame=CGRect(x:ex2,y:ey1,width:realWinWidth,height:bh)
+        explanationLabel2.frame=CGRect(x:ex2,y:ey2,width:realWinWidth,height:bh)
+        explanationButton1.frame=CGRect(x:ex1,y:ey1,width:bh,height:bh)
+        explanationButton2.frame=CGRect(x:ex1,y:ey2,width:bh,height:bh)
         if cameraType==0{
             previewSwitch.isHidden=false
             previewLabel.isHidden=false
@@ -896,11 +905,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         if setteiMode==false{//slider labelを隠す
                 hideButtonsSlides()
-//        }else{
-//            startButton.isEnabled=false
         }
-//        topEndBlankLabel.isHidden=true
-//        topEndBlankSwitch.isHidden=true
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
@@ -977,7 +982,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
-        explanationLabel.isHidden=true
+        explanationLabel1.isHidden=true
         currentTime.isHidden=false
     }
 
@@ -993,7 +998,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
-        explanationLabel.isHidden=true
+        explanationLabel1.isHidden=true
         if cameraType==0{
             UIScreen.main.brightness = 1
         }

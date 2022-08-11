@@ -6,7 +6,8 @@
 "98j-l3-HIC.normalTitle" = "ExitDamy";
 
 /* Class = "UILabel"; text = "Tap anywhere on the screen to reset the HEAD.\nPan up or down anywhere to move the buttons."; ObjectID = "9KR-ld-QTe"; */
-"9KR-ld-QTe.text" = "Tap anywhere on the screen to reset the HEAD.\nPan up or down anywhere to move the buttons.";
+"TYI-qH-ZOy.text" = "トップページの左ボタンは、この設定で録画します。";
+"9KR-ld-QTe.text" = "トップページの左ボタンは、この設定で録画します。";
 
 /* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "GaH-k7-GlQ"; */
 "GaH-k7-GlQ.normalTitle" = "Exit";

@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -333,49 +334,54 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap anywhere on the screen to reset the HEAD." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KR-ld-QTe">
-                                <rect key="frame" x="0.0" y="0.0" width="568" height="109"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="left button on top page to record as this." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KR-ld-QTe">
+                                <rect key="frame" x="313" y="0.0" width="255" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYI-qH-ZOy">
-                                <rect key="frame" x="302" y="11" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LyS-zd-GKa">
-                                <rect key="frame" x="469" y="179" width="31" height="21"/>
+                                <rect key="frame" x="469" y="179" width="28" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="67v-Uu-qvh">
-                                <rect key="frame" x="469" y="150" width="31" height="21"/>
+                                <rect key="frame" x="469" y="150" width="28" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O47-vC-kup">
+                                <rect key="frame" x="183" y="3" width="26" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" systemColor="systemGreenColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="video.circle" catalog="system" symbolScale="large"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-zx-S4S">
+                                <rect key="frame" x="235" y="8" width="26" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" systemColor="systemOrangeColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="record.circle" catalog="system" symbolScale="large"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="left button on top page to record as this." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYI-qH-ZOy">
+                                <rect key="frame" x="313" y="40" width="307" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O47-vC-kup">
-                                <rect key="frame" x="186" y="5" width="20" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" systemColor="systemOrangeColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="record.circle" catalog="system"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-zx-S4S">
-                                <rect key="frame" x="238" y="10" width="20" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" systemColor="systemGreenColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="video.circle" catalog="system"/>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rQ7-Kf-AuZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -384,13 +390,9 @@
                         </accessibility>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="flD-sk-DFz" firstAttribute="top" secondItem="9KR-ld-QTe" secondAttribute="bottom" constant="48.5" id="EwG-3S-cC0"/>
-                            <constraint firstAttribute="trailing" secondItem="9KR-ld-QTe" secondAttribute="trailing" id="GLc-oy-b0V"/>
-                            <constraint firstItem="9KR-ld-QTe" firstAttribute="top" secondItem="bzg-mg-vx4" secondAttribute="top" id="PkA-Ed-6Nx"/>
                             <constraint firstItem="flD-sk-DFz" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="SYk-Dz-x2W"/>
                             <constraint firstItem="flD-sk-DFz" firstAttribute="trailing" secondItem="rQ7-Kf-AuZ" secondAttribute="trailing" id="U8D-Pl-p4b"/>
                             <constraint firstItem="flD-sk-DFz" firstAttribute="centerY" secondItem="bzg-mg-vx4" secondAttribute="centerY" id="ay0-Rx-ena"/>
-                            <constraint firstItem="9KR-ld-QTe" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="pjJ-3M-G4M"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Qhd-kv-Jkz" appends="YES" id="fr0-If-gvD"/>
@@ -405,7 +407,10 @@
                         <outlet property="cameraView" destination="ZdO-VK-uDo" id="Sf8-EB-6k2"/>
                         <outlet property="currentTime" destination="eJp-tL-Pfc" id="vx3-sB-2CR"/>
                         <outlet property="exitButton" destination="GaH-k7-GlQ" id="P3d-YT-pSI"/>
-                        <outlet property="explanationLabel" destination="9KR-ld-QTe" id="3nb-BG-87L"/>
+                        <outlet property="explanationButton1" destination="O47-vC-kup" id="wQx-T4-b7W"/>
+                        <outlet property="explanationButton2" destination="mMG-zx-S4S" id="RSf-Ex-wVN"/>
+                        <outlet property="explanationLabel1" destination="9KR-ld-QTe" id="3nb-BG-87L"/>
+                        <outlet property="explanationLabel2" destination="TYI-qH-ZOy" id="Eif-Nt-Dds"/>
                         <outlet property="exposeBar" destination="eyO-Ha-uOO" id="3lu-Wt-KNJ"/>
                         <outlet property="exposeLabel" destination="bA5-Rt-Jv6" id="W87-mN-K1S"/>
                         <outlet property="exposeValueLabel" destination="67v-Uu-qvh" id="V9g-VI-WUy"/>
