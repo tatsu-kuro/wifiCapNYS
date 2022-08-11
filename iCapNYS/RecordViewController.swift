@@ -128,7 +128,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var cameraView:
         UIImageView!
     
-    @IBOutlet weak var panTapExplanation: UILabel!
+    @IBOutlet weak var explanationLabel: UILabel!
     @IBOutlet weak var whiteView: UIImageView!
     
 //    @IBOutlet weak var arrowUpDown: UIImageView!
@@ -886,7 +886,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
-        panTapExplanation.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight/2)
+        explanationLabel.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight/2)
         if cameraType==0{
             previewSwitch.isHidden=false
             previewLabel.isHidden=false
@@ -977,7 +977,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
-        panTapExplanation.isHidden=true
+        explanationLabel.isHidden=true
         currentTime.isHidden=false
     }
 
@@ -993,7 +993,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
-        panTapExplanation.isHidden=true
+        explanationLabel.isHidden=true
         if cameraType==0{
             UIScreen.main.brightness = 1
         }
