@@ -317,16 +317,36 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue1",ret:0)
         }
         onExposeValueChange()
- //        isoBar.isHidden=true//exposeとisoは互いに影響している？exposeだけ使う事とした
-//        let buttonsHeight=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
-        setButtons()//height:buttonsHeight)
-        
+        setButtons()
+        setExplanation()
         currentTime.isHidden=true
         startButton.alpha=0.25
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
      }
+    func setExplanation(){
+        if cameraType==0{
+            explanationLabel1.isHidden=false
+            explanationLabel2.isHidden=false
+            explanationButton1.isHidden=false
+            explanationButton2.isHidden=false
+            explanationLabel1.alpha=0.2
+            explanationLabel2.alpha=0.2
+            explanationButton1.alpha=0.75
+            explanationButton2.alpha=0.75
+
+        }else{
+            explanationLabel1.isHidden=false
+            explanationLabel2.isHidden=true
+            explanationButton1.isHidden=false
+            explanationButton2.isHidden=true
+            explanationLabel1.alpha=1
+            explanationLabel2.alpha=1
+            explanationButton1.alpha=1
+            explanationButton2.alpha=1
+        }
+    }
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -714,6 +734,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         onExposeValueChange()
         setButtons()
+        setExplanation()
     }
     
     func initSession(fps:Double) {
@@ -982,23 +1003,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
-        explanationLabel1.isHidden=true
+//        explanationLabel1.isHidden=true
+//        explanationLabel2.isHidden=true
+//        explanationButton1.isHidden=true
+//        explanationButton2.isHidden=true
         currentTime.isHidden=false
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
-        zoomLabel.isHidden=true
-        zoomValueLabel.isHidden=true
-        focusLabel.isHidden=true
-        focusBar.isHidden=true
-        zoomBar.isHidden=true
-        LEDLabel.isHidden=true
-        LEDBar.isHidden=true
-        exposeLabel.isHidden=true
-        exposeValueLabel.isHidden=true
-        exposeBar.isHidden=true
-        cameraChangeButton.isHidden=true
-        explanationLabel1.isHidden=true
+        hideButtonsSlides()
+
         if cameraType==0{
             UIScreen.main.brightness = 1
         }
@@ -1014,32 +1028,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isEnabled=false
         currentTime.isHidden=false
         exitButton.isHidden=true
-//        topEndBlankSwitch.isHidden=true
-//        speakerLabel.isHidden=true
         stopButton.alpha=0.02
         previewLabel.isHidden=true
         previewSwitch.isHidden=true
-    //    topEndBlankLabel.isHidden=true
-      //  topEndBlankSwitch.isHidden=true
         if cameraType==0 && previewSwitch.isOn==false{
             quaternionView.isHidden=true
             cameraView.isHidden=true
             currentTime.alpha=0.1
         }
         try? FileManager.default.removeItem(atPath: TempFilePath)
-//         UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-//        //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-//
-//        if let soundUrl = URL(string:
-//                                "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
-//            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
-//            AudioServicesPlaySystemSound(soundIdx)
-//        }
-//
-//        fileWriter!.startWriting()
-//        fileWriter!.startSession(atSourceTime: CMTime.zero)
-////        print(fileWriter?.error)
-//        setMotion()
     }
 
     var tapInterval=CFAbsoluteTimeGetCurrent()
