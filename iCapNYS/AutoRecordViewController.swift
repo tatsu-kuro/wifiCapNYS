@@ -758,10 +758,15 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         let x0=leftPadding+sp*2
         
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by-bh*5/3,w:bw,h:bh*2,UIColor.darkGray)
-        skipButton.titleLabel?.numberOfLines = 2
         camera.setButtonProperty(skipButton,x:x0+bw*6+sp*6,y:topPadding+sp+bh*2/3,w:bw,h:bh*2,UIColor.darkGray)
         exitButton.alpha=0.5
         skipButton.alpha=0.5
+    
+        skipButton.titleLabel!.lineBreakMode = NSLineBreakMode.byWordWrapping
+        skipButton.titleLabel!.numberOfLines = 2
+        skipButton.titleLabel!.textAlignment = NSTextAlignment.center
+        
+        
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:wh/5,height:wh/5)
  
     }
