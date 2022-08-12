@@ -313,6 +313,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeBar.addTarget(self, action: #selector(onExposeValueChange), for: UIControl.Event.valueChanged)
         if cameraType==0{
             exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue0",ret:0)
+            UIScreen.main.brightness = 1
         }else{
             exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue1",ret:0)
         }
