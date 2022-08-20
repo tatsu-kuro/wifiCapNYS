@@ -6,8 +6,8 @@
 "98j-l3-HIC.normalTitle" = "ExitDamy";
 
 /* Class = "UILabel"; text = "Tap anywhere on the screen to reset the HEAD.\nPan up or down anywhere to move the buttons."; ObjectID = "9KR-ld-QTe"; */
-"9KR-ld-QTe.text" = "ボタン(トップページ)は、下の設定で録画します。";
-"TYI-qH-ZOy.text" = "ボタン(トップページ)も、下の設定で録画します。";
+"9KR-ld-QTe.text" = "トップページボタンの録画設定";
+"TYI-qH-ZOy.text" = "トップページボタンの録画設定";
 
 /* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "GaH-k7-GlQ"; */
 "GaH-k7-GlQ.normalTitle" = "Exit";
@@ -19,7 +19,7 @@
 "LNl-JF-QcN.text" = "ズーム";
 
 /* Class = "UILabel"; text = "頭位眼振  90秒記録"; ObjectID = "LOn-Kn-JPU"; */
-"LOn-Kn-JPU.text" = "頭位眼振";
+"LOn-Kn-JPU.text" = "寝て記録";
 
 /* Class = "UILabel"; text = "zoomLabel"; ObjectID = "LyS-zd-GKa"; */
 "LyS-zd-GKa.text" = "ズーム";
@@ -34,7 +34,7 @@
 "YN8-XD-5kY.normalTitle" = "Exit";
 
 /* Class = "UILabel"; text = "自発眼振  30秒記録"; ObjectID = "aBV-ql-gTR"; */
-"aBV-ql-gTR.text" = "自発眼振";
+"aBV-ql-gTR.text" = "座って記録";
 
 /* Class = "UILabel"; text = "expose"; ObjectID = "bA5-Rt-Jv6"; */
 "bA5-Rt-Jv6.text" = "露出";
@@ -53,3 +53,4 @@
 
 /* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "us7-si-304"; */
 "us7-si-304.normalTitle" = "Exit";
+"qAz-dt-o8h.text" = "hhhh"
