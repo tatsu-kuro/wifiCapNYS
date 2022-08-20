@@ -101,6 +101,10 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
             print(albumName," exist already.")
         }
     }
+    func firstLang() -> String {
+        let prefLang = Locale.preferredLanguages.first
+        return prefLang!
+    }
     func getPHAssetcollection()->PHAssetCollection{
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true

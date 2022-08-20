@@ -765,10 +765,10 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         skipButton.titleLabel!.lineBreakMode = NSLineBreakMode.byWordWrapping
         skipButton.titleLabel!.numberOfLines = 2
         skipButton.titleLabel!.textAlignment = NSTextAlignment.center
-        
-        
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:wh/5,height:wh/5)
- 
+        if someFunctions.firstLang().contains("ja"){
+            skipButton.setTitle("解説をスキップ", for: .normal)
+        }
     }
     
     //debug用、AVAssetWriterの状態を見るため、そのうち消去

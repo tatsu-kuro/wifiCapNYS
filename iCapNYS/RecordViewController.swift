@@ -318,8 +318,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue1",ret:0)
         }
         onExposeValueChange()
-        setButtons()
         setExplanation()
+        setButtons()
         currentTime.isHidden=true
         startButton.alpha=0.25
         startButton.isHidden=false
@@ -734,9 +734,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         }
         onExposeValueChange()
-        setButtons()
         setExplanation()
-    }
+        setButtons()
+     }
     
     func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ
@@ -928,6 +928,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if setteiMode==false{//slider labelを隠す
                 hideButtonsSlides()
         }
+        if someFunctions.firstLang().contains("ja"){
+            exposeLabel.text="露出"
+            zoomLabel.text="ズーム"
+            focusLabel.text="焦点"
+            previewLabel.text="プレビュー"
+            explanationLabel1.text="左ボタン(トップページ)の録画設定"
+            explanationLabel2.text="左ボタン(トップページ)の録画設定"
+        }
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
@@ -1004,10 +1012,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
-//        explanationLabel1.isHidden=true
-//        explanationLabel2.isHidden=true
-//        explanationButton1.isHidden=true
-//        explanationButton2.isHidden=true
+        explanationLabel1.isHidden=true
+        explanationLabel2.isHidden=true
+        explanationButton1.isHidden=true
+        explanationButton2.isHidden=true
         currentTime.isHidden=false
     }
 

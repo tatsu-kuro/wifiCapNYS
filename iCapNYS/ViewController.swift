@@ -36,7 +36,13 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             tableView?.reloadData()
         }
     }
-    
+//    if firstLang().contains("ja"){
+//        helpView.image=UIImage(named:"help")
+//    }else{
+//        helpView.image=UIImage(named:"helpEn")
+//    }
+//}
+ 
     @IBAction func onAutoRecordButton(_ sender: Any) {
         let mainBrightness=UIScreen.main.brightness//明るさを保持
         UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
@@ -294,6 +300,15 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*5/13, y:topPadding+wh*4/13,width:wh*5/13, height: wh*5/13)
         //高さ/20を上下に開ける
         tableView.frame = CGRect(x:leftPadding,y:topPadding+sp+wh/20,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-2*sp-wh/10)
+        
+        if someFunctions.firstLang().contains("ja"){
+            how2Button.setTitle("使い方", for: .normal)
+            setteiButton.setTitle("設定", for: .normal)
+            steelLabel1.text="座って記録"
+            steelLabel2.text="30秒"
+            postualLabel1.text="寝て記録"
+            postualLabel2.text="90秒"
+        }
     }
   
     override func viewWillAppear(_ animated: Bool) {

@@ -35,16 +35,16 @@ class How2ViewController: UIViewController {
         exitButton.layer.borderWidth = 1.0
         exitButton.layer.cornerRadius = 5
         helpView.frame=CGRect(x:x0,y:topPadding+sp,width: ww-4*sp,height: by-sp)//wh-bh)
-        if firstLang().contains("ja"){
+        if someFunctions.firstLang().contains("ja"){
             helpView.image=UIImage(named:"help")
         }else{
             helpView.image=UIImage(named:"helpEn")
         }
     }
-    func firstLang() -> String {
-        let prefLang = Locale.preferredLanguages.first
-        return prefLang!
-    }
+//    func firstLang() -> String {
+//        let prefLang = Locale.preferredLanguages.first
+//        return prefLang!
+//    }
 
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var helpView: UIImageView!
