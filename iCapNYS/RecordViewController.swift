@@ -332,20 +332,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             explanationLabel2.isHidden=false
             explanationButton1.isHidden=false
             explanationButton2.isHidden=false
-            explanationLabel1.alpha=0.2
-            explanationLabel2.alpha=0.2
-            explanationButton1.alpha=0.75
-            explanationButton2.alpha=0.75
+//            explanationLabel1.alpha=0.2
+//            explanationLabel2.alpha=0.2
+//            explanationButton1.alpha=0.75
+//            explanationButton2.alpha=0.75
 
         }else{
             explanationLabel1.isHidden=false
             explanationLabel2.isHidden=true
             explanationButton1.isHidden=false
             explanationButton2.isHidden=true
-            explanationLabel1.alpha=1
-            explanationLabel2.alpha=1
-            explanationButton1.alpha=1
-            explanationButton2.alpha=1
+//            explanationLabel1.alpha=1
+//            explanationLabel2.alpha=1
+//            explanationButton1.alpha=1
+//            explanationButton2.alpha=1
         }
     }
     override var prefersStatusBarHidden: Bool {
@@ -933,8 +933,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             zoomLabel.text="ズーム"
             focusLabel.text="焦点"
             previewLabel.text="プレビュー"
-            explanationLabel1.text="左ボタン(トップページ)の録画設定"
-            explanationLabel2.text="左ボタン(トップページ)の録画設定"
+            explanationLabel1.text="(トップページ)の録画設定"
+            explanationLabel2.text="(トップページ)の録画設定"
         }
     }
   

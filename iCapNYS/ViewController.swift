@@ -306,7 +306,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             setteiButton.setTitle("設定", for: .normal)
             steelLabel1.text="座って記録"
             steelLabel2.text="30秒"
-            postualLabel1.text="寝て記録"
+            postualLabel1.text="横になって記録"
             postualLabel2.text="90秒"
         }
     }
