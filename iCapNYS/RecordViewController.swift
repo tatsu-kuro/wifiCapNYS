@@ -32,6 +32,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var recordingFlag:Bool = false
     var saved2album:Bool = false
     var setteiMode:Bool = false
+    var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
     @IBOutlet weak var previewSwitch: UISwitch!
     
@@ -128,10 +129,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var cameraView:
         UIImageView!
     
-    @IBOutlet weak var explanationButton2: UIButton!
-    @IBOutlet weak var explanationButton1: UIButton!
-    @IBOutlet weak var explanationLabel2: UILabel!
-    @IBOutlet weak var explanationLabel1: UILabel!
+     @IBOutlet weak var explanationLabel: UILabel!
     @IBOutlet weak var whiteView: UIImageView!
     
 //    @IBOutlet weak var arrowUpDown: UIImageView!
@@ -255,7 +253,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             cameraType=0
             UserDefaults.standard.set(cameraType, forKey: "cameraType")
         }
-    
+        if autoRecordMode==true{
+            cameraType=0
+            cameraChangeButton.isEnabled=false
+        }
         set_rpk_ppk()
         setMotion()
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも、30fpsだ！
@@ -318,7 +319,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue1",ret:0)
         }
         onExposeValueChange()
-        setExplanation()
+//        setExplanation()
         setButtons()
         currentTime.isHidden=true
         startButton.alpha=0.25
@@ -326,28 +327,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isHidden=true
         stopButton.isEnabled=false
      }
-    func setExplanation(){
-        if cameraType==0{
-            explanationLabel1.isHidden=false
-            explanationLabel2.isHidden=false
-            explanationButton1.isHidden=false
-            explanationButton2.isHidden=false
-//            explanationLabel1.alpha=0.2
-//            explanationLabel2.alpha=0.2
-//            explanationButton1.alpha=0.75
-//            explanationButton2.alpha=0.75
-
-        }else{
-            explanationLabel1.isHidden=false
-            explanationLabel2.isHidden=true
-            explanationButton1.isHidden=false
-            explanationButton2.isHidden=true
-//            explanationLabel1.alpha=1
-//            explanationLabel2.alpha=1
-//            explanationButton1.alpha=1
-//            explanationButton2.alpha=1
-        }
-    }
+ 
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -454,8 +434,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func set_rpk_ppk() {
         let faceR:CGFloat = 40//hankei
         var frontBack:Int = 0
-        let camera = Int(camera.getUserDefaultInt(str: "cameraType", ret: 0))
-        if camera == 0{//front camera
+//        let camera = Int(camera.getUserDefaultInt(str: "cameraType", ret: 0))
+//        i
+        if cameraType == 0{//front camera
             frontBack = 180
         }
         // convert draw data to radian
@@ -678,6 +659,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     */
     
     @IBAction func onCameraChangeButton(_ sender: Any) {
+//        if autoRecordMode==true{
+//            return
+//        }
        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
         if cameraType==0{
             cameraType=1
@@ -734,13 +718,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         }
         onExposeValueChange()
-        setExplanation()
+//        setExplanation()
         setButtons()
      }
     
     func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ
-        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
+//        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
 
         if cameraType == 0{
         videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)//.back)
@@ -912,13 +896,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let ex1=realWinWidth/3
         let ex2=ex1+bh+sp
         let ey1=sp
-        let ey2=sp*2+bh
-        
-        explanationLabel1.frame=CGRect(x:ex2,y:ey1,width:realWinWidth,height:bh)
-        explanationLabel2.frame=CGRect(x:ex2,y:ey2,width:realWinWidth,height:bh)
-        explanationButton1.frame=CGRect(x:ex1,y:ey1,width:bh,height:bh)
-        explanationButton2.frame=CGRect(x:ex1,y:ey2,width:bh,height:bh)
-        if cameraType==0{
+       
+        explanationLabel.frame=CGRect(x:ex2,y:ey1,width:realWinWidth,height:bh)
+            if cameraType==0{
             previewSwitch.isHidden=false
             previewLabel.isHidden=false
         }else{
@@ -933,8 +913,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             zoomLabel.text="ズーム"
             focusLabel.text="焦点"
             previewLabel.text="プレビュー"
-            explanationLabel1.text="(トップページ)の録画設定"
-            explanationLabel2.text="(トップページ)の録画設定"
+            if autoRecordMode==true{
+                explanationLabel.text="フロントカメラの録画設定"
+            }else{
+                explanationLabel.isHidden=true
+            }
         }
     }
   
@@ -1012,11 +995,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
-        explanationLabel1.isHidden=true
-        explanationLabel2.isHidden=true
-        explanationButton1.isHidden=true
-        explanationButton2.isHidden=true
-        currentTime.isHidden=false
+        explanationLabel.isHidden=true
+         currentTime.isHidden=false
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {

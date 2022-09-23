@@ -635,6 +635,13 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
         button.layer.cornerRadius = 5
         button.backgroundColor = color
     }
+    func setButtonProperty(_ button:UIButton,x:CGFloat,y:CGFloat,w:CGFloat,h:CGFloat,_ color:UIColor,_ borderWidth:CGFloat){
+        button.frame   = CGRect(x:x, y:y, width: w, height: h)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = borderWidth
+        button.layer.cornerRadius = 5
+        button.backgroundColor = color
+    }
     func getUserDefaultInt(str:String,ret:Int) -> Int{
         if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
             return UserDefaults.standard.integer(forKey:str)

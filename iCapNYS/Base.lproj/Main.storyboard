@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -199,7 +198,7 @@
                                 <rect key="frame" x="174" y="50" width="220" height="220"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemRedColor"/>
-                                <state key="normal" image="largecircle.fill.circle" catalog="system"/>
+                                <state key="normal" image="circle.inset.filled" catalog="system"/>
                                 <connections>
                                     <action selector="onClickStartButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="zgY-w5-GBI"/>
                                 </connections>
@@ -327,7 +326,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="record setting of the left button" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KR-ld-QTe">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="record setting of front camera" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KR-ld-QTe">
                                 <rect key="frame" x="313" y="0.0" width="255" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -347,31 +346,6 @@
                                 <rect key="frame" x="469" y="150" width="28" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O47-vC-kup">
-                                <rect key="frame" x="183" y="3" width="26" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" systemColor="systemGreenColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal">
-                                    <imageReference key="image" image="video.circle" catalog="system" symbolScale="large"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-zx-S4S">
-                                <rect key="frame" x="235" y="8" width="26" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" systemColor="systemOrangeColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal">
-                                    <imageReference key="image" image="record.circle" catalog="system" symbolScale="large"/>
-                                </state>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="record setting of the left button" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYI-qH-ZOy">
-                                <rect key="frame" x="313" y="40" width="239" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -400,10 +374,7 @@
                         <outlet property="cameraView" destination="ZdO-VK-uDo" id="Sf8-EB-6k2"/>
                         <outlet property="currentTime" destination="eJp-tL-Pfc" id="vx3-sB-2CR"/>
                         <outlet property="exitButton" destination="GaH-k7-GlQ" id="P3d-YT-pSI"/>
-                        <outlet property="explanationButton1" destination="O47-vC-kup" id="wQx-T4-b7W"/>
-                        <outlet property="explanationButton2" destination="mMG-zx-S4S" id="RSf-Ex-wVN"/>
-                        <outlet property="explanationLabel1" destination="9KR-ld-QTe" id="3nb-BG-87L"/>
-                        <outlet property="explanationLabel2" destination="TYI-qH-ZOy" id="Eif-Nt-Dds"/>
+                        <outlet property="explanationLabel" destination="9KR-ld-QTe" id="3nb-BG-87L"/>
                         <outlet property="exposeBar" destination="eyO-Ha-uOO" id="3lu-Wt-KNJ"/>
                         <outlet property="exposeLabel" destination="bA5-Rt-Jv6" id="W87-mN-K1S"/>
                         <outlet property="exposeValueLabel" destination="67v-Uu-qvh" id="V9g-VI-WUy"/>
@@ -461,7 +432,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="Wii-22-kPN">
-                                        <rect key="frame" x="0.0" y="44.5" width="283" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="50" width="283" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Wii-22-kPN" id="zif-Sg-SUN">
                                             <rect key="frame" x="0.0" y="0.0" width="283" height="43.5"/>
@@ -486,23 +457,12 @@
                                     <segue destination="eL6-VO-9Mc" kind="show" id="lIi-V7-BL5"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FoA-QF-6Jk">
-                                <rect key="frame" x="381" y="233" width="89" height="87"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" systemColor="systemOrangeColor"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="record.circle" catalog="system"/>
-                                <connections>
-                                    <action selector="onPositioningRecordButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Doo-TE-uT5"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOs-bS-GtU">
                                 <rect key="frame" x="514" y="0.0" width="44" height="47"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Settings">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -517,41 +477,52 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" systemColor="systemOrangeColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="record.circle" catalog="system">
+                                <state key="normal" image="circle.inset.filled" catalog="system">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="onAutoRecordButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nxx-Jt-o4I"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="sitting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBV-ql-gTR">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FoA-QF-6Jk">
+                                <rect key="frame" x="381" y="233" width="89" height="87"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" systemColor="systemOrangeColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="circle.inset.filled" catalog="system"/>
+                                <connections>
+                                    <action selector="onPositioningRecordButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Doo-TE-uT5"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="sitting 30sec." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBV-ql-gTR">
                                 <rect key="frame" x="400" y="26" width="97" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="lying" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LOn-Kn-JPU">
-                                <rect key="frame" x="408" y="246" width="36" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="lying 90sec." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LOn-Kn-JPU">
+                                <rect key="frame" x="400" y="246" width="53" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="30sec" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qAz-dt-o8h">
-                                <rect key="frame" x="415" y="67" width="48" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbb-NN-cqP">
+                                <rect key="frame" x="488" y="53" width="85" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" systemColor="systemRedColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="90sec" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INV-6P-7mF">
-                                <rect key="frame" x="401" y="281" width="48" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" systemColor="systemRedColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="settings">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onSetteiButton2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="g2W-Lt-qTE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -563,11 +534,10 @@
                         <outlet property="cameraButton" destination="1km-Jh-hmY" id="uJO-XE-73f"/>
                         <outlet property="how2Button" destination="IwN-Th-8hI" id="e7H-zu-JVL"/>
                         <outlet property="positioningAutoRecordButton" destination="FoA-QF-6Jk" id="Pk2-1R-MbT"/>
-                        <outlet property="postualLabel1" destination="LOn-Kn-JPU" id="GYK-ZP-oLJ"/>
-                        <outlet property="postualLabel2" destination="INV-6P-7mF" id="GFZ-fA-mIc"/>
+                        <outlet property="postualLabel" destination="LOn-Kn-JPU" id="GYK-ZP-oLJ"/>
                         <outlet property="setteiButton" destination="VOs-bS-GtU" id="Utm-tP-tzA"/>
-                        <outlet property="steelLabel1" destination="aBV-ql-gTR" id="k5a-DF-YXX"/>
-                        <outlet property="steelLabel2" destination="qAz-dt-o8h" id="DkZ-OD-C2M"/>
+                        <outlet property="setteiButton2" destination="pbb-NN-cqP" id="d7G-vb-AEl"/>
+                        <outlet property="steelLabel" destination="aBV-ql-gTR" id="k5a-DF-YXX"/>
                         <outlet property="tableView" destination="doJ-Ju-u1K" id="oD8-Nq-4nq"/>
                     </connections>
                 </viewController>
@@ -615,15 +585,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow.triangle.2.circlepath.camera.fill" catalog="system" width="128" height="94"/>
-        <image name="backward.end.fill" catalog="system" width="128" height="102"/>
+        <image name="arrow.triangle.2.circlepath.camera.fill" catalog="system" width="128" height="93"/>
+        <image name="backward.end.fill" catalog="system" width="128" height="101"/>
+        <image name="circle.inset.filled" catalog="system" width="128" height="123"/>
         <image name="help" width="1631" height="1045"/>
-        <image name="largecircle.fill.circle" catalog="system" width="128" height="121"/>
-        <image name="pause.fill" catalog="system" width="116" height="128"/>
-        <image name="play.fill" catalog="system" width="116" height="128"/>
-        <image name="record.circle" catalog="system" width="128" height="121"/>
-        <image name="stop.circle" catalog="system" width="128" height="121"/>
-        <image name="video.circle" catalog="system" width="128" height="121"/>
+        <image name="pause.fill" catalog="system" width="117" height="128"/>
+        <image name="play.fill" catalog="system" width="117" height="128"/>
+        <image name="stop.circle" catalog="system" width="128" height="123"/>
+        <image name="video.circle" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

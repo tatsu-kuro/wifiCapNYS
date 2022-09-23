@@ -16,10 +16,8 @@ import Photos
 import AssetsLibrary
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    @IBOutlet weak var steelLabel1: UILabel!
-    @IBOutlet weak var steelLabel2: UILabel!
-    @IBOutlet weak var postualLabel2: UILabel!
-    @IBOutlet weak var postualLabel1: UILabel!
+    @IBOutlet weak var steelLabel: UILabel!
+    @IBOutlet weak var postualLabel: UILabel!
     @IBOutlet weak var autoRecordButton: UIButton!
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
@@ -76,7 +74,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     //これは.isHiddenとする
     @IBOutlet weak var setteiButton: UIButton!
-    
+    @IBOutlet weak var setteiButton2: UIButton!
     @IBOutlet weak var positioningAutoRecordButton: UIButton!
     
 //    override var shouldAutorotate: Bool {
@@ -91,12 +89,25 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //            return UIInterfaceOrientationMask.landscapeLeft
 //        }
 //    }
+    
+    @IBAction func onSetteiButton2(_ sender: Any) {
+        let mainBrightness=UIScreen.main.brightness//明るさを保持
+        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
+
+        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
+        nextView.setteiMode=true
+        nextView.autoRecordMode=false
+        self.present(nextView, animated: true, completion: nil)
+
+    }
     @IBAction func onSetteiButton(_ sender: Any) {
         let mainBrightness=UIScreen.main.brightness//明るさを保持
         UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
 
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=true
+        nextView.autoRecordMode=true
+
         self.present(nextView, animated: true, completion: nil)
     }
     
@@ -280,17 +291,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let x0=leftPadding+sp*2
         let x0but=view.bounds.width-rightPadding-wh*3/4
         someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
-        someFunctions.setButtonProperty(setteiButton, x:x0+bw*6+sp*6, y: by0+bh*2/3, w: bw, h: bh, UIColor.darkGray)
+        someFunctions.setButtonProperty(setteiButton, x:x0+bw*6+sp*6, y: by0+bh*2/3, w: bw, h: bh, UIColor.systemOrange,0)
+        someFunctions.setButtonProperty(setteiButton2, x:x0+bw*6+sp*6, y: topPadding+wh*4/13-bh-sp, w: bw, h: bh, UIColor.systemGreen,0)
         autoRecordButton.frame=CGRect(x:x0but,           y:sp,width: wh/2,height: wh/2)
         positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
         let upCircleX0=sp+wh/4
         let downCircleX0=wh/2-sp+wh/4
-//        steelLabel1.frame=CGRect(  x:x0but,y:wh/3,width: wh/2,height: bh)
-//        postualLabel1.frame=CGRect(x:x0but,y:wh/3+wh/2-2*sp,width: wh/2,height: bh)
-        steelLabel1.frame=CGRect(x:x0but,y:upCircleX0-wh/9-bh/2,width: wh/2,height: bh)
-        steelLabel2.frame=CGRect(x:x0but,y:upCircleX0+wh/9-bh/2,width: wh/2,height: bh)
-        postualLabel1.frame=CGRect(x:x0but,y:downCircleX0-wh/9-bh/2,width: wh/2,height: bh)
-        postualLabel2.frame=CGRect(x:x0but,y:downCircleX0+wh/9-bh/2,width: wh/2,height: bh)
+        steelLabel.frame=CGRect(x:x0but,y:upCircleX0-wh/9-bh/2,width: wh/2,height: bh*3.5)
+        postualLabel.frame=CGRect(x:x0but,y:downCircleX0-wh/9-bh/2,width: wh/2,height: bh*3.5)
        //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
 //        changeLandscapeSideButton.isHidden=true
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
@@ -304,10 +312,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         if someFunctions.firstLang().contains("ja"){
             how2Button.setTitle("使い方", for: .normal)
             setteiButton.setTitle("設定", for: .normal)
-            steelLabel1.text="座って記録"
-            steelLabel2.text="30秒"
-            postualLabel1.text="横になって記録"
-            postualLabel2.text="90秒"
+            setteiButton2.setTitle("設定", for: .normal)
+            steelLabel.text="座って記録\n30秒"
+            postualLabel.text="横になって記録\n90秒"
         }
     }
   
