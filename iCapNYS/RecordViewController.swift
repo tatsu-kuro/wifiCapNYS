@@ -155,7 +155,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            zoom=0.007
 //        }
         if let device = videoDevice {
-            zoomValueLabel.text=level.description
+            zoomValueLabel.text=(Int(level*10000)).description
 
         do {
             try device.lockForConfiguration()
@@ -1132,7 +1132,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func setExpose(expose:Float) {
         
         if let currentDevice=videoDevice{
-            exposeValueLabel.text=expose.description
+            exposeValueLabel.text=Int(expose*10000/80).description
 
             do {
                 try currentDevice.lockForConfiguration()

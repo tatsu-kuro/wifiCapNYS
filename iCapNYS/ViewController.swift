@@ -284,15 +284,18 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
         let wh:CGFloat=view.bounds.height-topPadding-bottomPadding
         let sp=ww/120//間隙
-        let bw=(ww-sp*10)/7//ボタン幅
+//        let bw=(ww-sp*10)/7//ボタン幅
+         let x0=leftPadding+sp*2
+        let x0but=view.bounds.width-rightPadding-wh*3/4
+        let x1but=x0but+wh/2-wh/40
+        let bw=view.bounds.width-x1but-rightPadding-2*sp
         let bh=bw*170/440
         let by=wh-bh-sp
         let by0=topPadding+sp
-        let x0=leftPadding+sp*2
-        let x0but=view.bounds.width-rightPadding-wh*3/4
-        someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
-        someFunctions.setButtonProperty(setteiButton, x:x0+bw*6+sp*6, y: by0+bh*2/3, w: bw, h: bh, UIColor.systemOrange,0)
-        someFunctions.setButtonProperty(setteiButton2, x:x0+bw*6+sp*6, y: topPadding+wh*4/13-bh-sp, w: bw, h: bh, UIColor.systemGreen,0)
+        someFunctions.setButtonProperty(how2Button, x:x1but+sp/2, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
+//        someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
+        someFunctions.setButtonProperty(setteiButton, x:x1but, y:by0+bh*2/3, w: bw, h: bh, UIColor.systemOrange,0)
+        someFunctions.setButtonProperty(setteiButton2, x:x1but, y:by0+bh*5/3+sp, w:bw,h:bh,UIColor.systemGreen,0)
         autoRecordButton.frame=CGRect(x:x0but,           y:sp,width: wh/2,height: wh/2)
         positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
         let upCircleX0=sp+wh/4
@@ -305,7 +308,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
 
-        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*5/13, y:topPadding+wh*4/13,width:wh*5/13, height: wh*5/13)
+        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*5/13+sp, y:topPadding+wh*4/13,width:wh*5/13, height: wh*5/13)
         //高さ/20を上下に開ける
         tableView.frame = CGRect(x:leftPadding,y:topPadding+sp+wh/20,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-2*sp-wh/10)
         
