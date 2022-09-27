@@ -256,6 +256,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if autoRecordMode==true{
             cameraType=0
             cameraChangeButton.isEnabled=false
+//            previewLabel.isHidden=true
+//            previewSwitch.isHidden=true
         }
         set_rpk_ppk()
         setMotion()
@@ -894,13 +896,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         let ex1=realWinWidth/3
-        let ex2=ex1+bh+sp
+//        let ex2=ex1+bh+sp
         let ey1=sp
        
-        explanationLabel.frame=CGRect(x:ex2,y:ey1,width:realWinWidth,height:bh)
-            if cameraType==0{
-            previewSwitch.isHidden=false
-            previewLabel.isHidden=false
+        explanationLabel.frame=CGRect(x:0,y:ey1,width:view.bounds.width,height:bh)
+        if cameraType==0{
+            if autoRecordMode==true{
+                previewLabel.isEnabled=false
+                previewSwitch.isEnabled=false
+                previewSwitch.isOn=false
+            }else{
+                previewSwitch.isHidden=false
+                previewLabel.isHidden=false
+            }
         }else{
             previewSwitch.isHidden=true
             previewLabel.isHidden=true
@@ -914,7 +922,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             focusLabel.text="焦点"
             previewLabel.text="プレビュー"
             if autoRecordMode==true{
-                explanationLabel.text="フロントカメラの録画設定"
+                explanationLabel.text="録画設定"
             }else{
                 explanationLabel.isHidden=true
             }
