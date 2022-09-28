@@ -1005,6 +1005,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==0{
             UIScreen.main.brightness = 1
         }
+        explanationLabel.isHidden=true
         timerCnt=0
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         //sensorをリセットし、正面に
