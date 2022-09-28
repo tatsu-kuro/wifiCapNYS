@@ -849,18 +849,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func setButtons(){
         // recording button
         let height=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
-//        let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
-//        let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
-//        let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
-//        let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-//        let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
-//        let wh:CGFloat=view.bounds.height-topPadding-bottomPadding/2
         let sp=realWinWidth/120//間隙
         let bw=(realWinWidth-sp*10)/7//ボタン幅
         let bh=bw*170/440
         let by1=realWinHeight-bh-sp-height-bh*2/3
         let by=realWinHeight-(bh+sp)*2-height-bh*2/3
-//        let by2=realWinHeight-(bh+sp)*2.5-height
         let x0=leftPadding+sp*2
         
         previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
@@ -917,15 +910,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 hideButtonsSlides()
         }
         if someFunctions.firstLang().contains("ja"){
+            explanationLabel.text="録画設定"
             exposeLabel.text="露出"
             zoomLabel.text="ズーム"
             focusLabel.text="焦点"
             previewLabel.text="プレビュー"
-            if autoRecordMode==true{
-                explanationLabel.text="録画設定"
-            }else{
-                explanationLabel.isHidden=true
-            }
+        }
+        if autoRecordMode==true{
+            explanationLabel.textColor=UIColor.systemOrange// sHidden=true
+        }else{
+            explanationLabel.textColor=UIColor.systemGreen// isHidden=false
         }
     }
   
@@ -1003,13 +997,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
-        explanationLabel.isHidden=true
-         currentTime.isHidden=false
+        currentTime.isHidden=false
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
         hideButtonsSlides()
-
         if cameraType==0{
             UIScreen.main.brightness = 1
         }
