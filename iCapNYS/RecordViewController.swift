@@ -34,6 +34,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var setteiMode:Bool = false
     var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
+    var currentBrightness:CGFloat=1.0
+    var explanationLabeltextColor:UIColor=UIColor.systemGreen
     @IBOutlet weak var previewSwitch: UISwitch!
     
     @IBAction func onPreviewSwitch(_ sender: Any) {
@@ -229,14 +231,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+print("didload,brightness;",currentBrightness)
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
-
+        explanationLabel.textColor=explanationLabeltextColor
         getCameras()
         camera.makeAlbum()
 
@@ -256,6 +258,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if autoRecordMode==true{
             cameraType=0
             cameraChangeButton.isEnabled=false
+            explanationLabel.isHidden=true
 //            previewLabel.isHidden=true
 //            previewSwitch.isHidden=true
         }
@@ -275,8 +278,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         onLEDValueChange()
         if cameraType==0{
-            UIScreen.main.brightness = 1
-
             LEDBar.alpha=0.2// isHidden=true
             LEDLabel.alpha=0.2// isHidden=true
             LEDBar.isEnabled=false
@@ -346,7 +347,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        zoomValueLabel.text=zoomBar.value.description
     }
     @objc func onLEDValueChange(){
-        print("brightness:",LEDBar.value)
+//        print("brightness,onLEDchange:",LEDBar.value)
         if cameraType != 0{
             setFlashlevel(level: LEDBar.value)
             UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
@@ -716,8 +717,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==0{
             UIScreen.main.brightness = 1//CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
         }else{
-            UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
-
+            UIScreen.main.brightness = currentBrightness
         }
         onExposeValueChange()
 //        setExplanation()
@@ -885,6 +885,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if setteiMode==true{
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
         }else{
+            explanationLabel.isHidden=true
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
@@ -916,11 +917,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             focusLabel.text="焦点"
             previewLabel.text="プレビュー"
         }
-        if autoRecordMode==true{
-            explanationLabel.textColor=UIColor.systemOrange// sHidden=true
-        }else{
-            explanationLabel.textColor=UIColor.systemGreen// isHidden=false
-        }
+//        if autoRecordMode==true{
+//            explanationLabel.textColor=UIColor.systemOrange// sHidden=true
+//        }else{
+//            explanationLabel.textColor=UIColor.systemGreen// isHidden=false
+//        }
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
@@ -995,6 +996,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDBar.isHidden=true
         exposeLabel.isHidden=true
         exposeValueLabel.isHidden=true
+//        explanationLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         currentTime.isHidden=false

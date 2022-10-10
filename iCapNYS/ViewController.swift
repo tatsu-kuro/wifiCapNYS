@@ -41,15 +41,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //    }
 //}
  
-    @IBAction func onAutoRecordButton(_ sender: Any) {
-        let mainBrightness=UIScreen.main.brightness//明るさを保持
-        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
-
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
-//        UserDefaults.standard.set(0, forKey: "cameraType")//set frontcamera
-        nextView.isPositional=false
-        self.present(nextView, animated: true, completion: nil)
-    }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         print("viewDidLayoutSubviews*******")
@@ -90,34 +81,45 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //        }
 //    }
     
+    @IBAction func onCameraButton(_ sender: Any) {
+        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
+        nextView.setteiMode=false
+        nextView.autoRecordMode=false
+        nextView.currentBrightness=UIScreen.main.brightness
+        self.present(nextView, animated: true, completion: nil)
+    }
     @IBAction func onSetteiButton2(_ sender: Any) {
-        let mainBrightness=UIScreen.main.brightness//明るさを保持
-        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
 
+           let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
+           nextView.setteiMode=true
+           nextView.autoRecordMode=false
+           nextView.currentBrightness=UIScreen.main.brightness
+            nextView.explanationLabeltextColor=UIColor.systemGreen
+           self.present(nextView, animated: true, completion: nil)
+       }
+    
+    
+    @IBAction func onSetteiButton(_ sender: Any) {
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=true
         nextView.autoRecordMode=false
-        self.present(nextView, animated: true, completion: nil)
-
-    }
-    @IBAction func onSetteiButton(_ sender: Any) {
-        let mainBrightness=UIScreen.main.brightness//明るさを保持
-        UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
-
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-        nextView.setteiMode=true
-        nextView.autoRecordMode=true
-
+        nextView.currentBrightness=UIScreen.main.brightness
+        nextView.explanationLabeltextColor=UIColor.systemOrange
         self.present(nextView, animated: true, completion: nil)
     }
     
     @IBAction func onPositioningRecordButton(_ sender: Any) {
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
-//        UserDefaults.standard.set(0, forKey: "cameraType")//set frontcamera
         nextView.isPositional=true
+        nextView.currentBrightness=UIScreen.main.brightness
         self.present(nextView, animated: true, completion: nil)
     }
-    
+    @IBAction func onAutoRecordButton(_ sender: Any) {
+        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
+        nextView.isPositional=false
+        nextView.currentBrightness=UIScreen.main.brightness
+        self.present(nextView, animated: true, completion: nil)
+    }
 //    @IBAction func onChangeLandscapeSide(_ sender: Any) {
 //        var landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
 //        if landscapeSide==0{
@@ -131,6 +133,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //    }
     
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
+        print("segueWhat:",segue)
         if let vc = segue.source as? RecordViewController{
             let Controller:RecordViewController = vc
             if Controller.stopButton.isHidden==true{//Exit
@@ -150,7 +153,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 }
             }
 //            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
-                UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
+            UIScreen.main.brightness = Controller.currentBrightness// CGFloat(UserDefaults.standard.float(forKey:
+            print("brightness/unwind:",Controller.currentBrightness, UIScreen.main.brightness)
 //            }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
@@ -174,12 +178,15 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     self.tableView.reloadData()//こちらだけこれが必要なのはどうして
                 }
             }
-//            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
-                UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
-//            }
+            //            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
+            UIScreen.main.brightness = Controller.currentBrightness
+            //            }
+            print("brightness/unwind:",Controller.currentBrightness, UIScreen.main.brightness)
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
+        }else if let vc = segue.source as? AutoRecordViewController{
+
         }
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         print("unwind")

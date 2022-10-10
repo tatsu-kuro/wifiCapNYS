@@ -68,7 +68,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var saved2album:Bool = false
     var setteiMode:Bool = false
     let motionManager = CMMotionManager()
-
+    var currentBrightness:CGFloat=1.0
     //for video input
     var captureSession: AVCaptureSession!
     var videoDevice: AVCaptureDevice?
@@ -124,7 +124,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
  
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+//        print("didload,brightness;",currentBrightness)
+//        UIScreen.main.brightness=1.0
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -938,12 +939,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        performSegue(withIdentifier: "fromAutoRecord", sender: self)
     }
     func onClickStartButton() {
-        if cameraType==0{
-//            let mainBrightness = UIScreen.main.brightness
-//            UserDefaults.standard.set(mainBrightness, forKey: "mainBrightness")
-            UIScreen.main.brightness = 1
-        }
-        
+
+        UIScreen.main.brightness=1.0
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
         //start recording
