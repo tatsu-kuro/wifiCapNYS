@@ -66,7 +66,6 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     let albumName:String = "iCapNYS"
     var recordingFlag:Bool = false
     var saved2album:Bool = false
-    var setteiMode:Bool = false
     let motionManager = CMMotionManager()
     var currentBrightness:CGFloat=1.0
     //for video input
@@ -125,7 +124,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     override func viewDidLoad() {
         super.viewDidLoad()
 //        print("didload,brightness;",currentBrightness)
-//        UIScreen.main.brightness=1.0
+        UIScreen.main.brightness=1.0
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))

@@ -31,7 +31,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let albumName:String = "iCapNYS"
     var recordingFlag:Bool = false
     var saved2album:Bool = false
-    var setteiMode:Bool = false
+    var setteiMode:Int = 0//0:camera, 1:setteimanual, 2:setteiauto
     var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
     var currentBrightness:CGFloat=1.0
@@ -231,7 +231,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     override func viewDidLoad() {
         super.viewDidLoad()
-print("didload,brightness;",currentBrightness)
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -255,18 +254,19 @@ print("didload,brightness;",currentBrightness)
             cameraType=0
             UserDefaults.standard.set(cameraType, forKey: "cameraType")
         }
+        
         if autoRecordMode==true{
             cameraType=0
             cameraChangeButton.isEnabled=false
             explanationLabel.isHidden=true
-//            previewLabel.isHidden=true
-//            previewSwitch.isHidden=true
+        }
+        if setteiMode==2{//setteibuttonAuto
+            cameraType=0
+            cameraChangeButton.isEnabled=false
         }
         set_rpk_ppk()
         setMotion()
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも、30fpsだ！
-
-//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         //露出はオートの方が良さそう
     
         LEDBar.minimumValue = 0
@@ -292,7 +292,6 @@ print("didload,brightness;",currentBrightness)
         focusBar.addTarget(self, action: #selector(onFocusValueChange), for: UIControl.Event.valueChanged)
         focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
         onFocusValueChange()
-//        setFocus(focus: )
         if focusChangeable==false{
             focusBar.isEnabled=false
             focusBar.alpha=0.2
@@ -882,7 +881,7 @@ print("didload,brightness;",currentBrightness)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
-        if setteiMode==true{
+        if setteiMode != 0{//setteiMode==0 record, 1:manual 2:auto
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
         }else{
             explanationLabel.isHidden=true
@@ -890,9 +889,7 @@ print("didload,brightness;",currentBrightness)
         }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         let ex1=realWinWidth/3
-//        let ex2=ex1+bh+sp
         let ey1=sp
-       
         explanationLabel.frame=CGRect(x:0,y:ey1,width:view.bounds.width,height:bh)
         if cameraType==0{
             if autoRecordMode==true{
@@ -907,7 +904,7 @@ print("didload,brightness;",currentBrightness)
             previewSwitch.isHidden=true
             previewLabel.isHidden=true
         }
-        if setteiMode==false{//slider labelを隠す
+        if setteiMode == 0{//slider labelを隠す 0:record
                 hideButtonsSlides()
         }
         if someFunctions.firstLang().contains("ja"){
@@ -1038,27 +1035,18 @@ print("didload,brightness;",currentBrightness)
         }
         if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
             print("doubleTapPlay")
-            if setteiMode==true{
-//                if zoomBar.isHidden==true{
-                    zoomBar.isHidden=false
-                    zoomLabel.isHidden=false
-                    focusBar.isHidden=false
-                    focusLabel.isHidden=false
-//                }else{
-//                    zoomBar.isHidden=true
-//                    zoomLabel.isHidden=true
-//                    focusBar.isHidden=true
-//                    focusLabel.isHidden=true
-//                }
+            if setteiMode != 0{
+                zoomBar.isHidden=false
+                zoomLabel.isHidden=false
+                focusBar.isHidden=false
+                focusLabel.isHidden=false
             }
         }
         tapInterval=CFAbsoluteTimeGetCurrent()
-        
         setMotion()
         let screenSize=cameraView.bounds.size
         let x0 = sender.location(in: self.view).x
         let y0 = sender.location(in: self.view).y
-//        print("tap:",x0,y0,screenSize,view.bounds)
         
         if y0>view.bounds.height*0.43{//screenSize.height/2{
             return
@@ -1067,17 +1055,12 @@ print("didload,brightness;",currentBrightness)
         let y = 1.0 - x0/screenSize.width
         let focusPoint = CGPoint(x:x,y:y)
         if cameraType==1 || cameraType==2{
-
             if let device = videoDevice{
                 do {
                     try device.lockForConfiguration()
-
                     device.focusPointOfInterest = focusPoint
-                    //                device.focusMode = .continuousAutoFocus
                     device.focusMode = .autoFocus
-
                     device.unlockForConfiguration()
-
                 }
                 catch {
                     // just ignore

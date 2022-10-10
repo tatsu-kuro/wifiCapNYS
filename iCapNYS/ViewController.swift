@@ -64,8 +64,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         return true
     }
     //これは.isHiddenとする
-    @IBOutlet weak var setteiButton: UIButton!
-    @IBOutlet weak var setteiButton2: UIButton!
+    @IBOutlet weak var setteiButtonAuto: UIButton!
+    @IBOutlet weak var setteiButtonManual: UIButton!
     @IBOutlet weak var positioningAutoRecordButton: UIButton!
     
 //    override var shouldAutorotate: Bool {
@@ -83,28 +83,27 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     @IBAction func onCameraButton(_ sender: Any) {
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-        nextView.setteiMode=false
+        nextView.setteiMode=0
         nextView.autoRecordMode=false
         nextView.currentBrightness=UIScreen.main.brightness
         self.present(nextView, animated: true, completion: nil)
     }
-    @IBAction func onSetteiButton2(_ sender: Any) {
-
-           let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-           nextView.setteiMode=true
-           nextView.autoRecordMode=false
-           nextView.currentBrightness=UIScreen.main.brightness
-            nextView.explanationLabeltextColor=UIColor.systemGreen
-           self.present(nextView, animated: true, completion: nil)
-       }
     
-    
-    @IBAction func onSetteiButton(_ sender: Any) {
+    @IBAction func onSetteiButtonAuto(_ sender: Any) {
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-        nextView.setteiMode=true
+        nextView.setteiMode=2
         nextView.autoRecordMode=false
         nextView.currentBrightness=UIScreen.main.brightness
         nextView.explanationLabeltextColor=UIColor.systemOrange
+        self.present(nextView, animated: true, completion: nil)
+    }
+    
+    @IBAction func onSetteiButtonManual(_ sender: Any) {
+        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
+        nextView.setteiMode=1
+        nextView.autoRecordMode=false
+        nextView.currentBrightness=UIScreen.main.brightness
+        nextView.explanationLabeltextColor=UIColor.systemGreen
         self.present(nextView, animated: true, completion: nil)
     }
     
@@ -301,8 +300,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let by0=topPadding+sp
         someFunctions.setButtonProperty(how2Button, x:x1but+sp/2, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
 //        someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
-        someFunctions.setButtonProperty(setteiButton, x:x1but, y:by0+bh*2/3, w: bw, h: bh, UIColor.systemOrange,0)
-        someFunctions.setButtonProperty(setteiButton2, x:x1but, y:by0+bh*5/3+sp, w:bw,h:bh,UIColor.systemGreen,0)
+        someFunctions.setButtonProperty(setteiButtonAuto, x:x1but, y:by0+bh*2/3, w: bw, h: bh, UIColor.systemOrange,0)
+        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:by0+bh*5/3+sp, w:bw,h:bh,UIColor.systemGreen,0)
         autoRecordButton.frame=CGRect(x:x0but,           y:sp,width: wh/2,height: wh/2)
         positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
         let upCircleX0=sp+wh/4
@@ -321,8 +320,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         if someFunctions.firstLang().contains("ja"){
             how2Button.setTitle("使い方", for: .normal)
-            setteiButton.setTitle("設定", for: .normal)
-            setteiButton2.setTitle("設定", for: .normal)
+            setteiButtonAuto.setTitle("設定", for: .normal)
+            setteiButtonManual.setTitle("設定", for: .normal)
             steelLabel.text="座って記録\n30秒"
             postualLabel.text="横になって記録\n90秒"
         }
