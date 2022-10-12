@@ -571,6 +571,10 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5AE-QU-xbp"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="LKz-8W-8Ux" appends="YES" id="1EY-aP-zFs"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="9qM-w1-LJl"/>
                     <connections>
@@ -580,6 +584,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yNe-KU-a0d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="pLX-6O-bBD" userLabel="Exit" sceneMemberID="exit"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="LKz-8W-8Ux">
+                    <connections>
+                        <action selector="panGesture:" destination="eL6-VO-9Mc" id="dKr-qr-q2N"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1334.7826086956522" y="387.72321428571428"/>
         </scene>
