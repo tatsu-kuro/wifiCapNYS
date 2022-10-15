@@ -26,14 +26,11 @@ extension UIImage {
 class How2ViewController: UIViewController {
     let someFunctions = myFunctions()
     
-    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var exitButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         let top=CGFloat(UserDefaults.standard.float(forKey: "topPadding"))
         let bottom=CGFloat(UserDefaults.standard.float(forKey: "bottomPadding"))
         let left=CGFloat(UserDefaults.standard.float(forKey: "leftPadding"))
@@ -46,10 +43,7 @@ class How2ViewController: UIViewController {
         let by=wh-bh-sp
         // 画面サイズ取得
         scrollView.frame = CGRect(x:left,y:top,width: ww,height: wh)
-        
         someFunctions.setButtonProperty(exitButton,x:left+bw*6+sp*8,y:by,w:bw,h:bh,UIColor.darkGray)
-        
-        
         var img = UIImage(named:"helpEn")!
         if someFunctions.firstLang().contains("ja"){
             img = UIImage(named: "helpNew")!
@@ -57,22 +51,16 @@ class How2ViewController: UIViewController {
         // 画像のサイズ
         let imgW = img.size.width
         let imgH = img.size.height
-        
         let image = img.resize(size: CGSize(width:ww, height:ww*imgH/imgW))
         // UIImageView 初期化
         let imageView = UIImageView(image: image)//jellyfish)
-        
         // UIScrollViewに追加
         scrollView.addSubview(imageView)
-        
         // UIScrollViewの大きさを画像サイズに設定
         scrollView.contentSize = CGSize(width: ww, height: ww*imgH/imgW)
-        
         // スクロールの跳ね返り無し
         scrollView.bounces = true
-        
     }
-    
     
     override var prefersStatusBarHidden: Bool {
         return true
