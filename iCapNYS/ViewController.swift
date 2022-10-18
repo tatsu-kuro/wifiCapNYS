@@ -322,7 +322,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             how2Button.setTitle("使い方", for: .normal)
             setteiButtonAuto.setTitle("設定", for: .normal)
             setteiButtonManual.setTitle("設定", for: .normal)
-            steelLabel.text="座って記録\n30秒"
+            steelLabel.text="座って記録\n20秒"
             postualLabel.text="横になって記録\n90秒"
         }
     }
