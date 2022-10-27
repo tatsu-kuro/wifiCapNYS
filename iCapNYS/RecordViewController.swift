@@ -36,6 +36,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let motionManager = CMMotionManager()
     var currentBrightness:CGFloat=1.0
     var explanationLabeltextColor:UIColor=UIColor.systemGreen
+    let cameraTypeStrings : Array<String> = ["frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:"]
+//          cameraTypeLabel.text = cameraTypeStrings[cameraType]
     @IBOutlet weak var previewSwitch: UISwitch!
     
     @IBAction func onPreviewSwitch(_ sender: Any) {
@@ -644,8 +646,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) != nil{
             telephotoCamera=true
         }
-//        ultrawideCamera=false
-//        telephotoCamera=false
     }
     
     /*
@@ -664,7 +664,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        if autoRecordMode==true{
 //            return
 //        }
-       cameraType=UserDefaults.standard.integer(forKey:"cameraType")
+//        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
+//        explanationLabel.text = cameraTypeStrings[cameraType]
+
         if cameraType==0{
             cameraType=1
         }else if cameraType==1{
@@ -721,6 +723,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         onExposeValueChange()
 //        setExplanation()
         setButtons()
+        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
+        var explanationText = cameraTypeStrings[cameraType]
+        if explanationLabeltextColor==UIColor.systemOrange{
+            explanationText=""
+        }
+        if someFunctions.firstLang().contains("ja"){
+            explanationLabel.text=explanationText + "録画設定"
+        }else{
+            explanationLabel.text=explanationText + "Record Settings"
+        }
      }
     
     func initSession(fps:Double) {
@@ -907,18 +919,21 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if setteiMode == 0{//slider labelを隠す 0:record
                 hideButtonsSlides()
         }
+        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
+         var explanationText = cameraTypeStrings[cameraType]
+        if explanationLabeltextColor==UIColor.systemOrange{
+           explanationText=""
+        }
         if someFunctions.firstLang().contains("ja"){
-            explanationLabel.text="録画設定"
+            explanationLabel.text=explanationText + "録画設定"
             exposeLabel.text="露出"
             zoomLabel.text="ズーム"
             focusLabel.text="焦点"
             previewLabel.text="プレビュー"
+        }else{
+            explanationLabel.text=explanationText + "Record Settings"
         }
-//        if autoRecordMode==true{
-//            explanationLabel.textColor=UIColor.systemOrange// sHidden=true
-//        }else{
-//            explanationLabel.textColor=UIColor.systemGreen// isHidden=false
-//        }
+
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
