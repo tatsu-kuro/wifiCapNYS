@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		690ECCBB290AB509008A317F /* steel3.mov in Resources */ = {isa = PBXBuildFile; fileRef = 690ECCBA290AB509008A317F /* steel3.mov */; };
 		6915B65828A5EA81004D3EBF /* positional.mov in Resources */ = {isa = PBXBuildFile; fileRef = 6915B65728A5EA81004D3EBF /* positional.mov */; };
-		6915B65A28A5ED72004D3EBF /* steel3new.mov in Resources */ = {isa = PBXBuildFile; fileRef = 6915B65928A5ED72004D3EBF /* steel3new.mov */; };
 		6945B1A725EB207400A52272 /* myFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945B1A625EB207400A52272 /* myFunctions.swift */; };
 		6945E7D92519145F00E16DDB /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7D82519145F00E16DDB /* RecordViewController.swift */; };
 		6945E7DC25196C3600E16DDB /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7DB25196C3600E16DDB /* PlayViewController.swift */; };
@@ -24,8 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		690ECCBA290AB509008A317F /* steel3.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel3.mov; sourceTree = "<group>"; };
 		6915B65728A5EA81004D3EBF /* positional.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = positional.mov; sourceTree = "<group>"; };
-		6915B65928A5ED72004D3EBF /* steel3new.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel3new.mov; sourceTree = "<group>"; };
 		6945B1A625EB207400A52272 /* myFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myFunctions.swift; sourceTree = "<group>"; };
 		6945E7D82519145F00E16DDB /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		6945E7DB25196C3600E16DDB /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
@@ -63,7 +63,7 @@
 		69E22885251834490004E53C = {
 			isa = PBXGroup;
 			children = (
-				6915B65928A5ED72004D3EBF /* steel3new.mov */,
+				690ECCBA290AB509008A317F /* steel3.mov */,
 				6915B65728A5EA81004D3EBF /* positional.mov */,
 				69B6913828A1C3BD00E1C065 /* steel1.mov */,
 				69E22890251834490004E53C /* iCapNYS */,
@@ -156,7 +156,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6915B65A28A5ED72004D3EBF /* steel3new.mov in Resources */,
+				690ECCBB290AB509008A317F /* steel3.mov in Resources */,
 				6915B65828A5EA81004D3EBF /* positional.mov in Resources */,
 				69B6913928A1C3BD00E1C065 /* steel1.mov in Resources */,
 				69E2289E2518344C0004E53C /* LaunchScreen.storyboard in Resources */,
@@ -329,7 +329,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.3;
+				CURRENT_PROJECT_VERSION = 1.0.4;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = iCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -351,7 +351,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.3;
+				CURRENT_PROJECT_VERSION = 1.0.4;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = iCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
