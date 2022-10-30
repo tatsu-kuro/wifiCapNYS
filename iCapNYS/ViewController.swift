@@ -99,7 +99,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     tapLeft=true
                 }
                 if checkTaps(0,50){
-                    stopMotion()
+                    if checkTaps(51, 93)==false{//95,0-50でタップがあり51-93でタップがない時
+                        stopMotion()
+                    }
                 }
             }
         }
