@@ -14,6 +14,7 @@
 import UIKit
 import Photos
 import AssetsLibrary
+import CoreMotion
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     @IBOutlet weak var steelLabel: UILabel!
@@ -34,13 +35,77 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             tableView?.reloadData()
         }
     }
-//    if firstLang().contains("ja"){
-//        helpView.image=UIImage(named:"help")
-//    }else{
-//        helpView.image=UIImage(named:"helpEn")
-//    }
-//}
- 
+
+    //motion sensor*************************
+    var tapLeft:Bool=false
+    var isStarted:Bool=false
+    var accel = Array<Int>()
+    var rotate = Array<Int>()
+    let motionManager = CMMotionManager()
+    func startMotion() {
+        if isStarted{
+            return
+        }
+        accel.removeAll()
+        rotate.removeAll()
+        // start monitoring sensor data
+        if motionManager.isDeviceMotionAvailable {
+            motionManager.deviceMotionUpdateInterval = 0.01
+            motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: {(motion:CMDeviceMotion?, error:Error?) in
+                self.updateMotionData(deviceMotion: motion!)
+            })
+        }
+        isStarted = true
+    }
+    func stopMotion() {
+        isStarted = false
+        motionManager.stopDeviceMotionUpdates()
+        if tapLeft{
+            onAutoRecordButton(0)
+            print("left-stop")
+        }else{
+            onPositioningRecordButton(0)
+            print("right-stop")
+        }
+    }
+    func checkTap(cnt:Int)->Bool{
+        if accel[cnt]>accel[cnt+1]+10 && accel[cnt+1]<accel[cnt+2]-10 && accel[cnt+3]<3 && accel[cnt+4]<3{
+            accel[cnt+3]=10
+            return true
+        }else{
+            return false
+        }
+    }
+    func checkTaps(_ n1:Int,_ n2:Int)->Bool{
+        for i in n1...n2{
+            if checkTap(cnt: i){
+                return true
+            }
+        }
+        return false
+    }
+    private func updateMotionData(deviceMotion:CMDeviceMotion) {
+        let z=deviceMotion.userAcceleration.z
+        let x=deviceMotion.rotationRate.x
+        accel.insert(Int(z*100),at: 0)
+        rotate.insert(Int(x*100),at:0)
+        if accel.count>100{
+            accel.removeLast()
+            rotate.removeLast()
+            if checkTap(cnt: 95){
+                if rotate[96]<0{
+                    tapLeft=false
+                }else{
+                    tapLeft=true
+                }
+                if checkTaps(0,50){
+                    stopMotion()
+                }
+            }
+        }
+    }
+    //motion sensor*****************
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         print("viewDidLayoutSubviews*******")
@@ -189,7 +254,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         print("unwind")
-        
+        startMotion()
     }
     
     func camera_alert(){
@@ -208,6 +273,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad*******")
+        startMotion()
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization { status in
                 if status == .authorized {
