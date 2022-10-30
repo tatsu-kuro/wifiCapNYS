@@ -121,6 +121,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var exposeValueLabel: UILabel!
     @IBOutlet weak var exposeLabel: UILabel!
+    
+    @IBOutlet weak var focusValueLabel: UILabel!
+    
     @IBOutlet weak var zoomLabel: UILabel!
     @IBOutlet weak var zoomValueLabel: UILabel!
     
@@ -298,10 +301,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             focusBar.isEnabled=false
             focusBar.alpha=0.2
             focusLabel.alpha=0.2
+            focusValueLabel.isHidden=true
         }else{
             focusBar.isEnabled=true
             focusBar.alpha=1.0
             focusLabel.alpha=1.0
+            focusValueLabel.isHidden=false
         }
         zoomBar.minimumValue = 0
         zoomBar.maximumValue = 0.1
@@ -710,10 +715,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             focusBar.isEnabled=false
             focusBar.alpha=0.2
             focusLabel.alpha=0.2
+            focusValueLabel.isHidden=true
         }else{
             focusBar.isEnabled=true
             focusBar.alpha=1.0
             focusLabel.alpha=1.0
+            focusValueLabel.isHidden=false
         }
         if cameraType==0{
             UIScreen.main.brightness = 1//CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
@@ -886,6 +893,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
         camera.setLabelProperty(exposeValueLabel, x: x0+bw*3+sp*3, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
         camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
+        camera.setLabelProperty(focusValueLabel, x: x0, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         setProperty(label: currentTime, radius: 4)
@@ -1002,6 +1010,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         zoomLabel.isHidden=true
         zoomValueLabel.isHidden=true
         focusLabel.isHidden=true
+        focusValueLabel.isHidden=true
         focusBar.isHidden=true
         zoomBar.isHidden=true
         LEDLabel.isHidden=true
@@ -1055,6 +1064,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 zoomLabel.isHidden=false
                 focusBar.isHidden=false
                 focusLabel.isHidden=false
+                focusValueLabel.isHidden=false
             }
         }
         tapInterval=CFAbsoluteTimeGetCurrent()
@@ -1093,6 +1103,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if let device = videoDevice{
             if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
                 print("focus_supported")
+                focusValueLabel.text=(Int(focus*100)).description
+
                 do {
                     try device.lockForConfiguration()
                     device.focusMode = .locked
