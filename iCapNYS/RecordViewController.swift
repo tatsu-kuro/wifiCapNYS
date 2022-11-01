@@ -113,28 +113,29 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         -22,-26,0, -23,-25,0, -24,-24,1,//eye dots 3
         -19,32,0, -14,31,0, -9,31,0, -4,31,0, 0,30,0, 4,31,0, 9,31,0, 14,31,0, 19,32,1]//mouse 9
     
-    
-    @IBOutlet weak var focusLabel: UILabel!
-    @IBOutlet weak var focusBar: UISlider!
-    
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
-    @IBOutlet weak var exposeValueLabel: UILabel!
-    @IBOutlet weak var exposeLabel: UILabel!
-    
+
+    @IBOutlet weak var focusLabel: UILabel!
+    @IBOutlet weak var focusBar: UISlider!
     @IBOutlet weak var focusValueLabel: UILabel!
-    
+
     @IBOutlet weak var zoomLabel: UILabel!
     @IBOutlet weak var zoomValueLabel: UILabel!
-    
     @IBOutlet weak var zoomBar: UISlider!
+    
+    @IBOutlet weak var exposeValueLabel: UILabel!
+    @IBOutlet weak var exposeLabel: UILabel!
+    @IBOutlet weak var exposeBar: UISlider!
+
     @IBOutlet weak var LEDBar: UISlider!
     @IBOutlet weak var LEDLabel: UILabel!
+    @IBOutlet weak var LEDValueLabel: UILabel!
+    
     @IBOutlet weak var currentTime: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var quaternionView: UIImageView!
-    @IBOutlet weak var cameraView:
-        UIImageView!
+    @IBOutlet weak var cameraView:UIImageView!
     
      @IBOutlet weak var explanationLabel: UILabel!
     @IBOutlet weak var whiteView: UIImageView!
@@ -283,13 +284,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         onLEDValueChange()
         if cameraType==0{
-            LEDBar.alpha=0.2// isHidden=true
-            LEDLabel.alpha=0.2// isHidden=true
-            LEDBar.isEnabled=false
+//            LEDBar.alpha=0.2// isHidden=true
+//            LEDLabel.alpha=0.2// isHidden=true
+//            LEDBar.isEnabled=false
+            LEDBar.isHidden=true
+            LEDLabel.isHidden=true
+            LEDValueLabel.isHidden=true
+
         }else{
-            LEDBar.alpha=1.0// isHidden=false
-            LEDLabel.alpha=1.0// isHidden=false
-            LEDBar.isEnabled=true
+//            LEDBar.alpha=1.0// isHidden=false
+//            LEDLabel.alpha=1.0// isHidden=false
+//            LEDBar.isEnabled=true
+            LEDBar.isHidden=false
+            LEDLabel.isHidden=false
+            LEDValueLabel.isHidden=false
         }
         
         focusBar.minimumValue = 0
@@ -298,14 +306,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
         onFocusValueChange()
         if focusChangeable==false{
-            focusBar.isEnabled=false
-            focusBar.alpha=0.2
-            focusLabel.alpha=0.2
+//            focusBar.isEnabled=false
+//            focusBar.alpha=0.2
+//            focusLabel.alpha=0.2
+            focusLabel.isHidden=true
+            focusBar.isHidden=true
             focusValueLabel.isHidden=true
         }else{
-            focusBar.isEnabled=true
-            focusBar.alpha=1.0
-            focusLabel.alpha=1.0
+//            focusBar.isEnabled=true
+//            focusBar.alpha=1.0
+//            focusLabel.alpha=1.0
+            focusLabel.isHidden=false
+            focusBar.isHidden=false
             focusValueLabel.isHidden=false
         }
         zoomBar.minimumValue = 0
@@ -357,6 +369,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType != 0{
             setFlashlevel(level: LEDBar.value)
             UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
+            LEDValueLabel.text=(Int(LEDBar.value*100)).description
+
         }
     }
   
@@ -701,25 +715,36 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         onFocusValueChange()
         if cameraType==0{
             zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue0")
-            LEDBar.alpha=0.3// isHidden=true
-            LEDBar.isEnabled=false
-            LEDLabel.alpha=0.3// isHidden=true
+//            LEDBar.alpha=0.3// isHidden=true
+//            LEDBar.isEnabled=false
+//            LEDLabel.alpha=0.3// isHidden=true
+            LEDBar.isHidden=true
+            LEDLabel.isHidden=true
+            LEDValueLabel.isHidden=true
         }else{
             zoomBar.value=UserDefaults.standard.float(forKey:"zoomValue1")
-            LEDBar.alpha=1// isHidden=false
-            LEDBar.isEnabled=true
-            LEDLabel.alpha=1//isHidden=false
+//            LEDBar.alpha=1// isHidden=false
+//            LEDBar.isEnabled=true
+//            LEDLabel.alpha=1//isHidden=false
+            LEDBar.isHidden=false
+            LEDLabel.isHidden=false
+            LEDValueLabel.isHidden=false
+
         }
         setZoom(level: zoomBar.value)
         if focusChangeable==false{
-            focusBar.isEnabled=false
-            focusBar.alpha=0.2
-            focusLabel.alpha=0.2
+//            focusBar.isEnabled=false
+//            focusBar.alpha=0.2
+//            focusLabel.alpha=0.2
+            focusBar.isHidden=true
+            focusLabel.isHidden=true
             focusValueLabel.isHidden=true
         }else{
-            focusBar.isEnabled=true
-            focusBar.alpha=1.0
-            focusLabel.alpha=1.0
+//            focusBar.isEnabled=true
+//            focusBar.alpha=1.0
+//            focusLabel.alpha=1.0
+            focusBar.isHidden=false
+            focusLabel.isHidden=false
             focusValueLabel.isHidden=false
         }
         if cameraType==0{
@@ -894,6 +919,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(exposeValueLabel, x: x0+bw*3+sp*3, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
         camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
         camera.setLabelProperty(focusValueLabel, x: x0, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
+        camera.setLabelProperty(LEDValueLabel, x: x0, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         setProperty(label: currentTime, radius: 4)
@@ -1015,6 +1041,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         zoomBar.isHidden=true
         LEDLabel.isHidden=true
         LEDBar.isHidden=true
+        LEDValueLabel.isHidden=true
         exposeLabel.isHidden=true
         exposeValueLabel.isHidden=true
 //        explanationLabel.isHidden=true
@@ -1131,8 +1158,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
 //    @IBOutlet weak var isoBar: UISlider!
-    @IBOutlet weak var exposeBar: UISlider!
-
+ 
     @objc func onExposeValueChange(){
         setExpose(expose:exposeBar.value)
         if cameraType==0{
