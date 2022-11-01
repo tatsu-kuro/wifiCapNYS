@@ -84,19 +84,20 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     func stopMotion() {
         isStarted = false
         motionManager.stopDeviceMotionUpdates()
-        if tapLeft{
-            onAutoRecordButton(0)
-        }else{
-            onPositioningRecordButton(0)
-        }
     }
+//        if tapLeft{
+//            onAutoRecordButton(0)
+//        }else{
+//            onPositioningRecordButton(0)
+//        }
+//    }
     private func updateMotionData(deviceMotion:CMDeviceMotion) {
         let ax=deviceMotion.userAcceleration.x
         rotatex.append(Int(deviceMotion.rotationRate.x*50))
         rotatez.append(Int(deviceMotion.rotationRate.z*50))
         accel.append(Int(ax*50))
         if accel.count>100{
-
+            print("updateMotion")
             accel.remove(at: 0)
             rotatez.remove(at: 0)
             rotatex.remove(at: 0)
@@ -105,6 +106,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 if checkTaps(30,60){
                     print("doubleTap")
                     stopMotion()
+                    if tapLeft{
+                        onAutoRecordButton(0)
+                    }else{
+                        onPositioningRecordButton(0)
+                    }
                 }
             }
         }
@@ -166,6 +172,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //    }
     
     @IBAction func onCameraButton(_ sender: Any) {
+        stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=0
         nextView.autoRecordMode=false
@@ -174,6 +181,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func onSetteiButtonAuto(_ sender: Any) {
+        stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=2
         nextView.autoRecordMode=false
@@ -183,6 +191,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func onSetteiButtonManual(_ sender: Any) {
+        stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=1
         nextView.autoRecordMode=false
@@ -192,12 +201,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func onPositioningRecordButton(_ sender: Any) {
+        stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
         nextView.isPositional=true
         nextView.currentBrightness=UIScreen.main.brightness
         self.present(nextView, animated: true, completion: nil)
     }
     @IBAction func onAutoRecordButton(_ sender: Any) {
+        stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
         nextView.isPositional=false
         nextView.currentBrightness=UIScreen.main.brightness
