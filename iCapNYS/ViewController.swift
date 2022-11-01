@@ -45,7 +45,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     var tapLeft:Bool=false
 
     func checkTap(cnt:Int)->Bool{
-        for i in 0...15{
+        for i in 0...39{
             if rotatex[cnt+i] > 9 || rotatex[cnt+i] < -9{
                 return false
             }
@@ -97,7 +97,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         rotatez.append(Int(deviceMotion.rotationRate.z*50))
         accel.append(Int(ax*50))
         if accel.count>100{
-            print("updateMotion")
+//            print("updateMotion")
             accel.remove(at: 0)
             rotatez.remove(at: 0)
             rotatex.remove(at: 0)
