@@ -43,13 +43,16 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     var rotatez = Array<Int>()
     var rotatex = Array<Int>()
     var tapLeft:Bool=false
-
-    func checkTap(cnt:Int)->Bool{
-        for i in 0...39{
+    func checkNotMove(cnt:Int)->Bool{
+        for i in 0...50{
             if rotatex[cnt+i] > 9 || rotatex[cnt+i] < -9{
                 return false
             }
         }
+        return true
+    }
+    func checkTap(cnt:Int)->Bool{
+
         let a0=accel[cnt]
         let a1=accel[cnt+1]
         let a2=accel[cnt+2]
@@ -61,7 +64,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let rz3=rotatez[cnt+3]
         let rz4=rotatez[cnt+4]
         if a0 > -1 && a1 > -1 && a2<1 && a3<1 && a4<1{
-            if a0+a1>6 && a2+a3+a4 < -6{
+            if a0+a1>3 && a2+a3+a4 < -3{
                 if rz0+rz1>rz2+rz3+rz4{
                     tapLeft=true
                 }else{
@@ -85,12 +88,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         isStarted = false
         motionManager.stopDeviceMotionUpdates()
     }
-//        if tapLeft{
-//            onAutoRecordButton(0)
-//        }else{
-//            onPositioningRecordButton(0)
-//        }
-//    }
+
     private func updateMotionData(deviceMotion:CMDeviceMotion) {
         let ax=deviceMotion.userAcceleration.x
         rotatex.append(Int(deviceMotion.rotationRate.x*50))
@@ -101,9 +99,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             accel.remove(at: 0)
             rotatez.remove(at: 0)
             rotatex.remove(at: 0)
-            if checkTap(cnt: 0){
+            if checkTap(cnt: 0)&&checkNotMove(cnt: 0){
                 print("oneTap")
-                if checkTaps(30,60){
+                if checkTaps(20,70){
                     print("doubleTap")
                     stopMotion()
                     if tapLeft{
@@ -116,6 +114,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
     }
     func startMotion(){
+        if isStarted==true{
+            return
+        }
         accel.removeAll()
         rotatez.removeAll()
         rotatex.removeAll()
@@ -284,6 +285,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         print("unwind")
+//        isStarted=false
         startMotion()
     }
     
@@ -303,6 +305,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad*******")
+        isStarted=false
         startMotion()
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization { status in
@@ -324,8 +327,17 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let topEndBlank=0//someFunctions.getUserDefaultInt(str: "topEndBlank", ret: 0)
         
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(foreground(notification:)),
+                                               name: UIApplication.willEnterForegroundNotification,
+                                               object: nil
+        )
+
     }
-    
+    @objc func foreground(notification: Notification) {
+        print("フォアグラウンド")
+        startMotion()
+    }
     override func viewDidAppear(_ animated: Bool) {
         if UIApplication.shared.isIdleTimerDisabled == true{
             UIApplication.shared.isIdleTimerDisabled = false//監視する
