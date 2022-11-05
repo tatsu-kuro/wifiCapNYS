@@ -39,42 +39,51 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //motion sensor*************************
     let motionManager = CMMotionManager()
     var isStarted = false
-    var accel = Array<Int>()
-    var rotatez = Array<Int>()
-    var rotatex = Array<Int>()
     var tapLeft:Bool=false
+    var accelx = Array<Int>()
+    var rotatez = Array<Int>()
+    var rotatey = Array<Int>()
+    var rotatex = Array<Int>()
+    
     func checkNotMove(cnt:Int)->Bool{
-        for i in 0...50{
-            if rotatex[cnt+i] > 9 || rotatex[cnt+i] < -9{
-                return false
+        //        return true
+        var sum:Int=0
+        for i in 0...30{
+            if rotatey[cnt+i]>0{
+                sum += rotatey[cnt+i]
+            }else{
+                sum -= rotatey[cnt+i]
             }
+        }
+        print("sum:",sum)
+        if sum < 3{//動かなすぎ
+            return false
+        }else if sum > 100{//動き過ぎ
+            return false
         }
         return true
     }
+    
     func checkTap(cnt:Int)->Bool{
-
-        let a0=accel[cnt]
-        let a1=accel[cnt+1]
-        let a2=accel[cnt+2]
-        let a3=accel[cnt+3]
-        let a4=accel[cnt+4]
-        let rz0=rotatez[cnt]
-        let rz1=rotatez[cnt+1]
+        let a0=accelx[cnt]
+        let a1=accelx[cnt+1]
+        let a2=accelx[cnt+2]
+        let a3=accelx[cnt+3]
+        let a5=accelx[cnt+5]
         let rz2=rotatez[cnt+2]
         let rz3=rotatez[cnt+3]
-        let rz4=rotatez[cnt+4]
-        if a0 > -1 && a1 > -1 && a2<1 && a3<1 && a4<1{
-            if a0+a1>3 && a2+a3+a4 < -3{
-                if rz0+rz1>rz2+rz3+rz4{
-                    tapLeft=true
-                }else{
-                    tapLeft=false
-                }
-                return true
+        let rz6=rotatez[cnt+6]
+        if a0+a1<3 && a2+a3>7 && a5 < -1{
+            if rz2+rz3 > rz6*2{
+                tapLeft=true
+            }else{
+                tapLeft=false
             }
+            return true
         }
         return false
     }
+    
     func checkTaps(_ n1:Int,_ n2:Int)->Bool{
         for i in n1...n2{
             if checkTap(cnt: i){
@@ -83,44 +92,42 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
         return false
     }
-
+    
     func stopMotion() {
         isStarted = false
         motionManager.stopDeviceMotionUpdates()
     }
-
+ 
     private func updateMotionData(deviceMotion:CMDeviceMotion) {
         let ax=deviceMotion.userAcceleration.x
-        rotatex.append(Int(deviceMotion.rotationRate.x*50))
-        rotatez.append(Int(deviceMotion.rotationRate.z*50))
-        accel.append(Int(ax*50))
-        if accel.count>100{
-//            print("updateMotion")
-            accel.remove(at: 0)
+        let rx=deviceMotion.rotationRate.x
+        let ry=deviceMotion.rotationRate.y
+        let rz=deviceMotion.rotationRate.z
+        accelx.append(Int(ax*50))
+        rotatex.append(Int(rx*50))
+        rotatey.append(Int(ry*50))
+        rotatez.append(Int(rz*50))
+        if accelx.count>40{
+            accelx.remove(at: 0)
             rotatez.remove(at: 0)
+            rotatey.remove(at: 0)
             rotatex.remove(at: 0)
-            if checkTap(cnt: 0)&&checkNotMove(cnt: 0){
-                print("oneTap")
-                if checkTaps(20,70){
-                    print("doubleTap")
-                    stopMotion()
-                    if tapLeft{
-                        onAutoRecordButton(0)
-                    }else{
-                        onPositioningRecordButton(0)
-                    }
+            if checkTap(cnt: 0) && checkTaps(25,33) && checkNotMove(cnt: 0){
+                stopMotion()
+                if tapLeft{
+                    onAutoRecordButton(0)
+                }else{
+                    onPositioningRecordButton(0)
                 }
             }
         }
     }
+    
     func startMotion(){
-        if isStarted==true{
-            return
-        }
-        accel.removeAll()
+        accelx.removeAll()
         rotatez.removeAll()
+        rotatey.removeAll()
         rotatex.removeAll()
-
         // start monitoring sensor data
         if motionManager.isDeviceMotionAvailable {
             motionManager.deviceMotionUpdateInterval = 0.01
