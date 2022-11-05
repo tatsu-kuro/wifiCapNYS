@@ -107,12 +107,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         rotatex.append(Int(rx*50))
         rotatey.append(Int(ry*50))
         rotatez.append(Int(rz*50))
-        if accelx.count>40{
+        if accelx.count>57{
             accelx.remove(at: 0)
             rotatez.remove(at: 0)
             rotatey.remove(at: 0)
             rotatex.remove(at: 0)
-            if checkTap(cnt: 0) && checkTaps(25,33) && checkNotMove(cnt: 0){
+            if checkTap(cnt: 0) && checkTaps(30,50) && checkNotMove(cnt: 0){
                 stopMotion()
                 if tapLeft{
                     onAutoRecordButton(0)
