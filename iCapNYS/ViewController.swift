@@ -53,7 +53,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         print("sum:",sum)
         if sum < 2{//動かなすぎ
             return false
-        }else if sum > 60{//動き過ぎ
+        }else if sum > 100{//動き過ぎ
             return false
         }
         return true
@@ -65,12 +65,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let a2=accely[cnt+2]
         let a3=accely[cnt+3]
         let a6=accely[cnt+6]
-        if a0+a1<6 && a2+a3>14 && a6 < 8{
-            tapLeft=true
-            return true
-        }else if a0+a1<6 && a2+a3 < -14 && a6 > -8{
-            tapLeft=false
-            return true
+        if a0+a1<6 && a2+a3>14 && a6 < 8 && checkNotMove(cnt: cnt){
+                tapLeft=true
+                return true
+        }else if a0+a1<6 && a2+a3 < -14 && a6 > -8 && checkNotMove(cnt: cnt){
+                tapLeft=false
+                return true
         }
         return false
     }
@@ -98,12 +98,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         accelx.append(Int(ax*100))
         accelz.append(Int(az*100))
  
-        if accelx.count>200{
+        if accelx.count>216{
             accely.remove(at: 0)
             accelz.remove(at: 0)
             accelx.remove(at: 0)
 
-            if checkTap(cnt: 140) && checkTaps(170,190) && checkNotMove(cnt: 140){
+            if checkTap(cnt: 140) && checkTaps(155,185){//} && checkNotMove(cnt: 140){
                 stopMotion()
                 if tapLeft{
                     onAutoRecordButton(0)
