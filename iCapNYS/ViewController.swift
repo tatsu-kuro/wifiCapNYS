@@ -41,48 +41,40 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     var isStarted = false
     var tapLeft:Bool=false
     var accelx = Array<Int>()
-    var rotatez = Array<Int>()
-    var rotatey = Array<Int>()
-    var rotatex = Array<Int>()
-    
+    var accely = Array<Int>()
+    var accelz = Array<Int>()
     func checkNotMove(cnt:Int)->Bool{
-        //        return true
         var sum:Int=0
-        for i in 0...30{
-            if rotatey[cnt+i]>0{
-                sum += rotatey[cnt+i]
-            }else{
-                sum -= rotatey[cnt+i]
-            }
+        for i in 15...25{
+            sum += abs(accelx[cnt+i])
+            sum += abs(accely[cnt+i])
+            sum += abs(accelz[cnt+i])
         }
         print("sum:",sum)
-        if sum < 3{//動かなすぎ
+        if sum < 2{//動かなすぎ
             return false
-        }else if sum > 100{//動き過ぎ
+        }else if sum > 60{//動き過ぎ
             return false
         }
         return true
     }
-    
+
     func checkTap(cnt:Int)->Bool{
-        let a0=accelx[cnt]
-        let a1=accelx[cnt+1]
-        let a2=accelx[cnt+2]
-        let a3=accelx[cnt+3]
-        let a5=accelx[cnt+5]
-        let rz2=rotatez[cnt+2]
-        let rz3=rotatez[cnt+3]
-        let rz6=rotatez[cnt+6]
-        if a0+a1<3 && a2+a3>7 && a5 < -1{
-            if rz2+rz3 > rz6*2{
-                tapLeft=true
-            }else{
-                tapLeft=false
-            }
+        let a0=accely[cnt]
+        let a1=accely[cnt+1]
+        let a2=accely[cnt+2]
+        let a3=accely[cnt+3]
+        let a6=accely[cnt+6]
+        if a0+a1<6 && a2+a3>14 && a6 < 8{
+            tapLeft=true
+            return true
+        }else if a0+a1<6 && a2+a3 < -14 && a6 > -8{
+            tapLeft=false
             return true
         }
         return false
     }
+
     
     func checkTaps(_ n1:Int,_ n2:Int)->Bool{
         for i in n1...n2{
@@ -99,20 +91,19 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
  
     private func updateMotionData(deviceMotion:CMDeviceMotion) {
-        let ax=deviceMotion.userAcceleration.x
-        let rx=deviceMotion.rotationRate.x
-        let ry=deviceMotion.rotationRate.y
-        let rz=deviceMotion.rotationRate.z
-        accelx.append(Int(ax*50))
-        rotatex.append(Int(rx*50))
-        rotatey.append(Int(ry*50))
-        rotatez.append(Int(rz*50))
-        if accelx.count>57{
+        let ay=deviceMotion.userAcceleration.y
+        let ax=deviceMotion.userAcceleration.x// rotationRate.x
+        let az=deviceMotion.userAcceleration.z// rotationRate.z
+        accely.append(Int(ay*100))
+        accelx.append(Int(ax*100))
+        accelz.append(Int(az*100))
+ 
+        if accelx.count>200{
+            accely.remove(at: 0)
+            accelz.remove(at: 0)
             accelx.remove(at: 0)
-            rotatez.remove(at: 0)
-            rotatey.remove(at: 0)
-            rotatex.remove(at: 0)
-            if checkTap(cnt: 0) && checkTaps(30,50) && checkNotMove(cnt: 0){
+
+            if checkTap(cnt: 140) && checkTaps(170,190) && checkNotMove(cnt: 140){
                 stopMotion()
                 if tapLeft{
                     onAutoRecordButton(0)
@@ -125,9 +116,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     func startMotion(){
         accelx.removeAll()
-        rotatez.removeAll()
-        rotatey.removeAll()
-        rotatex.removeAll()
+        accely.removeAll()
+        accelz.removeAll()
         // start monitoring sensor data
         if motionManager.isDeviceMotionAvailable {
             motionManager.deviceMotionUpdateInterval = 0.01
