@@ -37,101 +37,107 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
 
     //motion sensor*************************
+
+    var tapInterval=CFAbsoluteTimeGetCurrent()
+    var lastTapLeft:Bool=false
+    var tapLeft:Bool=false
     let motionManager = CMMotionManager()
     var isStarted = false
-    var tapLeft:Bool=false
-    var accelx = Array<Int>()
-    var accely = Array<Int>()
-    var accelz = Array<Int>()
-    func checkNotMove(cnt:Int)->Bool{
-        var sum:Int=0
-        for i in 15...25{
-            sum += abs(accelx[cnt+i])
-            sum += abs(accely[cnt+i])
-            sum += abs(accelz[cnt+i])
-        }
-        print("sum:",sum)
-        if sum < 2{//動かなすぎ
-            return false
-        }else if sum > 100{//動き過ぎ
-            return false
-        }
-        return true
-    }
 
-    func checkTap(cnt:Int)->Bool{
-        let a0=accely[cnt]
-        let a1=accely[cnt+1]
-        let a2=accely[cnt+2]
-        let a3=accely[cnt+3]
-        let a6=accely[cnt+6]
-        if a0+a1<6 && a2+a3>14 && a6 < 8 && checkNotMove(cnt: cnt){
-                tapLeft=true
-                return true
-        }else if a0+a1<6 && a2+a3 < -14 && a6 > -8 && checkNotMove(cnt: cnt){
-                tapLeft=false
-                return true
-        }
-        return false
+    var deltay = Array<Int>()
+
+    var kalmandata = Array<CGFloat>()
+    var kalVs:[CGFloat]=[0.0001 ,0.001 ,0,0,0]
+    func KalmanS(Q:CGFloat,R:CGFloat){
+        kalVs[4] = (kalVs[3] + Q) / (kalVs[3] + Q + R)
+        kalVs[3] = R * (kalVs[3] + Q) / (R + kalVs[3] + Q)
     }
-    func checkTapOnly(cnt:Int)->Bool{
-        let a0=accely[cnt]
-        let a1=accely[cnt+1]
-        let a2=accely[cnt+2]
-        let a3=accely[cnt+3]
-        let a6=accely[cnt+6]
-        if a0+a1<6 && a2+a3>14 && a6 < 8{
-                tapLeft=true
-                return true
-        }else if a0+a1<6 && a2+a3 < -14 && a6 > -8{
-                tapLeft=false
-                return true
+    func Kalman(value:CGFloat)->CGFloat{
+        KalmanS(Q:kalVs[0],R:kalVs[1])
+        let result = kalVs[2] + (value - kalVs[2]) * kalVs[4]
+        kalVs[2] = result
+        return result
+    }
+    func KalmanInit(){
+            kalVs[2]=0
+            kalVs[3]=0
+            kalVs[4]=0
+    }
+ 
+    func checkDelta(cnt:Int)->Int{//
+        var ret:Int=0
+        if deltay[cnt]<0 && deltay[cnt+1]>0{
+            ret=deltay[cnt]-deltay[cnt+1]
         }
-        return false
+        if deltay[cnt]<0 && deltay[cnt+1]<0 && deltay[cnt+2]>0{
+            ret=deltay[cnt]+deltay[cnt+1]-deltay[cnt+2]
+        }
+        if deltay[cnt]<0 && deltay[cnt+1]==0 && deltay[cnt+2]>0{
+            ret=deltay[cnt]-deltay[cnt+2]
+        }
+        if deltay[cnt]>0 && deltay[cnt+1]<0{
+            ret=deltay[cnt]-deltay[cnt+1]
+        }
+        if deltay[cnt]>0 && deltay[cnt+1]>0 && deltay[cnt+2]<0{
+            ret=deltay[cnt]+deltay[cnt+1]-deltay[cnt+2]
+        }
+        if deltay[cnt]>0 && deltay[cnt+1]==0 && deltay[cnt+2]<0{
+            ret=deltay[cnt]-deltay[cnt+2]
+        }
+        return ret
     }
     
-    func checkTaps(_ n1:Int,_ n2:Int)->Bool{
-        for i in n1...n2{
-            if checkTapOnly(cnt: i){
-                return true
-            }
+    func checkTap(cnt:Int)->Bool{
+        let ave=checkDelta(cnt: cnt)
+        if ave>2{
+            tapLeft=false
+            return true
+        }else if ave < -2{
+            tapLeft=true
+            return true
         }
         return false
+    }
+  
+    var cnt:Int=0
+    private func updateMotionData(deviceMotion:CMDeviceMotion) {
+        let ay=deviceMotion.userAcceleration.y
+        kalmandata.append(Kalman(value: ay*25))
+        let arrayCnt=kalmandata.count
+        if arrayCnt>5{
+            deltay.append(Int(kalmandata[arrayCnt-2]-kalmandata[arrayCnt-1]))
+        }else{
+            deltay.append(0)
+        }
+        if deltay.count>10{
+            cnt += 1
+            deltay.remove(at: 0)
+            kalmandata.remove(at: 0)
+            
+            if checkTap(cnt: 0){
+                if (CFAbsoluteTimeGetCurrent()-tapInterval)>0.3 && (CFAbsoluteTimeGetCurrent()-tapInterval)<0.5{
+                    if tapLeft && lastTapLeft{
+                        onAutoRecordButton(0)
+                    }else if !tapLeft && !lastTapLeft{
+                  
+                        onPositioningRecordButton(0)
+                    }
+                    lastTapLeft=tapLeft
+                }
+                tapInterval=CFAbsoluteTimeGetCurrent()
+            }
+        }
     }
     
     func stopMotion() {
         isStarted = false
         motionManager.stopDeviceMotionUpdates()
     }
- 
-    private func updateMotionData(deviceMotion:CMDeviceMotion) {
-        let ay=deviceMotion.userAcceleration.y
-        let ax=deviceMotion.userAcceleration.x// rotationRate.x
-        let az=deviceMotion.userAcceleration.z// rotationRate.z
-        accely.append(Int(ay*100))
-        accelx.append(Int(ax*100))
-        accelz.append(Int(az*100))
- 
-        if accelx.count>225{
-            accely.remove(at: 0)
-            accelz.remove(at: 0)
-            accelx.remove(at: 0)
-
-            if checkTap(cnt: 140) && checkTaps(155,185) && checkTaps(185,215){
-                stopMotion()
-                if tapLeft{
-                    onAutoRecordButton(0)
-                }else{
-                    onPositioningRecordButton(0)
-                }
-            }
-        }
-    }
-    
     func startMotion(){
-        accelx.removeAll()
-        accely.removeAll()
-        accelz.removeAll()
+        KalmanInit()
+        deltay.removeAll()
+        kalmandata.removeAll()
+        cnt=0
         // start monitoring sensor data
         if motionManager.isDeviceMotionAvailable {
             motionManager.deviceMotionUpdateInterval = 0.01
@@ -141,6 +147,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
         isStarted = true
     }
+
     //motion sensor*****************
     
     override func viewDidLayoutSubviews() {
