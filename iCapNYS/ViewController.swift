@@ -66,33 +66,34 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
  
     func checkDelta(cnt:Int)->Int{//
         var ret:Int=0
-        if deltay[cnt]==0 && deltay[cnt+1]<0 && deltay[cnt+2]>0{
-            ret=deltay[cnt+1]-deltay[cnt+2]
+        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]<0 && deltay[cnt+3]>0{
+            ret=deltay[cnt+2]-deltay[cnt+3]
         }
-        if deltay[cnt]==0 && deltay[cnt+1]<0 && deltay[cnt+2]<0 && deltay[cnt+3]>0{
-            ret=deltay[cnt+1]+deltay[cnt+2]-deltay[cnt+3]
+        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]<0 && deltay[cnt+3]<0 && deltay[cnt+4]>0{
+            ret=deltay[cnt+2]+deltay[cnt+3]-deltay[cnt+4]
         }
-        if deltay[cnt]==0 && deltay[cnt+1]<0 && deltay[cnt+2]==0 && deltay[cnt+3]>0{
-            ret=deltay[cnt+1]-deltay[cnt+3]
+        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]<0 && deltay[cnt+3]==0 && deltay[cnt+4]>0{
+            ret=deltay[cnt+2]-deltay[cnt+4]
         }
-        if deltay[cnt]==0 && deltay[cnt+1]>0 && deltay[cnt+2]<0{
-            ret=deltay[cnt+1]-deltay[cnt+2]
+        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]>0 && deltay[cnt+3]<0{
+            ret=deltay[cnt+2]-deltay[cnt+3]
         }
-        if deltay[cnt]==0 && deltay[cnt+1]>0 && deltay[cnt+2]>0 && deltay[cnt+3]<0{
-            ret=deltay[cnt+1]+deltay[cnt+2]-deltay[cnt+3]
+        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]>0 && deltay[cnt+3]>0 && deltay[cnt+4]<0{
+            ret=deltay[cnt+2]+deltay[cnt+3]-deltay[cnt+4]
         }
-        if deltay[cnt]==0 && deltay[cnt+1]>0 && deltay[cnt+2]==0 && deltay[cnt+3]<0{
-            ret=deltay[cnt+1]-deltay[cnt+3]
+        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]>0 && deltay[cnt+3]==0 && deltay[cnt+4]<0{
+            ret=deltay[cnt+2]-deltay[cnt+4]
         }
         return ret
     }
+  
     
     func checkTap(cnt:Int)->Bool{
         let ave=checkDelta(cnt: cnt)
-        if ave>2{
+        if ave>3{
             tapLeft=false
             return true
-        }else if ave < -2{
+        }else if ave < -3{
             tapLeft=true
             return true
         }
