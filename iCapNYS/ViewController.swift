@@ -66,23 +66,23 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
  
     func checkDelta(cnt:Int)->Int{//
         var ret:Int=0
-        if deltay[cnt]<0 && deltay[cnt+1]>0{
-            ret=deltay[cnt]-deltay[cnt+1]
+        if deltay[cnt]==0 && deltay[cnt+1]<0 && deltay[cnt+2]>0{
+            ret=deltay[cnt+1]-deltay[cnt+2]
         }
-        if deltay[cnt]<0 && deltay[cnt+1]<0 && deltay[cnt+2]>0{
-            ret=deltay[cnt]+deltay[cnt+1]-deltay[cnt+2]
+        if deltay[cnt]==0 && deltay[cnt+1]<0 && deltay[cnt+2]<0 && deltay[cnt+3]>0{
+            ret=deltay[cnt+1]+deltay[cnt+2]-deltay[cnt+3]
         }
-        if deltay[cnt]<0 && deltay[cnt+1]==0 && deltay[cnt+2]>0{
-            ret=deltay[cnt]-deltay[cnt+2]
+        if deltay[cnt]==0 && deltay[cnt+1]<0 && deltay[cnt+2]==0 && deltay[cnt+3]>0{
+            ret=deltay[cnt+1]-deltay[cnt+3]
         }
-        if deltay[cnt]>0 && deltay[cnt+1]<0{
-            ret=deltay[cnt]-deltay[cnt+1]
+        if deltay[cnt]==0 && deltay[cnt+1]>0 && deltay[cnt+2]<0{
+            ret=deltay[cnt+1]-deltay[cnt+2]
         }
-        if deltay[cnt]>0 && deltay[cnt+1]>0 && deltay[cnt+2]<0{
-            ret=deltay[cnt]+deltay[cnt+1]-deltay[cnt+2]
+        if deltay[cnt]==0 && deltay[cnt+1]>0 && deltay[cnt+2]>0 && deltay[cnt+3]<0{
+            ret=deltay[cnt+1]+deltay[cnt+2]-deltay[cnt+3]
         }
-        if deltay[cnt]>0 && deltay[cnt+1]==0 && deltay[cnt+2]<0{
-            ret=deltay[cnt]-deltay[cnt+2]
+        if deltay[cnt]==0 && deltay[cnt+1]>0 && deltay[cnt+2]==0 && deltay[cnt+3]<0{
+            ret=deltay[cnt+1]-deltay[cnt+3]
         }
         return ret
     }
@@ -119,11 +119,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     if tapLeft && lastTapLeft{
                         onAutoRecordButton(0)
                     }else if !tapLeft && !lastTapLeft{
-                  
                         onPositioningRecordButton(0)
                     }
-                    lastTapLeft=tapLeft
+                   
                 }
+                lastTapLeft=tapLeft
                 tapInterval=CFAbsoluteTimeGetCurrent()
             }
         }
