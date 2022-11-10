@@ -190,7 +190,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //            return UIInterfaceOrientationMask.landscapeLeft
 //        }
 //    }
-    
+    //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     @IBAction func onCameraButton(_ sender: Any) {
         stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
@@ -342,7 +342,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             someFunctions.getAlbumAssets()//完了したら戻ってくるようにしたつもり
         }
         //初回起動時にdefaultを設定
-        let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
+        let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 1)
         let topEndBlank=0//someFunctions.getUserDefaultInt(str: "topEndBlank", ret: 0)
         
         UIApplication.shared.isIdleTimerDisabled = false//スリープする

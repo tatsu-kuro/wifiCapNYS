@@ -123,42 +123,36 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
  
     override func viewDidLoad() {
         super.viewDidLoad()
-//        print("didload,brightness;",currentBrightness)
+
         UIScreen.main.brightness=1.0
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-//        realWinWidth=view.bounds.width-leftPadding-rightPadding
+
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
-//        playMoviePath("spon1mov")
+
         movieTimerCnt=0
         movieTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.movieUpdate), userInfo: nil, repeats: true)
 
         getCameras()
         camera.makeAlbum()
         cameraType=0
-//        if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
-//            cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-//        }else{
-//            cameraType=0
-//            UserDefaults.standard.set(cameraType, forKey: "cameraType")
-//        }
-    
+
         set_rpk_ppk()
         setMotion()
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも、30fpsだ！
 
 
-        setFocus(focus:camera.getUserDefaultFloat(str: "focusValue", ret: 0))
+//        setFocus(focus:camera.getUserDefaultFloat(str: "focusValue", ret: 0))
 
-        if cameraType==0{
-            setZoom(level:camera.getUserDefaultFloat(str: "zoomValue0", ret: 0.017))
-            setExpose(expose: camera.getUserDefaultFloat(str: "exposeValue0", ret: 0))
-        }else{
-            setZoom(level:camera.getUserDefaultFloat(str: "zoomValue1", ret: 0.07))
-            setExpose(expose: camera.getUserDefaultFloat(str: "exposeValue1", ret: 0))
-        }
+//        if cameraType==0{
+            setZoom(level:camera.getUserDefaultFloat(str: "autoZoomValue", ret: 0.017))
+            setExpose(expose: camera.getUserDefaultFloat(str: "autoExposeValue", ret: 0))
+//        }else{
+//            setZoom(level:camera.getUserDefaultFloat(str: "zoomValue1", ret: 0.07))
+//            setExpose(expose: camera.getUserDefaultFloat(str: "exposeValue1", ret: 0))
+//        }
 
  
         setButtons()//height:buttonsHeight)
@@ -589,17 +583,16 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     }
     func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ
-//        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
         cameraType=0
-        if cameraType == 0{
+//        if cameraType == 0{
             videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)//.back)
-        }else if cameraType==1{
-            videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-        }else if cameraType==2{
-            videoDevice = AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back)
-        }else if cameraType==3{
-            videoDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back)
-        }
+//        }else if cameraType==1{
+//            videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+//        }else if cameraType==2{
+//            videoDevice = AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back)
+//        }else if cameraType==3{
+//            videoDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back)
+//        }
         
         let videoInput = try! AVCaptureDeviceInput.init(device: videoDevice!)
         
@@ -622,17 +615,17 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         cameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
         cameraView.layer.addSublayer(   whiteView.layer)
         let videoLayer : AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        if cameraType==0{
+//        if cameraType==0{
             let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
             let width=view.bounds.width
             let height=view.bounds.height
             videoLayer.frame = CGRect(x:leftPadding+10,y:height*2/5,width:width/5,height:height/5)
             videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        }else{
-            videoLayer.frame=self.view.bounds
-            videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            
-        }
+//        }else{
+//            videoLayer.frame=self.view.bounds
+//            videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+//
+//        }
         //info right home button
         let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
         if landscapeSide==0{
@@ -692,37 +685,37 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         label.layer.borderWidth = 1.0
         label.layer.cornerRadius = radius
     }
-    var focusChangeable:Bool=true
-    func setFocus(focus:Float) {//focus 0:最接近　0-1.0
-        focusChangeable=false
-        if let device = videoDevice{
-            if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
-                print("focus_supported")
-                do {
-                    try device.lockForConfiguration()
-                    device.focusMode = .locked
-                    device.setFocusModeLocked(lensPosition: focus, completionHandler: { _ in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-                            device.unlockForConfiguration()
-                        })
-                    })
-                    device.unlockForConfiguration()
-                    focusChangeable=true
-                }
-                catch {
-                    // just ignore
-                    print("focuserror")
-                }
-            }else{
-                print("focus_not_supported")
-
-//                if cameraType==2{
-//                    setZoom(level: focus*4/10)//vHITに比べてすでに1/4にしてあるので
-//                    return
+//    var focusChangeable:Bool=true
+//    func setFocus(focus:Float) {//focus 0:最接近　0-1.0
+//        focusChangeable=false
+//        if let device = videoDevice{
+//            if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
+//                print("focus_supported")
+//                do {
+//                    try device.lockForConfiguration()
+//                    device.focusMode = .locked
+//                    device.setFocusModeLocked(lensPosition: focus, completionHandler: { _ in
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+//                            device.unlockForConfiguration()
+//                        })
+//                    })
+//                    device.unlockForConfiguration()
+//                    focusChangeable=true
 //                }
-            }
-        }
-    }
+//                catch {
+//                    // just ignore
+//                    print("focuserror")
+//                }
+//            }else{
+//                print("focus_not_supported")
+//
+////                if cameraType==2{
+////                    setZoom(level: focus*4/10)//vHITに比べてすでに1/4にしてあるので
+////                    return
+////                }
+//            }
+//        }
+//    }
     func setExpose(expose:Float) {
         
         if let currentDevice=videoDevice{

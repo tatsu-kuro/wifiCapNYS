@@ -37,7 +37,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var currentBrightness:CGFloat=1.0
     var explanationLabeltextColor:UIColor=UIColor.systemGreen
     let cameraTypeStrings : Array<String> = ["frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:"]
-//          cameraTypeLabel.text = cameraTypeStrings[cameraType]
+
     @IBOutlet weak var previewSwitch: UISwitch!
     
     @IBAction func onPreviewSwitch(_ sender: Any) {
@@ -145,11 +145,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var cameraChangeButton: UIButton!
    
     func setBars(){
-        if cameraType==0{
-            zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue0", ret: 0)
+        if setteiMode==2{
+            zoomBar.value=camera.getUserDefaultFloat(str: "AutoZoomValue", ret: 0)
             setZoom(level: zoomBar.value)
+            
         }else{
-            zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue1", ret: 0)
+            zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue", ret: 0)
             focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
             setFocus(focus: focusBar.value)
             setZoom(level: zoomBar.value)
@@ -235,6 +236,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var realWinWidth:CGFloat=0//=view.bounds.width-leftPadding-rightPadding
     var realWinHeight:CGFloat=0//=view.bounds.height-topPadding-bottomPadding/2
 
+    //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     override func viewDidLoad() {
         super.viewDidLoad()
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -260,16 +262,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             cameraType=0
             UserDefaults.standard.set(cameraType, forKey: "cameraType")
         }
-        
-        if autoRecordMode==true{
+        if setteiMode==2{
             cameraType=0
-            cameraChangeButton.isEnabled=false
-            explanationLabel.isHidden=true
         }
-        if setteiMode==2{//setteibuttonAuto
-            cameraType=0
-            cameraChangeButton.isEnabled=false
-        }
+
         set_rpk_ppk()
         setMotion()
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも、30fpsだ！
@@ -283,39 +279,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             LEDBar.value=UserDefaults.standard.float(forKey: "ledValue")
         }
         onLEDValueChange()
-        if cameraType==0{
-//            LEDBar.alpha=0.2// isHidden=true
-//            LEDLabel.alpha=0.2// isHidden=true
-//            LEDBar.isEnabled=false
-            LEDBar.isHidden=true
-            LEDLabel.isHidden=true
-            LEDValueLabel.isHidden=true
 
-        }else{
-//            LEDBar.alpha=1.0// isHidden=false
-//            LEDLabel.alpha=1.0// isHidden=false
-//            LEDBar.isEnabled=true
-            LEDBar.isHidden=false
-            LEDLabel.isHidden=false
-            LEDValueLabel.isHidden=false
-        }
-        
         focusBar.minimumValue = 0
         focusBar.maximumValue = 1.0
         focusBar.addTarget(self, action: #selector(onFocusValueChange), for: UIControl.Event.valueChanged)
         focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
         onFocusValueChange()
         if focusChangeable==false{
-//            focusBar.isEnabled=false
-//            focusBar.alpha=0.2
-//            focusLabel.alpha=0.2
             focusLabel.isHidden=true
             focusBar.isHidden=true
             focusValueLabel.isHidden=true
         }else{
-//            focusBar.isEnabled=true
-//            focusBar.alpha=1.0
-//            focusLabel.alpha=1.0
             focusLabel.isHidden=false
             focusBar.isHidden=false
             focusValueLabel.isHidden=false
@@ -323,24 +297,24 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         zoomBar.minimumValue = 0
         zoomBar.maximumValue = 0.1
         zoomBar.addTarget(self, action: #selector(onZoomValueChange), for: UIControl.Event.valueChanged)
-        if cameraType==0{
-            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue0", ret: 0.017)
+        if setteiMode==2{
+            zoomBar.value = camera.getUserDefaultFloat(str: "autoZoomValue", ret: 0.002)
         }else{
-            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue1", ret: 0.07)
+            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue", ret: 0.01)
         }
         setZoom(level: zoomBar.value)
-        
         exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
         exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
         exposeBar.addTarget(self, action: #selector(onExposeValueChange), for: UIControl.Event.valueChanged)
-        if cameraType==0{
-            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue0",ret:0)
-            UIScreen.main.brightness = 1
+        if setteiMode==2{
+            exposeBar.value=camera.getUserDefaultFloat(str:"autoExposeValue",ret:1.6)
         }else{
-            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue1",ret:0)
+            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:0)
+        }
+        if cameraType==0{
+            UIScreen.main.brightness = 1
         }
         onExposeValueChange()
-//        setExplanation()
         setButtons()
         currentTime.isHidden=true
         startButton.alpha=0.25
@@ -355,14 +329,23 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
+    /*  @objc func onExposeValueChange(){
+     setExpose(expose:exposeBar.value)
+     if setteiMode==2{
+         UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
+     }else{
+         UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
+     }
+ }*/
+    
+    
     @objc func onZoomValueChange(){
-        if cameraType==0{
-            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue0")
+        if setteiMode==2{
+            UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
         }else{
-            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue1")
+            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
         }
         setZoom(level: zoomBar.value)
-//        zoomValueLabel.text=zoomBar.value.description
     }
     @objc func onLEDValueChange(){
 //        print("brightness,onLEDchange:",LEDBar.value)
@@ -680,12 +663,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     */
     
     @IBAction func onCameraChangeButton(_ sender: Any) {
-//        if autoRecordMode==true{
-//            return
-//        }
-//        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-//        explanationLabel.text = cameraTypeStrings[cameraType]
-
         if cameraType==0{
             cameraType=1
         }else if cameraType==1{
@@ -711,49 +688,33 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         set_rpk_ppk()
         initSession(fps: 60)
         onLEDValueChange()
-//        onZoomValueChange()
         onFocusValueChange()
+        zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue")
+        setZoom(level: zoomBar.value)
         if cameraType==0{
-            zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue0")
-//            LEDBar.alpha=0.3// isHidden=true
-//            LEDBar.isEnabled=false
-//            LEDLabel.alpha=0.3// isHidden=true
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
         }else{
-            zoomBar.value=UserDefaults.standard.float(forKey:"zoomValue1")
-//            LEDBar.alpha=1// isHidden=false
-//            LEDBar.isEnabled=true
-//            LEDLabel.alpha=1//isHidden=false
             LEDBar.isHidden=false
             LEDLabel.isHidden=false
             LEDValueLabel.isHidden=false
-
         }
-        setZoom(level: zoomBar.value)
         if focusChangeable==false{
-//            focusBar.isEnabled=false
-//            focusBar.alpha=0.2
-//            focusLabel.alpha=0.2
             focusBar.isHidden=true
             focusLabel.isHidden=true
             focusValueLabel.isHidden=true
         }else{
-//            focusBar.isEnabled=true
-//            focusBar.alpha=1.0
-//            focusLabel.alpha=1.0
             focusBar.isHidden=false
             focusLabel.isHidden=false
             focusValueLabel.isHidden=false
         }
         if cameraType==0{
-            UIScreen.main.brightness = 1//CGFloat(UserDefaults.standard.float(forKey: "mainBrightness"))
+            UIScreen.main.brightness = 1
         }else{
             UIScreen.main.brightness = currentBrightness
         }
         onExposeValueChange()
-//        setExplanation()
         setButtons()
         cameraType=UserDefaults.standard.integer(forKey:"cameraType")
         var explanationText = cameraTypeStrings[cameraType]
@@ -967,7 +928,30 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else{
             explanationLabel.text=explanationText + "Record Settings"
         }
-
+        if setteiMode==2{
+            cameraChangeButton.isEnabled=false
+            previewSwitch.isHidden=true
+            previewLabel.isHidden=true
+            focusBar.isHidden=true
+            focusLabel.isHidden=true
+            focusValueLabel.isHidden=true
+            LEDLabel.isHidden=true
+            LEDBar.isHidden=true
+            LEDValueLabel.isHidden=true
+        }
+/*     if autoRecordMode==true{
+ //            cameraType=0
+ //            cameraChangeButton.isEnabled=false
+ //            explanationLabel.isHidden=true
+ //        }
+ //
+ //        if setteiMode==2{//setteibuttonAuto
+ //            cameraType=0
+ //            cameraChangeButton.isEnabled=false
+ //            previewSwitch.isHidden=true
+ //            previewLabel.isHidden=true
+ //        }
+ */
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
@@ -1161,10 +1145,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
  
     @objc func onExposeValueChange(){
         setExpose(expose:exposeBar.value)
-        if cameraType==0{
-            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue0")
+        if setteiMode==2{
+            UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
         }else{
-            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue1")
+            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
         }
     }
 
