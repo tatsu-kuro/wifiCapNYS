@@ -28,7 +28,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
     var soundIdx:SystemSoundID = 0
-    let albumName:String = "iCapNYS"
+    let albumName:String = "wifiCapNYS"
     var recordingFlag:Bool = false
     var saved2album:Bool = false
     var setteiMode:Int = 0//0:camera, 1:setteimanual, 2:setteiauto

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>iCapNYS</string>
+	<string>wifiCapNYS</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -25,9 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>record a movie of eye movement, and put it into the album( iCapNYS).</string>
+	<string>record a movie of eye movement, and put it into the album( wifiCapNYS).</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>make the album( iCapNYS) and put a movie of eye movement in it.</string>
+	<string>make the album( wifiCapNYS) and put a movie of eye movement in it.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

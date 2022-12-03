@@ -22,7 +22,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     @IBOutlet weak var autoRecordButton: UIButton!
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
-    let albumName:String = "iCapNYS"
+    let albumName:String = "wifiCapNYS"
     var videoCurrentCount:Int = 0
     var videoDate = Array<String>()
     @IBOutlet weak var how2Button: UIButton!

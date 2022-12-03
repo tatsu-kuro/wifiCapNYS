@@ -32,7 +32,7 @@
 		6961FBEA257E756D004B6A8C /* How2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How2ViewController.swift; sourceTree = "<group>"; };
 		69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRecordViewController.swift; sourceTree = "<group>"; };
 		69B6913828A1C3BD00E1C065 /* steel1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel1.mov; sourceTree = "<group>"; };
-		69E2288E251834490004E53C /* iCapNYS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCapNYS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		69E2288E251834490004E53C /* wifiCapNYS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wifiCapNYS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E22891251834490004E53C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69E22893251834490004E53C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		69E22895251834490004E53C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,7 +66,7 @@
 				690ECCBA290AB509008A317F /* steel3.mov */,
 				6915B65728A5EA81004D3EBF /* positional.mov */,
 				69B6913828A1C3BD00E1C065 /* steel1.mov */,
-				69E22890251834490004E53C /* iCapNYS */,
+				69E22890251834490004E53C /* wifiCapNYS */,
 				69E2288F251834490004E53C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -74,12 +74,12 @@
 		69E2288F251834490004E53C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				69E2288E251834490004E53C /* iCapNYS.app */,
+				69E2288E251834490004E53C /* wifiCapNYS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		69E22890251834490004E53C /* iCapNYS */ = {
+		69E22890251834490004E53C /* wifiCapNYS */ = {
 			isa = PBXGroup;
 			children = (
 				69E22891251834490004E53C /* AppDelegate.swift */,
@@ -96,15 +96,15 @@
 				69E2289F2518344C0004E53C /* Info.plist */,
 				698A192E2785BFFD004C4CE9 /*  ja.lproj */,
 			);
-			path = iCapNYS;
+			path = wifiCapNYS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		69E2288D251834490004E53C /* iCapNYS */ = {
+		69E2288D251834490004E53C /* wifiCapNYS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 69E228A22518344C0004E53C /* Build configuration list for PBXNativeTarget "iCapNYS" */;
+			buildConfigurationList = 69E228A22518344C0004E53C /* Build configuration list for PBXNativeTarget "wifiCapNYS" */;
 			buildPhases = (
 				69E2288A251834490004E53C /* Sources */,
 				69E2288B251834490004E53C /* Frameworks */,
@@ -114,9 +114,9 @@
 			);
 			dependencies = (
 			);
-			name = iCapNYS;
+			name = wifiCapNYS;
 			productName = iCapNYS;
-			productReference = 69E2288E251834490004E53C /* iCapNYS.app */;
+			productReference = 69E2288E251834490004E53C /* wifiCapNYS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -133,7 +133,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 69E22889251834490004E53C /* Build configuration list for PBXProject "iCapNYS" */;
+			buildConfigurationList = 69E22889251834490004E53C /* Build configuration list for PBXProject "wifiCapNYS" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -146,7 +146,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				69E2288D251834490004E53C /* iCapNYS */,
+				69E2288D251834490004E53C /* wifiCapNYS */,
 			);
 		};
 /* End PBXProject section */
@@ -331,14 +331,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.1.4;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
-				INFOPLIST_FILE = iCapNYS/Info.plist;
+				INFOPLIST_FILE = wifiCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.iCapNYS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.wifiCapNYS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -353,14 +353,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.1.4;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
-				INFOPLIST_FILE = iCapNYS/Info.plist;
+				INFOPLIST_FILE = wifiCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.iCapNYS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.wifiCapNYS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -370,7 +370,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		69E22889251834490004E53C /* Build configuration list for PBXProject "iCapNYS" */ = {
+		69E22889251834490004E53C /* Build configuration list for PBXProject "wifiCapNYS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				69E228A02518344C0004E53C /* Debug */,
@@ -379,7 +379,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		69E228A22518344C0004E53C /* Build configuration list for PBXNativeTarget "iCapNYS" */ = {
+		69E228A22518344C0004E53C /* Build configuration list for PBXNativeTarget "wifiCapNYS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				69E228A32518344C0004E53C /* Debug */,

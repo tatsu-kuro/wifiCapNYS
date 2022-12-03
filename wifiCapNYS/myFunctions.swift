@@ -16,7 +16,7 @@ import AVFoundation
 
 class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
     let tempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
-    let albumName:String = "iCapNYS"
+    let albumName:String = "wifiCapNYS"
     var videoDevice: AVCaptureDevice?
     var captureSession: AVCaptureSession!
     var fileOutput = AVCaptureMovieFileOutput()

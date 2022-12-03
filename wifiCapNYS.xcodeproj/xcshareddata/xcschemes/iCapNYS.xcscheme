@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "69E2288D251834490004E53C"
-               BuildableName = "iCapNYS.app"
-               BlueprintName = "iCapNYS"
-               ReferencedContainer = "container:iCapNYS.xcodeproj">
+               BuildableName = "wifiCapNYS.app"
+               BlueprintName = "wifiCapNYS"
+               ReferencedContainer = "container:wifiCapNYS.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "69E2288D251834490004E53C"
-            BuildableName = "iCapNYS.app"
-            BlueprintName = "iCapNYS"
-            ReferencedContainer = "container:iCapNYS.xcodeproj">
+            BuildableName = "wifiCapNYS.app"
+            BlueprintName = "wifiCapNYS"
+            ReferencedContainer = "container:wifiCapNYS.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "69E2288D251834490004E53C"
-            BuildableName = "iCapNYS.app"
-            BlueprintName = "iCapNYS"
-            ReferencedContainer = "container:iCapNYS.xcodeproj">
+            BuildableName = "wifiCapNYS.app"
+            BlueprintName = "wifiCapNYS"
+            ReferencedContainer = "container:wifiCapNYS.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
