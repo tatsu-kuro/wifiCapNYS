@@ -829,7 +829,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         label.layer.cornerRadius = radius
     }
 //    var startButtonsHeight:CGFloat=0
-    @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
+//    @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
 //        let move:CGPoint = sender.translation(in: self.view)
 ////        let pos = sender.location(in: self.view)
 //        print("panGesture")
@@ -849,7 +849,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            setButtons()//,changedButtonHeight)
 //        }else if sender.state == .ended{
 //        }
-    }
+//    }
     func setButtons(){
         // recording button
         let height:CGFloat=0//CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))

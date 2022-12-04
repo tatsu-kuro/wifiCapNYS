@@ -169,16 +169,6 @@
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="flD-sk-DFz">
-                                <rect key="frame" x="0.0" y="157.5" width="568" height="5"/>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="5" id="Vsp-0P-ugn"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rQ7-Kf-AuZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -186,13 +176,7 @@
                             <bool key="isElement" value="YES"/>
                         </accessibility>
                         <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="flD-sk-DFz" firstAttribute="leading" secondItem="rQ7-Kf-AuZ" secondAttribute="leading" id="SYk-Dz-x2W"/>
-                            <constraint firstItem="flD-sk-DFz" firstAttribute="trailing" secondItem="rQ7-Kf-AuZ" secondAttribute="trailing" id="U8D-Pl-p4b"/>
-                            <constraint firstItem="flD-sk-DFz" firstAttribute="centerY" secondItem="bzg-mg-vx4" secondAttribute="centerY" id="ay0-Rx-ena"/>
-                        </constraints>
                         <connections>
-                            <outletCollection property="gestureRecognizers" destination="Qhd-kv-Jkz" appends="YES" id="fr0-If-gvD"/>
                             <outletCollection property="gestureRecognizers" destination="00q-Mg-hiA" appends="YES" id="82E-mW-00Z"/>
                         </connections>
                     </view>
@@ -210,11 +194,6 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7qf-8F-FDG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="jGz-hQ-j5Z" userLabel="Exit" sceneMemberID="exit"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="Qhd-kv-Jkz">
-                    <connections>
-                        <action selector="panGesture:" destination="Hp4-gK-9UW" id="WxF-pm-Vrv"/>
-                    </connections>
-                </panGestureRecognizer>
                 <tapGestureRecognizer id="00q-Mg-hiA">
                     <connections>
                         <action selector="tapGest:" destination="Hp4-gK-9UW" id="k8Z-S1-e49"/>
