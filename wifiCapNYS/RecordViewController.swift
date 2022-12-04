@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WebKit
 import AVFoundation
 import GLKit
 import Photos
@@ -24,6 +25,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let camera = myFunctions()
     var cameraType:Int = 0
     
+    @IBOutlet weak var ipCameraView: WKWebView!
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
@@ -235,7 +237,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var bottomPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
     var realWinWidth:CGFloat=0//=view.bounds.width-leftPadding-rightPadding
     var realWinHeight:CGFloat=0//=view.bounds.height-topPadding-bottomPadding/2
-
+    func loadCamView(){
+        var url: String = "http://192.168.82.1"//[前記事で設定したDDNSのアドレス]:8081/?action=snapshot"
+        let requestURL = NSURL(string: url)
+        let req = NSURLRequest(url: requestURL! as URL)
+        
+        ipCameraView.load(req as URLRequest)
+    }
     //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -321,6 +329,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
+        loadCamView()
      }
  
     override var prefersStatusBarHidden: Bool {
