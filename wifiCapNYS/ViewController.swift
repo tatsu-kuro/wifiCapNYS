@@ -17,9 +17,9 @@ import AssetsLibrary
 import CoreMotion
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    @IBOutlet weak var steelLabel: UILabel!
-    @IBOutlet weak var postualLabel: UILabel!
-    @IBOutlet weak var autoRecordButton: UIButton!
+//    @IBOutlet weak var steelLabel: UILabel!
+  //  @IBOutlet weak var postualLabel: UILabel!
+ //   @IBOutlet weak var autoRecordButton: UIButton!
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let albumName:String = "wifiCapNYS"
@@ -37,117 +37,117 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
 
     //motion sensor*************************
-
-    var tapInterval=CFAbsoluteTimeGetCurrent()
-    var lastTapLeft:Bool=false
-    var tapLeft:Bool=false
-    let motionManager = CMMotionManager()
-    var isStarted = false
-
-    var deltay = Array<Int>()
-
-    var kalmandata = Array<CGFloat>()
-    var kalVs:[CGFloat]=[0.0001 ,0.001 ,0,0,0]
-    func KalmanS(Q:CGFloat,R:CGFloat){
-        kalVs[4] = (kalVs[3] + Q) / (kalVs[3] + Q + R)
-        kalVs[3] = R * (kalVs[3] + Q) / (R + kalVs[3] + Q)
-    }
-    func Kalman(value:CGFloat)->CGFloat{
-        KalmanS(Q:kalVs[0],R:kalVs[1])
-        let result = kalVs[2] + (value - kalVs[2]) * kalVs[4]
-        kalVs[2] = result
-        return result
-    }
-    func KalmanInit(){
-            kalVs[2]=0
-            kalVs[3]=0
-            kalVs[4]=0
-    }
- 
-    func checkDelta(cnt:Int)->Int{//
-        var ret:Int=0
-        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]<0 && deltay[cnt+3]>0{
-            ret=deltay[cnt+2]-deltay[cnt+3]
-        }
-        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]<0 && deltay[cnt+3]<0 && deltay[cnt+4]>0{
-            ret=deltay[cnt+2]+deltay[cnt+3]-deltay[cnt+4]
-        }
-        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]<0 && deltay[cnt+3]==0 && deltay[cnt+4]>0{
-            ret=deltay[cnt+2]-deltay[cnt+4]
-        }
-        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]>0 && deltay[cnt+3]<0{
-            ret=deltay[cnt+2]-deltay[cnt+3]
-        }
-        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]>0 && deltay[cnt+3]>0 && deltay[cnt+4]<0{
-            ret=deltay[cnt+2]+deltay[cnt+3]-deltay[cnt+4]
-        }
-        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]>0 && deltay[cnt+3]==0 && deltay[cnt+4]<0{
-            ret=deltay[cnt+2]-deltay[cnt+4]
-        }
-        return ret
-    }
-  
-    
-    func checkTap(cnt:Int)->Bool{
-        let ave=checkDelta(cnt: cnt)
-        if ave>3{
-            tapLeft=false
-            return true
-        }else if ave < -3{
-            tapLeft=true
-            return true
-        }
-        return false
-    }
-  
-    var cnt:Int=0
-    private func updateMotionData(deviceMotion:CMDeviceMotion) {
-        let ay=deviceMotion.userAcceleration.y
-        kalmandata.append(Kalman(value: ay*25))
-        let arrayCnt=kalmandata.count
-        if arrayCnt>5{
-            deltay.append(Int(kalmandata[arrayCnt-2]-kalmandata[arrayCnt-1]))
-        }else{
-            deltay.append(0)
-        }
-        if deltay.count>10{
-            cnt += 1
-            deltay.remove(at: 0)
-            kalmandata.remove(at: 0)
-            
-            if checkTap(cnt: 0){
-                if (CFAbsoluteTimeGetCurrent()-tapInterval)>0.3 && (CFAbsoluteTimeGetCurrent()-tapInterval)<0.5{
-                    if tapLeft && lastTapLeft{
-                        onAutoRecordButton(0)
-                    }else if !tapLeft && !lastTapLeft{
-                        onPositioningRecordButton(0)
-                    }
-                   
-                }
-                lastTapLeft=tapLeft
-                tapInterval=CFAbsoluteTimeGetCurrent()
-            }
-        }
-    }
-    
-    func stopMotion() {
-        isStarted = false
-        motionManager.stopDeviceMotionUpdates()
-    }
-    func startMotion(){
-        KalmanInit()
-        deltay.removeAll()
-        kalmandata.removeAll()
-        cnt=0
-        // start monitoring sensor data
-        if motionManager.isDeviceMotionAvailable {
-            motionManager.deviceMotionUpdateInterval = 0.01
-            motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: {(motion:CMDeviceMotion?, error:Error?) in
-                self.updateMotionData(deviceMotion: motion!)
-            })
-        }
-        isStarted = true
-    }
+//
+//    var tapInterval=CFAbsoluteTimeGetCurrent()
+//    var lastTapLeft:Bool=false
+//    var tapLeft:Bool=false
+//    let motionManager = CMMotionManager()
+//    var isStarted = false
+//
+//    var deltay = Array<Int>()
+//
+//    var kalmandata = Array<CGFloat>()
+//    var kalVs:[CGFloat]=[0.0001 ,0.001 ,0,0,0]
+//    func KalmanS(Q:CGFloat,R:CGFloat){
+//        kalVs[4] = (kalVs[3] + Q) / (kalVs[3] + Q + R)
+//        kalVs[3] = R * (kalVs[3] + Q) / (R + kalVs[3] + Q)
+//    }
+//    func Kalman(value:CGFloat)->CGFloat{
+//        KalmanS(Q:kalVs[0],R:kalVs[1])
+//        let result = kalVs[2] + (value - kalVs[2]) * kalVs[4]
+//        kalVs[2] = result
+//        return result
+//    }
+//    func KalmanInit(){
+//            kalVs[2]=0
+//            kalVs[3]=0
+//            kalVs[4]=0
+//    }
+//
+//    func checkDelta(cnt:Int)->Int{//
+//        var ret:Int=0
+//        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]<0 && deltay[cnt+3]>0{
+//            ret=deltay[cnt+2]-deltay[cnt+3]
+//        }
+//        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]<0 && deltay[cnt+3]<0 && deltay[cnt+4]>0{
+//            ret=deltay[cnt+2]+deltay[cnt+3]-deltay[cnt+4]
+//        }
+//        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]<0 && deltay[cnt+3]==0 && deltay[cnt+4]>0{
+//            ret=deltay[cnt+2]-deltay[cnt+4]
+//        }
+//        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]>0 && deltay[cnt+3]<0{
+//            ret=deltay[cnt+2]-deltay[cnt+3]
+//        }
+//        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]>0 && deltay[cnt+3]>0 && deltay[cnt+4]<0{
+//            ret=deltay[cnt+2]+deltay[cnt+3]-deltay[cnt+4]
+//        }
+//        if deltay[cnt]==0 && deltay[cnt+1]==0 && deltay[cnt+2]>0 && deltay[cnt+3]==0 && deltay[cnt+4]<0{
+//            ret=deltay[cnt+2]-deltay[cnt+4]
+//        }
+//        return ret
+//    }
+//
+//
+//    func checkTap(cnt:Int)->Bool{
+//        let ave=checkDelta(cnt: cnt)
+//        if ave>3{
+//            tapLeft=false
+//            return true
+//        }else if ave < -3{
+//            tapLeft=true
+//            return true
+//        }
+//        return false
+//    }
+//
+//    var cnt:Int=0
+//    private func updateMotionData(deviceMotion:CMDeviceMotion) {
+//        let ay=deviceMotion.userAcceleration.y
+//        kalmandata.append(Kalman(value: ay*25))
+//        let arrayCnt=kalmandata.count
+//        if arrayCnt>5{
+//            deltay.append(Int(kalmandata[arrayCnt-2]-kalmandata[arrayCnt-1]))
+//        }else{
+//            deltay.append(0)
+//        }
+//        if deltay.count>10{
+//            cnt += 1
+//            deltay.remove(at: 0)
+//            kalmandata.remove(at: 0)
+//
+//            if checkTap(cnt: 0){
+//                if (CFAbsoluteTimeGetCurrent()-tapInterval)>0.3 && (CFAbsoluteTimeGetCurrent()-tapInterval)<0.5{
+//                    if tapLeft && lastTapLeft{
+//    //                    onAutoRecordButton(0)
+//                    }else if !tapLeft && !lastTapLeft{
+//   //                     onPositioningRecordButton(0)
+//                    }
+//
+//                }
+//                lastTapLeft=tapLeft
+//                tapInterval=CFAbsoluteTimeGetCurrent()
+//            }
+//        }
+//    }
+//
+//    func stopMotion() {
+//        isStarted = false
+//        motionManager.stopDeviceMotionUpdates()
+//    }
+//    func startMotion(){
+//        KalmanInit()
+//        deltay.removeAll()
+//        kalmandata.removeAll()
+//        cnt=0
+//        // start monitoring sensor data
+//        if motionManager.isDeviceMotionAvailable {
+//            motionManager.deviceMotionUpdateInterval = 0.01
+//            motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: {(motion:CMDeviceMotion?, error:Error?) in
+//                self.updateMotionData(deviceMotion: motion!)
+//            })
+//        }
+//        isStarted = true
+//    }
 
     //motion sensor*****************
     
@@ -176,7 +176,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //これは.isHiddenとする
     @IBOutlet weak var setteiButtonAuto: UIButton!
     @IBOutlet weak var setteiButtonManual: UIButton!
-    @IBOutlet weak var positioningAutoRecordButton: UIButton!
+ //   @IBOutlet weak var positioningAutoRecordButton: UIButton!
     
 //    override var shouldAutorotate: Bool {
 //        return false
@@ -192,7 +192,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //    }
     //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     @IBAction func onCameraButton(_ sender: Any) {
-        stopMotion()
+  //      stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=0
         nextView.autoRecordMode=false
@@ -200,18 +200,18 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         self.present(nextView, animated: true, completion: nil)
     }
     
-    @IBAction func onSetteiButtonAuto(_ sender: Any) {
-        stopMotion()
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-        nextView.setteiMode=2
-        nextView.autoRecordMode=false
-        nextView.currentBrightness=UIScreen.main.brightness
-        nextView.explanationLabeltextColor=UIColor.systemOrange
-        self.present(nextView, animated: true, completion: nil)
-    }
+//    @IBAction func onSetteiButtonAuto(_ sender: Any) {
+//        stopMotion()
+//        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
+//        nextView.setteiMode=2
+//        nextView.autoRecordMode=false
+//        nextView.currentBrightness=UIScreen.main.brightness
+//        nextView.explanationLabeltextColor=UIColor.systemOrange
+//        self.present(nextView, animated: true, completion: nil)
+//    }
     
     @IBAction func onSetteiButtonManual(_ sender: Any) {
-        stopMotion()
+ //       stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=1
         nextView.autoRecordMode=false
@@ -220,20 +220,20 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         self.present(nextView, animated: true, completion: nil)
     }
     
-    @IBAction func onPositioningRecordButton(_ sender: Any) {
-        stopMotion()
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
-        nextView.isPositional=true
-        nextView.currentBrightness=UIScreen.main.brightness
-        self.present(nextView, animated: true, completion: nil)
-    }
-    @IBAction func onAutoRecordButton(_ sender: Any) {
-        stopMotion()
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
-        nextView.isPositional=false
-        nextView.currentBrightness=UIScreen.main.brightness
-        self.present(nextView, animated: true, completion: nil)
-    }
+//    @IBAction func onPositioningRecordButton(_ sender: Any) {
+//        stopMotion()
+//        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
+//        nextView.isPositional=true
+//        nextView.currentBrightness=UIScreen.main.brightness
+//        self.present(nextView, animated: true, completion: nil)
+//    }
+//    @IBAction func onAutoRecordButton(_ sender: Any) {
+//        stopMotion()
+//        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
+//        nextView.isPositional=false
+//        nextView.currentBrightness=UIScreen.main.brightness
+//        self.present(nextView, animated: true, completion: nil)
+//    }
 //    @IBAction func onChangeLandscapeSide(_ sender: Any) {
 //        var landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
 //        if landscapeSide==0{
@@ -305,7 +305,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         print("unwind")
 //        isStarted=false
-        startMotion()
+ //       startMotion()
     }
     
     func camera_alert(){
@@ -324,8 +324,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad*******")
-        isStarted=false
-        startMotion()
+ //       isStarted=false
+   //     startMotion()
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization { status in
                 if status == .authorized {
@@ -355,7 +355,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     @objc func foreground(notification: Notification) {
         print("フォアグラウンド")
-        startMotion()
+   //     startMotion()
     }
     override func viewDidAppear(_ animated: Bool) {
         if UIApplication.shared.isIdleTimerDisabled == true{
@@ -427,30 +427,30 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let by0=topPadding+sp
         someFunctions.setButtonProperty(how2Button, x:x1but+sp/2, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
 //        someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
-        someFunctions.setButtonProperty(setteiButtonAuto, x:x1but, y:by0+bh*2/3, w: bw, h: bh, UIColor.systemOrange,0)
-        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:by0+bh*5/3+sp, w:bw,h:bh,UIColor.systemGreen,0)
-        autoRecordButton.frame=CGRect(x:x0but,           y:sp,width: wh/2,height: wh/2)
-        positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
+        //someFunctions.setButtonProperty(setteiButtonAuto, x:x1but, y:by0+bh*2/3, w: bw, h: bh, UIColor.systemOrange,0)
+        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:by0+bh*2/3, w:bw,h:bh,UIColor.systemGreen,0)
+ //       autoRecordButton.frame=CGRect(x:x0but,           y:sp,width: wh/2,height: wh/2)
+  //      positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
         let upCircleX0=sp+wh/4
         let downCircleX0=wh/2-sp+wh/4
-        steelLabel.frame=CGRect(x:x0but,y:upCircleX0-wh/9-bh/2,width: wh/2,height: bh*3.5)
-        postualLabel.frame=CGRect(x:x0but,y:downCircleX0-wh/9-bh/2,width: wh/2,height: bh*3.5)
+  //      steelLabel.frame=CGRect(x:x0but,y:upCircleX0-wh/9-bh/2,width: wh/2,height: bh*3.5)
+    //    postualLabel.frame=CGRect(x:x0but,y:downCircleX0-wh/9-bh/2,width: wh/2,height: bh*3.5)
        //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
 //        changeLandscapeSideButton.isHidden=true
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
 
-        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*5/13+sp, y:topPadding+wh*4/13,width:wh*5/13, height: wh*5/13)
+        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*2/3+sp, y:topPadding+wh/6,width:wh*2/3, height: wh*2/3)
         //高さ/20を上下に開ける
-        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp+wh/20,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-2*sp-wh/10)
+        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp+wh/20,width: view.bounds.width-rightPadding-leftPadding-wh*2/3,height: wh-2*sp-wh/10)
         
         if someFunctions.firstLang().contains("ja"){
             how2Button.setTitle("使い方", for: .normal)
-            setteiButtonAuto.setTitle("設定", for: .normal)
+    //        setteiButtonAuto.setTitle("設定", for: .normal)
             setteiButtonManual.setTitle("設定", for: .normal)
-            steelLabel.text="座って記録\n20秒"
-            postualLabel.text="横になって記録\n90秒"
+     //       steelLabel.text="座って記録\n20秒"
+     //       postualLabel.text="横になって記録\n90秒"
         }
     }
   
