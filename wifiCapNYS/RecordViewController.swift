@@ -35,20 +35,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
     var currentBrightness:CGFloat=1.0
-    var explanationLabeltextColor:UIColor=UIColor.systemGreen
+//    var explanationLabeltextColor:UIColor=UIColor.systemGreen
     let cameraTypeStrings : Array<String> = ["frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:"]
 
-    @IBOutlet weak var previewSwitch: UISwitch!
+//    @IBOutlet weak var previewSwitch: UISwitch!
+//
+//    @IBAction func onPreviewSwitch(_ sender: Any) {
+//        if previewSwitch.isOn==true{
+//            UserDefaults.standard.set(1, forKey: "previewOn")
+//        }else{
+//            UserDefaults.standard.set(0, forKey: "previewOn")
+//        }
+//    }
     
-    @IBAction func onPreviewSwitch(_ sender: Any) {
-        if previewSwitch.isOn==true{
-            UserDefaults.standard.set(1, forKey: "previewOn")
-        }else{
-            UserDefaults.standard.set(0, forKey: "previewOn")
-        }
-    }
-    
-    @IBOutlet weak var previewLabel: UILabel!
+ //   @IBOutlet weak var previewLabel: UILabel!
     //for video input
     var captureSession: AVCaptureSession!
     var videoDevice: AVCaptureDevice?
@@ -116,28 +116,28 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
 
-    @IBOutlet weak var focusLabel: UILabel!
-    @IBOutlet weak var focusBar: UISlider!
-    @IBOutlet weak var focusValueLabel: UILabel!
-
-    @IBOutlet weak var zoomLabel: UILabel!
-    @IBOutlet weak var zoomValueLabel: UILabel!
-    @IBOutlet weak var zoomBar: UISlider!
-    
-    @IBOutlet weak var exposeValueLabel: UILabel!
-    @IBOutlet weak var exposeLabel: UILabel!
-    @IBOutlet weak var exposeBar: UISlider!
-
-    @IBOutlet weak var LEDBar: UISlider!
-    @IBOutlet weak var LEDLabel: UILabel!
-    @IBOutlet weak var LEDValueLabel: UILabel!
+//    @IBOutlet weak var focusLabel: UILabel!
+//    @IBOutlet weak var focusBar: UISlider!
+//    @IBOutlet weak var focusValueLabel: UILabel!
+//
+//    @IBOutlet weak var zoomLabel: UILabel!
+//    @IBOutlet weak var zoomValueLabel: UILabel!
+//    @IBOutlet weak var zoomBar: UISlider!
+//
+//    @IBOutlet weak var exposeValueLabel: UILabel!
+//    @IBOutlet weak var exposeLabel: UILabel!
+//    @IBOutlet weak var exposeBar: UISlider!
+//
+//    @IBOutlet weak var LEDBar: UISlider!
+//    @IBOutlet weak var LEDLabel: UILabel!
+//    @IBOutlet weak var LEDValueLabel: UILabel!
     
     @IBOutlet weak var currentTime: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView:UIImageView!
     
-     @IBOutlet weak var explanationLabel: UILabel!
+//     @IBOutlet weak var explanationLabel: UILabel!
     @IBOutlet weak var whiteView: UIImageView!
     
 //    @IBOutlet weak var arrowUpDown: UIImageView!
@@ -146,14 +146,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
    
     func setBars(){
         if setteiMode==2{
-            zoomBar.value=camera.getUserDefaultFloat(str: "AutoZoomValue", ret: 0)
-            setZoom(level: zoomBar.value)
+//            zoomBar.value=camera.getUserDefaultFloat(str: "AutoZoomValue", ret: 0)
+//            setZoom(level: zoomBar.value)
             
         }else{
-            zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue", ret: 0)
-            focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
-            setFocus(focus: focusBar.value)
-            setZoom(level: zoomBar.value)
+//            zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue", ret: 0)
+//            focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
+//            setFocus(focus: focusBar.value)
+//            setZoom(level: zoomBar.value)
 //            LEDBar.value=camera.getUserDefaultFloat(str: "ledValue", ret: 0)
 //            setFlashlevel(level: LEDBar.value)
         }
@@ -164,7 +164,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            zoom=0.007
 //        }
         if let device = videoDevice {
-            zoomValueLabel.text=(Int(level*1000)).description
+//            zoomValueLabel.text=(Int(level*1000)).description
 
         do {
             try device.lockForConfiguration()
@@ -245,16 +245,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
-        explanationLabel.textColor=explanationLabeltextColor
+ //       explanationLabel.textColor=explanationLabeltextColor
         getCameras()
         camera.makeAlbum()
 
         let previewOn=getUserDefault(str: "previewOn", ret: 0)
-        if previewOn==0{
-            previewSwitch.isOn=false
-        }else{
-            previewSwitch.isOn=true
-        }
+//        if previewOn==0{
+//            previewSwitch.isOn=false
+//        }else{
+//            previewSwitch.isOn=true
+//        }
         
         if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
             cameraType=UserDefaults.standard.integer(forKey:"cameraType")
@@ -271,50 +271,50 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも、30fpsだ！
         //露出はオートの方が良さそう
     
-        LEDBar.minimumValue = 0
-        LEDBar.maximumValue = 1
-        LEDBar.addTarget(self, action: #selector(onLEDValueChange), for: UIControl.Event.valueChanged)
-        LEDBar.value=UserDefaults.standard.float(forKey: "")
-        if cameraType != 0{
-            LEDBar.value=UserDefaults.standard.float(forKey: "ledValue")
-        }
-        onLEDValueChange()
-
-        focusBar.minimumValue = 0
-        focusBar.maximumValue = 1.0
-        focusBar.addTarget(self, action: #selector(onFocusValueChange), for: UIControl.Event.valueChanged)
-        focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
-        onFocusValueChange()
-        if focusChangeable==false{
-            focusLabel.isHidden=true
-            focusBar.isHidden=true
-            focusValueLabel.isHidden=true
-        }else{
-            focusLabel.isHidden=false
-            focusBar.isHidden=false
-            focusValueLabel.isHidden=false
-        }
-        zoomBar.minimumValue = 0
-        zoomBar.maximumValue = 0.1
-        zoomBar.addTarget(self, action: #selector(onZoomValueChange), for: UIControl.Event.valueChanged)
-        if setteiMode==2{
-            zoomBar.value = camera.getUserDefaultFloat(str: "autoZoomValue", ret: 0.002)
-        }else{
-            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue", ret: 0.01)
-        }
-        setZoom(level: zoomBar.value)
-        exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
-        exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
-        exposeBar.addTarget(self, action: #selector(onExposeValueChange), for: UIControl.Event.valueChanged)
-        if setteiMode==2{
-            exposeBar.value=camera.getUserDefaultFloat(str:"autoExposeValue",ret:1.6)
-        }else{
-            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:0)
-        }
+//        LEDBar.minimumValue = 0
+//        LEDBar.maximumValue = 1
+//        LEDBar.addTarget(self, action: #selector(onLEDValueChange), for: UIControl.Event.valueChanged)
+//        LEDBar.value=UserDefaults.standard.float(forKey: "")
+//        if cameraType != 0{
+//            LEDBar.value=UserDefaults.standard.float(forKey: "ledValue")
+//        }
+//        onLEDValueChange()
+//
+//        focusBar.minimumValue = 0
+//        focusBar.maximumValue = 1.0
+//        focusBar.addTarget(self, action: #selector(onFocusValueChange), for: UIControl.Event.valueChanged)
+//        focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
+//        onFocusValueChange()
+//        if focusChangeable==false{
+//            focusLabel.isHidden=true
+//            focusBar.isHidden=true
+//            focusValueLabel.isHidden=true
+//        }else{
+//            focusLabel.isHidden=false
+//            focusBar.isHidden=false
+//            focusValueLabel.isHidden=false
+//        }
+//        zoomBar.minimumValue = 0
+//        zoomBar.maximumValue = 0.1
+//        zoomBar.addTarget(self, action: #selector(onZoomValueChange), for: UIControl.Event.valueChanged)
+//        if setteiMode==2{
+//            zoomBar.value = camera.getUserDefaultFloat(str: "autoZoomValue", ret: 0.002)
+//        }else{
+//            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue", ret: 0.01)
+//        }
+//        setZoom(level: zoomBar.value)
+//        exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
+//        exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
+//        exposeBar.addTarget(self, action: #selector(onExposeValueChange), for: UIControl.Event.valueChanged)
+//        if setteiMode==2{
+//            exposeBar.value=camera.getUserDefaultFloat(str:"autoExposeValue",ret:1.6)
+//        }else{
+//            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:0)
+//        }
         if cameraType==0{
             UIScreen.main.brightness = 1
         }
-        onExposeValueChange()
+//        onExposeValueChange()
         setButtons()
         currentTime.isHidden=true
         startButton.alpha=0.25
@@ -339,23 +339,23 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
  }*/
     
     
-    @objc func onZoomValueChange(){
-        if setteiMode==2{
-            UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
-        }else{
-            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
-        }
-        setZoom(level: zoomBar.value)
-    }
-    @objc func onLEDValueChange(){
-//        print("brightness,onLEDchange:",LEDBar.value)
-        if cameraType != 0{
-            setFlashlevel(level: LEDBar.value)
-            UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
-            LEDValueLabel.text=(Int(LEDBar.value*100)).description
-
-        }
-    }
+//    @objc func onZoomValueChange(){
+//        if setteiMode==2{
+//            UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
+//        }else{
+//            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
+//        }
+//        setZoom(level: zoomBar.value)
+//    }
+//    @objc func onLEDValueChange(){
+////        print("brightness,onLEDchange:",LEDBar.value)
+//        if cameraType != 0{
+//            setFlashlevel(level: LEDBar.value)
+//            UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
+//            LEDValueLabel.text=(Int(LEDBar.value*100)).description
+//
+//        }
+//    }
   
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
@@ -687,45 +687,45 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         captureSession.stopRunning()
         set_rpk_ppk()
         initSession(fps: 60)
-        onLEDValueChange()
-        onFocusValueChange()
-        zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue")
-        setZoom(level: zoomBar.value)
-        if cameraType==0{
-            LEDBar.isHidden=true
-            LEDLabel.isHidden=true
-            LEDValueLabel.isHidden=true
-        }else{
-            LEDBar.isHidden=false
-            LEDLabel.isHidden=false
-            LEDValueLabel.isHidden=false
-        }
-        if focusChangeable==false{
-            focusBar.isHidden=true
-            focusLabel.isHidden=true
-            focusValueLabel.isHidden=true
-        }else{
-            focusBar.isHidden=false
-            focusLabel.isHidden=false
-            focusValueLabel.isHidden=false
-        }
+//        onLEDValueChange()
+//        onFocusValueChange()
+//        zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue")
+//        setZoom(level: zoomBar.value)
+//        if cameraType==0{
+//            LEDBar.isHidden=true
+//            LEDLabel.isHidden=true
+//            LEDValueLabel.isHidden=true
+//        }else{
+//            LEDBar.isHidden=false
+//            LEDLabel.isHidden=false
+//            LEDValueLabel.isHidden=false
+//        }
+//        if focusChangeable==false{
+//            focusBar.isHidden=true
+//            focusLabel.isHidden=true
+//            focusValueLabel.isHidden=true
+//        }else{
+//            focusBar.isHidden=false
+//            focusLabel.isHidden=false
+//            focusValueLabel.isHidden=false
+//        }
         if cameraType==0{
             UIScreen.main.brightness = 1
         }else{
             UIScreen.main.brightness = currentBrightness
         }
-        onExposeValueChange()
+//        onExposeValueChange()
         setButtons()
         cameraType=UserDefaults.standard.integer(forKey:"cameraType")
         var explanationText = cameraTypeStrings[cameraType]
-        if explanationLabeltextColor==UIColor.systemOrange{
-            explanationText=""
-        }
-        if someFunctions.firstLang().contains("ja"){
-            explanationLabel.text=explanationText + "録画設定"
-        }else{
-            explanationLabel.text=explanationText + "Record Settings"
-        }
+//        if explanationLabeltextColor==UIColor.systemOrange{
+//            explanationText=""
+//        }
+//        if someFunctions.firstLang().contains("ja"){
+//            explanationLabel.text=explanationText + "録画設定"
+//        }else{
+//            explanationLabel.text=explanationText + "Record Settings"
+//        }
      }
     
     func initSession(fps:Double) {
@@ -828,31 +828,31 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         label.layer.borderWidth = 1.0
         label.layer.cornerRadius = radius
     }
-    var startButtonsHeight:CGFloat=0
+//    var startButtonsHeight:CGFloat=0
     @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
-        let move:CGPoint = sender.translation(in: self.view)
-//        let pos = sender.location(in: self.view)
-        print("panGesture")
-        if recordingFlag==true{
-            return
-        }
-        if sender.state == .began {
-            startButtonsHeight=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
-        } else if sender.state == .changed {
-            var changedButtonHeight=startButtonsHeight - move.y
-            if changedButtonHeight>view.bounds.height/5{
-                changedButtonHeight=view.bounds.height/5
-            }else if changedButtonHeight<0{
-                changedButtonHeight = 0
-            }
-            UserDefaults.standard.set(changedButtonHeight,forKey: "buttonsHeight")
-            setButtons()//,changedButtonHeight)
-        }else if sender.state == .ended{
-        }
+//        let move:CGPoint = sender.translation(in: self.view)
+////        let pos = sender.location(in: self.view)
+//        print("panGesture")
+//        if recordingFlag==true{
+//            return
+//        }
+//        if sender.state == .began {
+//            startButtonsHeight=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
+//        } else if sender.state == .changed {
+//            var changedButtonHeight=startButtonsHeight - move.y
+//            if changedButtonHeight>view.bounds.height/5{
+//                changedButtonHeight=view.bounds.height/5
+//            }else if changedButtonHeight<0{
+//                changedButtonHeight = 0
+//            }
+//            UserDefaults.standard.set(changedButtonHeight,forKey: "buttonsHeight")
+//            setButtons()//,changedButtonHeight)
+//        }else if sender.state == .ended{
+//        }
     }
     func setButtons(){
         // recording button
-        let height=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
+        let height:CGFloat=0//CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
         let sp=realWinWidth/120//間隙
         let bw=(realWinWidth-sp*10)/7//ボタン幅
         let bh=bw*170/440
@@ -860,27 +860,27 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let by=realWinHeight-(bh+sp)*2-height-bh*2/3
         let x0=leftPadding+sp*2
         
-        previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
-        let switchHeight=previewSwitch.frame.height
-        previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
-        previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
-        previewLabel.frame.size.width=bw*5
-        previewLabel.frame.size.height=bh
+//        previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
+//        let switchHeight=previewSwitch.frame.height
+//        previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
+//        previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
+//        previewLabel.frame.size.width=bw*5
+//        previewLabel.frame.size.height=bh
  
-        camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
-        focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
-        
-        camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
-        LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
-        
-        camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.white)
-        zoomBar.frame = CGRect(x:x0+bw*4+sp*4,y:by,width:bw*2+sp,height: bh)
-        exposeBar.frame = CGRect(x:x0+bw*4+sp*4,y:by1,width:bw*2+sp,height: bh)
-        camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
-        camera.setLabelProperty(exposeValueLabel, x: x0+bw*3+sp*3, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
-        camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
-        camera.setLabelProperty(focusValueLabel, x: x0, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
-        camera.setLabelProperty(LEDValueLabel, x: x0, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
+//        camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
+//        focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
+//
+//        camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
+//        LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
+//
+//        camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.white)
+//        zoomBar.frame = CGRect(x:x0+bw*4+sp*4,y:by,width:bw*2+sp,height: bh)
+//        exposeBar.frame = CGRect(x:x0+bw*4+sp*4,y:by1,width:bw*2+sp,height: bh)
+//        camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
+//        camera.setLabelProperty(exposeValueLabel, x: x0+bw*3+sp*3, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
+//        camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
+//        camera.setLabelProperty(focusValueLabel, x: x0, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
+//        camera.setLabelProperty(LEDValueLabel, x: x0, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         setProperty(label: currentTime, radius: 4)
@@ -891,53 +891,53 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if setteiMode != 0{//setteiMode==0 record, 1:manual 2:auto
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
         }else{
-            explanationLabel.isHidden=true
+//            explanationLabel.isHidden=true
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         let ex1=realWinWidth/3
         let ey1=sp
-        explanationLabel.frame=CGRect(x:0,y:ey1,width:view.bounds.width,height:bh)
-        if cameraType==0{
-            if autoRecordMode==true{
-                previewLabel.isEnabled=false
-                previewSwitch.isEnabled=false
-                previewSwitch.isOn=false
-            }else{
-                previewSwitch.isHidden=false
-                previewLabel.isHidden=false
-            }
-        }else{
-            previewSwitch.isHidden=true
-            previewLabel.isHidden=true
-        }
+//        explanationLabel.frame=CGRect(x:0,y:ey1,width:view.bounds.width,height:bh)
+//        if cameraType==0{
+//            if autoRecordMode==true{
+//                previewLabel.isEnabled=false
+//                previewSwitch.isEnabled=false
+//                previewSwitch.isOn=false
+//            }else{
+//                previewSwitch.isHidden=false
+//                previewLabel.isHidden=false
+//            }
+//        }else{
+//            previewSwitch.isHidden=true
+//            previewLabel.isHidden=true
+//        }
         if setteiMode == 0{//slider labelを隠す 0:record
                 hideButtonsSlides()
         }
         cameraType=UserDefaults.standard.integer(forKey:"cameraType")
          var explanationText = cameraTypeStrings[cameraType]
-        if explanationLabeltextColor==UIColor.systemOrange{
-           explanationText=""
-        }
+//        if explanationLabeltextColor==UIColor.systemOrange{
+//           explanationText=""
+//        }
         if someFunctions.firstLang().contains("ja"){
-            explanationLabel.text=explanationText + "録画設定"
-            exposeLabel.text="露出"
-            zoomLabel.text="ズーム"
-            focusLabel.text="焦点"
-            previewLabel.text="プレビュー"
-        }else{
-            explanationLabel.text=explanationText + "Record Settings"
+//            explanationLabel.text=explanationText + "録画設定"
+//            exposeLabel.text="露出"
+//            zoomLabel.text="ズーム"
+//            focusLabel.text="焦点"
+//            previewLabel.text="プレビュー"
+//        }else{
+//            explanationLabel.text=explanationText + "Record Settings"
         }
         if setteiMode==2{
             cameraChangeButton.isEnabled=false
-            previewSwitch.isHidden=true
-            previewLabel.isHidden=true
-            focusBar.isHidden=true
-            focusLabel.isHidden=true
-            focusValueLabel.isHidden=true
-            LEDLabel.isHidden=true
-            LEDBar.isHidden=true
-            LEDValueLabel.isHidden=true
+//            previewSwitch.isHidden=true
+//            previewLabel.isHidden=true
+//            focusBar.isHidden=true
+//            focusLabel.isHidden=true
+//            focusValueLabel.isHidden=true
+//            LEDLabel.isHidden=true
+//            LEDBar.isHidden=true
+//            LEDValueLabel.isHidden=true
         }
 /*     if autoRecordMode==true{
  //            cameraType=0
@@ -1017,19 +1017,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     func hideButtonsSlides() {
-        zoomLabel.isHidden=true
-        zoomValueLabel.isHidden=true
-        focusLabel.isHidden=true
-        focusValueLabel.isHidden=true
-        focusBar.isHidden=true
-        zoomBar.isHidden=true
-        LEDLabel.isHidden=true
-        LEDBar.isHidden=true
-        LEDValueLabel.isHidden=true
-        exposeLabel.isHidden=true
-        exposeValueLabel.isHidden=true
-//        explanationLabel.isHidden=true
-        exposeBar.isHidden=true
+//        zoomLabel.isHidden=true
+//        zoomValueLabel.isHidden=true
+//        focusLabel.isHidden=true
+//        focusValueLabel.isHidden=true
+//        focusBar.isHidden=true
+//        zoomBar.isHidden=true
+//        LEDLabel.isHidden=true
+//        LEDBar.isHidden=true
+//        LEDValueLabel.isHidden=true
+//        exposeLabel.isHidden=true
+//        exposeValueLabel.isHidden=true
+////        explanationLabel.isHidden=true
+//        exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         currentTime.isHidden=false
     }
@@ -1039,7 +1039,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==0{
             UIScreen.main.brightness = 1
         }
-        explanationLabel.isHidden=true
+//        explanationLabel.isHidden=true
         timerCnt=0
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         //sensorをリセットし、正面に
@@ -1053,9 +1053,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.isHidden=false
         exitButton.isHidden=true
         stopButton.alpha=0.02
-        previewLabel.isHidden=true
-        previewSwitch.isHidden=true
-        if cameraType==0 && previewSwitch.isOn==false{
+//        previewLabel.isHidden=true
+//        previewSwitch.isHidden=true
+        if cameraType==0{//} && previewSwitch.isOn==false{
             quaternionView.isHidden=true
             cameraView.isHidden=true
             currentTime.alpha=0.1
@@ -1085,11 +1085,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
             print("doubleTapPlay")
             if setteiMode != 0{
-                zoomBar.isHidden=false
-                zoomLabel.isHidden=false
-                focusBar.isHidden=false
-                focusLabel.isHidden=false
-                focusValueLabel.isHidden=false
+//                zoomBar.isHidden=false
+//                zoomLabel.isHidden=false
+//                focusBar.isHidden=false
+//                focusLabel.isHidden=false
+//                focusValueLabel.isHidden=false
             }
         }
         tapInterval=CFAbsoluteTimeGetCurrent()
@@ -1118,92 +1118,92 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         }
     }
-    @objc func onFocusValueChange(){
-            setFocus(focus:focusBar.value)
-            UserDefaults.standard.set(focusBar.value, forKey: "focusValue")
-    }
-    var focusChangeable:Bool=true
-    func setFocus(focus:Float) {//focus 0:最接近　0-1.0
-        focusChangeable=false
-        if let device = videoDevice{
-            if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
-                print("focus_supported")
-                focusValueLabel.text=(Int(focus*100)).description
-
-                do {
-                    try device.lockForConfiguration()
-                    device.focusMode = .locked
-                    device.setFocusModeLocked(lensPosition: focus, completionHandler: { _ in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-                            device.unlockForConfiguration()
-                        })
-                    })
-                    device.unlockForConfiguration()
-                    focusChangeable=true
-                }
-                catch {
-                    // just ignore
-                    print("focuserror")
-                }
-            }else{
-                print("focus_not_supported")
-
-//                if cameraType==2{
-//                    setZoom(level: focus*4/10)//vHITに比べてすでに1/4にしてあるので
-//                    return
+//    @objc func onFocusValueChange(){
+//            setFocus(focus:focusBar.value)
+//            UserDefaults.standard.set(focusBar.value, forKey: "focusValue")
+//    }
+//    var focusChangeable:Bool=true
+//    func setFocus(focus:Float) {//focus 0:最接近　0-1.0
+//        focusChangeable=false
+//        if let device = videoDevice{
+//            if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
+//                print("focus_supported")
+//                focusValueLabel.text=(Int(focus*100)).description
+//
+//                do {
+//                    try device.lockForConfiguration()
+//                    device.focusMode = .locked
+//                    device.setFocusModeLocked(lensPosition: focus, completionHandler: { _ in
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+//                            device.unlockForConfiguration()
+//                        })
+//                    })
+//                    device.unlockForConfiguration()
+//                    focusChangeable=true
 //                }
-            }
-        }
-    }
+//                catch {
+//                    // just ignore
+//                    print("focuserror")
+//                }
+//            }else{
+//                print("focus_not_supported")
+//
+////                if cameraType==2{
+////                    setZoom(level: focus*4/10)//vHITに比べてすでに1/4にしてあるので
+////                    return
+////                }
+//            }
+//        }
+//    }
 //    @IBOutlet weak var isoBar: UISlider!
  
-    @objc func onExposeValueChange(){
-        setExpose(expose:exposeBar.value)
-        if setteiMode==2{
-            UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
-        }else{
-            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
-        }
-    }
+//    @objc func onExposeValueChange(){
+//        setExpose(expose:exposeBar.value)
+//        if setteiMode==2{
+//            UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
+//        }else{
+//            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
+//        }
+//    }
 
-    func setExpose(expose:Float) {
-        
-        if let currentDevice=videoDevice{
-            exposeValueLabel.text=Int(expose*1000/80).description
-
-            do {
-                try currentDevice.lockForConfiguration()
-                defer { currentDevice.unlockForConfiguration() }
-                
-                // 露出を設定
-                
-                    currentDevice.exposureMode = .autoExpose
-                    currentDevice.setExposureTargetBias(expose, completionHandler: nil)
-                    
-//                    UserDefaults.standard.set(expose, forKey: "cameraBrightnessValue")
-          
-            } catch {
-                print("\(error.localizedDescription)")
-            }
-        }
-    }
-    func setIso(iso: Float) {
-        if let currentDevice=videoDevice{
-            do {
-                try currentDevice.lockForConfiguration()
-                defer { currentDevice.unlockForConfiguration() }
-                // ISO感度を設定
-                currentDevice.exposureMode = .custom
-                currentDevice.setExposureModeCustom(duration: AVCaptureDevice.currentExposureDuration,
-                                                    iso: iso,
-                                                    completionHandler: nil)
-                
-            } catch {
-                print("\(error.localizedDescription)")
-            }
-        }
-    }
- 
+//    func setExpose(expose:Float) {
+//
+//        if let currentDevice=videoDevice{
+//            exposeValueLabel.text=Int(expose*1000/80).description
+//
+//            do {
+//                try currentDevice.lockForConfiguration()
+//                defer { currentDevice.unlockForConfiguration() }
+//
+//                // 露出を設定
+//
+//                    currentDevice.exposureMode = .autoExpose
+//                    currentDevice.setExposureTargetBias(expose, completionHandler: nil)
+//
+////                    UserDefaults.standard.set(expose, forKey: "cameraBrightnessValue")
+//
+//            } catch {
+//                print("\(error.localizedDescription)")
+//            }
+//        }
+//    }
+//    func setIso(iso: Float) {
+//        if let currentDevice=videoDevice{
+//            do {
+//                try currentDevice.lockForConfiguration()
+//                defer { currentDevice.unlockForConfiguration() }
+//                // ISO感度を設定
+//                currentDevice.exposureMode = .custom
+//                currentDevice.setExposureModeCustom(duration: AVCaptureDevice.currentExposureDuration,
+//                                                    iso: iso,
+//                                                    completionHandler: nil)
+//
+//            } catch {
+//                print("\(error.localizedDescription)")
+//            }
+//        }
+//    }
+//
     //debug用、AVAssetWriterの状態を見るため、そのうち消去
     func printWriterStatus(writer: AVAssetWriter) {
         print("recordingFlag=", recordingFlag)
