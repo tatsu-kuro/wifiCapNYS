@@ -238,11 +238,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var realWinWidth:CGFloat=0//=view.bounds.width-leftPadding-rightPadding
     var realWinHeight:CGFloat=0//=view.bounds.height-topPadding-bottomPadding/2
     func loadCamView(){
-        var url: String = "http://192.168.82.1"//[前記事で設定したDDNSのアドレス]:8081/?action=snapshot"
+//        var url: String =   "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1"//"http://192.168.82.1"//[前記事で設定したDDNSのアドレス]:8081/?action=snapshot"
+//        var url: String =   "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1"
+        let url:String="http://192.168.82.1/"
         let requestURL = NSURL(string: url)
         let req = NSURLRequest(url: requestURL! as URL)
-        
         ipCameraView.load(req as URLRequest)
+        //ipCameraView.pageZoom=3.0
     }
     //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     override func viewDidLoad() {
@@ -771,6 +773,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         whiteView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
         cameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
         cameraView.layer.addSublayer(   whiteView.layer)
+        cameraView.isHidden=true
+        whiteView.isHidden=true
+        ipCameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
+        ipCameraView.pageZoom=3.0
         let videoLayer : AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         if cameraType==0{
             let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
