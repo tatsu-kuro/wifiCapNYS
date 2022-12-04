@@ -108,7 +108,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //            }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
-            Controller.captureSession.stopRunning()
+//            Controller.captureSession.stopRunning()
 
         }
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する

@@ -25,6 +25,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let camera = myFunctions()
     var cameraType:Int = 0
     
+    @IBOutlet weak var ipCopyView: UIImageView!
     @IBOutlet weak var ipCameraView: WKWebView!
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
@@ -76,7 +77,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override var shouldAutorotate: Bool {
         return false
     }
-
+    func getCapture() -> UIImage {
+            UIGraphicsBeginImageContextWithOptions(self.ipCameraView.bounds.size, true, 0)
+            self.ipCameraView.drawHierarchy(in: self.ipCameraView.bounds, afterScreenUpdates: true)
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return image!
+    }
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
         if landscapeSide==0{
@@ -256,29 +263,29 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
  //       explanationLabel.textColor=explanationLabeltextColor
-        getCameras()
+  //      getCameras()
         camera.makeAlbum()
 
-        let previewOn=getUserDefault(str: "previewOn", ret: 0)
+ //       let previewOn=getUserDefault(str: "previewOn", ret: 0)
 //        if previewOn==0{
 //            previewSwitch.isOn=false
 //        }else{
 //            previewSwitch.isOn=true
 //        }
         
-        if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
-            cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-        }else{//keyが設定してなければ0をセット
-            cameraType=0
-            UserDefaults.standard.set(cameraType, forKey: "cameraType")
-        }
-        if setteiMode==2{
-            cameraType=0
-        }
+//        if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
+//            cameraType=UserDefaults.standard.integer(forKey:"cameraType")
+//        }else{//keyが設定してなければ0をセット
+//            cameraType=0
+//            UserDefaults.standard.set(cameraType, forKey: "cameraType")
+//        }
+//        if setteiMode==2{
+//            cameraType=0
+//        }
 
         set_rpk_ppk()
         setMotion()
-        initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも、30fpsだ！
+//        initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも、30fpsだ！
         //露出はオートの方が良さそう
     
 //        LEDBar.minimumValue = 0
@@ -321,9 +328,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        }else{
 //            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:0)
 //        }
-        if cameraType==0{
-            UIScreen.main.brightness = 1
-        }
+//        if cameraType==0{
+//            UIScreen.main.brightness = 1
+//        }
 //        onExposeValueChange()
         setButtons()
         currentTime.isHidden=true
@@ -332,6 +339,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isHidden=true
         stopButton.isEnabled=false
         loadCamView()
+//        timerCnt=0
+//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+//
      }
  
     override var prefersStatusBarHidden: Bool {
@@ -371,14 +381,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
         timerCnt += 1
-//        if timerCnt == 3{
+        if timerCnt == 3{
 //            stopButton.isEnabled=true
 //            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
 //           //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
 //
 //           if let soundUrl = URL(string:
 //                                   "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
-//               AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+//                 AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
 //               AudioServicesPlaySystemSound(soundIdx)
 //           }
 //
@@ -386,7 +396,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //           fileWriter!.startSession(atSourceTime: CMTime.zero)
 //   //        print(fileWriter?.error)
 //           setMotion()
-//        }
+        }
         if recordingFlag==true{//} && timerCnt>3{//trueになった時 0にリセットされる
             currentTime.text=String(format:"%01d",(timerCnt)/60) + ":" + String(format: "%02d",(timerCnt)%60)
             if timerCnt%2==0{
@@ -394,6 +404,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }else{
                 stopButton.tintColor=UIColor.yellow// red
             }
+        }else{
+     
+        }
+        if timerCnt==5{
+            let view1=getCapture()
+            ipCopyView.image=view1
         }
         if timerCnt > 60*5{
             motionManager.stopDeviceMotionUpdates()//tuika
@@ -425,16 +441,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
 
             if landscapeSide==0{
-            self.quater0 = quat.w
-            self.quater1 = -quat.y
-            self.quater2 = -quat.z
-            self.quater3 = quat.x
+                self.quater0 = quat.w
+                self.quater1 = -quat.y
+                self.quater2 = -quat.z
+                self.quater3 = quat.x
             }else{
                 self.quater0 = quat.w
                 self.quater1 = quat.y
                 self.quater2 = -quat.z
                 self.quater3 = -quat.x
-
+                
             }
             //degreeAtResetHead:モーションセンサーをリセットするときに-1とする。リセット時に-1なら,角度から０か１をセット
             //drawHeadで顔を描くとき利用する。
@@ -453,9 +469,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         var frontBack:Int = 0
 //        let camera = Int(camera.getUserDefaultInt(str: "cameraType", ret: 0))
 //        i
-        if cameraType == 0{//front camera
-            frontBack = 180
-        }
+//        if cameraType == 0{//front camera
+//            frontBack = 180
+//        }
         // convert draw data to radian
         print("frontBack",frontBack)
         for i in 0..<facePoints.count/3 {
@@ -772,11 +788,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         // プレビュー出力設定
         whiteView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
         cameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
-        cameraView.layer.addSublayer(   whiteView.layer)
+//        cameraView.layer.addSublayer(   whiteView.layer)
         cameraView.isHidden=true
-        whiteView.isHidden=true
+//        whiteView.isHidden=true
         ipCameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
-        ipCameraView.pageZoom=3.0
+//        ipCameraView.pageZoom=3.0
         let videoLayer : AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         if cameraType==0{
             let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -1099,39 +1115,39 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
             print("doubleTapPlay")
-            if setteiMode != 0{
+ //           if setteiMode != 0{
 //                zoomBar.isHidden=false
 //                zoomLabel.isHidden=false
 //                focusBar.isHidden=false
 //                focusLabel.isHidden=false
 //                focusValueLabel.isHidden=false
-            }
+//            }
         }
         tapInterval=CFAbsoluteTimeGetCurrent()
         setMotion()
-        let screenSize=cameraView.bounds.size
-        let x0 = sender.location(in: self.view).x
-        let y0 = sender.location(in: self.view).y
-        
-        if y0>view.bounds.height*0.43{//screenSize.height/2{
-            return
-        }
-        let x = y0/screenSize.height
-        let y = 1.0 - x0/screenSize.width
-        let focusPoint = CGPoint(x:x,y:y)
-        if cameraType==1 || cameraType==2{
-            if let device = videoDevice{
-                do {
-                    try device.lockForConfiguration()
-                    device.focusPointOfInterest = focusPoint
-                    device.focusMode = .autoFocus
-                    device.unlockForConfiguration()
-                }
-                catch {
-                    // just ignore
-                }
-            }
-        }
+//        let screenSize=cameraView.bounds.size
+//        let x0 = sender.location(in: self.view).x
+//        let y0 = sender.location(in: self.view).y
+//
+//        if y0>view.bounds.height*0.43{//screenSize.height/2{
+//            return
+//        }
+//        let x = y0/screenSize.height
+//        let y = 1.0 - x0/screenSize.width
+//        let focusPoint = CGPoint(x:x,y:y)
+////        if cameraType==1 || cameraType==2{
+//            if let device = videoDevice{
+//                do {
+//                    try device.lockForConfiguration()
+//                    device.focusPointOfInterest = focusPoint
+//                    device.focusMode = .autoFocus
+//                    device.unlockForConfiguration()
+//                }
+//                catch {
+//                    // just ignore
+//                }
+//            }
+//        }
     }
 //    @objc func onFocusValueChange(){
 //            setFocus(focus:focusBar.value)
