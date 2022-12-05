@@ -251,7 +251,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let requestURL = NSURL(string: url)
         let req = NSURLRequest(url: requestURL! as URL)
         ipCameraView.load(req as URLRequest)
-        //ipCameraView.pageZoom=3.0
+   //     ipCameraView.layer.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight)
+        ipCameraView.pageZoom=2.45
+  
     }
     //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     override func viewDidLoad() {
@@ -262,6 +264,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
+//        ipCameraView.layer.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight)
+
  //       explanationLabel.textColor=explanationLabeltextColor
   //      getCameras()
         camera.makeAlbum()
@@ -338,10 +342,37 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
-        loadCamView()
-//        timerCnt=0
-//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-//
+        //320*240
+        let left=(realWinWidth-realWinHeight*4/3)/2
+        ipCameraView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realWinHeight*4/3,height:realWinHeight))
+        let myURL = URL(string:"http://192.168.82.1")  // ← URLは任意で
+        let myRequest = URLRequest(url: myURL!)
+        ipCameraView.load(myRequest)
+        self.view.addSubview(ipCameraView)
+        ipCameraView.scrollView.isScrollEnabled = false
+        quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realWinHeight/5,height: realWinHeight/5)
+        self.view.bringSubviewToFront(quaternionView)
+ //       ipCameraView.frame=CGRect(x:leftPadding+left-500,y: topPadding,width:realWinHeight*4/3*3,height:realWinHeight*3)
+        
+        
+
+//        ipCameraView.scrollView.
+//        ipCameraView.scrollView.panGestureRecognizer.isEnabled = false
+//        ipCameraView.scrollView.bounces = false
+//        ipCameraView.scrollView.clipsToBounds
+//        ipCameraView.pageZoom=2.5//2.4以下では表示が小さい。2.５以上では表示は期待通りだがその値通りにpageが大きくなりスクロールする
+        //        loadCamView()
+        //       timerCnt=0
+        timer = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+ /*       let deviceBound : CGRect = UIScreen.main.bounds
+        let topSpace = Int(topPadding)// Int(searhTopBar.frame.size.height)
+        let bottomSpace = Int(bottomPadding)// Int(statusBottomBar.frame.size.height)
+                //  WKWebView
+        self.ipCameraView = WKWebView(frame: CGRect(x: 0, y: topSpace, width: Int(deviceBound.size.width), height: Int(deviceBound.size.height) - topSpace - bottomSpace ))
+        let url = URL(string: "http://192.168.82.1")
+        let request = URLRequest(url: url!)
+        ipCameraView.load(request)
+        self.view.addSubview( ipCameraView )*/
      }
  
     override var prefersStatusBarHidden: Bool {
@@ -381,22 +412,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
         timerCnt += 1
-        if timerCnt == 3{
-//            stopButton.isEnabled=true
-//            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-//           //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-//
-//           if let soundUrl = URL(string:
-//                                   "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
-//                 AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
-//               AudioServicesPlaySystemSound(soundIdx)
-//           }
-//
-//           fileWriter!.startWriting()
-//           fileWriter!.startSession(atSourceTime: CMTime.zero)
-//   //        print(fileWriter?.error)
-//           setMotion()
-        }
         if recordingFlag==true{//} && timerCnt>3{//trueになった時 0にリセットされる
             currentTime.text=String(format:"%01d",(timerCnt)/60) + ":" + String(format: "%02d",(timerCnt)%60)
             if timerCnt%2==0{
@@ -405,13 +420,26 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 stopButton.tintColor=UIColor.yellow// red
             }
         }else{
+            readingFlag=true
+            let qCG0=CGFloat(quater0)
+            let qCG1=CGFloat(quater1)
+            let qCG2=CGFloat(quater2)
+            let qCG3=CGFloat(quater3)
+    //        print(quater0,quater1,quater2,quater3)
+
+            readingFlag=false
+ 
+            let quaterImage = drawHead(width: realWinHeight/2.5, height: realWinHeight/2.5, radius: realWinHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+            DispatchQueue.main.async {
+              self.quaternionView.image = quaterImage
+              self.quaternionView.setNeedsLayout()
+            }
+            
+            
      
         }
-        if timerCnt==5{
-            let view1=getCapture()
-            ipCopyView.image=view1
-        }
-        if timerCnt > 60*5{
+       
+        if timerCnt > 600*5{
             motionManager.stopDeviceMotionUpdates()//tuika
             if recordingFlag==true{
                 killTimer()
@@ -791,7 +819,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        cameraView.layer.addSublayer(   whiteView.layer)
         cameraView.isHidden=true
 //        whiteView.isHidden=true
-        ipCameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
+//        ipCameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
 //        ipCameraView.pageZoom=3.0
         let videoLayer : AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         if cameraType==0{
@@ -995,7 +1023,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         
         motionManager.stopDeviceMotionUpdates()
-
+return
         if fileWriter!.status == .writing {
             fileWriter!.finishWriting {
                 debugPrint("trying to finish")
@@ -1066,7 +1094,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
-        hideButtonsSlides()
+          hideButtonsSlides()
+        return
         if cameraType==0{
             UIScreen.main.brightness = 1
         }
