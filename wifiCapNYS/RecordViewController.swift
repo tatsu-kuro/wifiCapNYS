@@ -21,7 +21,7 @@ extension UIColor {
     }
 }
 
-class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate,UIScrollViewDelegate {
     let camera = myFunctions()
     var cameraType:Int = 0
     
@@ -245,17 +245,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var realWinWidth:CGFloat=0//=view.bounds.width-leftPadding-rightPadding
     var realWinHeight:CGFloat=0//=view.bounds.height-topPadding-bottomPadding/2
     func loadCamView(){
-//        var url: String =   "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1"//"http://192.168.82.1"//[前記事で設定したDDNSのアドレス]:8081/?action=snapshot"
-//        var url: String =   "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1"
-        let url:String="http://192.168.82.1/"
-        let requestURL = NSURL(string: url)
-        let req = NSURLRequest(url: requestURL! as URL)
-        ipCameraView.load(req as URLRequest)
-   //     ipCameraView.layer.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight)
-        ipCameraView.pageZoom=2.45
-  
+        let url: String =   "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1"//"http://192.168.82.1"
+        let myURL1 = URL(string: url)
+        let myURL2 = URL(string:"http://192.168.82.1")
+        let myRequest = URLRequest(url: myURL2!)
+        ipCameraView.load(myRequest)
     }
-    //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -264,117 +260,37 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
-//        ipCameraView.layer.frame=CGRect(x:leftPadding,y:topPadding,width:realWinWidth,height:realWinHeight)
-
- //       explanationLabel.textColor=explanationLabeltextColor
-  //      getCameras()
         camera.makeAlbum()
-
- //       let previewOn=getUserDefault(str: "previewOn", ret: 0)
-//        if previewOn==0{
-//            previewSwitch.isOn=false
-//        }else{
-//            previewSwitch.isOn=true
-//        }
-        
-//        if (UserDefaults.standard.object(forKey: "cameraType") != nil){//keyが設定してなければ0をセット
-//            cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-//        }else{//keyが設定してなければ0をセット
-//            cameraType=0
-//            UserDefaults.standard.set(cameraType, forKey: "cameraType")
-//        }
-//        if setteiMode==2{
-//            cameraType=0
-//        }
-
         set_rpk_ppk()
         setMotion()
-//        initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも、30fpsだ！
-        //露出はオートの方が良さそう
-    
-//        LEDBar.minimumValue = 0
-//        LEDBar.maximumValue = 1
-//        LEDBar.addTarget(self, action: #selector(onLEDValueChange), for: UIControl.Event.valueChanged)
-//        LEDBar.value=UserDefaults.standard.float(forKey: "")
-//        if cameraType != 0{
-//            LEDBar.value=UserDefaults.standard.float(forKey: "ledValue")
-//        }
-//        onLEDValueChange()
-//
-//        focusBar.minimumValue = 0
-//        focusBar.maximumValue = 1.0
-//        focusBar.addTarget(self, action: #selector(onFocusValueChange), for: UIControl.Event.valueChanged)
-//        focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
-//        onFocusValueChange()
-//        if focusChangeable==false{
-//            focusLabel.isHidden=true
-//            focusBar.isHidden=true
-//            focusValueLabel.isHidden=true
-//        }else{
-//            focusLabel.isHidden=false
-//            focusBar.isHidden=false
-//            focusValueLabel.isHidden=false
-//        }
-//        zoomBar.minimumValue = 0
-//        zoomBar.maximumValue = 0.1
-//        zoomBar.addTarget(self, action: #selector(onZoomValueChange), for: UIControl.Event.valueChanged)
-//        if setteiMode==2{
-//            zoomBar.value = camera.getUserDefaultFloat(str: "autoZoomValue", ret: 0.002)
-//        }else{
-//            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue", ret: 0.01)
-//        }
-//        setZoom(level: zoomBar.value)
-//        exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
-//        exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
-//        exposeBar.addTarget(self, action: #selector(onExposeValueChange), for: UIControl.Event.valueChanged)
-//        if setteiMode==2{
-//            exposeBar.value=camera.getUserDefaultFloat(str:"autoExposeValue",ret:1.6)
-//        }else{
-//            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:0)
-//        }
-//        if cameraType==0{
-//            UIScreen.main.brightness = 1
-//        }
-//        onExposeValueChange()
+
         setButtons()
         currentTime.isHidden=true
         startButton.alpha=0.25
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
-        //320*240
-        let left=(realWinWidth-realWinHeight*4/3)/2
-        ipCameraView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realWinHeight*4/3,height:realWinHeight))
-        let myURL = URL(string:"http://192.168.82.1")  // ← URLは任意で
-        let myRequest = URLRequest(url: myURL!)
-        ipCameraView.load(myRequest)
+        //ipCamera(320*240)
+        let realVW=view.bounds.width-leftPadding-rightPadding
+        let realVH=view.bounds.height-topPadding-bottomPadding
+        let left=(realVW-realVH*320/240)/2
+        ipCameraView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realVH*320/240,height:realVH))
+        loadCamView()
         self.view.addSubview(ipCameraView)
         ipCameraView.scrollView.isScrollEnabled = false
+        ipCameraView.scrollView.delegate = self
+        
         quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realWinHeight/5,height: realWinHeight/5)
         self.view.bringSubviewToFront(quaternionView)
- //       ipCameraView.frame=CGRect(x:leftPadding+left-500,y: topPadding,width:realWinHeight*4/3*3,height:realWinHeight*3)
-        
-        
-
-//        ipCameraView.scrollView.
-//        ipCameraView.scrollView.panGestureRecognizer.isEnabled = false
-//        ipCameraView.scrollView.bounces = false
-//        ipCameraView.scrollView.clipsToBounds
-//        ipCameraView.pageZoom=2.5//2.4以下では表示が小さい。2.５以上では表示は期待通りだがその値通りにpageが大きくなりスクロールする
-        //        loadCamView()
-        //       timerCnt=0
-        timer = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
- /*       let deviceBound : CGRect = UIScreen.main.bounds
-        let topSpace = Int(topPadding)// Int(searhTopBar.frame.size.height)
-        let bottomSpace = Int(bottomPadding)// Int(statusBottomBar.frame.size.height)
-                //  WKWebView
-        self.ipCameraView = WKWebView(frame: CGRect(x: 0, y: topSpace, width: Int(deviceBound.size.width), height: Int(deviceBound.size.height) - topSpace - bottomSpace ))
-        let url = URL(string: "http://192.168.82.1")
-        let request = URLRequest(url: url!)
-        ipCameraView.load(request)
-        self.view.addSubview( ipCameraView )*/
+          timer = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
      }
- 
+
+    
+
+    //MARK: - UIScrollViewDelegate
+    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+        scrollView.pinchGestureRecognizer?.isEnabled = false
+    }
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -438,7 +354,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             
      
         }
-       
+      
         if timerCnt > 600*5{
             motionManager.stopDeviceMotionUpdates()//tuika
             if recordingFlag==true{
@@ -466,7 +382,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             let quat = motion.attitude.quaternion
             
-            let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
+            let landscapeSide=1//someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
 
             if landscapeSide==0{
                 self.quater0 = quat.w
@@ -946,7 +862,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
-        quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
+//        quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
         if setteiMode != 0{//setteiMode==0 record, 1:manual 2:auto
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
         }else{
