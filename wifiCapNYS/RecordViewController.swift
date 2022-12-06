@@ -98,6 +98,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var quater3:Double=0
     var readingFlag = false
     var timer:Timer?
+    var timer_motion:Timer?
     var tapFlag:Bool=false//??
     var flashFlag=false
     
@@ -226,6 +227,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if timer?.isValid == true {
             timer!.invalidate()
         }
+        if timer_motion?.isValid == true {
+            timer_motion!.invalidate()
+        }
     }
     
   
@@ -248,7 +252,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let myURL1 = URL(string: "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1")
         let myURL2 = URL(string:"http://192.168.82.1")
         let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
-        ipWebView.load(URLRequest(url: myURL3!))
+        ipWebView.load(URLRequest(url: myURL2!))
     }
   
     override func viewDidLoad() {
@@ -264,11 +268,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setMotion()
 
         setButtons()
-        currentTime.isHidden=true
-        startButton.alpha=0.25
+//        currentTime.isHidden=true
+//        startButton.alpha=0.25
         startButton.isHidden=false
         stopButton.isHidden=true
-        stopButton.isEnabled=false
+//        stopButton.isEnabled=false
         //ipCamera(320*240)
         let left=(realWidth-realHeight*320/240)/2
         ipWebView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight))
@@ -279,7 +283,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
   
         quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
         self.view.bringSubviewToFront(quaternionView)
-        timer = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        timer_motion = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update_motion), userInfo: nil, repeats: true)
     }
   
     //MARK: - UIScrollViewDelegate
@@ -313,7 +317,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //    @objc func onLEDValueChange(){
 ////        print("brightness,onLEDchange:",LEDBar.value)
 //        if cameraType != 0{
-//            setFlashlevel(level: LEDBar.value)
+//            setFlashlevel(l
 //            UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
 //            LEDValueLabel.text=(Int(LEDBar.value*100)).description
 //
@@ -325,12 +329,26 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         timerCnt += 1
         if recordingFlag==true{//} && timerCnt>3{//trueになった時 0にリセットされる
             currentTime.text=String(format:"%01d",(timerCnt)/60) + ":" + String(format: "%02d",(timerCnt)%60)
-            if timerCnt%2==0{
-                stopButton.tintColor=UIColor.cyan
+            if timerCnt%2==1{
+                stopButton.tintColor=UIColor.systemRed
             }else{
-                stopButton.tintColor=UIColor.yellow// red
+                stopButton.tintColor=UIColor.systemOrange
             }
-        }else{
+        }
+      
+        if timerCnt > 600*5{
+            motionManager.stopDeviceMotionUpdates()//tuika
+            if recordingFlag==true{
+                killTimer()
+                onClickStopButton(0)
+            }else{
+                killTimer()
+                performSegue(withIdentifier: "fromRecord", sender: self)
+            }
+        }
+    }
+    @objc func update_motion(tm: Timer) {
+      
             readingFlag=true
             let qCG0=CGFloat(quater0)
             let qCG1=CGFloat(quater1)
@@ -345,21 +363,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
               self.quaternionView.image = quaterImage
               self.quaternionView.setNeedsLayout()
             }
-            
-            
-     
-        }
-      
-        if timerCnt > 600*5{
-            motionManager.stopDeviceMotionUpdates()//tuika
-            if recordingFlag==true{
-                killTimer()
-                onClickStopButton(0)
-            }else{
-                killTimer()
-                performSegue(withIdentifier: "fromRecord", sender: self)
-            }
-        }
     }
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
@@ -860,15 +863,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
-        currentTime.alpha=0.5
-//        quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
-        if setteiMode != 0{//setteiMode==0 record, 1:manual 2:auto
-            startButton.frame=CGRect(x:leftPadding+realWidth/2-realHeight/4,y:realHeight/4+topPadding,width: realHeight/2,height: realHeight/2)
-        }else{
-//            explanationLabel.isHidden=true
-            startButton.frame=CGRect(x:leftPadding+realWidth/2-realHeight/2,y:sp+topPadding,width: realHeight,height: realHeight)
-        }
-        stopButton.frame=CGRect(x:leftPadding+realWidth/2-realHeight/2,y:sp+topPadding,width: realHeight,height: realHeight)
+//        currentTime.alpha=0.5
+        startButton.frame=CGRect(x:x0+bw*6+sp*6,y:(realHeight-bw)/2,width: bw,height:bw)
+        stopButton.frame=CGRect(x:x0+bw*6+sp*6,y:(realHeight-bw)/2,width: bw,height: bw)
         let ex1=realWidth/3
         let ey1=sp
 //        explanationLabel.frame=CGRect(x:0,y:ey1,width:view.bounds.width,height:bh)
@@ -937,56 +934,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             AudioServicesPlaySystemSound(soundIdx)
         }
         
+     
+  
         motionManager.stopDeviceMotionUpdates()
-return
-        if fileWriter!.status == .writing {
-            fileWriter!.finishWriting {
-                debugPrint("trying to finish")
-                return
-            }
-            while fileWriter!.status == .writing {
-                sleep(UInt32(0.1))
-            }
-            debugPrint("done!!")
-        }
         
-        if FileManager.default.fileExists(atPath: TempFilePath){
-            print("tempFileExists")
-        }
-        let fileURL = URL(fileURLWithPath: TempFilePath)
-        if camera.albumExists()==true{
-            PHPhotoLibrary.shared().performChanges({ [self] in
-                //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
-                let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
-                let albumChangeRequest = PHAssetCollectionChangeRequest(for:camera.getPHAssetcollection())
-                let placeHolder = assetRequest.placeholderForCreatedAsset
-                albumChangeRequest?.addAssets([placeHolder!] as NSArray)
-                //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
-                print("file add to album")
-            }) { [self] (isSuccess, error) in
-                if isSuccess {
-                    // 保存した画像にアクセスする為のimageIDを返却
-                    //completionBlock(imageID)
-                    print("success")
-                    self.saved2album=true
-                } else {
-                    //failureBlock(error)
-                    print("fail")
-                    //                print(error)
-                    self.saved2album=true
-                }
-            }
-        }else{
-            //アプリ起動中にアルバムを削除して録画するとここを通る。
-            stopButton.isHidden=true
-            //と変更することで、Exitボタンで帰った状態にする。
-        }
-        motionManager.stopDeviceMotionUpdates()
-        captureSession.stopRunning()
         killTimer()
-        while saved2album==false{
-            sleep(UInt32(0.1))
-        }
+     
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
     
@@ -1009,46 +962,23 @@ return
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
-          hideButtonsSlides()
-        return
-        if cameraType==0{
-            UIScreen.main.brightness = 1
-        }
-//        explanationLabel.isHidden=true
+
         timerCnt=0
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         //sensorをリセットし、正面に
-//        motionManager.stopDeviceMotionUpdates()
+        motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
         //start recording
         startButton.isHidden=true
         stopButton.isHidden=false
-        stopButton.isEnabled=false//timerで３秒後にtrue
-        startButton.isEnabled=false
-        currentTime.isHidden=false
         exitButton.isHidden=true
-        stopButton.alpha=0.02
-//        previewLabel.isHidden=true
-//        previewSwitch.isHidden=true
-        if cameraType==0{//} && previewSwitch.isOn==false{
-            quaternionView.isHidden=true
-            cameraView.isHidden=true
-            currentTime.alpha=0.1
-        }
-        try? FileManager.default.removeItem(atPath: TempFilePath)
-        stopButton.isEnabled=true
-        UIApplication.shared.isIdleTimerDisabled = true//スリープしない
-       //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-
+  
        if let soundUrl = URL(string:
                                "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
            AudioServicesPlaySystemSound(soundIdx)
        }
 
-       fileWriter!.startWriting()
-       fileWriter!.startSession(atSourceTime: CMTime.zero)
-//        print(fileWriter?.error)
        setMotion()
     }
 
