@@ -23,10 +23,10 @@ extension UIColor {
 
 class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate,UIScrollViewDelegate {
     let camera = myFunctions()
-    var cameraType:Int = 0
+    var cameraType:Int = 1//0
     
     @IBOutlet weak var ipCopyView: UIImageView!
-    @IBOutlet weak var ipCameraView: WKWebView!
+    @IBOutlet weak var ipWebView: WKWebView!
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
@@ -78,8 +78,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         return false
     }
     func getCapture() -> UIImage {
-            UIGraphicsBeginImageContextWithOptions(self.ipCameraView.bounds.size, true, 0)
-            self.ipCameraView.drawHierarchy(in: self.ipCameraView.bounds, afterScreenUpdates: true)
+            UIGraphicsBeginImageContextWithOptions(self.ipWebView.bounds.size, true, 0)
+            self.ipWebView.drawHierarchy(in: self.ipWebView.bounds, afterScreenUpdates: true)
             let image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             return image!
@@ -248,7 +248,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let myURL1 = URL(string: "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1")
         let myURL2 = URL(string:"http://192.168.82.1")
         let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
-        ipCameraView.load(URLRequest(url: myURL3!))
+        ipWebView.load(URLRequest(url: myURL3!))
     }
   
     override func viewDidLoad() {
@@ -271,11 +271,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isEnabled=false
         //ipCamera(320*240)
         let left=(realWidth-realHeight*320/240)/2
-        ipCameraView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight))
+        ipWebView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight))
         loadWebView()
-        self.view.addSubview(ipCameraView)
-        ipCameraView.scrollView.isScrollEnabled = false
-        ipCameraView.scrollView.delegate = self
+        self.view.addSubview(ipWebView)
+        ipWebView.scrollView.isScrollEnabled = false
+        ipWebView.scrollView.delegate = self
   
         quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
         self.view.bringSubviewToFront(quaternionView)
@@ -367,6 +367,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //time0=CFAbsoluteTimeGetCurrent()
         //        var initf:Bool=false
         degreeAtResetHead = -1
+        cameraType=1
         motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { [self] (motion, error) in
             guard let motion = motion, error == nil else { return }
             //            self.gyro.append(CFAbsoluteTimeGetCurrent())
@@ -377,7 +378,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             let quat = motion.attitude.quaternion
             
-            let landscapeSide=1//someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
+            let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
 
             if landscapeSide==0{
                 self.quater0 = quat.w
@@ -406,12 +407,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func set_rpk_ppk() {
         let faceR:CGFloat = 40//hankei
         var frontBack:Int = 0
+        cameraType=1
 //        let camera = Int(camera.getUserDefaultInt(str: "cameraType", ret: 0))
 //        i
 //        if cameraType == 0{//front camera
 //            frontBack = 180
 //        }
         // convert draw data to radian
+        
         print("frontBack",frontBack)
         for i in 0..<facePoints.count/3 {
             rpk1[i*2] = CGFloat(facePoints[3 * i + 0]) * 0.01745329//pi/180
@@ -447,6 +450,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var degreeAtResetHead:Int=0//0:-90<&&<90 1:<-90||>90 -1:flag for get degree
     func drawHead(width w:CGFloat, height h:CGFloat, radius r:CGFloat, qOld0:CGFloat, qOld1:CGFloat, qOld2:CGFloat, qOld3:CGFloat)->UIImage{
 //        print(String(format:"%.3f,%.3f,%.3f,%.3f",qOld0,qOld1,qOld2,qOld3))
+        cameraType=1
         var ppk = Array(repeating: CGFloat(0), count:500)
         let faceX0:CGFloat = w/2;
         let faceY0:CGFloat = h/2;//center
@@ -628,7 +632,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     cameraType=2//ultraWide--focusが効かない、広角、ズームを効かせる。
     */
     
-    @IBAction func onCameraChangeButton(_ sender: Any) {
+  /*  @IBAction func onCameraChangeButton(_ sender: Any) {
         if cameraType==0{
             cameraType=1
         }else if cameraType==1{
@@ -693,8 +697,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            explanationLabel.text=explanationText + "Record Settings"
 //        }
      }
-    
-    func initSession(fps:Double) {
+    */
+/*    func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ
 //        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
 
@@ -788,7 +792,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             ]
         )
     }
-
+*/
     override func viewDidAppear(_ animated: Bool) {
 
     }
