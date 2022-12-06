@@ -238,18 +238,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
          }
      }
     
-    var leftPadding:CGFloat=0// =CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
-    var rightPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
-    var topPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
-    var bottomPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-    var realWinWidth:CGFloat=0//=view.bounds.width-leftPadding-rightPadding
-    var realWinHeight:CGFloat=0//=view.bounds.height-topPadding-bottomPadding/2
-    func loadCamView(){
-        let url: String =   "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1"//"http://192.168.82.1"
-        let myURL1 = URL(string: url)
+    var leftPadding:CGFloat=0
+    var rightPadding:CGFloat=0
+    var topPadding:CGFloat=0
+    var bottomPadding:CGFloat=0
+    var realWidth:CGFloat=0
+    var realHeight:CGFloat=0
+    func loadWebView(){
+        let myURL1 = URL(string: "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1")
         let myURL2 = URL(string:"http://192.168.82.1")
-        let myRequest = URLRequest(url: myURL2!)
-        ipCameraView.load(myRequest)
+        let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
+        ipCameraView.load(URLRequest(url: myURL3!))
     }
   
     override func viewDidLoad() {
@@ -258,8 +257,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-        realWinWidth=view.bounds.width-leftPadding-rightPadding
-        realWinHeight=view.bounds.height-topPadding-bottomPadding/2
+        realWidth=view.bounds.width-leftPadding-rightPadding
+        realHeight=view.bounds.height-topPadding-bottomPadding/2
         camera.makeAlbum()
         set_rpk_ppk()
         setMotion()
@@ -271,22 +270,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isHidden=true
         stopButton.isEnabled=false
         //ipCamera(320*240)
-        let realVW=view.bounds.width-leftPadding-rightPadding
-        let realVH=view.bounds.height-topPadding-bottomPadding
-        let left=(realVW-realVH*320/240)/2
-        ipCameraView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realVH*320/240,height:realVH))
-        loadCamView()
+        let left=(realWidth-realHeight*320/240)/2
+        ipCameraView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight))
+        loadWebView()
         self.view.addSubview(ipCameraView)
         ipCameraView.scrollView.isScrollEnabled = false
         ipCameraView.scrollView.delegate = self
-        
-        quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realWinHeight/5,height: realWinHeight/5)
+  
+        quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
         self.view.bringSubviewToFront(quaternionView)
-          timer = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-     }
-
-    
-
+        timer = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+    }
+  
     //MARK: - UIScrollViewDelegate
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
         scrollView.pinchGestureRecognizer?.isEnabled = false
@@ -300,11 +295,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     /*  @objc func onExposeValueChange(){
      setExpose(expose:exposeBar.value)
      if setteiMode==2{
-         UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
+     UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
      }else{
-         UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
+     UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
      }
- }*/
+     }*/
     
     
 //    @objc func onZoomValueChange(){
@@ -345,7 +340,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
             readingFlag=false
  
-            let quaterImage = drawHead(width: realWinHeight/2.5, height: realWinHeight/2.5, radius: realWinHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+            let quaterImage = drawHead(width: realHeight/2.5, height: realHeight/2.5, radius: realHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
             DispatchQueue.main.async {
               self.quaternionView.image = quaterImage
               self.quaternionView.setNeedsLayout()
@@ -828,11 +823,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func setButtons(){
         // recording button
         let height:CGFloat=0//CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
-        let sp=realWinWidth/120//間隙
-        let bw=(realWinWidth-sp*10)/7//ボタン幅
+        let sp=realWidth/120//間隙
+        let bw=(realWidth-sp*10)/7//ボタン幅
         let bh=bw*170/440
-        let by1=realWinHeight-bh-sp-height-bh*2/3
-        let by=realWinHeight-(bh+sp)*2-height-bh*2/3
+        let by1=realHeight-bh-sp-height-bh*2/3
+        let by=realHeight-(bh+sp)*2-height-bh*2/3
         let x0=leftPadding+sp*2
         
 //        previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
@@ -864,13 +859,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.alpha=0.5
 //        quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
         if setteiMode != 0{//setteiMode==0 record, 1:manual 2:auto
-            startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
+            startButton.frame=CGRect(x:leftPadding+realWidth/2-realHeight/4,y:realHeight/4+topPadding,width: realHeight/2,height: realHeight/2)
         }else{
 //            explanationLabel.isHidden=true
-            startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
+            startButton.frame=CGRect(x:leftPadding+realWidth/2-realHeight/2,y:sp+topPadding,width: realHeight,height: realHeight)
         }
-        stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
-        let ex1=realWinWidth/3
+        stopButton.frame=CGRect(x:leftPadding+realWidth/2-realHeight/2,y:sp+topPadding,width: realHeight,height: realHeight)
+        let ex1=realWidth/3
         let ey1=sp
 //        explanationLabel.frame=CGRect(x:0,y:ey1,width:view.bounds.width,height:bh)
 //        if cameraType==0{
@@ -1249,7 +1244,7 @@ return
         readingFlag=false
         
 //        let quaterImage = drawHead(width: 130, height: 130, radius: 50+10,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
-        let quaterImage = drawHead(width: realWinHeight/2.5, height: realWinHeight/2.5, radius: realWinHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+        let quaterImage = drawHead(width: realHeight/2.5, height: realHeight/2.5, radius: realHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
         DispatchQueue.main.async {
           self.quaternionView.image = quaterImage
           self.quaternionView.setNeedsLayout()
