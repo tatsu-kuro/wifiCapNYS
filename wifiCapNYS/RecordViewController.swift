@@ -254,7 +254,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
         ipWebView.load(URLRequest(url: myURL2!))
     }
-  
+    func takeScreenShot() -> UIImage {
+        let width: CGFloat = UIScreen.main.bounds.size.width
+        let height: CGFloat = UIScreen.main.bounds.size.height
+        let size = CGSize(width: width, height: height)
+        
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+        let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return screenShotImage
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -900,7 +910,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            explanationLabel.text=explanationText + "Record Settings"
         }
         if setteiMode==2{
-            cameraChangeButton.isEnabled=false
+//            cameraChangeButton.isEnabled=false
 //            previewSwitch.isHidden=true
 //            previewLabel.isHidden=true
 //            focusBar.isHidden=true
@@ -957,8 +967,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        exposeValueLabel.isHidden=true
 ////        explanationLabel.isHidden=true
 //        exposeBar.isHidden=true
-        cameraChangeButton.isHidden=true
-        currentTime.isHidden=false
+//        cameraChangeButton.isHidden=true
+//        currentTime.isHidden=false
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
