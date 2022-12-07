@@ -109,11 +109,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView:UIImageView!
- 
-   
     @IBOutlet weak var cameraChangeButton: UIButton!
-
- 
   
     func killTimer(){
         if timer?.isValid == true {
