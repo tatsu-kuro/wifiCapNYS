@@ -17,9 +17,6 @@ import AssetsLibrary
 import CoreMotion
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-//    @IBOutlet weak var steelLabel: UILabel!
-  //  @IBOutlet weak var postualLabel: UILabel!
- //   @IBOutlet weak var autoRecordButton: UIButton!
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let albumName:String = "wifiCapNYS"
@@ -73,13 +70,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
  
     
     @IBAction func onSetteiButtonManual(_ sender: Any) {
- //       stopMotion()
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-        nextView.setteiMode=1
-        nextView.autoRecordMode=false
-        nextView.currentBrightness=UIScreen.main.brightness
-    //    nextView.explanationLabeltextColor=UIColor.systemGreen
-        self.present(nextView, animated: true, completion: nil)
+ 
     }
  
     @IBAction func unwindAction(segue: UIStoryboardSegue) {

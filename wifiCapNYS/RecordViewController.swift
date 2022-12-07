@@ -37,21 +37,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
     var currentBrightness:CGFloat=1.0
-//    var explanationLabeltextColor:UIColor=UIColor.systemGreen
-    let cameraTypeStrings : Array<String> = ["frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:"]
-
-//    @IBOutlet weak var previewSwitch: UISwitch!
-//
-//    @IBAction func onPreviewSwitch(_ sender: Any) {
-//        if previewSwitch.isOn==true{
-//            UserDefaults.standard.set(1, forKey: "previewOn")
-//        }else{
-//            UserDefaults.standard.set(0, forKey: "previewOn")
-//        }
-//    }
-    
- //   @IBOutlet weak var previewLabel: UILabel!
-    //for video input
     var captureSession: AVCaptureSession!
     var videoDevice: AVCaptureDevice?
 
@@ -76,13 +61,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override var shouldAutorotate: Bool {
         return false
     }
-    func getCapture() -> UIImage {
-            UIGraphicsBeginImageContextWithOptions(self.ipWebView.bounds.size, true, 0)
-            self.ipWebView.drawHierarchy(in: self.ipWebView.bounds, afterScreenUpdates: true)
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return image!
-    }
+  
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
         if landscapeSide==0{
@@ -125,103 +104,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
 
-//    @IBOutlet weak var focusLabel: UILabel!
-//    @IBOutlet weak var focusBar: UISlider!
-//    @IBOutlet weak var focusValueLabel: UILabel!
-//
-//    @IBOutlet weak var zoomLabel: UILabel!
-//    @IBOutlet weak var zoomValueLabel: UILabel!
-//    @IBOutlet weak var zoomBar: UISlider!
-//
-//    @IBOutlet weak var exposeValueLabel: UILabel!
-//    @IBOutlet weak var exposeLabel: UILabel!
-//    @IBOutlet weak var exposeBar: UISlider!
-//
-//    @IBOutlet weak var LEDBar: UISlider!
-//    @IBOutlet weak var LEDLabel: UILabel!
-//    @IBOutlet weak var LEDValueLabel: UILabel!
     
     @IBOutlet weak var currentTime: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView:UIImageView!
-    
-//     @IBOutlet weak var explanationLabel: UILabel!
-//    @IBOutlet weak var whiteView: UIImageView!
-    
-//    @IBOutlet weak var arrowUpDown: UIImageView!
+ 
    
     @IBOutlet weak var cameraChangeButton: UIButton!
-   
-    func setBars(){
-        if setteiMode==2{
-//            zoomBar.value=camera.getUserDefaultFloat(str: "AutoZoomValue", ret: 0)
-//            setZoom(level: zoomBar.value)
-            
-        }else{
-//            zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue", ret: 0)
-//            focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
-//            setFocus(focus: focusBar.value)
-//            setZoom(level: zoomBar.value)
-//            LEDBar.value=camera.getUserDefaultFloat(str: "ledValue", ret: 0)
-//            setFlashlevel(level: LEDBar.value)
-        }
-    }
-    func setZoom(level:Float){//0.0-0.1
-//        var zoom=0.017//level*level/4
-//        if cameraType==1{
-//            zoom=0.007
-//        }
-        if let device = videoDevice {
-//            zoomValueLabel.text=(Int(level*1000)).description
 
-        do {
-            try device.lockForConfiguration()
-                device.ramp(
-                    toVideoZoomFactor: (device.minAvailableVideoZoomFactor) + CGFloat(level) * ((device.maxAvailableVideoZoomFactor) - (device.minAvailableVideoZoomFactor)),
-                    withRate: 30.0)
-            device.unlockForConfiguration()
-            } catch {
-                print("Failed to change zoom.")
-            }
-        }
-    }
-    
-    func setFlashlevel(level:Float){
-        if cameraType != 0{
-            if let device = videoDevice{
-                do {
-                    if device.hasTorch {
-                        do {
-                            // torch device lock on
-                            try device.lockForConfiguration()
-                            
-                            if (level > 0.0){
-                                do {
-                                    try device.setTorchModeOn(level: level)
-                                } catch {
-                                    print("error")
-                                }
-                                
-                            } else {
-                                // flash LED OFF
-                                // 注意しないといけないのは、0.0はエラーになるのでLEDをoffさせます。
-                                device.torchMode = AVCaptureDevice.TorchMode.off
-                            }
-                            // torch device unlock
-                            device.unlockForConfiguration()
-                            
-                        } catch {
-                            print("Torch could not be used")
-                        }
-                    }
-                }
-            }
-        }else{//front camera
-            
-        }
-    }
-    
+ 
+  
     func killTimer(){
         if timer?.isValid == true {
             timer!.invalidate()
@@ -252,21 +145,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let myURL2 = URL(string:"http://192.168.82.1")
         let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
         let myURL4 = URL(string: "http://192.168.0.8:9000")
-        ipWebView.load(URLRequest(url: myURL4!))
+        ipWebView.load(URLRequest(url: myURL3!))
     }
-//    func takeScreenShot() -> UIImage {
-//        let width: CGFloat = UIScreen.main.bounds.size.width
-//        let height: CGFloat = UIScreen.main.bounds.size.height
-//        let capHeight=view.bounds.height-topPadding-bottomPadding
-//        let capWidth=capHeight*4/3
-//        let size = CGSize(width: capWidth, height: capHeight)
-//        let capRect = CGRect(x:(width-capWidth)/2,y:topPadding,width: capWidth,height: capHeight)
-//        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-//        view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
-//        let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
-//        UIGraphicsEndImageContext()
-//        return screenShotImage
-//    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -308,55 +189,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
-    /*  @objc func onExposeValueChange(){
-     setExpose(expose:exposeBar.value)
-     if setteiMode==2{
-     UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
-     }else{
-     UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
-     }
-     }*/
-    
-    
-//    @objc func onZoomValueChange(){
-//        if setteiMode==2{
-//            UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
-//        }else{
-//            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
-//        }
-//        setZoom(level: zoomBar.value)
-//    }
-//    @objc func onLEDValueChange(){
-////        print("brightness,onLEDchange:",LEDBar.value)
-//        if cameraType != 0{
-//            setFlashlevel(l
-//            UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
-//            LEDValueLabel.text=(Int(LEDBar.value*100)).description
-//
-//        }
-//    }
-  
+ 
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
         timerCnt += 1
-        if recordingFlag==true{//} && timerCnt>3{//trueになった時 0にリセットされる
-            currentTime.text=String(format:"%01d",(timerCnt)/60) + ":" + String(format: "%02d",(timerCnt)%60)
-            if timerCnt%2==1{
-                stopButton.tintColor=UIColor.systemRed
-            }else{
-                stopButton.tintColor=UIColor.systemOrange
-            }
+        currentTime.text=String(format:"%01d",(timerCnt)/60) + ":" + String(format: "%02d",(timerCnt)%60)
+        if timerCnt%2==1{
+            stopButton.tintColor=UIColor.systemRed
+        }else{
+            stopButton.tintColor=UIColor.systemOrange
         }
-      
-        if timerCnt > 600*5{
-            motionManager.stopDeviceMotionUpdates()//tuika
-            if recordingFlag==true{
-                killTimer()
-                onClickStopButton(0)
-            }else{
-                killTimer()
-                performSegue(withIdentifier: "fromRecord", sender: self)
-            }
+        
+        if timerCnt > 30*60*5{
+            onClickStopButton(0)
         }
     }
     func takeScreenShot() -> UIImage {
@@ -393,9 +238,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
         motionManager.deviceMotionUpdateInterval = 1 / 100//が最速の模様
-        //time0=CFAbsoluteTimeGetCurrent()
-        //        var initf:Bool=false
-        degreeAtResetHead = -1
+          degreeAtResetHead = -1
         cameraType=1
         motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { [self] (motion, error) in
             guard let motion = motion, error == nil else { return }
@@ -577,251 +420,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UIGraphicsEndImageContext()
         return image!
     }
-    
-    func setVideoFormat(desiredFps: Double)->Bool {
-        var retF:Bool=false
-        //desiredFps 60
-        // 取得したフォーマットを格納する変数
-        var selectedFormat: AVCaptureDevice.Format! = nil
-        // そのフレームレートの中で一番大きい解像度を取得する
-        // フォーマットを探る
-        for format in videoDevice!.formats {
-            // フォーマット内の情報を抜き出す (for in と書いているが1つの format につき1つの range しかない)
-            for range: AVFrameRateRange in format.videoSupportedFrameRateRanges {
-                let description = format.formatDescription as CMFormatDescription    // フォーマットの説明
-                let dimensions = CMVideoFormatDescriptionGetDimensions(description)  // 幅・高さ情報を抜き出す
-                let width = dimensions.width
-//                print(dimensions.width,dimensions.height)
-//                if range.maxFrameRate == desiredFps && width == 1280{
-                if  width == 1280{
-                    selectedFormat = format//最後のformat:一番高品質
-//                    print(range.maxFrameRate,dimensions.width,dimensions.height)
-                }
-            }
-        }
-//ipod touch 1280x720 1440*1080
-//SE 960x540 1280x720 1920x1080
-//11 192x144 352x288 480x360 640x480 1024x768 1280x720 1440x1080 1920x1080 3840x2160
-//1280に設定すると上手く行く。合成のところには1920x1080で飛んでくるようだ。？
-        // フォーマットが取得できていれば設定する
-        if selectedFormat != nil {
-//            print(selectedFormat.description)
-            do {
-                try videoDevice!.lockForConfiguration()
-                videoDevice!.activeFormat = selectedFormat
-//                videoDevice!.activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(desiredFps))
-                videoDevice!.unlockForConfiguration()
-                
-                let description = selectedFormat.formatDescription as CMFormatDescription    // フォーマットの説明
-                let dimensions = CMVideoFormatDescriptionGetDimensions(description)  // 幅・高さ情報を抜き出す
-                iCapNYSWidth = dimensions.width
-                iCapNYSHeight = dimensions.height
-                if cameraType==0{//訳がわからないがこれで上手くいく、反則行為
-                    iCapNYSHeight=720
-                }
-                iCapNYSFPS = desiredFps
-                print("フォーマット・フレームレートを設定 : \(desiredFps) fps・\(iCapNYSWidth) px x \(iCapNYSHeight) px")
-                iCapNYSWidthF=CGFloat(iCapNYSWidth)
-                iCapNYSHeightF=CGFloat(iCapNYSHeight)
-                iCapNYSWidthF120=iCapNYSWidthF/120//quaterの表示開始位置
-                iCapNYSHeightF5=iCapNYSHeightF/5//quaterの表示サイズ
-                retF=true
-            }
-            catch {
-                print("フォーマット・フレームレートが指定できなかった")
-                retF=false
-            }
-        }
-        else {
-            print("指定のフォーマットが取得できなかった")
-            retF=false
-        }
-        return retF
-    }
-    var telephotoCamera:Bool=false
-    var ultrawideCamera:Bool=false
-    func getCameras(){//wideAngleCameraのみ使用
-        if AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) != nil{
-            ultrawideCamera=true
-        }
-        if AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) != nil{
-            telephotoCamera=true
-        }
-    }
-    
-    /*
-    iCapNYS---
-     cameraType=0//front
-    cameraType=1//wideAngle
-    cameraType=2//telephoto
-    cameraType3//ultraWide
-    vHIT96da-------
-    cameraType=0//wideAngle
-    cameraType=1//telephoto
-    cameraType=2//ultraWide--focusが効かない、広角、ズームを効かせる。
-    */
-    
-  /*  @IBAction func onCameraChangeButton(_ sender: Any) {
-        if cameraType==0{
-            cameraType=1
-        }else if cameraType==1{
-            if telephotoCamera == true{
-                cameraType=2//telephoto
-            }else if ultrawideCamera == true{
-                cameraType=3
-            }else{
-                cameraType=0
-            }
-        }else if cameraType==2{
-            if ultrawideCamera==true{
-                cameraType=3//ultraWide
-            }else{
-                cameraType=0
-            }
-        }else{
-            cameraType=0//wideAngle
-        }
-        print("camera:",cameraType)
-        UserDefaults.standard.set(cameraType, forKey: "cameraType")
-        captureSession.stopRunning()
-        set_rpk_ppk()
-        initSession(fps: 60)
-//        onLEDValueChange()
-//        onFocusValueChange()
-//        zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue")
-//        setZoom(level: zoomBar.value)
-//        if cameraType==0{
-//            LEDBar.isHidden=true
-//            LEDLabel.isHidden=true
-//            LEDValueLabel.isHidden=true
-//        }else{
-//            LEDBar.isHidden=false
-//            LEDLabel.isHidden=false
-//            LEDValueLabel.isHidden=false
-//        }
-//        if focusChangeable==false{
-//            focusBar.isHidden=true
-//            focusLabel.isHidden=true
-//            focusValueLabel.isHidden=true
-//        }else{
-//            focusBar.isHidden=false
-//            focusLabel.isHidden=false
-//            focusValueLabel.isHidden=false
-//        }
-        if cameraType==0{
-            UIScreen.main.brightness = 1
-        }else{
-            UIScreen.main.brightness = currentBrightness
-        }
-//        onExposeValueChange()
-        setButtons()
-        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-        var explanationText = cameraTypeStrings[cameraType]
-//        if explanationLabeltextColor==UIColor.systemOrange{
-//            explanationText=""
-//        }
-//        if someFunctions.firstLang().contains("ja"){
-//            explanationLabel.text=explanationText + "録画設定"
-//        }else{
-//            explanationLabel.text=explanationText + "Record Settings"
-//        }
-     }
-    */
-/*    func initSession(fps:Double) {
-        // カメラ入力 : 背面カメラ
-//        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-
-        if cameraType == 0{
-        videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)//.back)
-        }else if cameraType==1{
-            videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-        }else if cameraType==2{
-            videoDevice = AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back)
-        }else if cameraType==3{
-            videoDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back)
-        }
-        
-        let videoInput = try! AVCaptureDeviceInput.init(device: videoDevice!)
-
-        if setVideoFormat(desiredFps: fps)==false{
-            print("error******")
-        }else{
-            print("no error****")
-        }
-        // AVCaptureSession生成
-        captureSession = AVCaptureSession()
-        captureSession.addInput(videoInput)
-        
-//        // 音声のインプット設定
-//        let audioDevice: AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.audio)
-//        let audioInput = try! AVCaptureDeviceInput(device: audioDevice!)
-//        captureSession.addInput(audioInput)
-//以上のようなことは出来そうにない
-        // プレビュー出力設定
-        whiteView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
-        cameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
-//        cameraView.layer.addSublayer(   whiteView.layer)
-        cameraView.isHidden=true
-//        whiteView.isHidden=true
-//        ipCameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
-//        ipCameraView.pageZoom=3.0
-        let videoLayer : AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        if cameraType==0{
-            let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
-            let width=view.bounds.width
-            let height=view.bounds.height
-            videoLayer.frame = CGRect(x:leftPadding+10,y:height*2/5,width:width/5,height:height/5)
-            videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        }else{
-            videoLayer.frame=self.view.bounds
-            videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            
-        }
-        //info right home button
-        let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
-        if landscapeSide==0{
-            videoLayer.connection?.videoOrientation = AVCaptureVideoOrientation.landscapeRight
-        }else{
-            videoLayer.connection?.videoOrientation = AVCaptureVideoOrientation.landscapeLeft
-        }
-        cameraView.layer.addSublayer(videoLayer)
-
-        // VideoDataOutputを作成、startRunningするとそれ以降delegateが呼ばれるようになる。
-        let videoDataOutput: AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
-        videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey : kCVPixelFormatType_32BGRA] as [String : Any]
-        //         videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable: kCVPixelFormatType_32BGRA]
-        videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
-        //         videoDataOutput.setSampleBufferDelegate(self, queue: videoQueue)
-        videoDataOutput.alwaysDiscardsLateVideoFrames = true
-        captureSession.addOutput(videoDataOutput)
-        captureSession.startRunning()
-        
-        // ファイル出力設定
-        startTimeStamp = 0
-        //一時ファイルはこの時点で必ず消去
-        let fileURL = NSURL(fileURLWithPath: TempFilePath)
-        setMotion()//作動中ならそのまま戻る
-        fileWriter = try? AVAssetWriter(outputURL: fileURL as URL, fileType: AVFileType.mov)
-        
-        let videoOutputSettings: Dictionary<String, AnyObject> = [
-            AVVideoCodecKey: AVVideoCodecType.h264 as AnyObject,
-            AVVideoWidthKey: iCapNYSWidth as AnyObject,
-            AVVideoHeightKey: iCapNYSHeight as AnyObject
-        ]
-        fileWriterInput = AVAssetWriterInput(mediaType:AVMediaType.video, outputSettings: videoOutputSettings)
-        fileWriterInput.expectsMediaDataInRealTime = true
-        fileWriter.add(fileWriterInput)
-        
-        fileWriterAdapter = AVAssetWriterInputPixelBufferAdaptor(
-            assetWriterInput: fileWriterInput,
-            sourcePixelBufferAttributes: [
-                kCVPixelBufferPixelFormatTypeKey as String:Int(kCVPixelFormatType_32BGRA),
-                kCVPixelBufferHeightKey as String: iCapNYSWidth,
-                kCVPixelBufferWidthKey as String: iCapNYSHeight,
-            ]
-        )
-    }
-*/
+ 
     override func viewDidAppear(_ animated: Bool) {
 
     }
@@ -831,28 +430,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         label.layer.borderWidth = 1.0
         label.layer.cornerRadius = radius
     }
-//    var startButtonsHeight:CGFloat=0
-//    @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
-//        let move:CGPoint = sender.translation(in: self.view)
-////        let pos = sender.location(in: self.view)
-//        print("panGesture")
-//        if recordingFlag==true{
-//            return
-//        }
-//        if sender.state == .began {
-//            startButtonsHeight=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
-//        } else if sender.state == .changed {
-//            var changedButtonHeight=startButtonsHeight - move.y
-//            if changedButtonHeight>view.bounds.height/5{
-//                changedButtonHeight=view.bounds.height/5
-//            }else if changedButtonHeight<0{
-//                changedButtonHeight = 0
-//            }
-//            UserDefaults.standard.set(changedButtonHeight,forKey: "buttonsHeight")
-//            setButtons()//,changedButtonHeight)
-//        }else if sender.state == .ended{
-//        }
-//    }
+
     func setButtons(){
         // recording button
         let height:CGFloat=0//CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
@@ -863,92 +441,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let by=realHeight-(bh+sp)*2-height-bh*2/3
         let x0=leftPadding+sp*2
         cameraView.frame=CGRect(x:leftPadding,y:topPadding,width: 112,height: 84)
-//        previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
-//        let switchHeight=previewSwitch.frame.height
-//        previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
-//        previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
-//        previewLabel.frame.size.width=bw*5
-//        previewLabel.frame.size.height=bh
- 
-//        camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
-//        focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
-//
-//        camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
-//        LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
-//
-//        camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.white)
-//        zoomBar.frame = CGRect(x:x0+bw*4+sp*4,y:by,width:bw*2+sp,height: bh)
-//        exposeBar.frame = CGRect(x:x0+bw*4+sp*4,y:by1,width:bw*2+sp,height: bh)
-//        camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
-//        camera.setLabelProperty(exposeValueLabel, x: x0+bw*3+sp*3, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
-//        camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
-//        camera.setLabelProperty(focusValueLabel, x: x0, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
-//        camera.setLabelProperty(LEDValueLabel, x: x0, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
-        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
+       camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
-//        currentTime.alpha=0.5
+
         startButton.frame=CGRect(x:x0+bw*6+sp*6,y:(realHeight-bw)/2,width: bw,height:bw)
         stopButton.frame=CGRect(x:x0+bw*6+sp*6,y:(realHeight-bw)/2,width: bw,height: bw)
-        let ex1=realWidth/3
-        let ey1=sp
-//        explanationLabel.frame=CGRect(x:0,y:ey1,width:view.bounds.width,height:bh)
-//        if cameraType==0{
-//            if autoRecordMode==true{
-//                previewLabel.isEnabled=false
-//                previewSwitch.isEnabled=false
-//                previewSwitch.isOn=false
-//            }else{
-//                previewSwitch.isHidden=false
-//                previewLabel.isHidden=false
-//            }
-//        }else{
-//            previewSwitch.isHidden=true
-//            previewLabel.isHidden=true
-//        }
-        if setteiMode == 0{//slider labelを隠す 0:record
-                hideButtonsSlides()
-        }
-        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-         var explanationText = cameraTypeStrings[cameraType]
-//        if explanationLabeltextColor==UIColor.systemOrange{
-//           explanationText=""
-//        }
+  
         if someFunctions.firstLang().contains("ja"){
 //            explanationLabel.text=explanationText + "録画設定"
-//            exposeLabel.text="露出"
-//            zoomLabel.text="ズーム"
-//            focusLabel.text="焦点"
-//            previewLabel.text="プレビュー"
-//        }else{
+        }else{
 //            explanationLabel.text=explanationText + "Record Settings"
         }
-        if setteiMode==2{
-//            cameraChangeButton.isEnabled=false
-//            previewSwitch.isHidden=true
-//            previewLabel.isHidden=true
-//            focusBar.isHidden=true
-//            focusLabel.isHidden=true
-//            focusValueLabel.isHidden=true
-//            LEDLabel.isHidden=true
-//            LEDBar.isHidden=true
-//            LEDValueLabel.isHidden=true
-        }
-/*     if autoRecordMode==true{
- //            cameraType=0
- //            cameraChangeButton.isEnabled=false
- //            explanationLabel.isHidden=true
- //        }
- //
- //        if setteiMode==2{//setteibuttonAuto
- //            cameraType=0
- //            cameraChangeButton.isEnabled=false
- //            previewSwitch.isHidden=true
- //            previewLabel.isHidden=true
- //        }
- */
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
@@ -959,32 +465,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
             AudioServicesPlaySystemSound(soundIdx)
         }
-        
-     
-  
         motionManager.stopDeviceMotionUpdates()
-        
         killTimer()
-     
         performSegue(withIdentifier: "fromRecord", sender: self)
-    }
-    
-    func hideButtonsSlides() {
-//        zoomLabel.isHidden=true
-//        zoomValueLabel.isHidden=true
-//        focusLabel.isHidden=true
-//        focusValueLabel.isHidden=true
-//        focusBar.isHidden=true
-//        zoomBar.isHidden=true
-//        LEDLabel.isHidden=true
-//        LEDBar.isHidden=true
-//        LEDValueLabel.isHidden=true
-//        exposeLabel.isHidden=true
-//        exposeValueLabel.isHidden=true
-////        explanationLabel.isHidden=true
-//        exposeBar.isHidden=true
-//        cameraChangeButton.isHidden=true
-//        currentTime.isHidden=false
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
@@ -1013,41 +496,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if recordingFlag==true{
             return
         }
-        if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
-            print("doubleTapPlay")
- //           if setteiMode != 0{
-//                zoomBar.isHidden=false
-//                zoomLabel.isHidden=false
-//                focusBar.isHidden=false
-//                focusLabel.isHidden=false
-//                focusValueLabel.isHidden=false
-//            }
-        }
-        tapInterval=CFAbsoluteTimeGetCurrent()
         setMotion()
-//        let screenSize=cameraView.bounds.size
-//        let x0 = sender.location(in: self.view).x
-//        let y0 = sender.location(in: self.view).y
-//
-//        if y0>view.bounds.height*0.43{//screenSize.height/2{
-//            return
-//        }
-//        let x = y0/screenSize.height
-//        let y = 1.0 - x0/screenSize.width
-//        let focusPoint = CGPoint(x:x,y:y)
-////        if cameraType==1 || cameraType==2{
-//            if let device = videoDevice{
-//                do {
-//                    try device.lockForConfiguration()
-//                    device.focusPointOfInterest = focusPoint
-//                    device.focusMode = .autoFocus
-//                    device.unlockForConfiguration()
-//                }
-//                catch {
-//                    // just ignore
-//                }
-//            }
-//        }
     }
 //    @objc func onFocusValueChange(){
 //            setFocus(focus:focusBar.value)
@@ -1135,7 +584,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        }
 //    }
 //
-    //debug用、AVAssetWriterの状態を見るため、そのうち消去
+ /*   //debug用、AVAssetWriterの状態を見るため、そのうち消去
     func printWriterStatus(writer: AVAssetWriter) {
         print("recordingFlag=", recordingFlag)
         switch writer.status {
@@ -1236,6 +685,271 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         } else {
             //print("not writing")
         }
+    }*/
+    //movie creator
+    //１枚めの画像かどうか
+    var isFirstTap = true
+    
+    //画像のサイズ
+    let imageSize = CGSize(width:1280,height:960)
+    //ボタンを押した時の処理 ボタンの画像を押すたびに動画に継ぎ足し
+    @objc func btnTapped(sender:UIButton){
+        //ボタンの画像があるかをチェック
+        if let image = sender.imageView?.image{
+            //１枚目の画像だけセットアップを含む
+            if isFirstTap {
+                createFirst(image: image, size: CGSize(width:image.size.width,
+                                                                    height:image.size.height))
+                isFirstTap = false
+            }else{
+                createSecond(image: image)
+            }
+
+        }
+        
+    }
+//    var avPlayerVC:AVPlayerViewController!
+ 
+    //動画を生成する
+    @objc func createBtnTapped(){
+        //動画生成終了を呼び出してURLを得る -> Playerにのせる
+        finished { (url) in
+            DispatchQueue.main.async{
+                
+//                let avPlayer = AVPlayer(url:url)
+//                self.avPlayerVC.player = avPlayer
+//                avPlayer.play()
+            }
+        }
+        isFirstTap = true
+    }
+    //保存先のURL
+    var url:URL?
+    
+    //フレーム数
+    var frameCount = 0
+    
+    // FPS
+    let fps: __int32_t = 60
+    var time:Int = 60    // (time / fps)   VCからいじる
+    
+    var videoWriter:AVAssetWriter?
+    var writerInput:AVAssetWriterInput?
+    var adaptor:AVAssetWriterInputPixelBufferAdaptor!
+    
+    //適当に画像サイズ
+//    let imageSize = CGSize(width:1280,height:960)
+    
+    
+    //イチバン最初はこれを呼び出す
+    func createFirst(image:UIImage,size:CGSize){
+        
+        //保存先のURL
+        url = NSURL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("\(NSUUID().uuidString).mp4")
+        // AVAssetWriter
+        guard let firstVideoWriter = try? AVAssetWriter(outputURL: url!, fileType: AVFileType.mov) else {
+            fatalError("AVAssetWriter error")
+        }
+        videoWriter = firstVideoWriter
+        
+        //画像サイズを変える
+        let width = size.width
+        let height = size.height
+        
+        // AVAssetWriterInput
+        let outputSettings = [
+            AVVideoCodecKey: AVVideoCodecH264,
+            AVVideoWidthKey: width,
+            AVVideoHeightKey: height
+            ] as [String : Any]
+        writerInput = AVAssetWriterInput(mediaType: AVMediaType.video, outputSettings: outputSettings as [String : AnyObject])
+        videoWriter!.add(writerInput!)
+        
+        // AVAssetWriterInputPixelBufferAdaptor
+        adaptor = AVAssetWriterInputPixelBufferAdaptor(
+            assetWriterInput: writerInput!,
+            sourcePixelBufferAttributes: [
+                kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32ARGB),
+                kCVPixelBufferWidthKey as String: width,
+                kCVPixelBufferHeightKey as String: height,
+                ]
+        )
+        
+        writerInput?.expectsMediaDataInRealTime = true
+        
+        // 動画の生成開始
+        
+        // 生成できるか確認
+        if (!videoWriter!.startWriting()) {
+            // error
+            print("error videoWriter startWriting")
+        }
+        
+        // 動画生成開始
+        videoWriter!.startSession(atSourceTime: CMTime.zero)
+        
+        // pixel bufferを宣言
+        var buffer: CVPixelBuffer? = nil
+        
+        // 現在のフレームカウント
+        frameCount = 0
+        
+        if (!adaptor.assetWriterInput.isReadyForMoreMediaData) {
+            return
+        }
+        
+        // 動画の時間を生成(その画像の表示する時間/開始時点と表示時間を渡す)
+        let frameTime: CMTime = CMTimeMake(value: Int64(__int32_t(frameCount) * __int32_t(time)), timescale: fps)
+        //時間経過を確認(確認用)
+        let second = CMTimeGetSeconds(frameTime)
+        print(second)
+        
+        //画像のリサイズと整形
+        let resize = resizeImage(image: image, contentSize: imageSize)
+        
+        // CGImageからBufferを生成
+        buffer = self.pixelBufferFromCGImage(cgImage: resize.cgImage!)
+        
+        // 生成したBufferを追加
+        if (!adaptor.append(buffer!, withPresentationTime: frameTime)) {
+            // Error!
+            print("adaptError")
+            print(videoWriter!.error!)
+        }
+        
+        frameCount += 1
+        
+    }
+    
+    //２回め以降はこれを呼び出す
+    func createSecond(image:UIImage){
+        //videoWriterがなければ終了
+        if videoWriter == nil{
+            return
+        }
+        
+        // pixel bufferを宣言
+        var buffer: CVPixelBuffer? = nil
+        
+        if (!adaptor.assetWriterInput.isReadyForMoreMediaData) {
+            return
+        }
+        
+        // 動画の時間を生成(その画像の表示する時間/開始時点と表示時間を渡す)
+        let frameTime: CMTime = CMTimeMake(value: Int64(__int32_t(frameCount) * __int32_t(time)), timescale: fps)
+        //時間経過を確認(確認用)
+        let second = CMTimeGetSeconds(frameTime)
+        print(second)
+        
+        // CGImageからBufferを生成
+        let resize = resizeImage(image: image, contentSize: imageSize)
+        buffer = self.pixelBufferFromCGImage(cgImage: resize.cgImage!)
+        
+        // 生成したBufferを追加
+        if (!adaptor.append(buffer!, withPresentationTime: frameTime)) {
+            // Error!
+            print(videoWriter!.error!)
+        }
+        
+        print("frameCount :\(frameCount)")
+        frameCount += 1
+    }
+    
+    
+    //終わったら後始末をしてURLを返す
+    func finished(_ completion:@escaping (URL)->()){
+        // 動画生成終了
+        if writerInput == nil || videoWriter == nil{
+            return
+        }
+        writerInput!.markAsFinished()
+        videoWriter!.endSession(atSourceTime: CMTimeMake(value: Int64((__int32_t(frameCount)) *  __int32_t(time)), timescale: fps))
+        videoWriter!.finishWriting(completionHandler: {
+            // Finish!
+            print("movie created.")
+            self.writerInput = nil
+            if self.url != nil {
+                completion(self.url!)
+            }
+        })
+    }
+    
+    //ピクセルバッファへの変換
+    func pixelBufferFromCGImage(cgImage: CGImage) -> CVPixelBuffer {
+        
+        let options = [
+            kCVPixelBufferCGImageCompatibilityKey as String: true,
+            kCVPixelBufferCGBitmapContextCompatibilityKey as String: true
+        ]
+        
+        var pxBuffer: CVPixelBuffer? = nil
+        
+        let width = cgImage.width
+        let height = cgImage.height
+        
+        CVPixelBufferCreate(kCFAllocatorDefault,
+                            width,
+                            height,
+                            kCVPixelFormatType_32ARGB,
+                            options as CFDictionary?,
+                            &pxBuffer)
+        
+        CVPixelBufferLockBaseAddress(pxBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        
+        let pxdata = CVPixelBufferGetBaseAddress(pxBuffer!)
+        
+        let bitsPerComponent: size_t = 8
+        let bytesPerRow: size_t = 4 * width
+        
+        let rgbColorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext(data: pxdata,
+                                width: width,
+                                height: height,
+                                bitsPerComponent: bitsPerComponent,
+                                bytesPerRow: bytesPerRow,
+                                space: rgbColorSpace,
+                                bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue)
+        
+        context?.draw(cgImage, in: CGRect(x:0, y:0, width:CGFloat(width),height:CGFloat(height)))
+        
+        CVPixelBufferUnlockBaseAddress(pxBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        
+        return pxBuffer!
+    }
+    
+    
+    //リサイズが必要なら
+    func resizeImage(image:UIImage,contentSize:CGSize) -> UIImage{
+        // リサイズ処理
+        let origWidth  = Int(image.size.width)
+        let origHeight = Int(image.size.height)
+        var resizeWidth:Int = 0, resizeHeight:Int = 0
+        if (origWidth < origHeight) {
+            resizeWidth = Int(contentSize.width)
+            resizeHeight = origHeight * resizeWidth / origWidth
+        } else {
+            resizeHeight = Int(contentSize.height)
+            resizeWidth = origWidth * resizeHeight / origHeight
+        }
+        
+        let resizeSize = CGSize(width:CGFloat(resizeWidth), height:CGFloat(resizeHeight))
+        UIGraphicsBeginImageContext(resizeSize)
+        
+        image.draw(in: CGRect(x:0,y: 0,width: CGFloat(resizeWidth), height:CGFloat(resizeHeight)))
+        
+        let resizeImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // 切り抜き処理
+        
+        let cropRect  = CGRect(
+            x:CGFloat((resizeWidth - Int(contentSize.width)) / 2),
+            y:CGFloat((resizeHeight - Int(contentSize.height)) / 2),
+            width:contentSize.width, height:contentSize.height)
+        let cropRef   = (resizeImage?.cgImage)!.cropping(to: cropRect)
+        let cropImage = UIImage(cgImage: cropRef!)
+        
+        return cropImage
     }
 }
 
