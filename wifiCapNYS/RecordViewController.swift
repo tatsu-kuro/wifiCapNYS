@@ -223,8 +223,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             self.quaternionView.setNeedsLayout()
         }
         if recordingFlag==true{
-            var image=takeScreenShot()
+            let image=takeScreenShot()
             cameraView.image=image
+            createSecond(image: image)
         }
     }
     func setMotion(){
@@ -454,6 +455,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         motionManager.stopDeviceMotionUpdates()
         killTimer()
+        finished { (url) in
+            DispatchQueue.main.async{
+                
+                let avPlayer = AVPlayer(url:url)
+//                self.avPlayerVC.player = avPlayer
+//                avPlayer.play()
+            }
+        }
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
 
@@ -468,16 +477,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=true
         stopButton.isHidden=false
         exitButton.isHidden=true
-  
-       if let soundUrl = URL(string:
-                               "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
-           AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
-           AudioServicesPlaySystemSound(soundIdx)
-       }
-
-       setMotion()
+        
+        if let soundUrl = URL(string:
+                                "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+            AudioServicesPlaySystemSound(soundIdx)
+        }
+        
+        setMotion()
+        createFirst(image:takeScreenShot() ,size:CGSize(width: 472, height: 354))
     }
-
+    
      @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
         if recordingFlag==true{
             return
@@ -523,7 +533,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         isFirstTap = true
     }
     //保存先のURL
-    var url:URL?
+    var capUrl:URL?
     
     //フレーム数
     var frameCount = 0
@@ -544,9 +554,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func createFirst(image:UIImage,size:CGSize){
         
         //保存先のURL
-        url = NSURL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("\(NSUUID().uuidString).mp4")
+        capUrl = NSURL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("\(NSUUID().uuidString).mp4")
         // AVAssetWriter
-        guard let firstVideoWriter = try? AVAssetWriter(outputURL: url!, fileType: AVFileType.mov) else {
+        guard let firstVideoWriter = try? AVAssetWriter(outputURL: capUrl!, fileType: AVFileType.mov) else {
             fatalError("AVAssetWriter error")
         }
         videoWriter = firstVideoWriter
@@ -650,6 +660,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print(videoWriter!.error!)
         }
         
+        if frameCount==300{
+            let ima=resize
+        }
         print("frameCount :\(frameCount)")
         frameCount += 1
     }
@@ -667,8 +680,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             // Finish!
             print("movie created.")
             self.writerInput = nil
-            if self.url != nil {
-                completion(self.url!)
+            if self.capUrl != nil {
+                completion(self.capUrl!)
             }
         })
     }
