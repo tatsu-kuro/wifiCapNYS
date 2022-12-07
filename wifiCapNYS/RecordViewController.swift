@@ -161,12 +161,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setMotion()
 
         setButtons()
-//        currentTime.isHidden=true
-//        startButton.alpha=0.25
         startButton.isHidden=false
         stopButton.isHidden=true
-//        stopButton.isEnabled=false
-        //ipCamera(320*240)
         let left=(realWidth-realHeight*320/240)/2
         ipWebView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight))
         loadWebView()
@@ -238,20 +234,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
         motionManager.deviceMotionUpdateInterval = 1 / 100//が最速の模様
-          degreeAtResetHead = -1
+        degreeAtResetHead = -1
         cameraType=1
         motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { [self] (motion, error) in
             guard let motion = motion, error == nil else { return }
-            //            self.gyro.append(CFAbsoluteTimeGetCurrent())
-            //            self.gyro.append(motion.rotationRate.y)//
             while self.readingFlag==true{
-//                sleep(UInt32(0.1))
                 usleep(1000)//0.001sec
             }
             let quat = motion.attitude.quaternion
             
             let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
-
+            
             if landscapeSide==0{
                 self.quater0 = quat.w
                 self.quater1 = -quat.y
@@ -275,13 +268,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         })
     }
-  
+    
     func set_rpk_ppk() {
         let faceR:CGFloat = 40//hankei
         var frontBack:Int = 0
         cameraType=1
-//        let camera = Int(camera.getUserDefaultInt(str: "cameraType", ret: 0))
-//        i
 //        if cameraType == 0{//front camera
 //            frontBack = 180
 //        }
@@ -491,202 +482,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
        setMotion()
     }
 
-    var tapInterval=CFAbsoluteTimeGetCurrent()
-    @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
+     @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
         if recordingFlag==true{
             return
         }
         setMotion()
     }
-//    @objc func onFocusValueChange(){
-//            setFocus(focus:focusBar.value)
-//            UserDefaults.standard.set(focusBar.value, forKey: "focusValue")
-//    }
-//    var focusChangeable:Bool=true
-//    func setFocus(focus:Float) {//focus 0:最接近　0-1.0
-//        focusChangeable=false
-//        if let device = videoDevice{
-//            if device.isFocusModeSupported(.autoFocus) && device.isFocusPointOfInterestSupported {
-//                print("focus_supported")
-//                focusValueLabel.text=(Int(focus*100)).description
-//
-//                do {
-//                    try device.lockForConfiguration()
-//                    device.focusMode = .locked
-//                    device.setFocusModeLocked(lensPosition: focus, completionHandler: { _ in
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-//                            device.unlockForConfiguration()
-//                        })
-//                    })
-//                    device.unlockForConfiguration()
-//                    focusChangeable=true
-//                }
-//                catch {
-//                    // just ignore
-//                    print("focuserror")
-//                }
-//            }else{
-//                print("focus_not_supported")
-//
-////                if cameraType==2{
-////                    setZoom(level: focus*4/10)//vHITに比べてすでに1/4にしてあるので
-////                    return
-////                }
-//            }
-//        }
-//    }
-//    @IBOutlet weak var isoBar: UISlider!
- 
-//    @objc func onExposeValueChange(){
-//        setExpose(expose:exposeBar.value)
-//        if setteiMode==2{
-//            UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
-//        }else{
-//            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
-//        }
-//    }
 
-//    func setExpose(expose:Float) {
-//
-//        if let currentDevice=videoDevice{
-//            exposeValueLabel.text=Int(expose*1000/80).description
-//
-//            do {
-//                try currentDevice.lockForConfiguration()
-//                defer { currentDevice.unlockForConfiguration() }
-//
-//                // 露出を設定
-//
-//                    currentDevice.exposureMode = .autoExpose
-//                    currentDevice.setExposureTargetBias(expose, completionHandler: nil)
-//
-////                    UserDefaults.standard.set(expose, forKey: "cameraBrightnessValue")
-//
-//            } catch {
-//                print("\(error.localizedDescription)")
-//            }
-//        }
-//    }
-//    func setIso(iso: Float) {
-//        if let currentDevice=videoDevice{
-//            do {
-//                try currentDevice.lockForConfiguration()
-//                defer { currentDevice.unlockForConfiguration() }
-//                // ISO感度を設定
-//                currentDevice.exposureMode = .custom
-//                currentDevice.setExposureModeCustom(duration: AVCaptureDevice.currentExposureDuration,
-//                                                    iso: iso,
-//                                                    completionHandler: nil)
-//
-//            } catch {
-//                print("\(error.localizedDescription)")
-//            }
-//        }
-//    }
-//
- /*   //debug用、AVAssetWriterの状態を見るため、そのうち消去
-    func printWriterStatus(writer: AVAssetWriter) {
-        print("recordingFlag=", recordingFlag)
-        switch writer.status {
-        case .unknown :
-            print("unknown")
-        case .writing :
-            print("writing")
-        case .completed :
-            print("completed")
-        case .failed :
-            print("failed")
-        case .cancelled :
-            print("cancelled")
-        default :
-            print("default")
-        }
-    }
-    func monoChromeFilter(_ input: CIImage, intensity: Double) -> CIImage? {
-        let ciFilter:CIFilter = CIFilter(name: "CIColorMonochrome")!
-        ciFilter.setValue(input, forKey: kCIInputImageKey)
-        ciFilter.setValue(CIColor(red: intensity, green: intensity, blue: intensity), forKey: "inputColor")
-        ciFilter.setValue(1.0, forKey: "inputIntensity")
-        return ciFilter.outputImage
-      }
-    func sepiaFilter(_ input: CIImage, intensity: Double) -> CIImage? {
-          let sepiaFilter = CIFilter(name: "CISepiaTone")
-          sepiaFilter?.setValue(input, forKey: kCIInputImageKey)
-          sepiaFilter?.setValue(intensity, forKey: kCIInputIntensityKey)
-          return sepiaFilter?.outputImage
-       }
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-     
-        if fileWriter.status == .writing && startTimeStamp == 0 {
-            startTimeStamp = sampleBuffer.outputPresentationTimeStamp.value
-        }
-
-        //全部UIImageで処理してるが、これでは遅いので全てCIImageで処理するように書き換えたほうがよさそう
-        guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            //フレームが取得できなかった場合にすぐ返る
-            print("unable to get image from sample buffer")
-            return
-        }
-        //backCamera->.right  frontCamera->.left
-        let frameCIImage = cameraType==0 ? CIImage(cvImageBuffer: frame).oriented(CGImagePropertyOrientation.right):CIImage(cvImageBuffer: frame).oriented(CGImagePropertyOrientation.left)
-        let matrix1 = CGAffineTransform(rotationAngle: -1*CGFloat.pi/2)
-//        let matrix = CGAffineTransform(scaleX: -1.5, y: 2.0)
-        //width:1280と設定しているが？
-        //width:1920で飛んで来ている
-          let matrix2 = CGAffineTransform(translationX: 0, y: CGFloat(1080))
-//        let matrix2 = CGAffineTransform(translationX: 0, y: CGFloat(iCapNYSWidth))
-        //2つのアフィンを組み合わせ
-        let matrix = matrix1.concatenating(matrix2);
-        
-        let rotatedCIImage = monoChromeFilter(frameCIImage.transformed(by: matrix),intensity: 0.9)
-        
-//        print(rotatedCIImage.cgImage?.width)
-//        print("width*height",frameCIImage.extent.width,frameCIImage.extent.height)
-//        print("width*height",rotatedCIImage.cgImage?.width ?? <#default value#>! as Any,rotatedCIImage.cgImage??.height)
-        readingFlag=true
-        let qCG0=CGFloat(quater0)
-        let qCG1=CGFloat(quater1)
-        let qCG2=CGFloat(quater2)
-        let qCG3=CGFloat(quater3)
-//        print(quater0,quater1,quater2,quater3)
-
-        readingFlag=false
-        
-//        let quaterImage = drawHead(width: 130, height: 130, radius: 50+10,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
-        let quaterImage = drawHead(width: realHeight/2.5, height: realHeight/2.5, radius: realHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
-        DispatchQueue.main.async {
-          self.quaternionView.image = quaterImage
-          self.quaternionView.setNeedsLayout()
-        }
-        //frameの時間計算, sampleBufferの時刻から算出
-        let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - startTimeStamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
-        let frameUIImage = UIImage(ciImage: rotatedCIImage!)
-//        print(frameUIImage.size.width,frameUIImage.size.height)
-//        let iCapNYSH=CGFloat(iCapNYSHeight)
-//        let iCapNYSW=CGFloat(iCapNYSWidth)
-        UIGraphicsBeginImageContext(CGSize(width: iCapNYSWidthF, height: iCapNYSHeightF))
-        frameUIImage.draw(in: CGRect(x:0, y:0, width:iCapNYSWidthF, height: iCapNYSHeightF))
-        //let r=view.bounds.height/view.bounds.width
-//        let r=iCapNYSH/iCapNYSW
-        quaterImage.draw(in: CGRect(x:iCapNYSWidthF120, y:iCapNYSWidthF120, width:iCapNYSHeightF5,height: iCapNYSHeightF5))
-        //写真で再生すると左上の頭位アニメが隠れてしまうので、中央右にも表示。
-//        quaterImage.draw(in: CGRect(x:0/*CGFloat(iCapNYSHeight)-quaterImage.size.width*/, y:CGFloat(iCapNYSWidth)*3/4, width:quaterImage.size.width, height:quaterImage.size.height))
-        let renderedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        let renderedBuffer = (renderedImage?.toCVPixelBuffer())!
-//        print(String(format:"%.5f,%.5f,%.5f,%.5f",quater0,quater1,quater2,quater3))
-//        printWriterStatus(writer: fileWriter)
-        if (recordingFlag == true && startTimeStamp != 0 && fileWriter!.status == .writing) {
-            if fileWriterInput?.isReadyForMoreMediaData != nil{
-                //for speed check
-                fileWriterAdapter.append(renderedBuffer, withPresentationTime: frameTime)
-            }
-        } else {
-            //print("not writing")
-        }
-    }*/
-    //movie creator
+    //movie creator***********************************
     //１枚めの画像かどうか
     var isFirstTap = true
     

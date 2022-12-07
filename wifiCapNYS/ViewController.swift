@@ -26,7 +26,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     @IBOutlet weak var cameraButton: UIButton!
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var topLabel: UILabel!
+//    @IBOutlet weak var topLabel: UILabel!
     private var videoCnt: [Int] = [] {
         didSet {
             tableView?.reloadData()
@@ -240,12 +240,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         if someFunctions.firstLang().contains("ja"){
             how2Button.setTitle("使い方", for: .normal)
-    //        setteiButtonAuto.setTitle("設定", for: .normal)
+            
             setteiButtonManual.setTitle("設定", for: .normal)
-     //       steelLabel.text="座って記録\n20秒"
-     //       postualLabel.text="横になって記録\n90秒"
         }
-    }
+       }
   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
