@@ -862,7 +862,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let by1=realHeight-bh-sp-height-bh*2/3
         let by=realHeight-(bh+sp)*2-height-bh*2/3
         let x0=leftPadding+sp*2
-        
+        cameraView.frame=CGRect(x:0,y:0,width: 64,height: 48)
 //        previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
 //        let switchHeight=previewSwitch.frame.height
 //        previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
