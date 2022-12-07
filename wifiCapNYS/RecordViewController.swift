@@ -25,7 +25,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let camera = myFunctions()
     var cameraType:Int = 1//0
     
-    @IBOutlet weak var ipCopyView: UIImageView!
     @IBOutlet weak var ipWebView: WKWebView!
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
@@ -148,7 +147,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var cameraView:UIImageView!
     
 //     @IBOutlet weak var explanationLabel: UILabel!
-    @IBOutlet weak var whiteView: UIImageView!
+//    @IBOutlet weak var whiteView: UIImageView!
     
 //    @IBOutlet weak var arrowUpDown: UIImageView!
    
@@ -252,7 +251,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let myURL1 = URL(string: "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1")
         let myURL2 = URL(string:"http://192.168.82.1")
         let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
-        ipWebView.load(URLRequest(url: myURL2!))
+        let myURL4 = URL(string: "http://192.168.0.8:9000")
+        ipWebView.load(URLRequest(url: myURL4!))
     }
 //    func takeScreenShot() -> UIImage {
 //        let width: CGFloat = UIScreen.main.bounds.size.width
@@ -862,7 +862,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let by1=realHeight-bh-sp-height-bh*2/3
         let by=realHeight-(bh+sp)*2-height-bh*2/3
         let x0=leftPadding+sp*2
-        cameraView.frame=CGRect(x:0,y:0,width: 64,height: 48)
+        cameraView.frame=CGRect(x:leftPadding,y:topPadding,width: 112,height: 84)
 //        previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
 //        let switchHeight=previewSwitch.frame.height
 //        previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
