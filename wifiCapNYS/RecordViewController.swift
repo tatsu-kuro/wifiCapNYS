@@ -254,17 +254,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
         ipWebView.load(URLRequest(url: myURL2!))
     }
-    func takeScreenShot() -> UIImage {
-        let width: CGFloat = UIScreen.main.bounds.size.width
-        let height: CGFloat = UIScreen.main.bounds.size.height
-        let size = CGSize(width: width, height: height)
-        
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
-        let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return screenShotImage
-    }
+//    func takeScreenShot() -> UIImage {
+//        let width: CGFloat = UIScreen.main.bounds.size.width
+//        let height: CGFloat = UIScreen.main.bounds.size.height
+//        let capHeight=view.bounds.height-topPadding-bottomPadding
+//        let capWidth=capHeight*4/3
+//        let size = CGSize(width: capWidth, height: capHeight)
+//        let capRect = CGRect(x:(width-capWidth)/2,y:topPadding,width: capWidth,height: capHeight)
+//        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+//        view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+//        let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
+//        UIGraphicsEndImageContext()
+//        return screenShotImage
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -357,22 +359,36 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         }
     }
+    func takeScreenShot() -> UIImage {
+        let width: CGFloat = UIScreen.main.bounds.size.width
+        let height: CGFloat = UIScreen.main.bounds.size.height
+        let capHeight=view.bounds.height-topPadding-bottomPadding
+        let capWidth=capHeight*4/3
+        let size = CGSize(width: capWidth, height: capHeight)
+        let capRect = CGRect(x:(capWidth-width)/2,y:topPadding,width:view.bounds.width,height:view.bounds.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        view.drawHierarchy(in:capRect, afterScreenUpdates: true)
+        let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return screenShotImage
+    }
     @objc func update_motion(tm: Timer) {
-      
-            readingFlag=true
-            let qCG0=CGFloat(quater0)
-            let qCG1=CGFloat(quater1)
-            let qCG2=CGFloat(quater2)
-            let qCG3=CGFloat(quater3)
-    //        print(quater0,quater1,quater2,quater3)
-
-            readingFlag=false
- 
-            let quaterImage = drawHead(width: realHeight/2.5, height: realHeight/2.5, radius: realHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
-            DispatchQueue.main.async {
-              self.quaternionView.image = quaterImage
-              self.quaternionView.setNeedsLayout()
-            }
+        readingFlag=true
+        let qCG0=CGFloat(quater0)
+        let qCG1=CGFloat(quater1)
+        let qCG2=CGFloat(quater2)
+        let qCG3=CGFloat(quater3)
+        //        print(quater0,quater1,quater2,quater3)
+        readingFlag=false
+        let quaterImage = drawHead(width: realHeight/2.5, height: realHeight/2.5, radius: realHeight/5-1,qOld0:qCG0, qOld1: qCG1, qOld2:qCG2,qOld3:qCG3)
+        DispatchQueue.main.async {
+            self.quaternionView.image = quaterImage
+            self.quaternionView.setNeedsLayout()
+        }
+        if recordingFlag==true{
+            var image=takeScreenShot()
+            cameraView.image=image
+        }
     }
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
