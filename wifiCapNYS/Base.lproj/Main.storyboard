@@ -186,7 +186,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="questionmark.square.fill" catalog="system"/>
                                 <connections>
-                                    <action selector="onCameraChangeButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="3bs-M0-ret"/>
+                                    <action selector="onHatenaButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="uaM-pY-uoJ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GaH-k7-GlQ">
@@ -247,10 +247,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="tfD-sj-vez"/>
                     <connections>
-                        <outlet property="cameraChangeButton" destination="znc-Gv-DbE" id="KaG-mU-oFO"/>
                         <outlet property="cameraView" destination="ZdO-VK-uDo" id="Sf8-EB-6k2"/>
                         <outlet property="currentTime" destination="eJp-tL-Pfc" id="vx3-sB-2CR"/>
                         <outlet property="exitButton" destination="GaH-k7-GlQ" id="P3d-YT-pSI"/>
+                        <outlet property="hatenaButton" destination="znc-Gv-DbE" id="lky-fb-CKn"/>
                         <outlet property="ipWebView" destination="DWZ-OI-FD0" id="rEI-cT-EwW"/>
                         <outlet property="quaternionView" destination="E7F-hC-6hQ" id="fMB-sK-wwe"/>
                         <outlet property="startButton" destination="5bD-tH-WDM" id="jTC-cZ-nLP"/>

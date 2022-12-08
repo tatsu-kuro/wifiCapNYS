@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import AVKit
 import WebKit
 import AVFoundation
 import GLKit
 import Photos
 import CoreMotion
 import VideoToolbox
+import MediaPlayer
+
 extension UIColor {
     func image(size: CGSize) -> UIImage {
         return UIGraphicsImageRenderer(size: size).image { rendererContext in
@@ -109,8 +112,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView:UIImageView!
-    @IBOutlet weak var cameraChangeButton: UIButton!
-  
+   
+    @IBOutlet weak var hatenaButton: UIButton!
     func killTimer(){
         if timer?.isValid == true {
             timer!.invalidate()
@@ -141,9 +144,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let myURL2 = URL(string:"http://192.168.82.1")
         let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
         let myURL4 = URL(string: "http://192.168.0.8:9000")
-        ipWebView.load(URLRequest(url: myURL3!))
+        ipWebView.load(URLRequest(url: myURL2!))
     }
 
+    @IBAction func onHatenaButton(_ sender: Any) {
+//        ipWebView.scrollView.zoom(to: CGRect(x:330,y:8,width: 320,height: 240), animated: true)
+//        ipWebView.scrollView.zoom(to: CGRect(x:150,y:0,width: 300,height: 225), animated: true)
+        dispFilesInDoc()
+        print("dispfilesindoc")
+
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -162,15 +172,22 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let left=(realWidth-realHeight*320/240)/2
         ipWebView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight))
         loadWebView()
-        self.view.addSubview(ipWebView)
+         self.view.addSubview(ipWebView)
         ipWebView.scrollView.isScrollEnabled = false
         ipWebView.scrollView.delegate = self
   
         quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
         self.view.bringSubviewToFront(quaternionView)
         timer_motion = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update_motion), userInfo: nil, repeats: true)
+//        avPlayerVC = AVPlayerViewController()
+//        avPlayerVC.view.frame = CGRect(x:0,y:0,width:imageSize.width / 4,height:imageSize.height / 4)
+//        avPlayerVC.view.center = CGPoint(x:view.bounds.width / 2,y:view.bounds.height / 4)
+//        avPlayerVC.view.backgroundColor = UIColor.gray
+//        self.addChild(avPlayerVC)
+//        self.view.addSubview(avPlayerVC.view)
+
     }
-  
+
     //MARK: - UIScrollViewDelegate
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
         scrollView.pinchGestureRecognizer?.isEnabled = false
@@ -196,7 +213,35 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             onClickStopButton(0)
         }
     }
+    func dispFilesInDoc(){
+        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        do {
+            let contentUrls = try FileManager.default.contentsOfDirectory(at: documentDirectoryURL, includingPropertiesForKeys: nil)
+            let files = contentUrls.map{$0.lastPathComponent}
+            
+            for i in 0..<files.count{
+                print(files[i])
+            }
+        } catch {
+            print("none?")
+        }
+    }
     func takeScreenShot() -> UIImage {
+        let width: CGFloat = UIScreen.main.bounds.size.width
+        let height: CGFloat = UIScreen.main.bounds.size.height
+        let bW=view.bounds.width
+        let bH=view.bounds.height
+        let capHeight=bH*0.93//-topPadding-bottomPadding
+        let capWidth=capHeight*4/3
+        let size = CGSize(width: capWidth, height: capHeight)
+        let capRect = CGRect(x:(capWidth-bW)/2,y:topPadding,width:width,height:height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        view.drawHierarchy(in:capRect, afterScreenUpdates: true)
+        let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return screenShotImage
+    }
+    func takeScreenShot1() -> UIImage {
         let width: CGFloat = UIScreen.main.bounds.size.width
         let height: CGFloat = UIScreen.main.bounds.size.height
         let capHeight=view.bounds.height-topPadding-bottomPadding
@@ -211,6 +256,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     @objc func update_motion(tm: Timer) {
         readingFlag=true
+
         let qCG0=CGFloat(quater0)
         let qCG1=CGFloat(quater1)
         let qCG2=CGFloat(quater2)
@@ -225,7 +271,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if recordingFlag==true{
             let image=takeScreenShot()
             cameraView.image=image
-            createSecond(image: image)
+           createSecond(image: image)
         }
     }
     func setMotion(){
@@ -410,7 +456,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
  
     override func viewDidAppear(_ animated: Bool) {
-
+//        ipWebView.scrollView.zoom(to: CGRect(x:330,y:8,width: 320,height: 240), animated: true)
     }
     func setProperty(label:UILabel,radius:CGFloat){
         label.layer.masksToBounds = true
@@ -428,9 +474,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let by1=realHeight-bh-sp-height-bh*2/3
         let by=realHeight-(bh+sp)*2-height-bh*2/3
         let x0=leftPadding+sp*2
-        cameraView.frame=CGRect(x:leftPadding,y:topPadding,width: 112,height: 84)
+        cameraView.frame=CGRect(x:leftPadding,y:topPadding,width: 100,height: 75)
        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
-        camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(hatenaButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
@@ -444,9 +490,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            explanationLabel.text=explanationText + "Record Settings"
         }
     }
-  
+    var avPlayerVC:AVPlayerViewController!
+
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
+        avPlayerVC = AVPlayerViewController()
+        avPlayerVC.view.frame = CGRect(x:0,y:0,width:imageSize.width / 4,height:imageSize.height / 4)
+        avPlayerVC.view.center = CGPoint(x:view.bounds.width / 2,y:view.bounds.height / 4)
+        avPlayerVC.view.backgroundColor = UIColor.gray
+        self.addChild(avPlayerVC)
+        self.view.addSubview(avPlayerVC.view)
 
         if let soundUrl = URL(string:
                                 "/System/Library/Audio/UISounds/begin_record.caf"){
@@ -455,17 +508,44 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         motionManager.stopDeviceMotionUpdates()
         killTimer()
-        finished { (url) in
+        //動画生成終了を呼び出してURLを得る -> Playerにのせる
+        self.finished { (url) in
             DispatchQueue.main.async{
-                
                 let avPlayer = AVPlayer(url:url)
-//                self.avPlayerVC.player = avPlayer
-//                avPlayer.play()
+                self.avPlayerVC.player = avPlayer
+                avPlayer.play()
             }
         }
-        performSegue(withIdentifier: "fromRecord", sender: self)
+        isFirstTap = true
+//        performSegue(withIdentifier: "fromRecord", sender: self)
     }
-
+/*
+ //動画を生成する
+ @objc func createBtnTapped(){
+     //動画生成終了を呼び出してURLを得る -> Playerにのせる
+     movieCreator.finished { (url) in
+         DispatchQueue.main.async{
+             let avPlayer = AVPlayer(url:url)
+             self.avPlayerVC.player = avPlayer
+             avPlayer.play()
+         }
+     }
+     isFirstTap = true
+ }
+ 
+ 
+ 
+ @objc func createBtnTapped(){
+ //動画生成終了を呼び出してURLを得る -> Playerにのせる
+ movieCreator.finished { (url) in
+     DispatchQueue.main.async{
+         let avPlayer = AVPlayer(url:url)
+         self.avPlayerVC.player = avPlayer
+         avPlayer.play()
+     }
+ }
+ isFirstTap = true
+}*/
     @IBAction func onClickStartButton(_ sender: Any) {
 
         timerCnt=0
@@ -477,7 +557,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=true
         stopButton.isHidden=false
         exitButton.isHidden=true
-        
+//        try? FileManager.default.removeItem(atPath: TempFilePath)//deleteしておく
+ 
+
         if let soundUrl = URL(string:
                                 "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
             AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
@@ -524,7 +606,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //動画生成終了を呼び出してURLを得る -> Playerにのせる
         finished { (url) in
             DispatchQueue.main.async{
-                
+//                dispFilesInDoc()
 //                let avPlayer = AVPlayer(url:url)
 //                self.avPlayerVC.player = avPlayer
 //                avPlayer.play()
@@ -552,22 +634,24 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     //イチバン最初はこれを呼び出す
     func createFirst(image:UIImage,size:CGSize){
-        
+//         let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
         //保存先のURL
-        capUrl = NSURL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("\(NSUUID().uuidString).mp4")
-        // AVAssetWriter
+        capUrl = NSURL(fileURLWithPath: TempFilePath) as URL
+        try? FileManager.default.removeItem(atPath: TempFilePath)//消去しておく
+//        capUrl = NSURL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent("\(NSUUID().uuidString).mp4")
+ // AVAssetWriter
         guard let firstVideoWriter = try? AVAssetWriter(outputURL: capUrl!, fileType: AVFileType.mov) else {
             fatalError("AVAssetWriter error")
         }
         videoWriter = firstVideoWriter
-        
+        print(capUrl)
         //画像サイズを変える
         let width = size.width
         let height = size.height
         
         // AVAssetWriterInput
         let outputSettings = [
-            AVVideoCodecKey: AVVideoCodecH264,
+            AVVideoCodecKey: AVVideoCodecType.h264,
             AVVideoWidthKey: width,
             AVVideoHeightKey: height
             ] as [String : Any]
@@ -659,10 +743,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             // Error!
             print(videoWriter!.error!)
         }
-        
-        if frameCount==300{
-            let ima=resize
-        }
+  
         print("frameCount :\(frameCount)")
         frameCount += 1
     }
