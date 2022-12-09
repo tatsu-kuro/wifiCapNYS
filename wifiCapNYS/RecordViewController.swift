@@ -7,13 +7,13 @@
 
 import UIKit
 //import AVKit
-import WebKit
+//import WebKit
 import AVFoundation
 import GLKit
 import Photos
 import CoreMotion
 import VideoToolbox
-import MediaPlayer
+//import MediaPlayer
 
 extension UIColor {
     func image(size: CGSize) -> UIImage {
@@ -23,12 +23,12 @@ extension UIColor {
         }
     }
 }
-
-class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate,UIScrollViewDelegate {
+class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
+//class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate,UIScrollViewDelegate {
     let camera = myFunctions()
     var cameraType:Int = 1//0
     
-    @IBOutlet weak var ipWebView: WKWebView!
+//    @IBOutlet weak var ipWebView: WKWebView!
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
@@ -61,6 +61,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     //for gyro and face drawing
     var gyro = Array<Double>()
     let someFunctions = myFunctions()
+    @IBOutlet weak var mjpegImage: UIImageView!
+
+    func frame(image: UIImage) {
+        mjpegImage.image = image
+    }
+
+    var cameraService: CameraService?
+    let cameraURL =  URL(string:"http://192.168.82.1")//68.151:9000")
+
+    
+    
     override var shouldAutorotate: Bool {
         return false
     }
@@ -139,16 +150,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var bottomPadding:CGFloat=0
     var realWidth:CGFloat=0
     var realHeight:CGFloat=0
-    func loadWebView(){
-        /*
-        let myURL1 = URL(string: "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1")
-        let myURL2 = URL(string:"http://192.168.82.1")
-        let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
-        let myURL4 = URL(string: "http://192.168.0.8:9000")
-         */
-        let URL=URL(string:myFunctions().getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1"))
-        ipWebView.load(URLRequest(url: URL!))
-    }
+//    func loadWebView(){
+//        /*
+//        let myURL1 = URL(string: "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1")
+//        let myURL2 = URL(string:"http://192.168.82.1")
+//        let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
+//        let myURL4 = URL(string: "http://192.168.0.8:9000")
+//         */
+//        let URL=URL(string:myFunctions().getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1"))
+//        ipWebView.load(URLRequest(url: URL!))
+//    }
 
     @IBAction func onHatenaButton(_ sender: Any) {
 //        ipWebView.scrollView.zoom(to: CGRect(x:330,y:8,width: 320,height: 240), animated: true)
@@ -174,12 +185,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=false
         stopButton.isHidden=true
         let left=(realWidth-realHeight*320/240)/2
-        ipWebView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight))
-        loadWebView()
-         self.view.addSubview(ipWebView)
-        ipWebView.scrollView.isScrollEnabled = false
-        ipWebView.scrollView.delegate = self
-  
+//        ipWebView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight))
+//        loadWebView()
+//         self.view.addSubview(ipWebView)
+//        ipWebView.scrollView.isScrollEnabled = false
+//        ipWebView.scrollView.delegate = self
+        cameraService = CameraService(delegate: self)
+        cameraService!.play(url: cameraURL!)
+
         quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
         self.view.bringSubviewToFront(quaternionView)
         timer_motion = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update_motion), userInfo: nil, repeats: true)
@@ -188,9 +201,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     //MARK: - UIScrollViewDelegate
-    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
-        scrollView.pinchGestureRecognizer?.isEnabled = false
-    }
+//    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+//        scrollView.pinchGestureRecognizer?.isEnabled = false
+//    }
     override var prefersStatusBarHidden: Bool {
         return true
     }
