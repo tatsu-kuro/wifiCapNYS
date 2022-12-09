@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import AVKit
+//import AVKit
 import WebKit
 import AVFoundation
 import GLKit
@@ -183,12 +183,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
         self.view.bringSubviewToFront(quaternionView)
         timer_motion = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update_motion), userInfo: nil, repeats: true)
-//        avPlayerVC = AVPlayerViewController()
-//        avPlayerVC.view.frame = CGRect(x:0,y:0,width:imageSize.width / 4,height:imageSize.height / 4)
-//        avPlayerVC.view.center = CGPoint(x:view.bounds.width / 2,y:view.bounds.height / 4)
-//        avPlayerVC.view.backgroundColor = UIColor.gray
-//        self.addChild(avPlayerVC)
-//        self.view.addSubview(avPlayerVC.view)
         maxTimeLimit=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
 
     }
