@@ -494,12 +494,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
-        avPlayerVC = AVPlayerViewController()
-        avPlayerVC.view.frame = CGRect(x:0,y:00,width:imageSize.width / 4,height:imageSize.height / 4)
-        avPlayerVC.view.center = CGPoint(x:view.bounds.width / 2,y:view.bounds.height / 4+50)
-        avPlayerVC.view.backgroundColor = UIColor.gray
-        self.addChild(avPlayerVC)
-        self.view.addSubview(avPlayerVC.view)
+//        avPlayerVC = AVPlayerViewController()
+//        avPlayerVC.view.frame = CGRect(x:0,y:00,width:imageSize.width / 4,height:imageSize.height / 4)
+//        avPlayerVC.view.center = CGPoint(x:view.bounds.width / 2,y:view.bounds.height / 4+50)
+//        avPlayerVC.view.backgroundColor = UIColor.gray
+//        self.addChild(avPlayerVC)
+//        self.view.addSubview(avPlayerVC.view)
 
         if let soundUrl = URL(string:
                                 "/System/Library/Audio/UISounds/begin_record.caf"){
@@ -513,14 +513,49 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         self.finished { (url) in
             DispatchQueue.main.async{
                 capFinishedFlag=true
-                let avPlayer = AVPlayer(url:url)
-                self.avPlayerVC.player = avPlayer
-                avPlayer.play()
+                print("url:",url)
+//                let avPlayer = AVPlayer(url:url)
+//                self.avPlayerVC.player = avPlayer
+//                avPlayer.play()
             }
         }
-   
-//        isFirstTap = true
-//        performSegue(withIdentifier: "fromRecord", sender: self)
+        if FileManager.default.fileExists(atPath: TempFilePath){
+            print("tempFileExists")
+        }
+        let fileURL = URL(fileURLWithPath: TempFilePath)
+        if camera.albumExists()==true{
+            PHPhotoLibrary.shared().performChanges({ [self] in
+                //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
+                let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
+                let albumChangeRequest = PHAssetCollectionChangeRequest(for:camera.getPHAssetcollection())
+                let placeHolder = assetRequest.placeholderForCreatedAsset
+                albumChangeRequest?.addAssets([placeHolder!] as NSArray)
+                //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
+                print("file add to album")
+            }) { [self] (isSuccess, error) in
+                if isSuccess {
+                    // 保存した画像にアクセスする為のimageIDを返却
+                    //completionBlock(imageID)
+                    print("success")
+                    self.saved2album=true
+                } else {
+                    //failureBlock(error)
+                    print("fail")
+                    //                print(error)
+                    self.saved2album=true
+                }
+            }
+        }else{
+            //アプリ起動中にアルバムを削除して録画するとここを通る。
+            stopButton.isHidden=true
+            //と変更することで、Exitボタンで帰った状態にする。
+        }
+
+        while saved2album==false{
+            sleep(UInt32(0.1))
+        }
+ //        isFirstTap = true
+        performSegue(withIdentifier: "fromRecord", sender: self)
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
