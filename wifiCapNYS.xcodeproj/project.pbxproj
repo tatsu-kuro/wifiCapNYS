@@ -21,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6921066129437E7E0000C0FB /* wifiCapNYS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = wifiCapNYS.entitlements; sourceTree = "<group>"; };
 		6945B1A625EB207400A52272 /* myFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myFunctions.swift; sourceTree = "<group>"; };
 		6945E7D82519145F00E16DDB /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		6945E7DB25196C3600E16DDB /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +74,7 @@
 		69E22890251834490004E53C /* wifiCapNYS */ = {
 			isa = PBXGroup;
 			children = (
+				6921066129437E7E0000C0FB /* wifiCapNYS.entitlements */,
 				69E22891251834490004E53C /* AppDelegate.swift */,
 				69E22893251834490004E53C /* SceneDelegate.swift */,
 				69E22895251834490004E53C /* ViewController.swift */,
@@ -316,8 +318,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = wifiCapNYS/wifiCapNYS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.4;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = wifiCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -325,8 +328,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.wifiCapNYS;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.wifiCapNYS2022;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -338,8 +341,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = wifiCapNYS/wifiCapNYS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.4;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = wifiCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -347,8 +351,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.wifiCapNYS;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.wifiCapNYS2022;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
