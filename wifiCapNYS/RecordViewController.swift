@@ -185,7 +185,7 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         startButton.isHidden=false
         stopButton.isHidden=true
         let left=(realWidth-realHeight*320/240)/2
-//        ipWebView = WKWebView.init(frame: CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight))
+        mjpegImage.frame=CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight)
 //        loadWebView()
 //         self.view.addSubview(ipWebView)
 //        ipWebView.scrollView.isScrollEnabled = false
