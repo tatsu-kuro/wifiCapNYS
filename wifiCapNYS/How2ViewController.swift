@@ -44,9 +44,9 @@ class How2ViewController: UIViewController {
         // 画面サイズ取得
         scrollView.frame = CGRect(x:left,y:top,width: ww,height: wh)
         someFunctions.setButtonProperty(exitButton,x:left+bw*6+sp*8,y:by,w:bw,h:bh,UIColor.darkGray)
-        var img = UIImage(named:"how2Eng")!
+        var img = UIImage(named:"helpEng")!
         if someFunctions.firstLang().contains("ja"){
-            img = UIImage(named: "how2")!
+            img = UIImage(named: "helpJap")!
         }
         // 画像のサイズ
         let imgW = img.size.width
