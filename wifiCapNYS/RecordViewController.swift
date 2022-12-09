@@ -111,7 +111,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var currentTime: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var quaternionView: UIImageView!
-    @IBOutlet weak var cameraView:UIImageView!
+//    @IBOutlet weak var cameraView:UIImageView!
    
     @IBOutlet weak var hatenaButton: UIButton!
     func killTimer(){
@@ -140,11 +140,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var realWidth:CGFloat=0
     var realHeight:CGFloat=0
     func loadWebView(){
+        /*
         let myURL1 = URL(string: "https://www.youtube.com/embed/live_stream?channel=UCMvoqnZFzcPubp4zErbDYlQ&amp;autoplay=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;mute=1&amp;playsinline=1")
         let myURL2 = URL(string:"http://192.168.82.1")
         let myURL3 = URL(string: "https://www.shaku6.com/temp/temp.html")
         let myURL4 = URL(string: "http://192.168.0.8:9000")
-        ipWebView.load(URLRequest(url: myURL2!))
+         */
+        let URL=URL(string:myFunctions().getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1"))
+        ipWebView.load(URLRequest(url: URL!))
     }
 
     @IBAction func onHatenaButton(_ sender: Any) {
@@ -203,11 +206,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @objc func update(tm: Timer) {
         timerCnt += 1
         currentTime.text=String(format:"%01d",(timerCnt)/60) + ":" + String(format: "%02d",(timerCnt)%60)
-        if timerCnt%2==1{
-            stopButton.tintColor=UIColor.systemRed
-        }else{
-            stopButton.tintColor=UIColor.systemOrange
-        }
+//        if timerCnt%2==1{
+//            stopButton.tintColor=UIColor.systemRed
+//        }else{
+//            stopButton.tintColor=UIColor.systemOrange
+//        }
         
         if timerCnt > 30*60*5{
             onClickStopButton(0)
@@ -270,7 +273,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         if recordingFlag==true{
             let image=takeScreenShot()
-            cameraView.image=image
+//            cameraView.image=image
            createSecond(image: image)
         }
     }
@@ -474,9 +477,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let by1=realHeight-bh-sp-height-bh*2/3
         let by=realHeight-(bh+sp)*2-height-bh*2/3
         let x0=leftPadding+sp*2
-        cameraView.frame=CGRect(x:leftPadding,y:topPadding,width: 100,height: 75)
+//        cameraView.frame=CGRect(x:leftPadding,y:topPadding,width: 100,height: 75)
        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(hatenaButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
+        hatenaButton.isHidden=true
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
@@ -490,16 +494,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            explanationLabel.text=explanationText + "Record Settings"
         }
     }
-    var avPlayerVC:AVPlayerViewController!
-
+ 
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
-//        avPlayerVC = AVPlayerViewController()
-//        avPlayerVC.view.frame = CGRect(x:0,y:00,width:imageSize.width / 4,height:imageSize.height / 4)
-//        avPlayerVC.view.center = CGPoint(x:view.bounds.width / 2,y:view.bounds.height / 4+50)
-//        avPlayerVC.view.backgroundColor = UIColor.gray
-//        self.addChild(avPlayerVC)
-//        self.view.addSubview(avPlayerVC.view)
 
         if let soundUrl = URL(string:
                                 "/System/Library/Audio/UISounds/begin_record.caf"){
