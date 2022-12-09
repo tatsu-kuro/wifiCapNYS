@@ -495,8 +495,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
         avPlayerVC = AVPlayerViewController()
-        avPlayerVC.view.frame = CGRect(x:0,y:0,width:imageSize.width / 4,height:imageSize.height / 4)
-        avPlayerVC.view.center = CGPoint(x:view.bounds.width / 2,y:view.bounds.height / 4)
+        avPlayerVC.view.frame = CGRect(x:0,y:00,width:imageSize.width / 4,height:imageSize.height / 4)
+        avPlayerVC.view.center = CGPoint(x:view.bounds.width / 2,y:view.bounds.height / 4+50)
         avPlayerVC.view.backgroundColor = UIColor.gray
         self.addChild(avPlayerVC)
         self.view.addSubview(avPlayerVC.view)
@@ -509,43 +509,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         motionManager.stopDeviceMotionUpdates()
         killTimer()
         //動画生成終了を呼び出してURLを得る -> Playerにのせる
+        var capFinishedFlag=false
         self.finished { (url) in
             DispatchQueue.main.async{
+                capFinishedFlag=true
                 let avPlayer = AVPlayer(url:url)
                 self.avPlayerVC.player = avPlayer
                 avPlayer.play()
             }
         }
-        isFirstTap = true
+   
+//        isFirstTap = true
 //        performSegue(withIdentifier: "fromRecord", sender: self)
     }
-/*
- //動画を生成する
- @objc func createBtnTapped(){
-     //動画生成終了を呼び出してURLを得る -> Playerにのせる
-     movieCreator.finished { (url) in
-         DispatchQueue.main.async{
-             let avPlayer = AVPlayer(url:url)
-             self.avPlayerVC.player = avPlayer
-             avPlayer.play()
-         }
-     }
-     isFirstTap = true
- }
- 
- 
- 
- @objc func createBtnTapped(){
- //動画生成終了を呼び出してURLを得る -> Playerにのせる
- movieCreator.finished { (url) in
-     DispatchQueue.main.async{
-         let avPlayer = AVPlayer(url:url)
-         self.avPlayerVC.player = avPlayer
-         avPlayer.play()
-     }
- }
- isFirstTap = true
-}*/
+
     @IBAction func onClickStartButton(_ sender: Any) {
 
         timerCnt=0
@@ -579,41 +556,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     //movie creator***********************************
     //１枚めの画像かどうか
-    var isFirstTap = true
+//    var isFirstTap = true
     
     //画像のサイズ
-    let imageSize = CGSize(width:1280,height:960)
-    //ボタンを押した時の処理 ボタンの画像を押すたびに動画に継ぎ足し
-    @objc func btnTapped(sender:UIButton){
-        //ボタンの画像があるかをチェック
-        if let image = sender.imageView?.image{
-            //１枚目の画像だけセットアップを含む
-            if isFirstTap {
-                createFirst(image: image, size: CGSize(width:image.size.width,
-                                                                    height:image.size.height))
-                isFirstTap = false
-            }else{
-                createSecond(image: image)
-            }
+    var imageSize = CGSize(width:320*4+1,height:240*4+1)
 
-        }
-        
-    }
-//    var avPlayerVC:AVPlayerViewController!
- 
-    //動画を生成する
-    @objc func createBtnTapped(){
-        //動画生成終了を呼び出してURLを得る -> Playerにのせる
-        finished { (url) in
-            DispatchQueue.main.async{
-//                dispFilesInDoc()
-//                let avPlayer = AVPlayer(url:url)
-//                self.avPlayerVC.player = avPlayer
-//                avPlayer.play()
-            }
-        }
-        isFirstTap = true
-    }
     //保存先のURL
     var capUrl:URL?
     
@@ -621,8 +568,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var frameCount = 0
     
     // FPS
-    let fps: __int32_t = 60
-    var time:Int = 60    // (time / fps)   VCからいじる
+    let fps: __int32_t = 30
+    var time:Int = 1    // (time / fps)   VCからいじる
     
     var videoWriter:AVAssetWriter?
     var writerInput:AVAssetWriterInput?
@@ -634,6 +581,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     //イチバン最初はこれを呼び出す
     func createFirst(image:UIImage,size:CGSize){
+//        imageSize=image.size
+//        print(imageSize,image.size)
 //         let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
         //保存先のURL
         capUrl = NSURL(fileURLWithPath: TempFilePath) as URL
