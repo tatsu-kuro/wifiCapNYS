@@ -123,7 +123,9 @@ class PlayViewController: UIViewController{
         layer.videoGravity = AVLayerVideoGravity.resizeAspect
         layer.player = videoPlayer
         print(self.view.bounds,":",view.bounds)
-        layer.frame = self.view.bounds
+        
+        let rect=CGRect(x:0,y:0,width: view.bounds.width,height: view.bounds.height*0.85)
+        layer.frame = rect//self.view.bounds
         self.view.layer.addSublayer(layer)
         // Create Movie SeekBar
         seekBar.frame = CGRect(x: x0, y: by1, width: ww - 4*sp, height: bh)
