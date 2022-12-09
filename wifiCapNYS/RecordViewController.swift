@@ -157,6 +157,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         print("dispfilesindoc")
 
     }
+    var maxTimeLimit:Bool=true
     override func viewDidLoad() {
         super.viewDidLoad()
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -188,6 +189,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        avPlayerVC.view.backgroundColor = UIColor.gray
 //        self.addChild(avPlayerVC)
 //        self.view.addSubview(avPlayerVC.view)
+        maxTimeLimit=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
 
     }
 
@@ -211,8 +213,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        }else{
 //            stopButton.tintColor=UIColor.systemOrange
 //        }
+//        maxTimeSwitch.isOn=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
         
-        if timerCnt > 30*60*5{
+        if maxTimeLimit && (timerCnt > 60*5){
             onClickStopButton(0)
         }
     }
