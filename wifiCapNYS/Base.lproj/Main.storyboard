@@ -201,16 +201,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="844" height="390"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="znc-Gv-DbE">
-                                <rect key="frame" x="478" y="235" width="66" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="questionmark.square.fill" catalog="system"/>
-                                <connections>
-                                    <action selector="onHatenaButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="uaM-pY-uoJ"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GaH-k7-GlQ">
                                 <rect key="frame" x="478" y="275" width="70" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -275,7 +265,6 @@
                     <connections>
                         <outlet property="currentTime" destination="eJp-tL-Pfc" id="vx3-sB-2CR"/>
                         <outlet property="exitButton" destination="GaH-k7-GlQ" id="P3d-YT-pSI"/>
-                        <outlet property="hatenaButton" destination="znc-Gv-DbE" id="lky-fb-CKn"/>
                         <outlet property="mjpegImage" destination="gxr-vj-Bpi" id="uEq-qW-k7M"/>
                         <outlet property="quaternionView" destination="E7F-hC-6hQ" id="fMB-sK-wwe"/>
                         <outlet property="startButton" destination="5bD-tH-WDM" id="jTC-cZ-nLP"/>
@@ -423,7 +412,6 @@
         <image name="circle.inset.filled" catalog="system" width="128" height="123"/>
         <image name="pause.fill" catalog="system" width="117" height="128"/>
         <image name="play.fill" catalog="system" width="117" height="128"/>
-        <image name="questionmark.square.fill" catalog="system" width="128" height="114"/>
         <image name="stop.circle" catalog="system" width="128" height="123"/>
         <image name="video.circle" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">

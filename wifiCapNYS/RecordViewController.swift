@@ -118,7 +118,7 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
     @IBOutlet weak var quaternionView: UIImageView!
 //    @IBOutlet weak var cameraView:UIImageView!
    
-    @IBOutlet weak var hatenaButton: UIButton!
+//    @IBOutlet weak var hatenaButton: UIButton!
     func killTimer(){
         if timer?.isValid == true {
             timer!.invalidate()
@@ -155,13 +155,13 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
 //        ipWebView.load(URLRequest(url: URL!))
 //    }
 
-    @IBAction func onHatenaButton(_ sender: Any) {
-//        ipWebView.scrollView.zoom(to: CGRect(x:330,y:8,width: 320,height: 240), animated: true)
-//        ipWebView.scrollView.zoom(to: CGRect(x:150,y:0,width: 300,height: 225), animated: true)
-        dispFilesInDoc()
-        print("dispfilesindoc")
-
-    }
+//    @IBAction func onHatenaButton(_ sender: Any) {
+////        ipWebView.scrollView.zoom(to: CGRect(x:330,y:8,width: 320,height: 240), animated: true)
+////        ipWebView.scrollView.zoom(to: CGRect(x:150,y:0,width: 300,height: 225), animated: true)
+////        dispFilesInDoc()
+//        print("dispfilesindoc")
+//
+//    }
     var maxTimeLimit:Bool=true
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -316,9 +316,9 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
             self.quaternionView.setNeedsLayout()
         }
         if recordingFlag==true{
-            let image=takeScreenShot()
+//            let image=takeScreenShot()
 //            cameraView.image=image
-           createSecond(image: image)
+           createSecond(image: takeScreenShot())
         }
     }
     func setMotion(){
@@ -522,8 +522,8 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         let by=realHeight-(bh+sp)*2-height-bh*2/3
         let x0=leftPadding+sp*2
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:view.bounds.height-sp-bh,w:bw,h:bh,UIColor.darkGray)
-        camera.setButtonProperty(hatenaButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
-        hatenaButton.isHidden=true
+//        camera.setButtonProperty(hatenaButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
+//        hatenaButton.isHidden=true
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
@@ -628,12 +628,44 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         stopButton.isHidden=false
 
     }
-    
+    var tapInterval=CFAbsoluteTimeGetCurrent()
+    /*
+      @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
+         if recordingFlag==true{
+             return
+         }
+         if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
+             print("doubleTapPlay")
+             if setteiMode != 0{
+                 zoomBar.isHidden=false
+                 zoomLabel.isHidden=false
+                 focusBar.isHidden=false
+                 focusLabel.isHidden=false
+                 focusValueLabel.isHidden=false
+             }
+         }
+         tapInterval=CFAbsoluteTimeGetCurrent()
+         setMotion()
+         let screenSize=cameraView.bounds.size
+         let x0 = sender.location(in: self.view).x
+         let y0 = sender.location(in: self.view).y
+         
+         if y0>view.bounds.height*0.43{//screenSize.height/2{
+             return
+         }
+     */
      @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
-        if recordingFlag==true{
-            return
-        }
-        setMotion()
+         if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
+             print("doubleTapPlay")
+             if recordingFlag==true{
+                 onClickStopButton(0)
+             }
+         }
+         tapInterval=CFAbsoluteTimeGetCurrent()
+         if recordingFlag==true{
+             return
+         }
+         setMotion()
     }
 
     //movie creator***********************************
@@ -726,7 +758,7 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         let frameTime: CMTime = CMTimeMake(value: Int64(__int32_t(frameCount) * __int32_t(time)), timescale: fps)
         //時間経過を確認(確認用)
         let second = CMTimeGetSeconds(frameTime)
-        print(second)
+//        print(second)
         
         //画像のリサイズと整形
         let resize = resizeImage(image: image, contentSize: imageSize)
@@ -763,7 +795,7 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         let frameTime: CMTime = CMTimeMake(value: Int64(__int32_t(frameCount) * __int32_t(time)), timescale: fps)
         //時間経過を確認(確認用)
         let second = CMTimeGetSeconds(frameTime)
-        print(second)
+//        print(second)
         
         // CGImageからBufferを生成
         let resize = resizeImage(image: image, contentSize: imageSize)
@@ -775,7 +807,7 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
             print(videoWriter!.error!)
         }
   
-        print("frameCount :\(frameCount)")
+//        print("frameCount :\(frameCount)")
         frameCount += 1
     }
     
