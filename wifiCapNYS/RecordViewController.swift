@@ -203,11 +203,11 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
     @objc func update(tm: Timer) {
         timerCnt += 1
         currentTime.text=String(format:"%01d",(timerCnt)/60) + ":" + String(format: "%02d",(timerCnt)%60)
-//        if timerCnt%2==1{
-//            stopButton.tintColor=UIColor.systemRed
-//        }else{
-//            stopButton.tintColor=UIColor.systemOrange
-//        }
+        if timerCnt%2==1{
+            stopButton.tintColor=UIColor.systemRed
+        }else{
+            stopButton.tintColor=UIColor.systemOrange
+        }
 //        maxTimeSwitch.isOn=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
         
         if maxTimeLimit && (timerCnt > 60*5){
