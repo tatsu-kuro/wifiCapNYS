@@ -24,11 +24,8 @@ extension UIColor {
     }
 }
 class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
-//class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate,UIScrollViewDelegate {
     let camera = myFunctions()
     var cameraType:Int = 1//0
-    
-//    @IBOutlet weak var ipWebView: WKWebView!
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
@@ -68,10 +65,7 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
     }
 
     var cameraService: CameraService?
-    let cameraURL =  URL(string:"http://192.168.82.1")//68.151:9000")
-
-    
-    
+         
     override var shouldAutorotate: Bool {
         return false
     }
@@ -186,11 +180,9 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         stopButton.isHidden=true
         let left=(realWidth-realHeight*320/240)/2
         mjpegImage.frame=CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight)
-//        loadWebView()
-//         self.view.addSubview(ipWebView)
-//        ipWebView.scrollView.isScrollEnabled = false
-//        ipWebView.scrollView.delegate = self
         cameraService = CameraService(delegate: self)
+        let cameraURL =  URL(string:myFunctions().getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1"))
+
         cameraService!.play(url: cameraURL!)
 
         quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
@@ -200,11 +192,7 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
 
     }
 
-    //MARK: - UIScrollViewDelegate
-//    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
-//        scrollView.pinchGestureRecognizer?.isEnabled = false
-//    }
-    override var prefersStatusBarHidden: Bool {
+     override var prefersStatusBarHidden: Bool {
         return true
     }
     override var prefersHomeIndicatorAutoHidden: Bool {
@@ -222,7 +210,7 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
 //        }
 //        maxTimeSwitch.isOn=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
         
-        if maxTimeLimit && (timerCnt > 60*5){
+        if maxTimeLimit && (timerCnt > 20){//60*5){
             onClickStopButton(0)
         }
     }
