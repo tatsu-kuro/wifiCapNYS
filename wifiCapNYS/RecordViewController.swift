@@ -178,14 +178,14 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         setButtons()
         startButton.isHidden=false
         stopButton.isHidden=true
-        let left=(realWidth-realHeight*320/240)/2
-        mjpegImage.frame=CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight)
+//        let left=(realWidth-realHeight*320/240)/2
+//        mjpegImage.frame=CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight)
         cameraService = CameraService(delegate: self)
         let cameraURL =  URL(string:myFunctions().getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1"))
 
         cameraService!.play(url: cameraURL!)
-
-        quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
+//        mjpegImage.frame=CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight)
+//        quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
         self.view.bringSubviewToFront(quaternionView)
         timer_motion = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update_motion), userInfo: nil, repeats: true)
         maxTimeLimit=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
@@ -210,7 +210,7 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
 //        }
 //        maxTimeSwitch.isOn=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
         
-        if maxTimeLimit && (timerCnt > 20){//60*5){
+        if maxTimeLimit && (timerCnt > 60*5){
             onClickStopButton(0)
         }
     }
@@ -227,15 +227,61 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
             print("none?")
         }
     }
+    /*
+         startButton.frame=CGRect(x:x0+bw*6+sp*6,y:(realHeight-bw)/2,width: bw,height:bw)
+     stopButton.frame=CGRect(x:x0+bw*6+sp*6,y:(realHeight-bw)/2,width: bw,height: bw)
+     mjpegImage.frame=CGRect(x:capX,y:sp,width:capWidth,height:capHeight)
+
+     */
+    var capX:CGFloat=0
+    var capWidth:CGFloat=0
+    var capHeight:CGFloat=0
+    /*
+     func takeScreenShot() -> UIImage {
+             let width: CGFloat = UIScreen.main.bounds.size.width
+             let height: CGFloat = UIScreen.main.bounds.size.height
+             let bW=view.bounds.width
+             let bH=view.bounds.height
+             let capHeight=bH*0.93//-topPadding-bottomPadding
+             let capWidth=capHeight*4/3
+             let size = CGSize(width: capWidth, height: capHeight)
+             let capRect = CGRect(x:(capWidth-bW)/2,y:topPadding,width:width,height:height)
+             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+             view.drawHierarchy(in:capRect, afterScreenUpdates: true)
+             let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
+             UIGraphicsEndImageContext()
+             return screenShotImage
+         }
+     
+    func takeScreenShot() -> UIImage {
+            let width: CGFloat = UIScreen.main.bounds.size.width
+            let height: CGFloat = UIScreen.main.bounds.size.height
+            let bW=view.bounds.width
+            let bH=view.bounds.height
+            let capHeight=bH*0.93//-topPadding-bottomPadding
+            let capWidth=capHeight*4/3
+            let size = CGSize(width: capWidth, height: capHeight)
+            let capRect = CGRect(x:(capWidth-bW)/2,y:topPadding,width:width,height:height)
+            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+            view.drawHierarchy(in:capRect, afterScreenUpdates: true)
+            let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
+            return screenShotImage
+        }
+    */
     func takeScreenShot() -> UIImage {
         let width: CGFloat = UIScreen.main.bounds.size.width
         let height: CGFloat = UIScreen.main.bounds.size.height
         let bW=view.bounds.width
         let bH=view.bounds.height
-        let capHeight=bH*0.93//-topPadding-bottomPadding
+        let sp=realWidth/120//間隙
+        let capHeight=bH*0.93
         let capWidth=capHeight*4/3
+ //            let capX=x0+bw*6+sp*6-capWidth-sp
+//        let capHeight=bH*0.93//-topPadding-bottomPadding
+//        let capWidth=capHeight*4/3
         let size = CGSize(width: capWidth, height: capHeight)
-        let capRect = CGRect(x:(capWidth-bW)/2,y:topPadding,width:width,height:height)
+        let capRect = CGRect(x:-capX,y:-sp,width:bW,height:bH)
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         view.drawHierarchy(in:capRect, afterScreenUpdates: true)
         let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
@@ -475,17 +521,20 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         let by1=realHeight-bh-sp-height-bh*2/3
         let by=realHeight-(bh+sp)*2-height-bh*2/3
         let x0=leftPadding+sp*2
-//        cameraView.frame=CGRect(x:leftPadding,y:topPadding,width: 100,height: 75)
-       camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:view.bounds.height-sp-bh,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(hatenaButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
         hatenaButton.isHidden=true
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
+        capHeight=view.bounds.height-2*sp
+        capWidth=capHeight*4/3
+        capX=x0+bw*6+sp*6-capWidth-sp
+        startButton.frame=CGRect(x:x0+bw*6+sp*6-sp,y:(realHeight-bw)/2-sp,width: bw+2*sp,height:bw+2*sp)
+        stopButton.frame=CGRect(x:x0+bw*6+sp*6-sp,y:(realHeight-bw)/2-sp,width: bw+2*sp,height: bw+2*sp)
+        mjpegImage.frame=CGRect(x:capX,y:sp,width:capWidth,height:capHeight)
+        quaternionView.frame=CGRect(x:capX+sp,y:2*sp,width: realHeight/5,height: realHeight/5)
 
-        startButton.frame=CGRect(x:x0+bw*6+sp*6,y:(realHeight-bw)/2,width: bw,height:bw)
-        stopButton.frame=CGRect(x:x0+bw*6+sp*6,y:(realHeight-bw)/2,width: bw,height: bw)
-  
         if someFunctions.firstLang().contains("ja"){
 //            explanationLabel.text=explanationText + "録画設定"
         }else{
@@ -561,9 +610,10 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
         //start recording
-        startButton.isHidden=true
         stopButton.isHidden=false
         exitButton.isHidden=true
+        startButton.isHidden=true
+     
 //        try? FileManager.default.removeItem(atPath: TempFilePath)//deleteしておく
  
 
@@ -575,6 +625,8 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         
         setMotion()
         createFirst(image:takeScreenShot() ,size:CGSize(width: 472, height: 354))
+        stopButton.isHidden=false
+
     }
     
      @IBAction func tapGest(_ sender: UITapGestureRecognizer) {

@@ -43,7 +43,7 @@ class How2ViewController: UIViewController {
         let by=wh-bh-sp
         // 画面サイズ取得
         scrollView.frame = CGRect(x:left,y:top,width: ww,height: wh)
-        someFunctions.setButtonProperty(exitButton,x:left+bw*6+sp*8,y:by,w:bw,h:bh,UIColor.darkGray)
+        someFunctions.setButtonProperty(exitButton,x:left+bw*6+sp*8,y:view.bounds.height-sp-bh,w:bw,h:bh,UIColor.darkGray)
         var img = UIImage(named:"helpEng")!
         if someFunctions.firstLang().contains("ja"){
             img = UIImage(named: "helpJap")!

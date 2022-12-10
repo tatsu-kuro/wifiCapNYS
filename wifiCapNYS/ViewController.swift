@@ -225,8 +225,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let bh=bw*170/440
         let by=wh-bh-sp
         let by0=topPadding+sp
-        someFunctions.setButtonProperty(how2Button, x:x1but+sp/2, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
-        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:by0+bh*2/3, w:bw,h:bh,UIColor.darkGray)//,0)
+        someFunctions.setButtonProperty(how2Button, x:x1but, y: view.bounds.height-sp-bh, w: bw, h: bh, UIColor.darkGray)
+        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:sp, w:bw,h:bh,UIColor.darkGray)//,0)
          let upCircleX0=sp+wh/4
         let downCircleX0=wh/2-sp+wh/4
         //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定

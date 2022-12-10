@@ -131,7 +131,7 @@
                                     <action selector="onEditingChanged:" destination="CJa-Hn-X9c" eventType="editingChanged" id="jJY-43-Ufm"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Max recording time 5min" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9kJ-W6-TEh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最長録画時間5分" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9kJ-W6-TEh">
                                 <rect key="frame" x="69" y="57" width="765" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="0w6-up-Mls"/>
