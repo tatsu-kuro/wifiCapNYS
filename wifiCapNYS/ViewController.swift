@@ -222,7 +222,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let x0but=view.bounds.width-rightPadding-wh*3/4
         let x1but=x0but+wh/2-wh/40
         let bw=view.bounds.width-x1but-rightPadding-2*sp
-        let bh=bw*170/440
+        let bh=bw*240/440
         let by=wh-bh-sp
         let by0=topPadding+sp
         someFunctions.setButtonProperty(how2Button, x:x1but, y: view.bounds.height-sp-bh, w: bw, h: bh, UIColor.darkGray)
@@ -233,10 +233,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
+        cameraButton.frame=CGRect(x:x1but-sp,y:(wh-bw)/2-2*sp,width: bw+2*sp,height:bw+2*sp)
 
-        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*2/3+sp, y:topPadding+wh/6,width:wh*2/3, height: wh*2/3)
+//        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*2/3+sp, y:topPadding+wh/6,width:wh*2/3, height: wh*2/3)
         //高さ/20を上下に開ける
-        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp+wh/20,width: view.bounds.width-rightPadding-leftPadding-wh*2/3,height: wh-2*sp-wh/10)
+        tableView.frame = CGRect(x:leftPadding+sp,y:topPadding+sp,width:cameraButton.frame.minX-leftPadding-2*sp,height:wh-2*sp)
         
         if someFunctions.firstLang().contains("ja"){
             how2Button.setTitle("使い方", for: .normal)

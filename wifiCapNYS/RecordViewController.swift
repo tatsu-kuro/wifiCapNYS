@@ -517,7 +517,7 @@ class RecordViewController:UIViewController, CameraServiceDelegateProtocol {
         let height:CGFloat=0//CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
         let sp=realWidth/120//間隙
         let bw=(realWidth-sp*10)/7//ボタン幅
-        let bh=bw*170/440
+        let bh=bw*240/440
         let by1=realHeight-bh-sp-height-bh*2/3
         let by=realHeight-(bh+sp)*2-height-bh*2/3
         let x0=leftPadding+sp*2

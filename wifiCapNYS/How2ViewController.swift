@@ -39,7 +39,7 @@ class How2ViewController: UIViewController {
         let wh=view.bounds.height-(top+bottom)
         let sp=ww/120//間隙
         let bw=(ww-sp*10)/7//ボタン幅
-        let bh=bw*170/440
+        let bh=bw*240/440
         let by=wh-bh-sp
         // 画面サイズ取得
         scrollView.frame = CGRect(x:left,y:top,width: ww,height: wh)
