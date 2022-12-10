@@ -233,7 +233,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
-        cameraButton.frame=CGRect(x:x1but-sp,y:(wh-bw)/2-2*sp,width: bw+2*sp,height:bw+2*sp)
+        cameraButton.frame=CGRect(x:x1but-sp,y:(view.bounds.height-bw)/2-sp,width: bw+2*sp,height:bw+2*sp)
 
 //        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*2/3+sp, y:topPadding+wh/6,width:wh*2/3, height: wh*2/3)
         //高さ/20を上下に開ける
