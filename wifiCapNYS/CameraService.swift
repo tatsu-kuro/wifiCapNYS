@@ -2,7 +2,7 @@
 //  CameraService.swift
 //  wifiCapNYS
 //
-//  Created by 黒田建彰 on 2022/12/10.
+//  Created by 黒田賢 on 2022/12/10.
 //
 import Foundation
 import UIKit
@@ -42,7 +42,7 @@ class CameraService: NSObject, ObservableObject {
 extension CameraService: URLSessionDataDelegate {
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
         if self.receivedData.length > 0,
-            let receivedImage = UIImage(data: self.receivedData as Data) {
+           let receivedImage = UIImage(data: self.receivedData as Data) {
             DispatchQueue.main.async {
                 self.cameraServiceDelegate.frame(image: receivedImage)
             }
@@ -50,32 +50,32 @@ extension CameraService: URLSessionDataDelegate {
         }
         completionHandler(URLSession.ResponseDisposition.allow) //.Cancel,If you want to stop the download
     }
-        
+    
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         self.receivedData.append(data)
     }
 }
 /*
-import UIKit
-
-class CameraService: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-}
-*/
+ import UIKit
+ 
+ class CameraService: UIViewController {
+ 
+ override func viewDidLoad() {
+ super.viewDidLoad()
+ 
+ // Do any additional setup after loading the view.
+ }
+ 
+ 
+ /*
+  // MARK: - Navigation
+  
+  // In a storyboard-based application, you will often want to do a little preparation before navigation
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+  // Get the new view controller using segue.destination.
+  // Pass the selected object to the new view controller.
+  }
+  */
+ 
+ }
+ */
