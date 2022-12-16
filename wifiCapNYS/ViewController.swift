@@ -217,25 +217,20 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let ww:CGFloat=view.bounds.width-leftPadding-rightPadding
         let wh:CGFloat=view.bounds.height-topPadding-bottomPadding
         let sp=ww/120//間隙
-//        let bw=(ww-sp*10)/7//ボタン幅
-         let x0=leftPadding+sp*2
-        let x0but=view.bounds.width-rightPadding-wh*3/4
-        let x1but=x0but+wh/2-wh/40
-        let bw=view.bounds.width-x1but-rightPadding-2*sp
+        let bw=(ww-sp*10)/7//ボタン幅
         let bh=bw*240/440
+        let x0=leftPadding+sp*2
         let by=wh-bh-sp
         let by0=topPadding+sp
-        someFunctions.setButtonProperty(how2Button, x:x1but, y: view.bounds.height-sp-bh, w: bw, h: bh, UIColor.darkGray)
-        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:sp, w:bw,h:bh,UIColor.darkGray)//,0)
-         let upCircleX0=sp+wh/4
+        someFunctions.setButtonProperty(how2Button, x:x0+bw*6+sp*6, y: view.bounds.height-sp-bh, w: bw, h: bh, UIColor.darkGray)
+        someFunctions.setButtonProperty(setteiButtonManual, x:x0+bw*6+sp*6, y:sp, w:bw,h:bh,UIColor.darkGray)//,0)
+        let upCircleX0=sp+wh/4
         let downCircleX0=wh/2-sp+wh/4
         //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
-        cameraButton.frame=CGRect(x:x1but-sp,y:(view.bounds.height-bw)/2-sp,width: bw+2*sp,height:bw+2*sp)
-
-//        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*2/3+sp, y:topPadding+wh/6,width:wh*2/3, height: wh*2/3)
+        cameraButton.frame=CGRect(x:x0+bw*6+sp*5,y:(view.bounds.height-bw)/2-sp,width: bw+2*sp,height:bw+2*sp)
         //高さ/20を上下に開ける
         tableView.frame = CGRect(x:leftPadding+sp,y:topPadding+sp,width:cameraButton.frame.minX-leftPadding-2*sp,height:wh-2*sp)
         
@@ -244,7 +239,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             
             setteiButtonManual.setTitle("設定", for: .normal)
         }
-       }
+    }
   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

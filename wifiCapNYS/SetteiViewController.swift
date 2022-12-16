@@ -23,12 +23,12 @@ class SetteiViewController: UIViewController {
         let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         let topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
         let bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-        let realWidth=view.bounds.width-leftPadding-rightPadding
-        let realHeight=view.bounds.height-topPadding-bottomPadding/2
+        let ww=view.bounds.width-leftPadding-rightPadding
+        let wh=view.bounds.height-topPadding-bottomPadding/2
 
         let height:CGFloat=0//CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
-        let sp=realWidth/120//間隙
-        let bw=(realWidth-sp*10)/7//ボタン幅
+        let sp=ww/120//間隙
+        let bw=(ww-sp*10)/7//ボタン幅
         let bh=bw*240/440
         let x0=leftPadding+sp*2
         myFunctions().setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:topPadding+sp,w:bw,h:bh,UIColor.darkGray)
