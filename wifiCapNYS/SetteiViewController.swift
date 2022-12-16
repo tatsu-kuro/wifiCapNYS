@@ -33,15 +33,14 @@ class SetteiViewController: UIViewController {
         let x0=leftPadding+sp*2
         myFunctions().setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:topPadding+sp,w:bw,h:bh,UIColor.darkGray)
         myFunctions().setLabelProperty(urlLabel, x: leftPadding+2*sp, y: topPadding+sp, w: bw, h: bh, UIColor.systemGray2)
-//        urlLabel.frame=CGRect(x:leftPadding + 2*sp,y:topPadding+sp,width:bw,height: bh)
         urlInputField.frame=CGRect(x:urlLabel.frame.maxX+sp,y:topPadding+sp,width:exitButton.frame.minX-urlLabel.frame.maxX-2*sp,height: bh)
         maxTimeSwitch.frame=CGRect(x:leftPadding+2*sp,y:bh+2*sp,width: 30,height: bh)
-        maxTimeLabel.frame=CGRect(x:maxTimeSwitch.frame.maxX+sp,y:bh+2*sp,width:200,height: maxTimeSwitch.frame.height)
-//        exitButton.frame=CGRect(x:)
-//        let by1=realHeight-bh-sp-height-bh*2/3
-//        let by=realHeight-(bh+sp)*2-height-bh*2/3
-//        let x0=leftPadding+sp*2
-
+        maxTimeLabel.frame=CGRect(x:maxTimeSwitch.frame.maxX+sp,y:bh+2*sp,width:ww,height: maxTimeSwitch.frame.height)
+        
+        
+        if myFunctions().firstLang().contains("ja"){
+            maxTimeLabel.text="最長録画時間５分"
+        }
     }
     
     @IBAction func onEditingChanged(_ sender: Any) {
